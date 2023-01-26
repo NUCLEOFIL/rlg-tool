@@ -1,0 +1,119 @@
+.piece {
+    --piece-background-color: #9ad5ec;
+
+    width: 400px;
+    height: 800px;
+    position: relative;
+    background-color: var(--piece-background-color);
+
+    &-attach {
+        z-index: 1;
+        &-left {
+            &-top {
+                border-right: solid black 1px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: var(--background-color);
+                position: absolute;
+                top: 200px;
+                transform: translateY(-50%);
+                left: -25px;
+            }
+            &-bottom {
+                border-top: solid black 1px;
+                border-right: solid black 1px;
+                border-bottom: solid black 1px;
+                width: 20px;
+                height: 60px;
+                background-color: var(--background-color);
+                position: absolute;
+                top: 600px;
+                transform: translateY(-50%);
+                left: 0px;
+            }
+        }
+        &-right {
+            border-top: solid black 1px;
+            border-right: solid black 1px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--piece-background-color);
+            transform: translateY(-50%) rotate(45deg);
+            position: absolute;
+            right: -20px;
+            top: 200px;
+        }
+    }
+    &-form {
+        height: 100%;
+        padding: 0px 10px 0px 35px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        z-index: 2;
+        label {
+            font-size: 20px;
+            font-weight: lighter;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }  
+        input {
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            padding: 5px 10px 5px 10px;
+        }
+        textarea {
+            border-radius: 20px;
+            padding: 10px;
+            border: none;
+            resize: none;
+            flex-grow: 1;
+        }
+        &-title {
+            margin-top: 20px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        &-intitule {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+        &-name {
+            display: flex;
+            flex-direction: column;
+        }
+        &-objective {
+            height: 40%;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            textarea {
+                margin-bottom: 5px;
+                background-image: url("../../../assets/alchemist.png");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30%;
+            }
+        }
+        &-reward {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 25px;
+            height: 40%;
+        }
+    }
+}
+
+.piece::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border: 1px solid black;
+}
