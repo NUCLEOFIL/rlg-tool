@@ -1,4 +1,4 @@
-<div class="piece">
+<div class="piece" [ngStyle]="{'width': pieceWidth}">
     <div class="piece-attach piece-attach-left"></div>
     <div class="piece-attach piece-attach-right"></div>
 
@@ -15,8 +15,8 @@
                 <option value="1">1</option> 
             </select>
             <div class="piece-form-bottom-duration">
-                <input name="value" type="text" value="1"/>
-                <select name="unite">
+                <input name="value" type="text" [(ngModel)]="duration" (input)="durationChange()"/>
+                <select name="unite" [(ngModel)]="durationUnit" (change)="durationChange()">
                     <option selected value="UT">UT</option>
                     <option value="min">min</option>
                     <option value="tours">tours</option> 

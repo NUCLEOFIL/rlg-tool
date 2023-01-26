@@ -5,6 +5,7 @@
     height: 400px;
     position: relative;
     background-color: var(--piece-background-color);
+    transition: all 0.5s ease;
 
     &-attach {
         z-index: 1;
@@ -89,17 +90,17 @@
         &-bottom {
             display: flex;
             flex-direction: row;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             justify-content: space-between;
             &-duration {
                 input {
                     border-top-right-radius: 0px;
                     border-bottom-right-radius: 0px;
-                    width: 50px;
+                    width: 20px;
                     z-index: 2;
                 }
                 select {
-                    width: 50px;
+                    width: 60px;
                     border-top-left-radius: 0px;
                     border-bottom-left-radius: 0px;
                     z-index: 1;

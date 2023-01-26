@@ -11,6 +11,8 @@ import { GameContextComponent } from './pieces/game-context/game-context.compone
 import { TaskComponent } from './pieces/task/task.component';
 import { AnnexeTaskComponent } from './pieces/annexe-task/annexe-task.component';
 
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +26,8 @@ import { AnnexeTaskComponent } from './pieces/annexe-task/annexe-task.component'
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
