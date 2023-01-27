@@ -12,4 +12,14 @@ export class GameEducationnalObjectiveComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  displayMenu: String = 'hide';
+
+  onClickComments(): void {
+    
+  }
+
+  onClickErase(): void {
+    
+  } 
+
 }

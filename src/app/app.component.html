@@ -2,17 +2,15 @@
     
     <div style="display: flex; flex-direction: column;" [style.z-index]="4">
         <app-game-educationnal-objective></app-game-educationnal-objective>
-        <app-game-context></app-game-context>
+        <app-game-context [style.z-index]="2"></app-game-context>
     </div>
     
     <div style="display: flex; flex-direction: column;" [style.z-index]="3">
-        <app-educational-objective  *ngFor="let i of range(1)" [style.z-index]="-i"></app-educational-objective>
+        <app-educational-objective></app-educational-objective>
           
-        <app-mission-context></app-mission-context>
+        <app-mission-context [style.z-index]="2"></app-mission-context>
         
     </div>
-    
-    <!--<app-educational-objective></app-educational-objective>-->
     
     <app-role [style.z-index]="2" ></app-role>
 

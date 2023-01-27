@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'puzzletest';
+  title = 'RLG Tool';
 
   range(n: number): number[] {
     return Array.from(Array(n), (_, i) => i);

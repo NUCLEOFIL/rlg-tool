@@ -12,13 +12,15 @@ export class TaskComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  displayMenu: String = 'hide';
+
   durationUnit: String = 'UT';
   duration: number = 1;
-  pieceWidth = '400px';
+  pieceWidth: String = '400px';
   
-  durationChange():void {
+  durationChange(): void {
     if(this.durationUnit === 'UT') {
-      if(this.duration == 1) {
+      if(this.duration <= 1) {
         this.pieceWidth = '400px';
       } else if(this.duration == 2) {
         this.pieceWidth = '800px';
@@ -28,9 +30,24 @@ export class TaskComponent implements OnInit {
     } else {
       this.pieceWidth = '400px';
     }
-    console.log('largeur : '+this.pieceWidth);
-    console.log('durationUnit : '+this.durationUnit);
-    console.log('duration : '+this.duration);
+  }
+
+  onClickComments(): void {
+    
+  }
+
+  onClickAdd(): void {
+    
+  }
+
+  onClickErase(): void {
+    
+  } 
+
+  onClickDots(): void {
+    
   }
 
 }
+
+

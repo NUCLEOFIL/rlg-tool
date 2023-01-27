@@ -12,4 +12,18 @@ export class EducationalObjectiveComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  displayMenu: String = 'hide';
+
+  onClickComments(): void {
+    
+  }
+
+  onClickAdd(): void {
+    
+  }
+
+  onClickErase(): void {
+    
+  }
+
 }

@@ -1,7 +1,13 @@
-<div class="piece">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="mode_comment" (click)="onClickComments()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
+    </div>
 
     <div class="piece-form">
         <div class="piece-form-title">Contexte de la mission 1</div>

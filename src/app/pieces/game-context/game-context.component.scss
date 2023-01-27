@@ -6,6 +6,38 @@
     position: relative;
     background-color: var(--piece-background-color);
 
+    &-menu {
+        position: absolute;
+        width: 150px;
+        height: 50px;
+        background-color: #f7f7f7;
+        opacity: 0.75;
+        z-index: -1;
+        top: -51px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: transform 0.5s ease;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border: solid black 1px;
+        display: flex;
+        padding: 15px 20px 15px 20px;
+        justify-content: space-around;
+        mat-icon {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+        mat-icon:hover {
+            opacity: 0.75;
+        }
+    }
+    &-menu.show {
+        transform: translateX(-50%) translateY(0);
+    }
+    &-menu.hide {
+        transform: translateX(-50%) translateY(100%);
+    }
+
     &-attach {
         z-index: 1;
         border-right: solid black 1px;

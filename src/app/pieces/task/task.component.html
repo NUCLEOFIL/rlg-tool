@@ -1,6 +1,13 @@
-<div class="piece" [ngStyle]="{'width': pieceWidth}">
+<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
     <div class="piece-attach piece-attach-left"></div>
     <div class="piece-attach piece-attach-right"></div>
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="mode_comment" (click)="onClickComments()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
+        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+    </div>
 
     <div class="piece-form">
         <div class="piece-form-top">
@@ -10,7 +17,7 @@
         </div>
         <textarea class="piece-form-content" placeholder="Acheter des citrons"></textarea>
         <div class="piece-form-bottom">
-            <select class="piece-form-bottom-antecedent" name="antecedent" multiple>
+            <select class="piece-form-bottom-antecedent" name="antecedent">
                 <option selected value="0">/</option>
                 <option value="1">1</option> 
             </select>
