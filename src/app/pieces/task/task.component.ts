@@ -12,11 +12,15 @@ export class TaskComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  displayMenu: String = 'hide';
+  displayMenu: string = 'hide';
+  displaySymbolChoice: string = 'hide';
 
-  durationUnit: String = 'UT';
+  durationUnit: string = 'UT';
   duration: number = 1;
-  pieceWidth: String = '400px';
+  pieceWidth: string = '400px';
+
+  symbol: string = ''; // A changer quand implémentation des données
+  symbolColor: string = ''; //A changer quand implémentation des données
   
   durationChange(): void {
     if(this.durationUnit === 'UT') {
@@ -46,6 +50,20 @@ export class TaskComponent implements OnInit {
 
   onClickDots(): void {
     
+  }
+
+  changeDisplaySymbolChoice(): void {
+    if(this.displaySymbolChoice == 'show') {
+      this.displaySymbolChoice = 'hide';
+    } else {
+      this.displaySymbolChoice = 'show';
+    }
+  }
+
+  setSymbol(symbol: string, symbolColor: string): void {
+    this.symbol = symbol;
+    this.symbolColor = symbolColor;
+    this.displaySymbolChoice = 'hide';
   }
 
 }

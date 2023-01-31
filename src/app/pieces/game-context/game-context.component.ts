@@ -12,7 +12,7 @@ export class GameContextComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  displayMenu: String = 'hide';
+  displayMenu: string = 'hide';
 
   onClickComments(): void {
     
