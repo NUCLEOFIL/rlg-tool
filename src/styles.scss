@@ -3,10 +3,31 @@
     --background-color: white;
 }
 
+@font-face {
+    font-family: 'Glacial Indifference';
+    src: url(../src/assets/fonts/GlacialIndifference-Regular.otf);
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Glacial Indifference Bold';
+    src: url(../src/assets/fonts/GlacialIndifference-Bold.otf);
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Glacial Indifference Italic';
+    src: url(../src/assets/fonts/GlacialIndifference-Italic.otf);
+    font-weight: normal;
+    font-style: italic;
+}
+
 body {
     margin-top: 60px;
     background-color: var(--background-color);
-    font-family: Glacial Indifference;
+    font-family: 'Glacial Indifference', sans-serif;
     //transform: scale(0.9);
     //transform-origin: top left;
 }
