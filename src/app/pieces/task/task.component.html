@@ -33,7 +33,60 @@
             <mat-icon [style.color]="'#d0bbdb'" fontIcon="square" (click)="setSymbol('square','#d0bbdb')"></mat-icon>
             <mat-icon [style.color]="'#8b7e64'" fontIcon="square" (click)="setSymbol('square','#8b7e64')"></mat-icon>
         </div>
+    </div>
 
+    <div class="piece-prerequires" [class]="displayPrequires">
+        <div class="piece-prerequires-prerequires">
+            <label class="piece-prerequires-title">Antécédents</label>
+            <div class="piece-prerequires-form">
+                <div class="piece-prerequires-prerequires-element">
+                    <input name="antecedent" type="checkbox" value="true"/>
+                    <label for="antecedent">EX1</label> 
+                </div>
+                <div class="piece-prerequires-prerequires-element">
+                    <input name="antecedent" type="checkbox"/>
+                    <label for="antecedent">EX2</label>
+                </div>
+            </div>
+        </div>
+        <div class="piece-prerequires-ressources">
+            <label class="piece-prerequires-title">Ressources & attributs</label>
+            <div class="piece-prerequires-form">
+                <!--<label style="display: flex; justify-content: flex-end; margin-right: 5px;">Quantité</label>-->
+                <div class="piece-prerequires-ressources-element">
+                    <div class="piece-prerequires-ressources-element-checkbox">
+                        <input name="ressource" type="checkbox"/>
+                        <label for="ressource">Pain</label>   
+                    </div>
+                    <div class="piece-prerequires-ressources-element-quantity">
+                        <select name="ressource">
+                            <option><</option>
+                            <option><=</option>
+                            <option>=</option>
+                            <option>>=</option>
+                            <option>></option>
+                        </select>
+                        <input type="text" value="1"/> 
+                    </div>
+                </div>
+                <div class="piece-prerequires-ressources-element">
+                    <div class="piece-prerequires-ressources-element-checkbox">
+                        <input name="ressource" type="checkbox"/>
+                        <label for="ressource">Citron</label>   
+                    </div>
+                    <div class="piece-prerequires-ressources-element-quantity">
+                        <select name="ressource">
+                            <option><</option>
+                            <option><=</option>
+                            <option>=</option>
+                            <option>>=</option>
+                            <option>></option>
+                        </select>
+                        <input type="text" value="1"/> 
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="piece-form">
@@ -46,10 +99,9 @@
         </div>
         <textarea class="piece-form-content" placeholder="Acheter des citrons"></textarea>
         <div class="piece-form-bottom">
-            <select class="piece-form-bottom-antecedent" name="antecedent">
-                <option selected value="0">/</option>
-                <option value="1">1</option> 
-            </select>
+            <div class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
+                <label>Prérequis</label>
+            </div>
             <div class="piece-form-bottom-duration">
                 <input name="value" type="text" [(ngModel)]="duration" (input)="durationChange()"/>
                 <select name="unite" [(ngModel)]="durationUnit" (change)="durationChange()">

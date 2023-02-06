@@ -14,6 +14,7 @@ export class TaskComponent implements OnInit {
 
   displayMenu: string = 'hide';
   displaySymbolChoice: string = 'hide';
+  displayPrequires: string = 'hide';
 
   durationUnit: string = 'UT';
   duration: number = 1;
@@ -64,6 +65,14 @@ export class TaskComponent implements OnInit {
     this.symbol = symbol;
     this.symbolColor = symbolColor;
     this.displaySymbolChoice = 'hide';
+  }
+
+  changeDisplayPrerequires(): void {
+    if(this.displayPrequires == 'show') {
+      this.displayPrequires = 'hide';
+    } else {
+      this.displayPrequires = 'show';
+    }
   }
 
 }
