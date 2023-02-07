@@ -1,21 +1,45 @@
-<div style="display: flex;">
-    
-    <div style="display: flex; flex-direction: column;" [style.z-index]="4">
-        <app-game-educationnal-objective></app-game-educationnal-objective>
-        <app-game-context [style.z-index]="2"></app-game-context>
-    </div>
-    
-    <div style="display: flex; flex-direction: column;" [style.z-index]="3">
-        <app-educational-objective></app-educational-objective>
-          
-        <app-mission-context [style.z-index]="2"></app-mission-context>
+<div class="container">
+    <div class="container-main" style="display: flex;">
         
+        <div style="display: flex; flex-direction: column;" [style.z-index]="4">
+            <app-game-educationnal-objective></app-game-educationnal-objective>
+            <app-game-context [style.z-index]="2"></app-game-context>
+        </div>
+        
+        <div style="display: flex; flex-direction: column;" [style.z-index]="3">
+            <app-educational-objective></app-educational-objective>
+            
+            <app-mission-context [style.z-index]="2"></app-mission-context>
+            
+        </div>
+
+        <div [style.z-index]="2">
+            <div style="display: flex;">
+                <app-role [style.z-index]="10"></app-role>
+                <div [style.z-index]="1">
+                    <div style="display: flex;" [style.z-index]="2">
+                        <app-task [style.z-index]="2"></app-task >
+                        <app-task [style.z-index]="1"></app-task>  
+                    </div>
+                    
+                </div>
+            </div>
+            <div style="display: flex;">
+                <app-role [style.z-index]="10"></app-role>
+                <div [style.z-index]="1">
+                    <div style="display: flex;" [style.z-index]="2">
+                        <app-task [style.z-index]="2"></app-task >
+                        <app-task [style.z-index]="1"></app-task>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <div class="container-sider">
+
     </div>
-    
-    <app-role [style.z-index]="2" ></app-role>
 
-    <app-task [style.z-index]="1"></app-task>
 
-    <app-annexe-task [style.z-index]="0"></app-annexe-task>
-    
 </div>
+

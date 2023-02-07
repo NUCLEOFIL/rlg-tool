@@ -1,0 +1,29 @@
+.container {
+    
+    display: flex;
+    flex-direction: row;
+
+    &-main {
+        margin-top: 60px;
+        margin-right: 20%;
+        height: 100%;
+        width: 100%;
+        //width: 80%;
+        //transform: scale(0.75);
+        //transform-origin: top left;
+        overflow: scroll;
+        //overflow-y: visible;
+
+    }
+
+    &-sider {
+        height: 100%;
+        width: 20%;
+        background-color: green;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 2;
+        border-left: solid black 3px;
+    }
+}
