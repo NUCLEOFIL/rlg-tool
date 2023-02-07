@@ -5,5 +5,5 @@ export class GameContext {
     duration: string = '';
     intrigue: string = '';
     other: string = '';
-
+    comments: Comment[] = [];
 }
