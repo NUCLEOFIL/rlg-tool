@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/rlgtool'),
+      dir: require('path').join(__dirname, './coverage/rlgmaker'),
       subdir: '.',
       reporters: [
         { type: 'html' },
