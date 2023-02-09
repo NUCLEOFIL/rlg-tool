@@ -4,16 +4,23 @@
     flex-direction: row;
 
     &-main {
-        margin-top: 60px;
-        margin-right: 20%;
+        position: absolute;
         height: 100%;
-        width: 100%;
-        //width: 80%;
-        //transform: scale(0.75);
-        //transform-origin: top left;
+        width: calc(80% - 5px);
+        left: 0;
+        right: 5px;
+        top: 0px;
         overflow: scroll;
-        //overflow-y: visible;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
 
+        &-scenario {
+            padding: 60px 5px 10px 5px;
+            margin-right: 7px;
+        }
+    }
+    &-main::-webkit-scrollbar {
+        display: none;
     }
 
     &-sider {
