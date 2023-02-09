@@ -13,7 +13,8 @@ import { AnnexeTaskComponent } from './pieces/annexe-task/annexe-task.component'
 
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon'; 
+import { MatIconModule } from '@angular/material/icon';
+import { DragScrollDirective } from './directives/drag-scroll.directive'; 
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MatIconModule } from '@angular/material/icon';
     GameEducationnalObjectiveComponent,
     GameContextComponent,
     TaskComponent,
-    AnnexeTaskComponent
+    AnnexeTaskComponent,
+    DragScrollDirective
   ],
   imports: [
     BrowserModule,
