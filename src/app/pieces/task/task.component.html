@@ -10,7 +10,10 @@
     </div>
 
     <div class="piece-symbolchoice" [class]="displaySymbolChoice">
-        <label>Choisir un symbole de tâche commune :</label>
+        <div class="piece-symbolchoice-header">
+            <label>Choisir un symbole de tâche commune :</label>
+            <div><mat-icon fontIcon="delete" (click)="setSymbol('','')"></mat-icon></div>
+        </div>
         <div class="piece-symbolchoice-symbols">
             <mat-icon [style.color]="'#d79297'" fontIcon="favorite" (click)="setSymbol('favorite','#d79297')"></mat-icon>
             <mat-icon [style.color]="'#9ad5ec'" fontIcon="diamond" (click)="setSymbol('diamond','#9ad5ec')"></mat-icon>

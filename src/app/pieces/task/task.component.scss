@@ -64,6 +64,12 @@
             opacity: 0.75;
         }
 
+        &-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
         &-symbols {
             display: flex;
             flex-direction: row;
