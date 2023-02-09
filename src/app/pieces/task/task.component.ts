@@ -25,12 +25,12 @@ export class TaskComponent implements OnInit {
   
   durationChange(): void {
     if(this.durationUnit === 'UT') {
-      if(this.duration <= 1) {
+      if(this.duration >= 1  && this.duration <= 10) {
+        this.pieceWidth = (this.duration*400)+'px';
+      } else if(this.duration > 10) {
+        this.pieceWidth = '4000px';
+      } else {
         this.pieceWidth = '400px';
-      } else if(this.duration == 2) {
-        this.pieceWidth = '800px';
-      } else if(this.duration >= 3) {
-        this.pieceWidth = '1200px';
       }
     } else {
       this.pieceWidth = '400px';
