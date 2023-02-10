@@ -9,12 +9,12 @@ export class DragScrollDirective {
   private startY: number = 0;
   private element: HTMLElement;
 
-  constructor(elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef) {
     this.element = elementRef.nativeElement;
   }
 
   @HostListener('mousedown', ['$event'])
-  onMouseDown(event: any) {
+  onMouseDown(event: MouseEvent) {
     this.isMouseDown = true;
     this.startX = event.clientX;
     this.startY = event.clientY;
@@ -22,13 +22,13 @@ export class DragScrollDirective {
   }
 
   @HostListener('mouseup', ['$event'])
-  onMouseUp(event: any) {
+  onMouseUp(event: MouseEvent) {
     this.isMouseDown = false;
     this.element.style.cursor = 'grab';
   }
 
   @HostListener('mousemove', ['$event'])
-  onMouseMove(event: any) {
+  onMouseMove(event: MouseEvent) {
     if(this.isMouseDown) {
       event.preventDefault();
       const x = event.clientX - this.startX;

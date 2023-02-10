@@ -14,7 +14,8 @@ import { AnnexeTaskComponent } from './pieces/annexe-task/annexe-task.component'
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { DragScrollDirective } from './directives/drag-scroll.directive'; 
+import { DragScrollDirective } from './directives/drag-scroll.directive';
+import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive'; 
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DragScrollDirective } from './directives/drag-scroll.directive';
     GameContextComponent,
     TaskComponent,
     AnnexeTaskComponent,
-    DragScrollDirective
+    DragScrollDirective,
+    MouseWheelZoomDirective
   ],
   imports: [
     BrowserModule,
