@@ -1,6 +1,6 @@
 <div class="container">
     <div class="container-main" appDragScroll>
-        <div class="container-main-scenario" style="display: flex;">
+        <div class="container-main-scenario" style="display: flex;" appMouseWheelZoom>
             <div style="display: flex; flex-direction: column;" [style.z-index]="4">
                 <app-game-educationnal-objective></app-game-educationnal-objective>
                 <app-game-context [style.z-index]="2"></app-game-context>
@@ -47,8 +47,6 @@
 
         </div>
         <div class="container-sider-element" style="width: 400px; height: 400px; background-color: green;">
-
-        </div>
     </div>
 
 
