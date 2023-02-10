@@ -1,12 +1,12 @@
 .container {
-    
+
     display: flex;
     flex-direction: row;
 
     &-main {
         position: absolute;
         height: 100%;
-        width: calc(100% - 422px);
+        width: calc(100% - 322px);
         left: 0;
         right: 5px;
         top: 0px;
@@ -21,13 +21,14 @@
             margin-right: 7px;
         }
     }
+
     &-main::-webkit-scrollbar {
         display: none;
     }
 
     &-sider {
         height: 100%;
-        width: 420px;
+        width: 320px;
         background-color: #e3e3e3;
         position: fixed;
         right: 0;
@@ -43,6 +44,9 @@
             margin-right: auto;
             margin-top: 10px;
             margin-bottom: 10px;
+            width: 300px;
+            height: 400px;
+            background-color: green;
         }
     }
 }
