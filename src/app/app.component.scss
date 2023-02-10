@@ -6,7 +6,7 @@
     &-main {
         position: absolute;
         height: 100%;
-        width: calc(80% - 5px);
+        width: calc(100% - 422px);
         left: 0;
         right: 5px;
         top: 0px;
@@ -25,12 +25,22 @@
 
     &-sider {
         height: 100%;
-        width: 20%;
-        background-color: green;
+        width: 420px;
+        background-color: #e3e3e3;
         position: fixed;
         right: 0;
         top: 0;
         z-index: 2;
         border-left: solid black 3px;
+        align-items: center;
+        overflow: scroll;
+        box-shadow: -20px 0px 25px rgba(0, 0, 0, 0.3);
+
+        &-element {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
     }
 }
