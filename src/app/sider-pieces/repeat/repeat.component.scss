@@ -1,0 +1,64 @@
+.piece {
+    --piece-background-color: #a6c9ec;
+
+    width: 300px;
+    height: 200px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    border: solid black 1px;
+    border-radius: 10px;
+
+    &-form {
+        position: relative;
+        text-align: center;
+        margin: 10px 5px 10px 5px;
+        height: 100%;
+        
+        &-header {
+            display: flex;
+            flex-direction: row;
+
+            mat-icon {
+                position: absolute;
+                transform: scale(1.5);
+                color: white;
+            }
+
+            &-for {
+                //width: 100%;
+                display: flex;
+                flex-direction: row;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+            
+
+                input {
+                    width: 25px;
+                    border: none;
+                    border-radius: 10px;
+                    background-color: white;
+                    margin-left: 5px;
+                    margin-right: 5px;
+                    text-align: center;
+                }
+            }
+        }
+
+        &-while {
+            display: flex;
+            flex-direction: column;
+            height: 80%;
+            
+
+            textarea {
+                padding: 10px;
+                margin-top: 10px;
+                resize: none;
+                border: none;
+                border-radius: 10px;
+                flex-grow: 1;
+            }
+        }
+    }
+}

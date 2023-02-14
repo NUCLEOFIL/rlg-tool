@@ -1,0 +1,10 @@
+.piece {
+    --piece-background-color: #f3ed97;
+
+    width: 300px;
+    height: 400px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    border: solid black 1px;
+    border-radius: 10px;
+}

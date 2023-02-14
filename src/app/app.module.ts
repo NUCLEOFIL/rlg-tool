@@ -15,7 +15,9 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { DragScrollDirective } from './directives/drag-scroll.directive';
-import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive'; 
+import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
+import { CommentsComponent } from './sider-pieces/comments/comments.component';
+import { RepeatComponent } from './sider-pieces/repeat/repeat.component'; 
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     TaskComponent,
     AnnexeTaskComponent,
     DragScrollDirective,
-    MouseWheelZoomDirective
+    MouseWheelZoomDirective,
+    CommentsComponent,
+    RepeatComponent
   ],
   imports: [
     BrowserModule,
