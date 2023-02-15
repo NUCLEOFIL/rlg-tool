@@ -2,7 +2,7 @@
     --piece-background-color: #9ad5ec;
 
     width: 400px;
-    height: 800px;
+    min-height: 1600px;
     position: relative;
     background-color: var(--piece-background-color);
 
@@ -22,23 +22,28 @@
         display: flex;
         padding: 15px 20px 15px 20px;
         justify-content: space-around;
+
         mat-icon {
             cursor: pointer;
             transform: scale(1.1);
         }
+
         mat-icon:hover {
             opacity: 0.75;
         }
     }
+
     &-menu.show {
         transform: translateX(-50%) translateY(0);
     }
+
     &-menu.hide {
         transform: translateX(-50%) translateY(100%);
     }
 
     &-attach {
         z-index: 1;
+
         &-left {
             &-top {
                 border-right: solid black 1px;
@@ -51,6 +56,7 @@
                 transform: translateY(-50%);
                 left: -25px;
             }
+
             &-bottom {
                 border-top: solid black 1px;
                 border-right: solid black 1px;
@@ -64,6 +70,7 @@
                 left: 0px;
             }
         }
+
         &-right {
             border-top: solid black 1px;
             border-right: solid black 1px;
@@ -76,6 +83,7 @@
             top: 200px;
         }
     }
+
     &-form {
         height: 100%;
         padding: 0px 10px 0px 35px;
@@ -84,12 +92,14 @@
         flex-direction: column;
         align-items: stretch;
         z-index: 2;
+
         label {
             font-size: 20px;
             font-weight: lighter;
             margin-top: 10px;
             margin-bottom: 5px;
-        }  
+        }
+
         input {
             height: 40px;
             border-radius: 10px;
@@ -97,6 +107,7 @@
             padding: 5px 10px 5px 10px;
             font-size: 15px;
         }
+
         textarea {
             border-radius: 20px;
             padding: 10px;
@@ -105,26 +116,30 @@
             flex-grow: 1;
             font-size: 15px;
         }
+
         &-title {
             margin-top: 20px;
             font-size: 25px;
-            //font-weight: bold;
             font-family: 'Glacial Indifference Bold';
         }
+
         &-intitule {
             display: flex;
             flex-direction: column;
             margin-top: 10px;
         }
+
         &-name {
             display: flex;
             flex-direction: column;
         }
+
         &-objective {
-            height: 40%;
+            height: 250px;
             margin-top: 10px;
             display: flex;
             flex-direction: column;
+
             textarea {
                 margin-bottom: 5px;
                 background-image: url("../../../assets/alchemist.png");
@@ -133,11 +148,59 @@
                 background-size: 30%;
             }
         }
+
         &-reward {
             display: flex;
             flex-direction: column;
+            height: 250px;
+        }
+
+        &-personnalization {
+            &-appearance {
+                display: flex;
+                flex-direction: column;
+                height: 150px;
+            }
+
+            &-skills {
+                display: flex;
+                flex-direction: column;
+                height: 150px;
+            }
+
+        }
+
+        &-ressources {
+            display: flex;
+            flex-direction: column;
             margin-bottom: 25px;
-            height: 40%;
+
+            &-ressource {
+                margin-top: 10px;
+                display: flex;
+                flex-direction: column;
+
+                div {
+                    display: flex;
+                    flex-direction: row;
+                    margin-bottom: 5px;
+                    justify-content: space-between;
+                }
+            }
+
+            button {
+                position: relative;
+                width: 50px;
+                height: 50px;
+                background-color: white;
+                left: 100%;
+                transform: translateX(-100%);
+                margin-top: 5px;
+
+                mat-icon {
+                    transform: scale(1.3);
+                }
+            }
         }
     }
 }
