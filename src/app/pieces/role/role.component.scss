@@ -141,7 +141,7 @@
 
             textarea {
                 margin-bottom: 5px;
-                background-image: url("../../../assets/alchemist.png");
+                background-image: url("../../../assets/background-images/role.png");
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30%;
@@ -159,6 +159,12 @@
                 display: flex;
                 flex-direction: column;
                 height: 150px;
+                textarea {
+                    background-image: url("../../../assets/background-images/equipment.png");
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: 30%;
+                }
             }
 
             &-skills {
