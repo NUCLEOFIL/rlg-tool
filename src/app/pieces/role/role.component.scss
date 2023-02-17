@@ -2,7 +2,6 @@
     --piece-background-color: #9ad5ec;
 
     width: 400px;
-    min-height: 1600px;
     position: relative;
     background-color: var(--piece-background-color);
 
@@ -196,7 +195,7 @@
                 left: 100%;
                 transform: translateX(-100%);
                 margin-top: 5px;
-
+                border-radius: 10px;
                 mat-icon {
                     transform: scale(1.3);
                 }

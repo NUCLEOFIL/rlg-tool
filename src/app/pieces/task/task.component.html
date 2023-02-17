@@ -96,15 +96,15 @@
         <div class="piece-form-top">
             <input class="piece-form-top-identifier" name="identifier" type="text" placeholder="A" min="1" maxlength="5"/>
             <div class="piece-form-top-title">Tâche</div>
-            <div class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()">
+            <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()">
                 <mat-icon *ngIf="symbol" [style.color]="symbolColor" [fontIcon]="symbol"></mat-icon>
-            </div>    
+            </button>    
         </div>
         <textarea class="piece-form-content" placeholder="Positionner dans l'ordre les balises HTML principales"></textarea>
         <div class="piece-form-bottom">
-            <div class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
-                <label>Prérequis</label>
-            </div>
+            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
+                Prérequis
+            </button>
             <div class="piece-form-bottom-duration">
                 <input name="value" type="text" [(ngModel)]="duration" (input)="durationChange()"/>
                 <select name="unite" [(ngModel)]="durationUnit" (change)="durationChange()">

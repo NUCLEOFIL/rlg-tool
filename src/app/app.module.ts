@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
 import { AppComponent } from './app.component';
 import { EducationalObjectiveComponent } from './pieces/educational-objective/educational-objective.component';
 import { RoleComponent } from './pieces/role/role.component';
@@ -10,14 +14,12 @@ import { GameEducationnalObjectiveComponent } from './pieces/game-educationnal-o
 import { GameContextComponent } from './pieces/game-context/game-context.component';
 import { TaskComponent } from './pieces/task/task.component';
 import { AnnexeTaskComponent } from './pieces/annexe-task/annexe-task.component';
-
-import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon';
-import { DragScrollDirective } from './directives/drag-scroll.directive';
-import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
 import { CommentsComponent } from './sider-pieces/comments/comments.component';
 import { RepeatComponent } from './sider-pieces/repeat/repeat.component'; 
+import { CommentComponent } from './components/comment/comment.component';
+
+import { DragScrollDirective } from './directives/drag-scroll.directive';
+import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { RepeatComponent } from './sider-pieces/repeat/repeat.component';
     DragScrollDirective,
     MouseWheelZoomDirective,
     CommentsComponent,
-    RepeatComponent
+    RepeatComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +43,7 @@ import { RepeatComponent } from './sider-pieces/repeat/repeat.component';
     FormsModule,
     BrowserAnimationsModule,
     MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

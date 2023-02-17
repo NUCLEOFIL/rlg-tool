@@ -2,7 +2,6 @@
     --piece-background-color: #a6c9ec;
 
     width: 300px;
-    height: 200px;
     position: relative;
     background-color: var(--piece-background-color);
     border: solid black 1px;
@@ -12,8 +11,7 @@
         position: relative;
         text-align: center;
         margin: 10px 5px 10px 5px;
-        height: 100%;
-        
+
         &-header {
             display: flex;
             flex-direction: row;
@@ -25,13 +23,12 @@
             }
 
             &-for {
-                //width: 100%;
                 display: flex;
                 flex-direction: row;
                 position: relative;
                 left: 50%;
                 transform: translateX(-50%);
-            
+
 
                 input {
                     width: 25px;
@@ -48,16 +45,16 @@
         &-while {
             display: flex;
             flex-direction: column;
-            height: 80%;
-            
 
             textarea {
                 padding: 10px;
                 margin-top: 10px;
-                resize: none;
+                resize: vertical;
                 border: none;
                 border-radius: 10px;
                 flex-grow: 1;
+                min-height: 50px;
+                max-height: 100px;
             }
         }
     }
