@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-annexe-task',
-  templateUrl: './annexe-task.component.html',
-  styleUrls: ['./annexe-task.component.scss']
+  selector: 'app-random-event',
+  templateUrl: './random-event.component.html',
+  styleUrls: ['./random-event.component.scss']
 })
-export class AnnexeTaskComponent implements OnInit {
+export class RandomEventComponent implements OnInit {
 
   constructor() { }
 
@@ -13,11 +13,15 @@ export class AnnexeTaskComponent implements OnInit {
   }
 
   displayMenu: string = 'hide';
+  displaySymbolChoice: string = 'hide';
   displayPrequires: string = 'hide';
 
   durationUnit: string = 'UT';
   duration: number = 1;
   pieceWidth: string = '400px';
+
+  symbol: string = ''; // A changer quand implémentation des données
+  symbolColor: string = ''; //A changer quand implémentation des données
   
   durationChange(): void {
     if(this.durationUnit === 'UT') {
@@ -47,6 +51,20 @@ export class AnnexeTaskComponent implements OnInit {
 
   onClickDots(): void {
     
+  }
+
+  changeDisplaySymbolChoice(): void {
+    if(this.displaySymbolChoice == 'show') {
+      this.displaySymbolChoice = 'hide';
+    } else {
+      this.displaySymbolChoice = 'show';
+    }
+  }
+
+  setSymbol(symbol: string, symbolColor: string): void {
+    this.symbol = symbol;
+    this.symbolColor = symbolColor;
+    this.displaySymbolChoice = 'hide';
   }
 
   changeDisplayPrerequires(): void {

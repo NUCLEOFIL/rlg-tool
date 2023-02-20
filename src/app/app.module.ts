@@ -17,6 +17,7 @@ import { AnnexeTaskComponent } from './pieces/annexe-task/annexe-task.component'
 import { CommentsComponent } from './sider-pieces/comments/comments.component';
 import { RepeatComponent } from './sider-pieces/repeat/repeat.component'; 
 import { CommentComponent } from './components/comment/comment.component';
+import { RandomEventComponent } from './pieces/random-event/random-event.component';
 
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
@@ -35,7 +36,8 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     MouseWheelZoomDirective,
     CommentsComponent,
     RepeatComponent,
-    CommentComponent
+    CommentComponent,
+    RandomEventComponent
   ],
   imports: [
     BrowserModule,
