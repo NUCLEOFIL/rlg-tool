@@ -18,6 +18,8 @@ import { CommentsComponent } from './sider-pieces/comments/comments.component';
 import { RepeatComponent } from './sider-pieces/repeat/repeat.component'; 
 import { CommentComponent } from './components/comment/comment.component';
 import { RandomEventComponent } from './pieces/random-event/random-event.component';
+import { CharactersComponent } from './sider-pieces/characters/characters.component';
+import { CharacterComponent } from './components/character/character.component';
 
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
@@ -37,7 +39,9 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     CommentsComponent,
     RepeatComponent,
     CommentComponent,
-    RandomEventComponent
+    RandomEventComponent,
+    CharactersComponent,
+    CharacterComponent
   ],
   imports: [
     BrowserModule,
