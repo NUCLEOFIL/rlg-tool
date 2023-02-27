@@ -20,6 +20,7 @@ import { CommentComponent } from './components/comment/comment.component';
 import { RandomEventComponent } from './pieces/random-event/random-event.component';
 import { CharactersComponent } from './sider-pieces/characters/characters.component';
 import { CharacterComponent } from './components/character/character.component';
+import { RulesComponent } from './sider-pieces/rules/rules.component';
 
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
@@ -41,7 +42,8 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     CommentComponent,
     RandomEventComponent,
     CharactersComponent,
-    CharacterComponent
+    CharacterComponent,
+    RulesComponent
   ],
   imports: [
     BrowserModule,
