@@ -48,6 +48,14 @@
                 left: 100%;
                 transform: translateX(-100%);
             }
+
+            textarea {
+                background-image: url("../../../assets/background-images/com.png");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30%;
+                min-height: 100px;
+            }
         }
     }
 }
