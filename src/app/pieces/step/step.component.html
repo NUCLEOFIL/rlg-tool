@@ -1,0 +1,24 @@
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+    <div class="piece-attach piece-attach-right"></div>
+    <div class="piece-attach piece-attach-left"></div>
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="mode_comment" (click)="onClickComments()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
+    </div>
+
+    <div class="piece-form">
+        <div class="piece-form-title">Étape 1</div>
+        <textarea></textarea>
+        <div class="piece-form-duration">
+            <label for="duration">Durée</label>
+            <input name="duration" type="text"/>
+            <select name="duration">
+                <option value="UT">UT</option>
+                <option value="min">min</option>
+                <option value="tours">tours</option>
+            </select>
+        </div>
+    </div>
+</div>

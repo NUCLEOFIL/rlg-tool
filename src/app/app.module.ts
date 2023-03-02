@@ -21,6 +21,7 @@ import { RandomEventComponent } from './pieces/random-event/random-event.compone
 import { CharactersComponent } from './sider-pieces/characters/characters.component';
 import { CharacterComponent } from './components/character/character.component';
 import { RulesComponent } from './sider-pieces/rules/rules.component';
+import { StepComponent } from './pieces/step/step.component';
 
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
@@ -43,7 +44,8 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     RandomEventComponent,
     CharactersComponent,
     CharacterComponent,
-    RulesComponent
+    RulesComponent,
+    StepComponent
   ],
   imports: [
     BrowserModule,
