@@ -114,7 +114,7 @@
             margin-top: 10px;
         }
         &-intrigue{
-            height: 55%;
+            height: 35%;
             margin-top: 10px;
             display: flex;
             flex-direction: column;
@@ -125,6 +125,7 @@
                 background-size: 30%;
             }
         }
+        /*
         &-other {
             display: flex;
             flex-direction: column;
@@ -136,6 +137,25 @@
                 background-repeat: no-repeat;
                 background-size: 30%;
             }
+        }
+        */
+        &-communication {
+            display: flex;
+            flex-direction: column;
+            height: 20%;
+
+            textarea {
+                background-image: url("../../../assets/background-images/com.png");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30%;
+            }
+        }
+
+        &-divers {
+            display: flex;
+            flex-direction: column;
+            height: 20%;
         }
     }
 }
