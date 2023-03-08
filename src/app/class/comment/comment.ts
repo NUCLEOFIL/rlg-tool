@@ -1,6 +1,6 @@
 export class Comment {
 
     content: string = '';
-    answers: Comment[] = [];
+    answers: string[] = [];
 
 }

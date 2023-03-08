@@ -1,3 +1,4 @@
+import { Step } from "../step/step";
 import { Task } from "../task/task";
 
 export class Role {
@@ -10,5 +11,6 @@ export class Role {
     tasks: Task[][] = [
         [new Task('normal')]
     ]
+    chronologie: Step[] = [];
 
 }

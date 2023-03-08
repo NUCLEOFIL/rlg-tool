@@ -1,5 +1,6 @@
 import { Character } from "../character/character";
 import { Comment } from "../comment/comment";
+import { Repeat } from "../repeat/repeat";
 import { Symbol } from "../symbol/symbol";
 
 export class Task {
@@ -13,6 +14,7 @@ export class Task {
     durationUnite: string = 'UT';
     comments: Comment[] = [];
     character: Character = new Character();
+    repeat: Repeat = new Repeat();
 
     constructor(type: string) {
         this.type = type;
