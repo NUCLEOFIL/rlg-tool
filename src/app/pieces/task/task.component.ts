@@ -7,11 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TaskComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
   displayMenu: string = 'hide';
   displaySymbolChoice: string = 'hide';
   displayPrequires: string = 'hide';
@@ -22,10 +17,16 @@ export class TaskComponent implements OnInit {
 
   symbol: string = ''; // A changer quand implémentation des données
   symbolColor: string = ''; //A changer quand implémentation des données
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
   
   durationChange(): void {
     if(this.durationUnit === 'UT') {
-      if(this.duration >= 1  && this.duration <= 10) {
+      if(this.duration >= 1 && this.duration <= 10) {
         this.pieceWidth = (this.duration*400)+'px';
       } else if(this.duration > 10) {
         this.pieceWidth = '4000px';

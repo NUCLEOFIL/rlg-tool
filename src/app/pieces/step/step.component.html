@@ -1,4 +1,4 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left"></div>
 
@@ -13,8 +13,8 @@
         <textarea></textarea>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="text"/>
-            <select name="duration">
+            <input name="duration" type="text" [(ngModel)]="duration" (input)="durationChange()"/>
+            <select name="duration" [(ngModel)]="durationUnit" (change)="durationChange()">
                 <option value="UT">UT</option>
                 <option value="min">min</option>
                 <option value="tours">tours</option>
