@@ -1,0 +1,117 @@
+<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+    <div class="piece-attach piece-attach-left"></div>
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="mode_comment" (click)="onClickComments()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
+        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+    </div>
+
+    <div class="piece-symbolchoice" [class]="displaySymbolChoice">
+        <div class="piece-symbolchoice-header">
+            <label>Choisir un symbole de tâche commune :</label>
+            <div><mat-icon fontIcon="delete" (click)="setSymbol('','')"></mat-icon></div>
+        </div>
+        <div class="piece-symbolchoice-symbols">
+            <mat-icon [style.color]="'#d79297'" fontIcon="favorite" (click)="setSymbol('favorite','#d79297')"></mat-icon>
+            <mat-icon [style.color]="'#9ad5ec'" fontIcon="diamond" (click)="setSymbol('diamond','#9ad5ec')"></mat-icon>
+            <mat-icon [style.color]="'#e9ec54'" fontIcon="star" (click)="setSymbol('star','#e9ec54')"></mat-icon>
+            <mat-icon [style.color]="'#f5cee3'" fontIcon="hexagon" (click)="setSymbol('hexagon','#f5cee3')"></mat-icon>
+            <mat-icon [style.color]="'#d3d2d2'" fontIcon="add" (click)="setSymbol('add','#d3d2d2')"></mat-icon>
+            <mat-icon [style.color]="'#9ad5ec'" fontIcon="circle" (click)="setSymbol('circle','#9ad5ec')"></mat-icon>
+            <mat-icon [style.color]="'#b6cc87'" fontIcon="eco" (click)="setSymbol('eco','#b6cc87')"></mat-icon>
+            <mat-icon [style.color]="'#d0bbdb'" fontIcon="play_arrow" (click)="setSymbol('play_arrow','#d0bbdb')"></mat-icon>
+            <mat-icon [style.color]="'#8b7e64'" fontIcon="remove" (click)="setSymbol('remove','#8b7e64')"></mat-icon>
+        </div>
+        <div class="piece-symbolchoice-symbols">
+            <mat-icon [style.color]="'#d79297'" fontIcon="square" (click)="setSymbol('square','#d79297')"></mat-icon>
+            <mat-icon [style.color]="'#9ad5ec'" fontIcon="square" (click)="setSymbol('square','#9ad5ec')"></mat-icon>
+            <mat-icon [style.color]="'#e9ec54'" fontIcon="square" (click)="setSymbol('square','#e9ec54')"></mat-icon>
+            <mat-icon [style.color]="'#f5cee3'" fontIcon="square" (click)="setSymbol('square','#f5cee3')"></mat-icon>
+            <mat-icon [style.color]="'#d3d2d2'" fontIcon="square" (click)="setSymbol('square','#d3d2d2')"></mat-icon>
+            <mat-icon [style.color]="'#9ad5ec'" fontIcon="square" (click)="setSymbol('square','#9ad5ec')"></mat-icon>
+            <mat-icon [style.color]="'#b6cc87'" fontIcon="square" (click)="setSymbol('square','#b6cc87')"></mat-icon>
+            <mat-icon [style.color]="'#d0bbdb'" fontIcon="square" (click)="setSymbol('square','#d0bbdb')"></mat-icon>
+            <mat-icon [style.color]="'#8b7e64'" fontIcon="square" (click)="setSymbol('square','#8b7e64')"></mat-icon>
+        </div>
+    </div>
+
+    <div class="piece-prerequires" [class]="displayPrequires">
+        <div class="piece-prerequires-prerequires">
+            <label class="piece-prerequires-title">Antécédents</label>
+            <div class="piece-prerequires-form">
+                <div class="piece-prerequires-prerequires-element">
+                    <input name="antecedent" type="checkbox" value="true"/>
+                    <label for="antecedent">EX1</label> 
+                </div>
+                <div class="piece-prerequires-prerequires-element">
+                    <input name="antecedent" type="checkbox"/>
+                    <label for="antecedent">EX2</label>
+                </div>
+            </div>
+        </div>
+        <div class="piece-prerequires-ressources">
+            <label class="piece-prerequires-title">Ressources & attributs</label>
+            <div class="piece-prerequires-form">
+                <div class="piece-prerequires-ressources-element">
+                    <div class="piece-prerequires-ressources-element-checkbox">
+                        <input name="ressource" type="checkbox"/>
+                        <label for="ressource">Pain</label>   
+                    </div>
+                    <div class="piece-prerequires-ressources-element-quantity">
+                        <select name="ressource">
+                            <option><</option>
+                            <option><=</option>
+                            <option>=</option>
+                            <option>>=</option>
+                            <option>></option>
+                        </select>
+                        <input type="text" value="1"/> 
+                    </div>
+                </div>
+                <div class="piece-prerequires-ressources-element">
+                    <div class="piece-prerequires-ressources-element-checkbox">
+                        <input name="ressource" type="checkbox"/>
+                        <label for="ressource">Citron</label>   
+                    </div>
+                    <div class="piece-prerequires-ressources-element-quantity">
+                        <select name="ressource">
+                            <option><</option>
+                            <option><=</option>
+                            <option>=</option>
+                            <option>>=</option>
+                            <option>></option>
+                        </select>
+                        <input type="text" value="1"/> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="piece-form">
+        <div class="piece-form-top">
+            <input class="piece-form-top-identifier" name="identifier" type="text" placeholder="A" min="1" maxlength="5"/>
+            <div class="piece-form-top-title">Tâche finale</div>
+            <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()">
+                <mat-icon *ngIf="symbol" [style.color]="symbolColor" [fontIcon]="symbol"></mat-icon>
+            </button>    
+        </div>
+        <textarea class="piece-form-content" placeholder="Positionner dans l'ordre les balises HTML principales"></textarea>
+        <div class="piece-form-bottom">
+            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
+                Prérequis
+            </button>
+            <div class="piece-form-bottom-duration">
+                <input name="value" type="text" [(ngModel)]="duration" (input)="durationChange()"/>
+                <select name="unite" [(ngModel)]="durationUnit" (change)="durationChange()">
+                    <option selected value="UT">UT</option>
+                    <option value="min">min</option>
+                    <option value="tours">tours</option> 
+                </select>
+            </div>
+        </div>
+
+    </div>
+</div>
