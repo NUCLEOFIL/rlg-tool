@@ -23,6 +23,7 @@ import { CharacterComponent } from './components/character/character.component';
 import { RulesComponent } from './sider-pieces/rules/rules.component';
 import { StepComponent } from './pieces/step/step.component';
 import { FinalTaskComponent } from './pieces/final-task/final-task.component';
+import { RepeatTaskComponent } from './pieces/repeat-task/repeat-task.component';
 
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
@@ -47,7 +48,8 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     CharacterComponent,
     RulesComponent,
     StepComponent,
-    FinalTaskComponent
+    FinalTaskComponent,
+    RepeatTaskComponent
   ],
   imports: [
     BrowserModule,

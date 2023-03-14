@@ -1,0 +1,103 @@
+.piece {
+    --piece-background-color: #abbcc6;
+
+    width: 400px;
+    height: 400px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    transition: all 0.5s ease;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+
+    &-menu {
+        position: absolute;
+        width: 150px;
+        height: 50px;
+        background-color: #f7f7f7;
+        z-index: -1;
+        top: -50px;
+        left: 30%;
+        transform: translateX(-50%);
+        transition: transform 0.5s ease;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border: solid black 1px;
+        display: flex;
+        padding: 15px 20px 15px 20px;
+        justify-content: space-around;
+
+        mat-icon {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+
+        mat-icon:hover {
+            opacity: 0.75;
+        }
+    }
+
+    &-menu.show {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    &-menu.hide {
+        transform: translateX(-50%) translateY(100%);
+    }
+
+    &-attach {
+        z-index: 1;
+
+        &-left {
+            border-top: solid black 1px;
+            border-right: solid black 1px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--background-color);
+            transform: translateY(-50%) rotate(45deg);
+            position: absolute;
+            left: -20px;
+            top: 200px;
+        }
+    }
+
+    &-form {
+        height: 100%;
+        padding: 0px 10px 0px 35px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        z-index: 2;
+
+        label {
+            margin-top: 15%;
+            font-family: 'Glacial Indifference Bold';
+            margin-bottom: 10px;
+            text-align: center;
+            width: 70%;
+            font-size: 17px;
+        }
+
+        textarea {
+            width: 80%;
+            border: none;
+            border-radius: 10px;
+            resize: none;
+            height: 50%;
+            font-size: 15px;
+        }
+    }
+}
+
+.piece::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border-left: 1px solid black;
+}

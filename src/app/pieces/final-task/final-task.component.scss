@@ -189,18 +189,6 @@
     &-attach {
         z-index: 1;
 
-        &-right {
-            border-top: solid black 1px;
-            border-right: solid black 1px;
-            width: 40px;
-            height: 40px;
-            background-color: var(--piece-background-color);
-            transform: translateY(-50%) rotate(45deg);
-            position: absolute;
-            right: -20px;
-            top: 200px;
-        }
-
         &-left {
             border-top: solid black 1px;
             border-right: solid black 1px;
