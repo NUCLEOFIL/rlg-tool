@@ -1,5 +1,5 @@
 .piece {
-    --piece-background-color: #a6c9ec;
+    --piece-background-color: #f7c9cf;
 
     width: 300px;
     position: relative;
@@ -22,29 +22,20 @@
                 color: white;
             }
 
-            &-for {
+            &-label {
                 display: flex;
                 flex-direction: row;
                 position: relative;
                 left: 50%;
                 transform: translateX(-50%);
-
-
-                input {
-                    width: 25px;
-                    border: none;
-                    border-radius: 10px;
-                    background-color: white;
-                    margin-left: 5px;
-                    margin-right: 5px;
-                    text-align: center;
-                }
+                font-family: 'Glacial Indifference Bold';
             }
         }
 
-        &-while {
+        &-textarea {
             display: flex;
             flex-direction: column;
+            margin-top: 20px;
 
             textarea {
                 padding: 5px 10px 5px 10px;
@@ -55,7 +46,7 @@
                 flex-grow: 1;
                 min-height: 50px;
                 max-height: 100px;
-                background-image: url("../../../assets/background-images/repeat.png");
+                background-image: url("../../../assets/background-images/interruption.png");
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 20%;
