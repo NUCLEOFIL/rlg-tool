@@ -6,9 +6,6 @@
     position: relative;
     background-color: var(--piece-background-color);
     transition: all 0.5s ease;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
     border-top-right-radius: 50%;
     border-bottom-right-radius: 50%;
 
@@ -99,5 +96,7 @@
     left: 0px;
     right: 0px;
     bottom: 0px;
-    border-left: 1px solid black;
+    border: 1px solid black;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
 }
