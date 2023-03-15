@@ -25,6 +25,7 @@ import { StepComponent } from './pieces/step/step.component';
 import { FinalTaskComponent } from './pieces/final-task/final-task.component';
 import { RepeatTaskComponent } from './pieces/repeat-task/repeat-task.component';
 import { InteruptComponent } from './sider-pieces/interupt/interupt.component';
+import { OptionnalTaskComponent } from './pieces/optionnal-task/optionnal-task.component';
 
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
@@ -51,7 +52,8 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     StepComponent,
     FinalTaskComponent,
     RepeatTaskComponent,
-    InteruptComponent
+    InteruptComponent,
+    OptionnalTaskComponent
   ],
   imports: [
     BrowserModule,
