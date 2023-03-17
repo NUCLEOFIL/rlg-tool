@@ -26,6 +26,8 @@ import { FinalTaskComponent } from './pieces/tasks/final-task/final-task.compone
 import { RepeatTaskComponent } from './pieces/tasks/repeat-task/repeat-task.component';
 import { InteruptComponent } from './sider-pieces/interupt/interupt.component';
 import { OptionnalTaskComponent } from './pieces/tasks/optionnal-task/optionnal-task.component';
+import { RoleOccurenceComponent } from './sider-pieces/role-occurence/role-occurence.component';
+import { SupplementaryTaskComponent } from './sider-pieces/supplementary-task/supplementary-task.component';
 
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
@@ -53,7 +55,9 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     FinalTaskComponent,
     RepeatTaskComponent,
     InteruptComponent,
-    OptionnalTaskComponent
+    OptionnalTaskComponent,
+    RoleOccurenceComponent,
+    SupplementaryTaskComponent
   ],
   imports: [
     BrowserModule,
