@@ -1,0 +1,62 @@
+textarea {
+    resize: vertical;
+    border-radius: 10px;
+    border: none;
+    min-height: 50px;
+    max-height: 200px;
+    padding: 5px 5px 5px 5px;
+}
+
+button {
+    background-color: white;
+    border-radius: 10px;                
+    margin-left: 5px;
+}
+
+.form {
+    margin-bottom: 10px;
+    border-bottom: solid black 1px;
+    padding-bottom: 10px;
+
+    &-comment {
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        &-buttons {
+            margin-top: 5px;
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            justify-content: flex-end;
+        }
+    }
+    
+    &-answers {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+
+        textarea {
+            resize: none;
+        }
+    }
+
+    &-newanswer {
+        display: flex;
+        flex-direction: column;
+
+        &-buttons {
+            margin-top: 5px;
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            justify-content: flex-end;
+        }
+    }
+}

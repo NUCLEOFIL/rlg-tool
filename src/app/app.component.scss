@@ -1,0 +1,142 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    z-index: 1;
+
+    &-appDragScroll {
+        position: absolute;
+        height: 100%;
+        width: calc(100% - 322px);
+        left: 0;
+        right: 5px;
+        top: 0px;
+        overflow: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    &-appDragScroll::-webkit-scrollbar {
+        display: none;
+    }
+
+    &-appMouseWheelZoom {
+        position: relative;
+        transform-origin: top left;
+        padding: 60px 5px 10px 5px;
+        margin-right: 7px;
+        margin-top: 900px;
+    }
+
+    &-scenario {
+        &-chronologie {
+            margin-bottom: 100px;
+            position: relative;
+            left: 800px;
+
+            &-title {
+                font-family: 'Glacial Indifference Bold';
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            &-steps {
+                display: flex;
+                flex-direction: row;
+            }
+        }
+
+        &-main {
+            display: flex;
+            flex-direction: row;
+
+            &-gamePieces {
+                display: flex;
+                flex-direction: column;
+            }
+
+            &-missions {
+                display: flex;
+                flex-direction: column;
+
+                &-mission {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 100px;
+                    position: relative;
+                    top: -868px;
+
+                    &-missionPieces {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    &-roles {
+                        display: flex;
+                        flex-direction: column;
+
+                        &-role {
+                            display: flex;
+                            flex-direction: row;
+
+                            &-tasks {
+                                display: flex;
+                                flex-direction: column;
+
+                                &-inlineTasks {
+                                    display: flex;
+                                    flex-direction: row;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-sider {
+        height: 100%;
+        width: 320px;
+        background-color: #e3e3e3;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 2;
+        border-left: solid black 3px;
+        align-items: center;
+        overflow: scroll;
+        box-shadow: -20px 0px 25px rgba(0, 0, 0, 0.3);
+
+        &-element {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    &-settings {
+        position: fixed;
+        width: 300px;
+        right: 350px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        z-index: 2;
+
+        &-mode {
+            width: 150px;
+            background-color: white;
+            box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+            padding: 5px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        button {
+            width: 50px;
+            height: 50px;
+        }
+    }
+}

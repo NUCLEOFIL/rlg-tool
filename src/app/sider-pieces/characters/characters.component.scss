@@ -1,0 +1,161 @@
+.piece {
+    --piece-background-color: #ce7b66;
+
+    width: 300px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    border: solid black 1px;
+    border-radius: 10px;
+
+    label {
+        margin-right: 10px;
+    }
+
+    input[type="text"],
+    input[type="tel"] {
+        border: none;
+        border-radius: 10px;
+        height: 20px;
+        padding: 5px 5px 5px 5px;
+    }
+
+    input[type="color"] {
+        border: none;
+        border-radius: 10px;
+        background-color: white;
+    }
+
+    textarea {
+        border: none;
+        border-radius: 10px;
+        min-height: 50px;
+        max-height: 100px;
+        resize: vertical;
+        padding: 5px 10px 5px 10px;
+    }
+
+    select {
+        border-radius: 10px;
+        background-color: white;
+        border: none;
+        padding: 5px 10px 5px 10px;
+        //height: 20px;
+    }
+
+    mat-icon {
+        transform: scale(2);
+        color: white;
+        margin-left: 10px;
+        margin-right: 20px;
+    }
+
+    button {
+        margin-top: 5px;
+        background-color: white;
+        border-radius: 10px;
+        position: relative;
+        left: 100%;
+        transform: translateX(-100%);
+    }
+
+    &-form {
+        margin: 10px 5px 10px 5px;
+        display: flex;
+        flex-direction: column;
+
+        &-title {
+            font-family: "Glacial Indifference Bold";
+            margin-bottom: 10px;
+        }
+
+        &-create {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: solid black 1px;
+
+            &-top {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+
+                &-name {
+                    display: flex;
+                    justify-content: flex-end;
+
+                    input {
+                        width: 75%;
+                    }
+                }
+            }
+
+            &-infos {
+                margin-top: 10px;
+
+                &-description {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                &-phone {
+                    display: flex;
+                    margin-top: 5px;
+                    justify-content: space-between;
+                }
+
+                &-title {
+                    display: flex;
+                    margin-top: 5px;
+                    justify-content: space-between;
+                }
+
+                &-color {
+                    margin-top: 5px;
+                }
+            }
+        }
+
+        &-select {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: solid black 1px;
+
+            &-container {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+
+                &-select {
+                    display: flex;
+                    flex-direction: row;
+
+                    select {
+                        width: 200px;
+
+                    }
+                }
+
+            }
+        }
+
+        &-delete {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: solid black 1px;
+
+            &-container {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+
+                &-select {
+                    display: flex;
+                    flex-direction: row;
+
+                    select {
+                        width: 200px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -11,21 +11,85 @@
 
     <div class="piece-form">
         <div class="piece-form-title">Rôle 1</div>
+        <img src="../../../assets/background-images/role.png"/>
         <div class="piece-form-intitule">
             <label for="intitule">Intitulé</label>
-            <input name="intitule" type="text" placeholder="Organisateur de goûters d'anniversaire"/>   
+            <input name="intitule" type="text" placeholder="Développeur/euse web"/>   
         </div>
         <div class="piece-form-name">
             <label for="name">Nom de la quête</label>
-            <input name="name" type="text" placeholder="Fête d'anniversaire"/>   
+            <input name="name" type="text" placeholder="Intégration de site web"/>   
+        </div>
+        <div class="piece-form-description">
+            <label for="description">Description</label>
+            <textarea name="description"></textarea>
         </div>
         <div class="piece-form-objective">
             <label for="objective">Objectif(s) pédagoqique(s)</label>
-            <textarea name="objective" placeholder="- Savoir préparer une fête"></textarea>  
+            <input name="objective" type="text" placeholder="Nom de l'objectif"/>
+            <input name="objective" type="text" placeholder="Nom de l'objectif"/>
+            <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
         </div>
-        <div class="piece-form-reward">
-            <label for="reward">Récompenses</label>
-            <textarea name="reward" placeholder="- Gagner en compétence en événementiel"></textarea>  
-        </div> 
+        <div class="piece-form-rewards">
+            <label for="reward">Récompense(s)</label>
+            <div class="piece-form-rewards-reward">
+                <label>Type</label>
+                <select>
+                    <option>test</option>
+                </select>
+            </div>  
+        </div>
+
+
+        <div class="piece-form-personnalization">
+            <div class="piece-form-title">Personnalisation</div>
+            <div class="piece-form-personnalization-appearance">
+                <label>Apparence, équipement</label>
+                <textarea></textarea>
+            </div>
+        </div>
+
+        <div class="piece-form-ressources">
+            <div class="piece-form-title">Ressources & compétences</div>
+            <div class="piece-form-ressources-ressource">
+                <div class="piece-form-ressources-ressource-name">
+                    <label for="name">Nom</label>
+                    <input name="name" type="text"/>
+                </div>
+                <div class="piece-form-ressources-ressource-quantity">
+                    <label for="quantity">Nombre / stats</label>
+                    <input name="quantity" type="text">
+                </div>
+                <div class="piece-form-ressources-ressource-quantity">
+                    <label for="type">Type</label>
+                    <input name="type" type="text">
+                </div>    
+            </div>
+            <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
+        </div>
+
+        
+        <div class="piece-form-supplementary">
+            <div class="piece-form-title">Rôle supplémentaire</div>
+            <div>
+                <div class="piece-form-supplementary-name">
+                    <label for="name">Nom</label>
+                    <input name="name" type="text"/>
+                </div>
+                <div class="piece-form-supplementary-textarea">
+                    <label for="objectives">Objectifs</label>
+                    <textarea name="objectives"></textarea>
+                </div>
+                <div class="piece-form-supplementary-textarea">
+                    <label for="skills">Compétences</label>
+                    <textarea name="skills"></textarea>
+                </div>
+                <div class="piece-form-supplementary-textarea">
+                    <label for="rules">Règles</label>
+                    <textarea nam="rules"></textarea>
+                </div>
+            </div>
+            <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
+        </div>
     </div>
 </div>

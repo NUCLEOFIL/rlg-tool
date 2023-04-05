@@ -1,0 +1,140 @@
+.piece {
+    --piece-background-color: #acc9fc;
+
+    width: 400px;
+    height: 300px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    transition: all 0.5s ease;
+
+    &-menu {
+        position: absolute;
+        width: 150px;
+        height: 50px;
+        background-color: #f7f7f7;
+        z-index: -1;
+        top: -51px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: transform 0.5s ease;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border: solid black 1px;
+        display: flex;
+        padding: 15px 20px 15px 20px;
+        justify-content: space-around;
+
+        mat-icon {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+
+        mat-icon:hover {
+            opacity: 0.75;
+        }
+    }
+
+    &-menu.show {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    &-menu.hide {
+        transform: translateX(-50%) translateY(100%);
+    }
+
+    &-attach {
+        z-index: 1;
+        border-right: solid black 1px;
+        border-top: solid black 1px;
+
+        &-right {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%) rotateZ(45deg);
+            background-color: var(--piece-background-color);
+        }
+
+        &-left {
+            background-color: var(--background-color);
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%) rotateZ(45deg);
+
+        }
+    }
+
+    &-form {
+        height: 100%;
+        padding: 0px 10px 0px 40px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        z-index: 2;
+
+        &-title {
+            margin-top: 10px;
+            font-size: 25px;
+            font-family: 'Glacial Indifference Bold';
+        }
+
+        textarea {
+            margin-top: 5px;
+            padding: 10px;
+            height: 60%;
+            border-radius: 10px;
+            border: none;
+            resize: none;
+            font-size: 15px;
+            background-image: url("../../../assets/background-images/step.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100px;
+        }
+
+        &-duration {
+
+            margin-top: 10px;
+
+            label {
+                font-size: 20px;
+                margin-right: 5px;
+            }
+
+            input {
+                border: none;
+                height: 30px;
+                width: 50px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                text-align: right;
+            }
+
+            select {
+                background-color: white;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border: none;
+                height: 32px;
+                width: 50px;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.piece::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border: 1px solid black;
+}

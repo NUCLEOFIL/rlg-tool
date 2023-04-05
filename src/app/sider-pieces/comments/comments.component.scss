@@ -1,0 +1,53 @@
+.piece {
+    --piece-background-color: #f3ed97;
+
+    width: 300px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    border: solid black 1px;
+    border-radius: 10px;
+
+    label {
+        margin-bottom: 10px;
+    }
+
+    textarea {
+        resize: vertical;
+        border-radius: 10px;
+        border: none;
+        min-height: 50px;
+        max-height: 200px;
+        padding: 5px 5px 5px 5px;
+    }
+
+    button {
+        border-radius: 10px;
+        background-color: white;
+        margin-top: 5px;
+    }
+
+    &-form {
+        margin: 10px 5px 10px 5px;
+        display: flex;
+        flex-direction: column;
+
+        &-title {
+            font-family: "Glacial Indifference Bold";
+            margin-bottom: 10px;
+        }
+        
+        &-newcomment {
+
+            &-form {
+                display: flex;
+                flex-direction: column;
+            }
+
+            button {
+                position: relative;
+                left: 100%;
+                transform: translateX(-100%);
+            }
+        }
+    }
+}

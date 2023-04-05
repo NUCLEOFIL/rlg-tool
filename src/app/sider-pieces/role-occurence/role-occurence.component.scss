@@ -1,0 +1,39 @@
+.piece {
+    --piece-background-color: #e5c5ac;
+
+    width: 300px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    border: solid black 1px;
+    border-radius: 10px;
+
+    &-title {
+        font-family: 'Glacial Indifference Bold';
+        margin-bottom: 10px;
+    }
+
+    &-form {
+        margin: 10px 5px 10px 5px;
+        display: flex;
+        flex-direction: column;
+
+        input {
+            width: 25px;
+            border: none;
+            border-radius: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            border: none;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        &-occurence {
+            display: flex;
+        }
+    }
+}

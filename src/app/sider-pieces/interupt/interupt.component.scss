@@ -1,0 +1,56 @@
+.piece {
+    --piece-background-color: #f7c9cf;
+
+    width: 300px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    border: solid black 1px;
+    border-radius: 10px;
+
+    &-form {
+        position: relative;
+        text-align: center;
+        margin: 10px 5px 10px 5px;
+
+        &-header {
+            display: flex;
+            flex-direction: row;
+
+            mat-icon {
+                position: absolute;
+                transform: scale(1.5);
+                color: white;
+            }
+
+            &-label {
+                display: flex;
+                flex-direction: row;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+                font-family: 'Glacial Indifference Bold';
+            }
+        }
+
+        &-textarea {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+
+            textarea {
+                padding: 5px 10px 5px 10px;
+                margin-top: 10px;
+                resize: vertical;
+                border: none;
+                border-radius: 10px;
+                flex-grow: 1;
+                min-height: 50px;
+                max-height: 100px;
+                background-image: url("../../../assets/background-images/interruption.png");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 20%;
+            }
+        }
+    }
+}

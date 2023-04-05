@@ -1,0 +1,75 @@
+<div class="piece">
+    <div class="piece-form">
+
+        <div class="piece-form-create">
+            <div class="piece-form-title">Créer un nouveau personnage</div>
+            <div class="piece-form-create-top">
+                <mat-icon fontIcon="person_add"></mat-icon>
+                <div class="piece-form-create-top-name">
+                    <label for="name">Nom</label>
+                    <input name="name" type="text" />
+                </div>
+            </div>
+            <div class="piece-form-create-infos">
+                <div class="piece-form-create-infos-description">
+                    <label for="description">Description</label>
+                    <textarea name="description"></textarea>
+                </div>
+
+                <!--
+                <div>
+                    <div class="piece-form-create-infos-phone">
+                        <label for="phonenumber">N° tél.</label>
+                        <input name="phonenumber" type="tel"/>                    
+                    </div>
+                    <div class="piece-form-create-infos-title">
+                        <label for="title">Titre</label>
+                        <input name="title" type="text"/>
+                    </div>                    
+                </div>
+                -->
+
+                <div class="piece-form-create-infos-color">
+                    <label for="color">Couleur</label>
+                    <input name="color" type="color" />
+                </div>
+            </div>
+            <button mat-button>Créer</button>
+        </div>
+
+        <div class="piece-form-select">
+            <div class="piece-form-title">Sélectionner un personnage déjà créé</div>
+            <div class="piece-form-select-container">
+                <mat-icon fontIcon="person"></mat-icon>
+                <div class="piece-form-select-container-select">
+                    <label for="name">Nom</label>
+                    <select name="name">
+                        <option>test</option>
+                    </select>
+                </div>
+            </div>
+            <button mat-button>Sélectionner</button>
+        </div>
+
+        <div class="piece-form-delete">
+            <div class="piece-form-title">Supprimer un personnage</div>
+            <div class="piece-form-delete-container">
+                <mat-icon fontIcon="person_off"></mat-icon>
+                <div class="piece-form-delete-container-select">
+                    <label for="name">Nom</label>
+                    <select name="name">
+                        <option>test</option>
+                    </select>
+                </div>
+            </div>
+            <button mat-button>Supprimer</button>
+        </div>
+
+        <div>
+            <div class="piece-form-title">Personnage(s) utilisé(s)</div>
+            <app-character></app-character>
+            <app-character></app-character>
+        </div>
+
+    </div>
+</div>

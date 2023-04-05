@@ -1,0 +1,15 @@
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+    <div class="piece-attach piece-attach-left"></div>
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="mode_comment" (click)="onClickComments()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
+        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+    </div>
+
+    <div class="piece-form">
+        <label>Recommencer<br>le tour jusqu'à ce que :</label>
+        <textarea></textarea>
+    </div>
+</div>

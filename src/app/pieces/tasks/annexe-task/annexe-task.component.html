@@ -1,0 +1,86 @@
+<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+    <div class="piece-attach piece-attach-left"></div>
+    <div class="piece-attach piece-attach-right"></div>
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="mode_comment" (click)="onClickComments()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
+        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+    </div>
+
+    <div class="piece-prerequires" [class]="displayPrequires">
+        <div class="piece-prerequires-prerequires">
+            <label class="piece-prerequires-title">Antécédents</label>
+            <div class="piece-prerequires-form">
+                <div class="piece-prerequires-prerequires-element">
+                    <input name="antecedent" type="checkbox" value="true"/>
+                    <label for="antecedent">EX1</label> 
+                </div>
+                <div class="piece-prerequires-prerequires-element">
+                    <input name="antecedent" type="checkbox"/>
+                    <label for="antecedent">EX2</label>
+                </div>
+            </div>
+        </div>
+        <div class="piece-prerequires-ressources">
+            <label class="piece-prerequires-title">Ressources & attributs</label>
+            <div class="piece-prerequires-form">
+                <div class="piece-prerequires-ressources-element">
+                    <div class="piece-prerequires-ressources-element-checkbox">
+                        <input name="ressource" type="checkbox"/>
+                        <label for="ressource">Pain</label>   
+                    </div>
+                    <div class="piece-prerequires-ressources-element-quantity">
+                        <select name="ressource">
+                            <option><</option>
+                            <option><=</option>
+                            <option>=</option>
+                            <option>>=</option>
+                            <option>></option>
+                        </select>
+                        <input type="text" value="1"/> 
+                    </div>
+                </div>
+                <div class="piece-prerequires-ressources-element">
+                    <div class="piece-prerequires-ressources-element-checkbox">
+                        <input name="ressource" type="checkbox"/>
+                        <label for="ressource">Citron</label>   
+                    </div>
+                    <div class="piece-prerequires-ressources-element-quantity">
+                        <select name="ressource">
+                            <option><</option>
+                            <option><=</option>
+                            <option>=</option>
+                            <option>>=</option>
+                            <option>></option>
+                        </select>
+                        <input type="text" value="1"/> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="piece-form">
+        <div class="piece-form-top">
+            <input class="piece-form-top-identifier" name="identifier" type="text" placeholder="A" min="1" maxlength="5"/>
+            <div class="piece-form-top-title">Tâche annexe</div> 
+        </div>
+        <textarea class="piece-form-content" placeholder="Vérifier ses connaissances sur les formulaires PHP"></textarea>
+        <div class="piece-form-bottom">
+            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
+                Prérequis
+            </button>
+            <div class="piece-form-bottom-duration">
+                <input name="value" type="text" [(ngModel)]="duration" (input)="durationChange()"/>
+                <select name="unite" [(ngModel)]="durationUnit" (change)="durationChange()">
+                    <option selected value="UT">UT</option>
+                    <option value="min">min</option>
+                    <option value="tours">tours</option> 
+                </select>
+            </div>
+        </div>
+
+    </div>
+</div>
