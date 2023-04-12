@@ -13,6 +13,7 @@ export class RoleComponent implements OnInit {
   }
 
   displayMenu: string = 'hide';
+  rewardType: number = 0;
 
   onClickComments(): void {
     

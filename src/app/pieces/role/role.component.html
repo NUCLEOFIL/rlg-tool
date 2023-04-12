@@ -33,10 +33,54 @@
         <div class="piece-form-rewards">
             <label for="reward">Récompense(s)</label>
             <div class="piece-form-rewards-reward">
-                <label>Type</label>
-                <select>
-                    <option>test</option>
-                </select>
+                <div class="piece-form-rewards-reward-type">
+                    <label>Type</label>
+                    <select [(ngModel)]="rewardType">
+                        <option value="1">Débuter une nouvelle quête</option>
+                        <option value="2">Travailler un champ de compétence</option>
+                        <option value="3">Récupérer le contact d'un PNJ</option>
+                        <option value="4">Atteindre un objectif pédagoqique</option>
+                        <option value="5">Récupérer un objet</option>
+                        <option value="6">Changer de discussion</option>
+                        <option value="7">Autre</option>
+                    </select>                    
+                </div>
+
+
+                <div class="piece-form-rewards-reward-objects" *ngIf="rewardType == 5">
+                    <div class="piece-form-rewards-reward-objects-object">
+                        <input type="number"/>
+                        <input type="text" placeholder="Nom de l'objet"/>
+                    </div>
+                    <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
+                </div>
+                <div class="piece-form-rewards-reward-character" *ngIf="rewardType == 3">
+                    <select>
+                        <option>Personnage 1</option>
+                    </select>
+                </div>
+                <div class="piece-form-rewards-reward-discussion" *ngIf="rewardType == 6">
+                    <select>
+                        <option>Discussion 1</option>
+                    </select>
+                </div>
+                <div class="piece-form-rewards-reward-skill" *ngIf="rewardType == 2">
+                    <input type="number"/>
+                    <select>
+                        <option>Compétence 1</option>
+                    </select>
+                </div>
+                <div class="piece-form-rewards-reward-quest" *ngIf="rewardType == 1">
+                    <select>
+                        <option>Quête 1</option>
+                    </select>
+                </div>
+                <div class="piece-form-rewards-reward-objective" *ngIf="rewardType == 4">
+                    <select>
+                        <option>Objectif pédagoqique 1</option>
+                    </select>
+                </div>
+
             </div>  
         </div>
 
