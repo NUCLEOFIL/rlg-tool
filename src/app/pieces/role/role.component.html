@@ -80,7 +80,13 @@
                         <option>Objectif pédagoqique 1</option>
                     </select>
                 </div>
-
+                <div class="piece-form-rewards-reward-other" *ngIf="rewardType == 7">
+                    <textarea></textarea>
+                </div>
+                <div class="piece-form-rewards-reward-add" *ngIf="rewardType != 0">
+                    <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
+                </div>
+ 
             </div>  
         </div>
 

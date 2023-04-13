@@ -213,6 +213,11 @@
                     width: 100%;
                 }
 
+                textarea {
+                    width: 335px;
+                    height: 100px;
+                }
+
                 &-type {
                     display: flex;
                     flex-direction: row;
@@ -239,37 +244,21 @@
                     }
                 }
 
-                &-character {
-                    display: flex;
-                    flex-direction: row;
-                    margin-bottom: 5px;
-                }
-
-                &-discussion {
-                    display: flex;
-                    flex-direction: row;
-                    margin-bottom: 5px;
-                }
-
                 &-skill {
                     display: flex;
                     flex-direction: row;
-                    margin-bottom: 5px;
                     
                     select {
                         margin-left: 5px;
                     }
                 }
 
-                &-quest {
-                    display: flex;
-                    flex-direction: row;
-                    margin-bottom: 5px;
-                }
-
-                &-objective {
-                    display: flex;
-                    flex-direction: row;
+                &-add {
+                    margin-top: 5px;
+    
+                    button {
+                        width: 100%;
+                    }
                 }
             }
         }
