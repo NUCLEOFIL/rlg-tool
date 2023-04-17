@@ -3,7 +3,7 @@
 
     width: 400px;
     position: relative;
-    background: linear-gradient(303deg, rgb(2, 0, 36) 0%, rgb(2, 0, 36) 25%, #9ad5ec 25%, #9ad5ec 100%);
+    background-color: #9ad5ec;
 
     &-menu {
         position: absolute;
@@ -237,7 +237,7 @@
                         display: flex;
                         flex-direction: row;
                         margin-bottom: 5px;
-                        
+
                         input[type="text"] {
                             margin-left: 5px;
                         }
@@ -247,7 +247,7 @@
                 &-skill {
                     display: flex;
                     flex-direction: row;
-                    
+
                     select {
                         margin-left: 5px;
                     }
@@ -255,7 +255,7 @@
 
                 &-add {
                     margin-top: 5px;
-    
+
                     button {
                         width: 100%;
                     }
@@ -325,37 +325,58 @@
         }
 
         &-supplementary {
-            margin-bottom: 25px;
+            padding-bottom: 10px;
+            background: linear-gradient(304deg, rgb(2, 0, 36) 0%, rgb(2, 0, 36) 50%, #9ad5ec 50%, #9ad5ec 100%);
+            width: 398px;
+            position: relative;
+            left: -34px;
 
-            &-name {
-                margin-top: 10px;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
+            &-form {
+                width: 350px;
+                margin-left: 33px;
+                margin-right: 10px;
 
-            }
-            
-            &-textarea {
-                display: flex;
-                flex-direction: column;
-
-                textarea {
-                    height: 100px;
+                &-name {
+                    margin-top: 10px;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
                 }
-            }
 
-            button {
-                position: relative;
-                width: 50px;
-                height: 50px;
-                background-color: white;
-                left: 100%;
-                transform: translateX(-100%);
-                margin-top: 5px;
-                border-radius: 10px;
+                &-textarea {
+                    display: flex;
+                    flex-direction: column;
 
-                mat-icon {
-                    transform: scale(1.3);
+                    textarea {
+                        height: 100px;
+                    }
+                }
+
+                &-color {
+                    display: flex;
+                    flex-direction: row;
+                    margin-top: 10px;
+
+                    label {
+                        margin-right: 5px;
+                        color: white;
+                    }
+                }
+
+                &-add {
+                    position: relative;
+                    width: 50px;
+                    height: 50px;
+                    background-color: white;
+                    left: 100%;
+                    transform: translateX(-100%);
+                    margin-top: 10px;
+                    border-radius: 10px;
+                    margin-bottom: 10px;
+
+                    mat-icon {
+                        transform: scale(1.3);
+                    }
                 }
             }
         }
