@@ -10,5 +10,4 @@ export class Scenario {
     context: GameContext = new GameContext();
     missions: Mission[] = [new Mission()];
     characters: Character[] = [];
-    chronologie: Step[] = [new Step()];
 }

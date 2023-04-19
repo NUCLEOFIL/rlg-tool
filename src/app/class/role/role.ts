@@ -11,7 +11,7 @@ export class Role {
     educationnalObjectives: string[] = [''];
     rewards: string = '';
     stuff: string = '';
-    ressources: Ressource[] = [new Ressource()];
+    ressources: Ressource[] = [];
     supplementaryRoles: SupplementaryRole[] = [];
     comments: Comment[] = [];
     tasks: Task[][] = [
