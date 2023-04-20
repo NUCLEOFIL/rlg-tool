@@ -14,19 +14,15 @@ export class RepeatTaskComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onClickComments(): void {
-    
-  }
-
-  onClickAdd(): void {
-    
-  }
-
   onClickErase(): void {
     
   } 
 
   onClickDots(): void {
+    
+  }
+
+  onClickDelete(): void {
     
   }
 }

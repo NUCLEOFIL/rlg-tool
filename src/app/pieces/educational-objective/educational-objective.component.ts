@@ -14,8 +14,8 @@ export class EducationalObjectiveComponent implements OnInit {
 
   displayMenu: string = 'hide';
 
-  onClickComments(): void {
-    
+  onClickDots(): void {
+
   }
 
   onClickAdd(): void {

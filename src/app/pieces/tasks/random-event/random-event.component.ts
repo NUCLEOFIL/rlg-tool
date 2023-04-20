@@ -37,19 +37,15 @@ export class RandomEventComponent implements OnInit {
     }
   }
 
-  onClickComments(): void {
-    
-  }
-
-  onClickAdd(): void {
-    
-  }
-
   onClickErase(): void {
     
   } 
 
   onClickDots(): void {
+    
+  }
+
+  onClickDelete(): void {
     
   }
 

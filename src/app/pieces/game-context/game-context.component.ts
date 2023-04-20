@@ -14,10 +14,6 @@ export class GameContextComponent implements OnInit {
 
   displayMenu: string = 'hide';
 
-  onClickComments(): void {
-    
-  }
-
   onClickErase(): void {
     
   } 

@@ -17,15 +17,15 @@ export class StepComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onClickComments(): void {
-    
-  }
-
-  onClickAdd(): void {
+  onClickDots(): void {
     
   }
 
   onClickErase(): void {
+    
+  }
+
+  onClickDelete(): void {
     
   }
 

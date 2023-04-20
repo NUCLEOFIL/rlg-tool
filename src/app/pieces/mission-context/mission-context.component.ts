@@ -14,7 +14,7 @@ export class MissionContextComponent implements OnInit {
 
   displayMenu: string = 'hide';
 
-  onClickComments(): void {
+  onClickDots(): void {
     
   }
 

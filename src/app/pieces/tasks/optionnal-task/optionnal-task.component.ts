@@ -38,19 +38,19 @@ export class OptionnalTaskComponent implements OnInit {
     }
   }
 
-  onClickComments(): void {
-    
-  }
-
-  onClickAdd(): void {
-    
-  }
-
   onClickErase(): void {
     
   } 
 
   onClickDots(): void {
+    
+  }
+
+  onClickChange(): void {
+
+  }
+
+  onClickDelete(): void {
     
   }
 

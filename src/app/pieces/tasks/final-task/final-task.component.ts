@@ -23,7 +23,6 @@ export class FinalTaskComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
   durationChange(): void {
     if(this.durationUnit === 'UT') {
       if(this.duration >= 1 && this.duration <= 10) {
@@ -38,19 +37,19 @@ export class FinalTaskComponent implements OnInit {
     }
   }
 
-  onClickComments(): void {
-    
-  }
-
-  onClickAdd(): void {
-    
-  }
-
   onClickErase(): void {
     
   } 
 
   onClickDots(): void {
+    
+  }
+
+  onClickChange(): void {
+
+  }
+
+  onClickDelete(): void {
     
   }
 

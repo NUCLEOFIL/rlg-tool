@@ -33,19 +33,19 @@ export class AnnexeTaskComponent implements OnInit {
     }
   }
 
-  onClickComments(): void {
-    
-  }
-
-  onClickAdd(): void {
-    
-  }
-
   onClickErase(): void {
     
   } 
 
   onClickDots(): void {
+    
+  }
+
+  onClickDelete(): void {
+
+  }
+
+  onClickChange(): void {
     
   }
 
