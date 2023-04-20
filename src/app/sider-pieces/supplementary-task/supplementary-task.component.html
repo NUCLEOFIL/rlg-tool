@@ -2,8 +2,14 @@
     <div class="piece-form">
         <div class="piece-title">Tâche liée au rôle supplémentaire</div>
         <div class="piece-form-checkbox">
-            <input type="checkbox"/>
+            <input type="checkbox" [(ngModel)]="checkbox"/>
             <label>Oui</label>
+        </div>
+        <div class="piece-form-select" *ngIf="checkbox">
+            <label>Rôle</label>
+            <select>
+                <option>Rôle 1</option>
+            </select>
         </div>
     </div>
 </div>

@@ -12,4 +12,6 @@ export class SupplementaryTaskComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  checkbox: boolean = false;
+
 }

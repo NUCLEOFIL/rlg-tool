@@ -21,5 +21,20 @@
             border: none;
             border-radius: 10px;
         }
+
+        &-select {
+            margin-top: 5px;
+            margin-left: 10px;
+            width: 100%;
+
+            select {
+                border-radius: 10px;
+                border: none;
+                background-color: white;
+                height: 25px;
+                margin-left: 10px;
+                width: 200px;
+            }
+        }
     }
 }
