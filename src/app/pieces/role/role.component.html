@@ -25,11 +25,17 @@
             <label for="description">Description</label>
             <textarea name="description"></textarea>
         </div>
-        <div class="piece-form-objective">
+        <div class="piece-form-objectives">
             <label for="objective">Objectif(s) pédagoqique(s)</label>
-            <input name="objective" type="text" placeholder="Nom de l'objectif"/>
-            <input name="objective" type="text" placeholder="Nom de l'objectif"/>
-            <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
+            <div class="piece-form-objectives-objective">
+                <input name="objective" type="text" placeholder="Nom de l'objectif"/>
+                <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+            </div>
+            <div class="piece-form-objectives-objective">
+                <input name="objective" type="text" placeholder="Nom de l'objectif"/>
+                <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+            </div>
+            <button mat-button class="piece-form-objectives-add"><mat-icon fontIcon="add"></mat-icon></button>
         </div>
         <div class="piece-form-rewards">
             <label for="reward">Récompense(s)</label>
@@ -52,37 +58,44 @@
                     <div class="piece-form-rewards-reward-objects-object">
                         <input type="number"/>
                         <input type="text" placeholder="Nom de l'objet"/>
+                        <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                     </div>
-                    <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
+                    <button mat-button class="piece-form-rewards-reward-objects-add"><mat-icon fontIcon="add"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-character" *ngIf="rewardType == 3">
                     <select>
                         <option>Personnage 1</option>
                     </select>
+                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-discussion" *ngIf="rewardType == 6">
                     <select>
                         <option>Discussion 1</option>
                     </select>
+                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-skill" *ngIf="rewardType == 2">
                     <input type="number"/>
                     <select>
                         <option>Compétence 1</option>
                     </select>
+                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-quest" *ngIf="rewardType == 1">
                     <select>
                         <option>Quête 1</option>
                     </select>
+                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-objective" *ngIf="rewardType == 4">
                     <select>
                         <option>Objectif pédagoqique 1</option>
                     </select>
+                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-other" *ngIf="rewardType == 7">
                     <textarea></textarea>
+                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-add" *ngIf="rewardType != 0">
                     <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
@@ -114,9 +127,10 @@
                 <div class="piece-form-ressources-ressource-quantity">
                     <label for="type">Type</label>
                     <input name="type" type="text">
-                </div>    
+                </div>
+                <button mat-button><mat-icon fontIcon="remove"></mat-icon></button> 
             </div>
-            <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
+            <button mat-button class="piece-form-ressources-add"><mat-icon fontIcon="add"></mat-icon></button>
         </div>
 
         <div class="piece-form-title">Rôle supplémentaire</div>
@@ -143,6 +157,7 @@
                         <label for="rules">Règles</label>
                         <textarea name="rules"></textarea>
                     </div>
+                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
             </div>
         </div>
