@@ -2,7 +2,7 @@ import { Character } from "../character/character";
 import { GameContext } from "../game-context/game-context";
 import { GameEducationnalObjective } from "../game-educationnal-objective/game-educationnal-objective";
 import { Mission } from "../mission/mission";
-import { Step } from "../step/step";
+import { Ressource } from "../ressource/ressource";
 
 export class Scenario {
 
@@ -10,4 +10,6 @@ export class Scenario {
     context: GameContext = new GameContext();
     missions: Mission[] = [new Mission()];
     characters: Character[] = [];
+    gameRules: string = '';
+    ressources: Ressource[] = [new Ressource()];
 }

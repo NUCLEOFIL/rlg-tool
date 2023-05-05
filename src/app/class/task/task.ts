@@ -14,10 +14,10 @@ export class Task {
     duration: number = 1;
     durationUnite: string = 'UT';
     comments: Comment[] = [];
-    character: Character | null = null;
+    character!: Character;
     repeat: Repeat = new Repeat();
 
-    supplementaryRole: SupplementaryRole | null = null;
+    supplementaryRole!: SupplementaryRole;
     interrupt: string = '';
 
     constructor(type: string) {
