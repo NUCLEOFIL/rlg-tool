@@ -369,6 +369,14 @@
                     width: 50%;
                 }
 
+                select {
+                    background-color: white;
+                    border: none;
+                    border-radius: 10px;
+                    width: 55%;
+                    height: 50px;
+                }
+
                 &-name {
                     input {
                         background-image: url("../../../assets/background-images/object.png");
