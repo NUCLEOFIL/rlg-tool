@@ -11,23 +11,23 @@
         <div class="piece-form-title">Contexte du jeu</div>
         <div class="piece-form-universe">
             <label for="univers">Univers</label>
-            <input name="univers" type="text" placeholder="Réaliste"/>   
+            <input name="univers" type="text" [(ngModel)]="gameContext.univers" placeholder="Réaliste"/>   
         </div>
         <div class="piece-form-support">
             <label for="support">Medium / Support(s)</label>
-            <input name="support" type="text" placeholder="Ordinateur en 3D"/>   
+            <input name="support" type="text" [(ngModel)]="gameContext.support" placeholder="Ordinateur en 3D"/>   
         </div>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="text" placeholder="3h"/>   
+            <input name="duration" type="text" [(ngModel)]="gameContext.duration" placeholder="3h"/>
         </div>
         <div class="piece-form-intrigue">
             <label for="intrigue">Intrigue</label>
-            <textarea name="intrigue" placeholder="Vous êtes stagiaire dans une agence de communication et devez faire vos preuves pour être embauché.e"></textarea>  
+            <textarea name="intrigue" [(ngModel)]="gameContext.intrigue" placeholder="Vous êtes stagiaire dans une agence de communication et devez faire vos preuves pour être embauché.e"></textarea>  
         </div>
         <div class="piece-form-other">
             <label for="other">Autre</label>
-            <textarea name="other"></textarea>  
+            <textarea name="other" [(ngModel)]="gameContext.other"></textarea>  
         </div> 
     </div>
 

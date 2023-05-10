@@ -4,8 +4,8 @@
 
             <div class="container-scenario-main">
                 <div class="container-scenario-main-gamePieces" [style.z-index]="4">
-                    <app-game-educationnal-objective></app-game-educationnal-objective>
-                    <app-game-context [style.z-index]="2"></app-game-context>
+                    <app-game-educationnal-objective [gameEducationnalObjective]="this.scenario.educationnalObjective"></app-game-educationnal-objective>
+                    <app-game-context [style.z-index]="2" [gameContext]="this.scenario.context"></app-game-context>
                 </div>
 
                 <div class="container-scenario-main-missions">
@@ -150,7 +150,8 @@
             <input name="unity" type="checkbox" />
             <label for="unity">Intégrer le jeu sous Unity</label>
         </div>
-        <button mat-mini-fab color="white"><mat-icon fontIcon="download_file"></mat-icon></button>
-        <button mat-mini-fab color="white"><mat-icon fontIcon="upload-file"></mat-icon></button>
+        <button mat-mini-fab color="white" (click)="downloadFile()"><mat-icon fontIcon="download_file"></mat-icon></button>
+        <button mat-mini-fab color="white" (click)="test()"><mat-icon fontIcon="upload-file"></mat-icon></button>
+        <input type="file" (change)="onFileSelected($event)">
     </div>
 </div>
