@@ -31,8 +31,8 @@
 
                         <div style="display: flex;">
                             <div class="container-scenario-main-missions-mission-missionPieces" [style.z-index]="3">
-                                <app-educational-objective></app-educational-objective>
-                                <app-mission-context [style.z-index]="2"></app-mission-context>
+                                <app-educational-objective [educationnalObjective]="mission.educationnalObjective"></app-educational-objective>
+                                <app-mission-context [style.z-index]="2" [missionContext]="mission.context"></app-mission-context>
                             </div>
 
                             <div class="container-scenario-main-missions-mission-roles" [style.z-index]="2">

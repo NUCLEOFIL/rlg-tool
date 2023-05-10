@@ -13,19 +13,19 @@
         <div class="piece-form-title">Contexte de la mission 1</div>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="text" placeholder="1h"/>   
+            <input name="duration" type="text" [(ngModel)]="missionContext.duration" placeholder="1h"/>   
         </div>
         <div class="piece-form-intrigue">
             <label for="intrigue">Intrigue</label>
-            <textarea name="intrigue" placeholder="Concevez un site web ergonomique pour votre premier client"></textarea>  
+            <textarea name="intrigue" [(ngModel)]="missionContext.intrigue" placeholder="Concevez un site web ergonomique pour votre premier client"></textarea>  
         </div>
         <div class="piece-form-communication">
             <label for="communication">Moyen(s) de communication</label>
-            <textarea name="communication"></textarea>
+            <textarea name="communication" [(ngModel)]="missionContext.communication"></textarea>
         </div>
         <div class="piece-form-divers">
             <label for="divers">Divers</label>
-            <textarea name="divers"></textarea>
+            <textarea name="divers" [(ngModel)]="missionContext.various"></textarea>
         </div>
     </div>
 </div>
