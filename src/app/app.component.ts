@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Scenario } from './class/scenario/scenario';
+import { Step } from './class/step/step';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,11 @@ import { Scenario } from './class/scenario/scenario';
 export class AppComponent {
   title = 'RLG Maker';
 
-  constructor() { }
+  scenario: Scenario;
 
-  scenario: Scenario = new Scenario();
+  constructor() {
+    this.scenario = new Scenario();
+  }
 
   test() {
     console.log(this.scenario);

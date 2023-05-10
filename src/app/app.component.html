@@ -9,13 +9,15 @@
                 </div>
 
                 <div class="container-scenario-main-missions">
-                    <div class="container-scenario-main-missions-mission">
+                    <div class="container-scenario-main-missions-mission" *ngFor="let mission of this.scenario.missions">
 
                         <div class="container-scenario-chronologie">
                             <div class="container-scenario-chronologie-title">Chronologie générale de la mission</div>
                             <div class="container-scenario-chronologie-steps">
-                                <app-step [style.z-index]="2"></app-step>
-                                <app-step [style.z-index]="1"></app-step>
+                                <div *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i">
+                                    <app-step *ngIf="step != null" [step]="step"></app-step>
+                                    <div [style.width]="'400px'" *ngIf="step == null"></div>
+                                </div>
                             </div>
                         </div>
 
@@ -61,66 +63,6 @@
                                     <div class="container-scenario-main-missions-mission-roles-role-tasks"
                                         [style.z-index]="1">
                                         <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks" [style.z-index]="2">
-                                            <app-task [style.z-index]="3"></app-task>
-                                            <app-annexe-task [style.z-index]="2"></app-annexe-task>
-                                            <app-random-event [style.z-index]="1"></app-random-event>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="container-scenario-main-missions-mission">
-
-                        <div class="container-scenario-chronologie">
-                            <div class="container-scenario-chronologie-title">Chronologie générale de la mission</div>
-                            <div class="container-scenario-chronologie-steps">
-                                <app-step [style.z-index]="2"></app-step>
-                                <app-step [style.z-index]="1"></app-step>
-                            </div>
-                        </div>
-
-                        <div class="container-scenario-chronologie">
-                            <div class="container-scenario-chronologie-title">Chronologie du rôle</div>
-                            <div class="container-scenario-chronologie-steps">
-                                <app-step [style.z-index]="2"></app-step>
-                                <app-step [style.z-index]="1"></app-step>
-                            </div>
-                        </div>
-
-                        <div style="display: flex;">
-                            <div class="container-scenario-main-missions-mission-missionPieces" [style.z-index]="3">
-                                <app-educational-objective></app-educational-objective>
-                                <app-mission-context [style.z-index]="2"></app-mission-context>
-                            </div>
-
-                            <div class="container-scenario-main-missions-mission-roles" [style.z-index]="2">
-                                <div class="container-scenario-main-missions-mission-roles-role">
-                                    <app-role [style.z-index]="10"></app-role>
-                                    <div class="container-scenario-main-missions-mission-roles-role-tasks"
-                                        [style.z-index]="1">
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-task [style.z-index]="2"></app-task>
-                                            <app-task [style.z-index]="1"></app-task>
-                                        </div>
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-annexe-task [style.z-index]="2"></app-annexe-task>
-                                        </div>
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-random-event [style.z-index]="2"></app-random-event>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="container-scenario-main-missions-mission-roles-role">
-                                    <app-role [style.z-index]="10"></app-role>
-                                    <div class="container-scenario-main-missions-mission-roles-role-tasks"
-                                        [style.z-index]="1">
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
                                             <app-task [style.z-index]="3"></app-task>
                                             <app-annexe-task [style.z-index]="2"></app-annexe-task>
                                             <app-random-event [style.z-index]="1"></app-random-event>

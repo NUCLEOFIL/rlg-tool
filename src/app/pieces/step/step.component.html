@@ -10,11 +10,11 @@
 
     <div class="piece-form">
         <div class="piece-form-title">Étape 1</div>
-        <textarea></textarea>
+        <textarea [(ngModel)]="step.description"></textarea>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="text" [(ngModel)]="duration" (input)="durationChange()"/>
-            <select name="duration" [(ngModel)]="durationUnit" (change)="durationChange()">
+            <input name="duration" type="text" [(ngModel)]="step.duration" (input)="durationChange()"/>
+            <select name="duration" [(ngModel)]="step.durationUnit" (change)="durationChange()">
                 <option value="UT">UT</option>
                 <option value="min">min</option>
                 <option value="tours">tours</option>
