@@ -204,9 +204,18 @@
                 }
             }
 
+            &-add {
+                margin-top: 10px;
+
+                button {
+                    width: 100%;
+                }
+            }
+
             &-reward {
                 display: flex;
                 flex-direction: column;
+                margin-top: 10px;
 
                 select {
                     height: 50px;
@@ -323,14 +332,6 @@
                         margin-top: 5px;
                     }
                 }
-
-                &-add {
-                    margin-top: 10px;
-
-                    button {
-                        width: 100%;
-                    }
-                }
             }
         }
 
@@ -408,7 +409,6 @@
 
         &-supplementary {
             padding-bottom: 10px;
-            background: linear-gradient(302deg, rgb(2, 0, 36) 0%, rgb(2, 0, 36) 50%, #9ad5ec 50%, #9ad5ec 100%);
             width: 398px;
             position: relative;
             left: -34px;

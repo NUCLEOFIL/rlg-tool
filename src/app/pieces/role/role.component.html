@@ -15,156 +15,149 @@
         <img src="../../../assets/background-images/role.png"/>
         <div class="piece-form-intitule">
             <label for="intitule">Intitulé</label>
-            <input name="intitule" type="text" placeholder="Développeur/euse web"/>   
+            <input name="intitule" type="text" [(ngModel)]="role.intitule" placeholder="Développeur/euse web"/>   
         </div>
         <div class="piece-form-name">
             <label for="name">Nom de la quête</label>
-            <input name="name" type="text" placeholder="Intégration de site web"/>   
+            <input name="name" type="text" [(ngModel)]="role.questName" placeholder="Intégration de site web"/>   
         </div>
         <div class="piece-form-description">
             <label for="description">Description</label>
-            <textarea name="description"></textarea>
+            <textarea name="description" [(ngModel)]="role.description"></textarea>
         </div>
         <div class="piece-form-objectives">
             <label for="objective">Objectif(s) pédagoqique(s)</label>
-            <div class="piece-form-objectives-objective">
-                <input name="objective" type="text" placeholder="Nom de l'objectif"/>
-                <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+            <div class="piece-form-objectives-objective" *ngFor="let objective of role.educationnalObjectives, let i = index">
+                <input name="objective" type="text" [(ngModel)]="role.educationnalObjectives[i].objective" placeholder="Nom de l'objectif"/>
+                <button mat-button *ngIf="role.educationnalObjectives.length > 1" (click)="removeEducationnalObjective(i)"><mat-icon fontIcon="remove"></mat-icon></button>
             </div>
-            <div class="piece-form-objectives-objective">
-                <input name="objective" type="text" placeholder="Nom de l'objectif"/>
-                <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
-            </div>
-            <button mat-button class="piece-form-objectives-add"><mat-icon fontIcon="add"></mat-icon></button>
+            <button mat-button class="piece-form-objectives-add" (click)="addEducationnalObjective()"><mat-icon fontIcon="add"></mat-icon></button>
         </div>
         <div class="piece-form-rewards">
             <label for="reward">Récompense(s)</label>
-            <div class="piece-form-rewards-reward">
+            <div class="piece-form-rewards-reward" *ngFor="let reward of role.rewards, let i = index">
                 <div class="piece-form-rewards-reward-type">
                     <label>Type</label>
-                    <select [(ngModel)]="rewardType">
-                        <option value="1">Débuter une nouvelle quête</option>
-                        <option value="2">Travailler un champ de compétence</option>
-                        <option value="3">Récupérer le contact d'un PNJ</option>
-                        <option value="4">Atteindre un objectif pédagoqique</option>
-                        <option value="5">Récupérer un objet</option>
-                        <option value="6">Changer de discussion</option>
-                        <option value="7">Autre</option>
+                    <select [(ngModel)]="reward.type" (change)="changeRewardType(i, reward.type)">
+                        <option value="quest">Débuter une nouvelle quête</option>
+                        <option value="skill">Travailler un champ de compétence</option>
+                        <option value="character">Récupérer le contact d'un PNJ</option>
+                        <option value="objective">Atteindre un objectif pédagoqique</option>
+                        <option value="objects">Récupérer un objet</option>
+                        <!--<option value="discuss">Changer de discussion</option>-->
+                        <option value="other">Autre</option>
                     </select>                    
                 </div>
-
-
-                <div class="piece-form-rewards-reward-objects" *ngIf="rewardType == 5">
-                    <div class="piece-form-rewards-reward-objects-object">
-                        <input type="number"/>
-                        <input type="text" placeholder="Nom de l'objet"/>
-                        <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                <div class="piece-form-rewards-reward-objects" *ngIf="reward.type == 'objects'">
+                    <div class="piece-form-rewards-reward-objects-object" *ngFor="let object of getObjectsReward(i).objects, let j = index">
+                        <input type="number" [(ngModel)]="object.number"/>
+                        <input type="text" [(ngModel)]="object.name" placeholder="Nom de l'objet"/>
+                        <button mat-button (click)="removeObject(i,j)"><mat-icon fontIcon="remove"></mat-icon></button>
                     </div>
-                    <button mat-button class="piece-form-rewards-reward-objects-add"><mat-icon fontIcon="add"></mat-icon></button>
+                    <button mat-button class="piece-form-rewards-reward-objects-add" (click)="addObject(i)"><mat-icon fontIcon="add"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-character" *ngIf="rewardType == 3">
-                    <select>
+                <div class="piece-form-rewards-reward-character" *ngIf="reward.type == 'character'">
+                    <select [(ngModel)]="getCharacterReward(i).character">
                         <option>Personnage 1</option>
                     </select>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-discussion" *ngIf="rewardType == 6">
+                <!--
+                <div class="piece-form-rewards-reward-discussion" *ngIf="reward.type == 'discuss'">
                     <select>
                         <option>Discussion 1</option>
                     </select>
                     <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-skill" *ngIf="rewardType == 2">
+                -->
+                <div class="piece-form-rewards-reward-skill" *ngIf="reward.type == 'skill'">
                     <input type="number"/>
-                    <select>
+                    <select [(ngModel)]="getSkillReward(i).skill">
                         <option>Compétence 1</option>
                     </select>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-quest" *ngIf="rewardType == 1">
-                    <select>
+                <div class="piece-form-rewards-reward-quest" *ngIf="reward.type == 'quest'">
+                    <select [(ngModel)]="getQuestReward(i).quest">
                         <option>Quête 1</option>
                     </select>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-objective" *ngIf="rewardType == 4">
-                    <select>
+                <div class="piece-form-rewards-reward-objective" *ngIf="reward.type == 'objective'">
+                    <select [(ngModel)]="getObjectiveReward(i).name">
                         <option>Objectif pédagoqique 1</option>
                     </select>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-other" *ngIf="rewardType == 7">
-                    <textarea></textarea>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                <div class="piece-form-rewards-reward-other" *ngIf="reward.type == 'other'">
+                    <textarea [(ngModel)]="getOtherReward(i).text"></textarea>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-add" *ngIf="rewardType != 0">
-                    <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
-                </div>
- 
             </div>  
+            <div class="piece-form-rewards-add">
+                <button mat-button (click)="addReward()"><mat-icon fontIcon="add"></mat-icon></button>
+            </div>
         </div>
-
 
         <div class="piece-form-personnalization">
             <div class="piece-form-title">Personnalisation</div>
             <div class="piece-form-personnalization-appearance">
                 <label>Apparence, équipement</label>
-                <textarea></textarea>
+                <textarea [(ngModel)]="role.stuff"></textarea>
             </div>
         </div>
 
         <div class="piece-form-ressources">
             <div class="piece-form-title">Ressources & compétences</div>
-            <div class="piece-form-ressources-ressource">
+            <div class="piece-form-ressources-ressource" *ngFor="let ressource of role.ressources, let i = index">
                 <div class="piece-form-ressources-ressource-name">
                     <label for="name">Nom</label>
-                    <input name="name" type="text"/>
+                    <input name="name" type="text" [(ngModel)]="ressource.name"/>
                 </div>
                 <div class="piece-form-ressources-ressource-quantity">
                     <label for="quantity">Nombre / stats</label>
-                    <input name="quantity" type="text">
+                    <input name="quantity" type="text" [(ngModel)]="ressource.number">
                 </div>
                 <div class="piece-form-ressources-ressource-quantity">
                     <label for="type">Type</label>
-                    <select name="type">
-                        <option value="1">Ressource / Objet</option>
-                        <option value="2">Attribut</option>
+                    <select name="type" [(ngModel)]="ressource.type">
+                        <option value="ressource">Ressource / Objet</option>
+                        <option value="attribut">Attribut</option>
                     </select>
                 </div>
-                <button mat-button><mat-icon fontIcon="remove"></mat-icon></button> 
+                <button mat-button><mat-icon fontIcon="remove" (click)="removeRessource(i)"></mat-icon></button> 
             </div>
-            <button mat-button class="piece-form-ressources-add"><mat-icon fontIcon="add"></mat-icon></button>
+            <button mat-button class="piece-form-ressources-add" (click)="addRessource()"><mat-icon fontIcon="add"></mat-icon></button>
         </div>
 
         <div class="piece-form-title">Rôle supplémentaire</div>
-        <div class="piece-form-supplementary">
+        <div class="piece-form-supplementary" [style.background]="'linear-gradient(302deg, '+supplementaryRole.color+' 0%, '+supplementaryRole.color+' 50%, #9ad5ec 50%, #9ad5ec 100%)'" *ngFor="let supplementaryRole of role.supplementaryRoles, let i = index">
             <div class="piece-form-supplementary-form">
                 <div>
                     <div class="piece-form-supplementary-form-name">
                         <label for="name">Nom</label>
-                        <input name="name" type="text"/>
+                        <input name="name" type="text" [(ngModel)]="supplementaryRole.name"/>
                     </div>
                     <div class="piece-form-supplementary-form-color">
                         <label for="color">Couleur</label>
-                        <input name="color" type="color"/>
+                        <input name="color" type="color" [(ngModel)]="supplementaryRole.color"/>
                     </div>
                     <div class="piece-form-supplementary-form-textarea">
                         <label for="objectives">Objectifs</label>
-                        <textarea name="objectives"></textarea>
+                        <textarea name="objectives" [(ngModel)]="supplementaryRole.objectives"></textarea>
                     </div>
                     <div class="piece-form-supplementary-form-textarea">
                         <label for="skills">Compétences</label>
-                        <textarea name="skills"></textarea>
+                        <textarea name="skills" [(ngModel)]="supplementaryRole.skills"></textarea>
                     </div>
                     <div class="piece-form-supplementary-form-textarea">
                         <label for="rules">Règles</label>
-                        <textarea name="rules"></textarea>
+                        <textarea name="rules" [(ngModel)]="supplementaryRole.rules"></textarea>
                     </div>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                    <button mat-button (click)="removeSupplementaryRole(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
             </div>
         </div>
-        <button class="piece-form-supplementary-form-add" mat-button><mat-icon fontIcon="add"></mat-icon></button>
-
+        <button mat-button class="piece-form-supplementary-form-add" (click)="addSupplementaryRole()"><mat-icon fontIcon="add"></mat-icon></button>
     </div>
 </div>

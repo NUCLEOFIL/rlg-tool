@@ -19,53 +19,52 @@
                                     <div [style.width]="'400px'" *ngIf="step == null"></div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="container-scenario-chronologie">
-                            <div class="container-scenario-chronologie-title">Chronologie du rôle</div>
-                            <div class="container-scenario-chronologie-steps">
-                                <app-step [style.z-index]="2"></app-step>
-                                <app-step [style.z-index]="1"></app-step>
-                            </div>
-                        </div>                        
+                        </div>           
 
                         <div style="display: flex;">
+
                             <div class="container-scenario-main-missions-mission-missionPieces" [style.z-index]="3">
                                 <app-educational-objective [educationnalObjective]="mission.educationnalObjective"></app-educational-objective>
                                 <app-mission-context [style.z-index]="2" [missionContext]="mission.context"></app-mission-context>
                             </div>
 
                             <div class="container-scenario-main-missions-mission-roles" [style.z-index]="2">
-                                <div class="container-scenario-main-missions-mission-roles-role">
-                                    <app-role [style.z-index]="10"></app-role>
-                                    <div class="container-scenario-main-missions-mission-roles-role-tasks"
-                                        [style.z-index]="1">
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-task [style.z-index]="3"></app-task>
-                                            <app-task [style.z-index]="2"></app-task>
-                                            <app-repeat-task [style.z-index]="1"></app-repeat-task>
+                                <div class="container-scenario-main-missions-mission-roles-role" *ngFor="let role of mission.roles">
+
+                                    <div style="display: flex; flex-direction: column;">
+                                        <div class="container-scenario-main-missions-mission-roles-role-chronologie">
+                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-title">Chronologie du rôle</div>
+                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-steps">
+
+                                                <div *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i">
+                                                    <app-step *ngIf="step != null" [step]="step"></app-step>
+                                                    <div [style.width]="'400px'" *ngIf="step == null"></div>
+                                                </div>   
+
+                                            </div>
                                         </div>
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-annexe-task [style.z-index]="3"></app-annexe-task>
-                                            <app-optionnal-task [style.z-index]="2"></app-optionnal-task>
-                                            <app-final-task [style.z-index]="1"></app-final-task>
-                                        </div>
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-random-event [style.z-index]="2"></app-random-event>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="container-scenario-main-missions-mission-roles-role">
-                                    <app-role [style.z-index]="10"></app-role>
-                                    <div class="container-scenario-main-missions-mission-roles-role-tasks"
-                                        [style.z-index]="1">
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks" [style.z-index]="2">
-                                            <app-task [style.z-index]="3"></app-task>
-                                            <app-annexe-task [style.z-index]="2"></app-annexe-task>
-                                            <app-random-event [style.z-index]="1"></app-random-event>
+
+                                        <div style="display: flex; flex-direction: row;">
+                                            <app-role [style.z-index]="2" [role]="role"></app-role>
+                                            <div class="container-scenario-main-missions-mission-roles-role-tasks"
+                                                [style.z-index]="1">
+                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
+                                                    [style.z-index]="2">
+                                                    <app-task [style.z-index]="3"></app-task>
+                                                    <app-task [style.z-index]="2"></app-task>
+                                                    <app-repeat-task [style.z-index]="1"></app-repeat-task>
+                                                </div>
+                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
+                                                    [style.z-index]="2">
+                                                    <app-annexe-task [style.z-index]="3"></app-annexe-task>
+                                                    <app-optionnal-task [style.z-index]="2"></app-optionnal-task>
+                                                    <app-final-task [style.z-index]="1"></app-final-task>
+                                                </div>
+                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
+                                                    [style.z-index]="2">
+                                                    <app-random-event [style.z-index]="2"></app-random-event>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

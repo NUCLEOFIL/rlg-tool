@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Scenario } from './class/scenario/scenario';
-import { Step } from './class/step/step';
 
 @Component({
   selector: 'app-root',

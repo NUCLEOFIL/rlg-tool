@@ -1,6 +1,6 @@
 export class Ressource {
 
     name: string = '';
-    number: string = '';
-    type: string = '';
+    number: string = '1';
+    type: string = 'ressource';
 }
