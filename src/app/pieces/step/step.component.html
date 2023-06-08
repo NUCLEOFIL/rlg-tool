@@ -13,7 +13,7 @@
         <textarea [(ngModel)]="step.description"></textarea>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="text" [(ngModel)]="step.duration" (input)="durationChange()"/>
+            <input name="duration" type="number" [(ngModel)]="step.duration" (input)="durationChange()"/>
             <select name="duration" [(ngModel)]="step.durationUnit" (change)="durationChange()">
                 <option value="UT">UT</option>
                 <option value="min">min</option>

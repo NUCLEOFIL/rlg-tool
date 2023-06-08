@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Mission } from 'src/app/class/mission/mission';
+import { Role } from 'src/app/class/role/role';
+import { Task } from 'src/app/class/task/task';
 
 @Component({
   selector: 'app-annexe-task',
@@ -7,23 +10,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnnexeTaskComponent implements OnInit {
 
+  displayMenu: string = 'hide';
+  displaySymbolChoice: string = 'hide';
+  displayPrequires: string = 'hide';
+
+  pieceWidth: string = '400px';
+
+  @Input() task: Task = new Task('normal');
+  @Input() mission!: Mission;
+  @Input() role!: Role;
+  @Input() i!: number;
+  @Input() j!: number;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.durationChange();
   }
-
-  displayMenu: string = 'hide';
-  displayPrequires: string = 'hide';
-
-  durationUnit: string = 'UT';
-  duration: number = 1;
-  pieceWidth: string = '400px';
   
   durationChange(): void {
-    if(this.durationUnit === 'UT') {
-      if(this.duration >= 1  && this.duration <= 10) {
-        this.pieceWidth = (this.duration*400)+'px';
-      } else if(this.duration > 10) {
+    /*
+    if(this.task.durationUnit === 'UT') {
+      if(this.task.duration >= 1 && this.task.duration <= 10) {
+        this.pieceWidth = (this.task.duration*400)+'px';
+      } else if(this.task.duration > 10) {
         this.pieceWidth = '4000px';
       } else {
         this.pieceWidth = '400px';
@@ -31,10 +41,14 @@ export class AnnexeTaskComponent implements OnInit {
     } else {
       this.pieceWidth = '400px';
     }
+    */
   }
 
   onClickErase(): void {
-    
+    this.task.duration = 1;
+    this.task.durationUnit = 'UT';
+    this.task.identifier = '';
+    this.task.objective = '';
   } 
 
   onClickDots(): void {
@@ -42,11 +56,12 @@ export class AnnexeTaskComponent implements OnInit {
   }
 
   onClickDelete(): void {
-
+    this.role.removeTask(this.i, this.j);
+    this.mission.equalizeLengths();
   }
 
-  onClickChange(): void {
-    
+  onClickChange(type: string): void {
+    this.task.changeType(type);
   }
 
   changeDisplayPrerequires(): void {
@@ -55,6 +70,43 @@ export class AnnexeTaskComponent implements OnInit {
     } else {
       this.displayPrequires = 'show';
     }
+  }
+
+  canChangeInFinalTask(): boolean {
+    let res: boolean = true;
+    let lastTaskIndex: number = -1;
+    for (let i = this.role.tasks[this.i].length - 1; i >= 0; i--) {
+      if (this.role.tasks[this.i][i] instanceof Task) {
+        lastTaskIndex = i;
+        break;
+      }
+    }
+    if (this.j < lastTaskIndex || this.role.tasks[this.i].some(task => task?.type == 'final') || this.role.tasks[this.i].some(task => task?.type == 'repeat')) {
+      res = false;
+    }
+    return res;
+  }
+
+  moveTask(direction: string): void {
+    this.role.moveTask(this.i, this.j, direction);
+    this.displayMenu = 'hide';
+    this.displayPrequires = 'hide';
+    this.displaySymbolChoice = 'hide';
+    this.mission.equalizeLengths();
+  }
+
+  canMoveTo(direction: string): boolean {
+    let res: boolean = true;
+    if (direction == 'left') {
+      if (this.j == 0) {
+        res = false;
+      }
+    } else if (direction == 'right') {
+      if (this.role.tasks[this.i][this.j+1]?.type == 'final' || this.role.tasks[this.i][this.j+1]?.type == 'repeat') {
+        res = false;
+      }
+    }
+    return res;
   }
 
 }

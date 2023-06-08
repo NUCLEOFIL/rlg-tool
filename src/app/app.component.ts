@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
+import { Mission } from './class/mission/mission';
 import { Scenario } from './class/scenario/scenario';
+import { Step } from './class/step/step';
+import { Task } from './class/task/task';
+import { Role } from './class/role/role';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +17,14 @@ export class AppComponent {
 
   constructor() {
     this.scenario = new Scenario();
+
+    this.scenario.missions.forEach(mission => {
+      mission.equalizeLengths();   
+    });
   }
 
-  test() {
-    console.log(this.scenario);
+  test(): void {
+
   }
 
   downloadFile(): void {
@@ -30,7 +38,7 @@ export class AppComponent {
     URL.revokeObjectURL(url);
   }
   
-  onFileSelected(event: any) {
+  onFileSelected(event: any): void {
     const file: File = event.target.files[0];
     if (file) {
       const reader: FileReader = new FileReader();
@@ -41,5 +49,24 @@ export class AppComponent {
         this.scenario = scenario;
       };
     }
+  }
+
+  addMissionStep(mission: Mission, index: number): void {
+    mission.addChronologieStep(index);
+    mission.equalizeLengths();
+  }
+
+  addRoleStep(mission: Mission, role: Role, index: number): void {
+    role.addChronologieStep(index);
+    mission.equalizeLengths();
+  }
+
+  addTask(mission: Mission, role: Role, i: number, j: number, type: string) {
+    role.addTask(i, j, type);
+    mission.equalizeLengths();
+  }
+
+  dontContainFinalOrRepeatTask(tasks: (Task|null)[]): boolean {
+    return !(tasks.some(task => task?.type == 'final') || tasks.some(task => task?.type == 'repeat'));
   }
 }

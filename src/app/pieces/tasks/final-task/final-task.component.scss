@@ -9,7 +9,7 @@
 
     &-menu {
         position: absolute;
-        width: 150px;
+        width: 200px;
         height: 50px;
         background-color: #f7f7f7;
         z-index: -1;
@@ -30,6 +30,15 @@
         }
 
         mat-icon:hover {
+            opacity: 0.75;
+        }
+
+        &-changeMenuButton {
+            border-radius: 10px;
+            margin-bottom: 5px;
+        }
+
+        &-changeMenuButton:hover {
             opacity: 0.75;
         }
     }
@@ -94,13 +103,13 @@
         height: 150px;
         background-color: #f7f7f7;
         z-index: -1;
-        bottom: 0;
-        left: 25px;
+        bottom: 10px;
+        left: 50px;
         border: solid black 1px;
-        border-bottom-left-radius: 10px;
+        border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
         transition: transform 0.5s ease;
-        border-top: none;
+        border-left: none;
         display: flex;
         flex-direction: row;
 
@@ -183,7 +192,7 @@
     }
 
     &-prerequires.show {
-        transform: translateY(100%);
+        transform: translateX(100%);
     }
 
     &-attach {
@@ -291,7 +300,7 @@
                 input {
                     border-top-right-radius: 0px;
                     border-bottom-right-radius: 0px;
-                    width: 20px;
+                    width: 50px;
                     text-align: center;
                     z-index: 2;
                 }

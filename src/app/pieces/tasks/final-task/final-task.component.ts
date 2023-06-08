@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Mission } from 'src/app/class/mission/mission';
+import { Role } from 'src/app/class/role/role';
+import { Task } from 'src/app/class/task/task';
 
 @Component({
   selector: 'app-final-task',
@@ -11,23 +14,26 @@ export class FinalTaskComponent implements OnInit {
   displaySymbolChoice: string = 'hide';
   displayPrequires: string = 'hide';
 
-  durationUnit: string = 'UT';
-  duration: number = 1;
   pieceWidth: string = '400px';
 
-  symbol: string = ''; // A changer quand implémentation des données
-  symbolColor: string = ''; //A changer quand implémentation des données
+  @Input() task: Task = new Task('normal');
+  @Input() mission!: Mission;
+  @Input() role!: Role;
+  @Input() i!: number;
+  @Input() j!: number;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.durationChange();
   }
-
+  
   durationChange(): void {
-    if(this.durationUnit === 'UT') {
-      if(this.duration >= 1 && this.duration <= 10) {
-        this.pieceWidth = (this.duration*400)+'px';
-      } else if(this.duration > 10) {
+    /*
+    if(this.task.durationUnit === 'UT') {
+      if(this.task.duration >= 1 && this.task.duration <= 10) {
+        this.pieceWidth = (this.task.duration*400)+'px';
+      } else if(this.task.duration > 10) {
         this.pieceWidth = '4000px';
       } else {
         this.pieceWidth = '400px';
@@ -35,22 +41,34 @@ export class FinalTaskComponent implements OnInit {
     } else {
       this.pieceWidth = '400px';
     }
+    */
   }
 
   onClickErase(): void {
-    
+    this.task.duration = 1;
+    this.task.durationUnit = 'UT';
+    this.task.identifier = '';
+    this.task.objective = '';
+    this.task.symbol.color = '';
+    this.task.symbol.symbol = '';
   } 
 
   onClickDots(): void {
     
   }
 
-  onClickChange(): void {
-
+  onClickChange(type: string): void {
+    if (type == 'annexe') {
+      this.task.symbol.color = '';
+      this.task.symbol.symbol = '';
+    }
+    this.task.changeType(type);
+    this.mission.equalizeLengths();
   }
 
   onClickDelete(): void {
-    
+    this.role.removeTask(this.i, this.j);
+    this.mission.equalizeLengths();
   }
 
   changeDisplaySymbolChoice(): void {
@@ -62,8 +80,8 @@ export class FinalTaskComponent implements OnInit {
   }
 
   setSymbol(symbol: string, symbolColor: string): void {
-    this.symbol = symbol;
-    this.symbolColor = symbolColor;
+    this.task.symbol.symbol = symbol;
+    this.task.symbol.color = symbolColor;
     this.displaySymbolChoice = 'hide';
   }
 
@@ -73,6 +91,24 @@ export class FinalTaskComponent implements OnInit {
     } else {
       this.displayPrequires = 'show';
     }
+  }
+
+  moveTask(direction: string): void {
+    this.role.moveTask(this.i, this.j, direction);
+    this.displayMenu = 'hide';
+    this.displayPrequires = 'hide';
+    this.displaySymbolChoice = 'hide';
+    this.mission.equalizeLengths();
+  }
+
+  canMoveTo(direction: string): boolean {
+    let res: boolean = true;
+    if (direction == 'left') {
+      if (this.role.tasks[this.i][this.j-1] instanceof Task || this.j == 0) {
+        res = false;
+      }
+    }
+    return res;
   }
 
 }

@@ -15,8 +15,13 @@
                             <div class="container-scenario-chronologie-title">Chronologie générale de la mission</div>
                             <div class="container-scenario-chronologie-steps">
                                 <div *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i">
-                                    <app-step *ngIf="step != null" [step]="step"></app-step>
-                                    <div [style.width]="'400px'" *ngIf="step == null"></div>
+                                    <app-step *ngIf="step != null" [step]="step" [parent]="mission" [index]="i" [mission]="mission"></app-step>
+                                    <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
+                                        <button mat-button (click)="addMissionStep(mission, i)"><mat-icon fontIcon="add"></mat-icon></button>
+                                    </div>
+                                </div>
+                                <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;">
+                                    <button mat-button (click)="addMissionStep(mission, mission.chronologie.length)"><mat-icon fontIcon="add"></mat-icon></button>
                                 </div>
                             </div>
                         </div>           
@@ -37,32 +42,53 @@
                                             <div class="container-scenario-main-missions-mission-roles-role-chronologie-steps">
 
                                                 <div *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i">
-                                                    <app-step *ngIf="step != null" [step]="step"></app-step>
-                                                    <div [style.width]="'400px'" *ngIf="step == null"></div>
+                                                    <app-step *ngIf="step != null" [step]="step" [parent]="role" [index]="i" [mission]="mission"></app-step>
+                                                    <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
+                                                        <button mat-button (click)="addRoleStep(mission, role, i)"><mat-icon fontIcon="add"></mat-icon></button>
+                                                    </div>
                                                 </div>   
-
+                                                <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;">
+                                                    <button mat-button (click)="addRoleStep(mission, role, role.chronologie.length)"><mat-icon fontIcon="add"></mat-icon></button>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div style="display: flex; flex-direction: row;">
                                             <app-role [style.z-index]="2" [role]="role"></app-role>
-                                            <div class="container-scenario-main-missions-mission-roles-role-tasks"
-                                                [style.z-index]="1">
-                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                                    [style.z-index]="2">
-                                                    <app-task [style.z-index]="3"></app-task>
-                                                    <app-task [style.z-index]="2"></app-task>
-                                                    <app-repeat-task [style.z-index]="1"></app-repeat-task>
-                                                </div>
-                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                                    [style.z-index]="2">
-                                                    <app-annexe-task [style.z-index]="3"></app-annexe-task>
-                                                    <app-optionnal-task [style.z-index]="2"></app-optionnal-task>
-                                                    <app-final-task [style.z-index]="1"></app-final-task>
-                                                </div>
-                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                                    [style.z-index]="2">
-                                                    <app-random-event [style.z-index]="2"></app-random-event>
+                                            <div class="container-scenario-main-missions-mission-roles-role-tasks" [style.z-index]="1">
+                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
+                                                    <div *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j">
+                                                        <div *ngIf="task != null">
+                                                            <app-task *ngIf="task.type == 'normal'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-task>
+                                                            <app-annexe-task *ngIf="task.type == 'annexe'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-annexe-task>
+                                                            <app-random-event *ngIf="task.type == 'event'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-random-event>
+                                                            <app-optionnal-task *ngIf="task.type == 'optionnal'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-optionnal-task>
+                                                            <app-final-task *ngIf="task.type == 'final'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-final-task>
+                                                            <app-repeat-task *ngIf="task.type == 'repeat'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-repeat-task>
+                                                        </div>
+                                                        <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="task == null">
+                                                            <button mat-button [matMenuTriggerFor]="addTaskMenu"><mat-icon fontIcon="add"></mat-icon></button>
+                                                            <mat-menu #addTaskMenu="matMenu">
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, i, j, 'normal')">Ajouter une Tâche</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, i, j, 'annexe')">Ajouter une Tâche annexe</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, i, j, 'optionnal')">Ajouter une Tâche optionnelle</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, i, j, 'final')" *ngIf="dontContainFinalOrRepeatTask(tasks)">Ajouter une Tâche finale</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, i, j, 'event')">Ajouter un Événement aléatoire</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, i, j, 'repeat')" *ngIf="dontContainFinalOrRepeatTask(tasks)">Recommencer le tour</button>
+                                                            </mat-menu>
+                                                        </div>
+                                                    </div>
+                                                    <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="dontContainFinalOrRepeatTask(tasks)">
+                                                        <button mat-button [matMenuTriggerFor]="addTaskMenu"><mat-icon fontIcon="add"></mat-icon></button>
+                                                        <mat-menu #addTaskMenu="matMenu">
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, i, tasks.length, 'normal')">Ajouter une Tâche</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, i, tasks.length, 'annexe')">Ajouter une Tâche annexe</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, i, tasks.length, 'optionnal')">Ajouter une Tâche optionnelle</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, i, tasks.length, 'final')">Ajouter une Tâche finale</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, i, tasks.length, 'event')">Ajouter un Événement aléatoire</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, i, tasks.length, 'repeat')">Recommencer le tour</button>
+                                                        </mat-menu>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

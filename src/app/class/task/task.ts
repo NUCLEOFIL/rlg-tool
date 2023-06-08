@@ -6,13 +6,13 @@ import { Symbol } from "../symbol/symbol";
 
 export class Task {
 
-    type: string;   //peut être : normal / annexe / event / optionnal / final / repeater
+    type: string;   //peut être : normal / annexe / event / optionnal / final / repeat
     identifier: string = '';
     symbol: Symbol = new Symbol();
     objective: string = '';
     antecedents: Task[] = [];
     duration: number = 1;
-    durationUnite: string = 'UT';
+    durationUnit: string = 'UT';
     comments: Comment[] = [];
     character!: Character;
     repeat: Repeat = new Repeat();
@@ -24,4 +24,13 @@ export class Task {
         this.type = type;
     }
 
+    public changeType(type: string) {
+        if (type == 'annexe') {
+            this.type = type;
+            this.symbol.color = '';
+            this.symbol.symbol = '';
+        } else {
+            this.type = type;
+        }
+    }
 }

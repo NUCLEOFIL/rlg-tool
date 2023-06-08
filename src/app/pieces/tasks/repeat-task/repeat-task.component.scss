@@ -11,12 +11,12 @@
 
     &-menu {
         position: absolute;
-        width: 150px;
+        width: 200px;
         height: 50px;
         background-color: #f7f7f7;
         z-index: -1;
         top: -50px;
-        left: 30%;
+        left: 35%;
         transform: translateX(-50%);
         transition: transform 0.5s ease;
         border-top-left-radius: 10px;
@@ -70,12 +70,12 @@
         z-index: 2;
 
         label {
-            margin-top: 15%;
+            margin-top: 10%;
             font-family: 'Glacial Indifference Bold';
             margin-bottom: 10px;
             text-align: center;
             width: 70%;
-            font-size: 17px;
+            font-size: 23px;
         }
 
         textarea {

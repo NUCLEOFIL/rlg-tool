@@ -29,7 +29,7 @@
 
     &-scenario {
         &-chronologie {
-            margin-bottom: 400px;
+            margin-bottom: 450px;
             position: relative;
             left: 800px;
 
@@ -63,7 +63,26 @@
                     flex-direction: column;
                     margin-bottom: 100px;
                     position: relative;
-                    top: -734px;
+                    top: -784px;
+
+                    &-buttonAdd {
+                        display: flex;
+                        width: 400px;
+                        justify-content: center;
+                        align-items: center;
+
+                        button {
+                            border-radius: 10px;
+                            background-color: #f7f7f7;
+                            border: solid black 1px;
+                            width: 75px;
+                            height: 75px;
+
+                            mat-icon {
+                                transform: scale(1.5);
+                            }
+                        }
+                    }
 
                     &-missionPieces {
                         display: flex;
@@ -74,7 +93,7 @@
                         display: flex;
                         flex-direction: column;
                         position: relative;
-                        top: -359px;
+                        top: -409px;
 
                         &-role {
                             display: flex;
@@ -82,7 +101,7 @@
                             margin-bottom: 50px;
 
                             &-chronologie {
-                                margin-bottom: 25px;
+                                margin-bottom: 75px;
                                 margin-left: 400px;
                     
                                 &-title {
@@ -105,6 +124,15 @@
                                 &-inlineTasks {
                                     display: flex;
                                     flex-direction: row;
+                                }
+
+                                &-menuButton {
+                                    border-radius: 10px;
+                                    margin-bottom: 5px;
+                                }
+
+                                &-menuButton:hover {
+                                    opacity: 0.75;
                                 }
                             }
                         }
