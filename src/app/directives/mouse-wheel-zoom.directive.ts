@@ -15,7 +15,12 @@ export class MouseWheelZoomDirective {
   @HostListener('wheel', ['$event'])
   onMouseWheel(event: WheelEvent) {
     event.preventDefault();
-    const zoomLevel = event.deltaY < 0 ? 0.1 : -0.1;
+    let zoomLevel: number = 0;
+    if (event.deltaY < 0) {
+      zoomLevel = 0.1
+    } else if (this.zoom > 0.3) {
+      zoomLevel = -0.1
+    }
     this.zoom += zoomLevel;
     this.element.style.transform = `scale(${this.zoom})`;
   }
