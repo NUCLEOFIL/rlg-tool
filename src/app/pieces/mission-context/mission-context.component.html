@@ -6,6 +6,7 @@
     <div class="piece-menu" [class]="displayMenu">
         <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
         <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"></mat-icon>
         <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
     </div>
 

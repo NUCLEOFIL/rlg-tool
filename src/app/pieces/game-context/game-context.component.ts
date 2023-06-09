@@ -18,7 +18,11 @@ export class GameContextComponent implements OnInit {
   displayMenu: string = 'hide';
 
   onClickErase(): void {
-    
+    this.gameContext.univers = '';
+    this.gameContext.support = '';
+    this.gameContext.duration = '';
+    this.gameContext.intrigue = '';
+    this.gameContext.other = '';
   } 
 
   onClickDots(): void {

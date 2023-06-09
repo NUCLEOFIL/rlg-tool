@@ -22,7 +22,7 @@ export class GameEducationnalObjectiveComponent implements OnInit {
   }
 
   onClickErase(): void {
-    
+    this.gameEducationnalObjective.objective = '';
   } 
 
 }

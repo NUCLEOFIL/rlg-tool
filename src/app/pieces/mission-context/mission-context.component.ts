@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MissionContext } from 'src/app/class/mission-context/mission-context';
+import { Mission } from 'src/app/class/mission/mission';
+import { Scenario } from 'src/app/class/scenario/scenario';
 
 @Component({
   selector: 'app-mission-context',
@@ -11,6 +13,8 @@ export class MissionContextComponent implements OnInit {
   constructor() { }
 
   @Input() missionContext: MissionContext = new MissionContext();
+  @Input() scenario: Scenario = new Scenario();
+  @Input() i: number = 0;
 
   ngOnInit(): void {
   }
@@ -22,11 +26,26 @@ export class MissionContextComponent implements OnInit {
   }
 
   onClickAdd(): void {
-    
+    this.scenario.missions.push(new Mission());
   }
 
   onClickErase(): void {
-    
+    this.missionContext.duration = '';
+    this.missionContext.intrigue = '';
+    this.missionContext.communication = '';
+    this.missionContext.various = '';
   } 
+
+  onClickDelete(): void {
+    this.scenario.missions.splice(this.i, 1);
+  }
+
+  canDelete(): boolean {
+    let res: boolean = true;
+    if (this.scenario.missions.length <= 1) {
+      res = false;
+    }
+    return res;
+  }
 
 }

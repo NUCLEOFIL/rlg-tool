@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Mission } from 'src/app/class/mission/mission';
 import { Ressource } from 'src/app/class/ressource/ressource';
 import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
 import { ObjectiveReward } from 'src/app/class/rewards/objective-reward/objective-reward';
@@ -19,10 +20,13 @@ import { SupplementaryRole } from 'src/app/class/supplementary-role/supplementar
 export class RoleComponent implements OnInit {
 
   @Input() role: Role = new Role();
+  @Input() mission: Mission = new Mission();
+  @Input() i: number = 0;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.mission.equalizeLengths();
   }
 
   displayMenu: string = 'hide';
@@ -33,15 +37,30 @@ export class RoleComponent implements OnInit {
   }
 
   onClickAdd(): void {
-    
+    this.mission.roles.push(new Role());
   }
 
   onClickErase(): void {
-    
+    this.role.intitule = '';
+    this.role.questName = '';
+    this.role.description = '';
+    this.role.educationnalObjectives = [new RoleEducationnalObjective()];
+    this.role.rewards = [];
+    this.role.stuff = '';
+    this.role.ressources = [];
+    this.role.supplementaryRoles = [];
   }
 
   onClickDelete(): void {
-    
+    this.mission.roles.splice(this.i, 1);
+  }
+
+  canDelete(): boolean {
+    let res: boolean = true;
+    if (this.mission.roles.length <= 2) {
+      res = false;
+    }
+    return res;
   }
 
   addEducationnalObjective(): void {

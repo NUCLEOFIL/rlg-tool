@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="container-scenario-main-missions">
-                    <div class="container-scenario-main-missions-mission" *ngFor="let mission of this.scenario.missions">
+                    <div class="container-scenario-main-missions-mission" *ngFor="let mission of this.scenario.missions, let i = index">
 
                         <div class="container-scenario-chronologie">
                             <div class="container-scenario-chronologie-title">Chronologie générale de la mission</div>
@@ -29,12 +29,12 @@
                         <div style="display: flex;">
 
                             <div class="container-scenario-main-missions-mission-missionPieces" [style.z-index]="3">
-                                <app-educational-objective [educationnalObjective]="mission.educationnalObjective"></app-educational-objective>
-                                <app-mission-context [style.z-index]="2" [missionContext]="mission.context"></app-mission-context>
+                                <app-educational-objective [educationnalObjective]="mission.educationnalObjective" [scenario]="scenario" [i]="i"></app-educational-objective>
+                                <app-mission-context [style.z-index]="2" [missionContext]="mission.context" [scenario]="scenario" [i]="i"></app-mission-context>
                             </div>
 
                             <div class="container-scenario-main-missions-mission-roles" [style.z-index]="2">
-                                <div class="container-scenario-main-missions-mission-roles-role" *ngFor="let role of mission.roles">
+                                <div class="container-scenario-main-missions-mission-roles-role" *ngFor="let role of mission.roles, let i = index">
 
                                     <div style="display: flex; flex-direction: column;">
                                         <div class="container-scenario-main-missions-mission-roles-role-chronologie">
@@ -54,7 +54,7 @@
                                         </div>
 
                                         <div style="display: flex; flex-direction: row;">
-                                            <app-role [style.z-index]="2" [role]="role"></app-role>
+                                            <app-role [style.z-index]="2" [role]="role" [mission]="mission" [i]="i"></app-role>
                                             <div class="container-scenario-main-missions-mission-roles-role-tasks" [style.z-index]="1">
                                                 <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
                                                     <div *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j">
