@@ -128,9 +128,9 @@ export class Mission {
             } else {
                 role.chronologie = [];
             }
-            
+
             // Pour les taches
-            role.tasks.forEach(inlineTasks => {
+            role.tasks.forEach((inlineTasks, index) => {
                 if (inlineTasks.some(element => element instanceof Task)) {
                     let lastIndexTask = inlineTasks.length-1;
                     while (!(inlineTasks[lastIndexTask] instanceof Task)) {
@@ -138,7 +138,7 @@ export class Mission {
                     }
                     inlineTasks.splice(lastIndexTask+1, inlineTasks.length);
                 } else {
-                    inlineTasks = [];
+                    role.tasks[index] = [];
                 }
             });
         });
