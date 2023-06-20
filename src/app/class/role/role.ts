@@ -62,4 +62,15 @@ export class Role {
             this.tasks[i][j+1] = tmp;
         }   
     }
+
+    public moveStep(i: number, direction: string): void {
+        let tmp: Step|null = this.chronologie[i];
+        if (direction == 'left') {
+            this.chronologie[i] = this.chronologie[i-1];
+            this.chronologie[i-1] = tmp;
+        } else if (direction == 'right') {
+            this.chronologie[i] = this.chronologie[i+1];
+            this.chronologie[i+1] = tmp;
+        }
+    }
 }

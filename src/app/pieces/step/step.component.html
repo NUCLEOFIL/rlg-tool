@@ -3,9 +3,11 @@
     <div class="piece-attach piece-attach-left"></div>
 
     <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="arrow_back_ios" (click)="moveStep('left')" *ngIf="index > 0"></mat-icon>
         <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
         <mat-icon fontIcon="delete" (click)="onClickDelete()"></mat-icon>
         <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+        <mat-icon fontIcon="arrow_forward_ios" (click)="moveStep('right')"></mat-icon>
     </div>
 
     <div class="piece-form">

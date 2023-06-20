@@ -43,6 +43,12 @@ export class StepComponent implements OnInit {
     this.mission.equalizeLengths();
   }
 
+  moveStep(direction: string) {
+    this.parent.moveStep(this.index, direction);
+    this.displayMenu = 'hide';
+    this.mission.equalizeLengths();
+  }
+
   durationChange(): void {
     /*
     if(this.step.durationUnit === 'UT') {

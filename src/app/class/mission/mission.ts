@@ -23,6 +23,17 @@ export class Mission {
         }
     }
 
+    public moveStep(i: number, direction: string): void {
+        let tmp: Step|null = this.chronologie[i];
+        if (direction == 'left') {
+            this.chronologie[i] = this.chronologie[i-1];
+            this.chronologie[i-1] = tmp;
+        } else if (direction == 'right') {
+            this.chronologie[i] = this.chronologie[i+1];
+            this.chronologie[i+1] = tmp;
+        }
+    }
+
     public calcMaxLineLength(): number {
         let length: number = 0;
         let cpt: number = 0;
