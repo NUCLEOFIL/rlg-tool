@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GameContext } from 'src/app/class/game-context/game-context';
+import { Scenario } from 'src/app/class/scenario/scenario';
+import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
 @Component({
   selector: 'app-game-context',
@@ -8,9 +10,10 @@ import { GameContext } from 'src/app/class/game-context/game-context';
 })
 export class GameContextComponent implements OnInit {
 
+  @Input() scenario: Scenario = new Scenario();
   @Input() gameContext: GameContext = new GameContext();
 
-  constructor() { }
+  constructor(private pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
   }
@@ -26,7 +29,7 @@ export class GameContextComponent implements OnInit {
   } 
 
   onClickDots(): void {
-    
+    this.pieceDetailsService.piece = this.scenario;
   }
 
 }

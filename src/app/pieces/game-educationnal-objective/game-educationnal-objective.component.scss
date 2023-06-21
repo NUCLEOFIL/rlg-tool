@@ -76,6 +76,14 @@
             font-size: 25px;
             font-family: 'Glacial Indifference Bold';
         }
+
+        &-comment {
+            transform: scale(1.2);
+            position: absolute;
+            top: 25px;
+            right: 5%;
+        }
+
         &-objective{
             height: 100%;
             margin-top: 10px;

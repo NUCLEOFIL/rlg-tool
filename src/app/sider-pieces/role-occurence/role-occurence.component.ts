@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Role } from 'src/app/class/role/role';
 
 @Component({
   selector: 'app-role-occurence',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./role-occurence.component.scss']
 })
 export class RoleOccurenceComponent implements OnInit {
+
+  @Input() role: Role = new Role();
 
   constructor() { }
 

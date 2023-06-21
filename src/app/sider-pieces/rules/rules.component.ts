@@ -14,17 +14,14 @@ export class RulesComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.scenario.ressources)
   }
 
   addRessource(): void {
     this.scenario.ressources.push(new Ressource());
-    console.log('ajout ressource');
   }
 
   removeRessource(index: number): void {
     this.scenario.ressources.splice(index, 1);
-    console.log('retrait ressource');
   }
 
 }

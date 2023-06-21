@@ -13,6 +13,8 @@ import { EducationnalObjective } from './class/educationnal-objective/educationn
 import { RoleOccurrence } from './class/role-occurrence/role-occurrence';
 import { SupplementaryRole } from './class/supplementary-role/supplementary-role';
 import { Symbol } from './class/symbol/symbol';
+import { PieceDetailsService } from './services/piece-details/piece-details.service';
+import { Comment } from './class/comment/comment';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +26,11 @@ export class AppComponent {
 
   scenario: Scenario = new Scenario();
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, protected pieceDetailsService: PieceDetailsService) {
+    pieceDetailsService.piece = this.scenario;
+
     this.scenario.missions.forEach(mission => {
-      mission.equalizeLengths();   
+      mission.equalizeLengths();
     });
   }
 
@@ -57,6 +61,7 @@ export class AppComponent {
         scenario.gameRules = jsonData.gameRules;
         scenario.characters = jsonData.characters.map((characterData: any) => Object.assign(new Character(), characterData));
         scenario.ressources = jsonData.ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
+        scenario.comments = jsonData.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
         scenario.missions = jsonData.missions.map((missionData: any) => Object.assign(new Mission(), missionData));
         scenario.missions.forEach((mission, index)=> {
           mission.chronologie = jsonData.missions[index].chronologie.map((chronologieData: any) => {
@@ -71,6 +76,7 @@ export class AppComponent {
               step.comments = step.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
             }
           });
+          mission.comments = jsonData.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
           mission.context = Object.assign(new MissionContext(), jsonData.missions[index].context);
           mission.context.comments = jsonData.missions[index].context.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
           mission.educationnalObjective = Object.assign(new EducationnalObjective(), jsonData.missions[index].educationnalObjective);
@@ -111,6 +117,7 @@ export class AppComponent {
           });
         });
         this.scenario = scenario;
+        this.pieceDetailsService.piece = this.scenario;
         this.cdr.detectChanges();
       };
     }

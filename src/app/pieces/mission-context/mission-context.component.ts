@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MissionContext } from 'src/app/class/mission-context/mission-context';
 import { Mission } from 'src/app/class/mission/mission';
 import { Scenario } from 'src/app/class/scenario/scenario';
+import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
 @Component({
   selector: 'app-mission-context',
@@ -10,7 +11,7 @@ import { Scenario } from 'src/app/class/scenario/scenario';
 })
 export class MissionContextComponent implements OnInit {
 
-  constructor() { }
+  constructor(private pieceDetailsService: PieceDetailsService) { }
 
   @Input() missionContext: MissionContext = new MissionContext();
   @Input() scenario: Scenario = new Scenario();
@@ -22,7 +23,7 @@ export class MissionContextComponent implements OnInit {
   displayMenu: string = 'hide';
 
   onClickDots(): void {
-    
+    this.pieceDetailsService.piece = this.scenario.missions[this.i];
   }
 
   onClickAdd(): void {

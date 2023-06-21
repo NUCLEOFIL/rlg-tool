@@ -1,3 +1,5 @@
+import { Comment } from "../comment/comment";
+
 export class Step {
 
     description: string = '';

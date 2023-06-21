@@ -75,6 +75,7 @@
         <div class="piece-form-top">
             <input class="piece-form-top-identifier" name="identifier" type="text" [(ngModel)]="task.identifier" placeholder="A" min="1" maxlength="5"/>
             <div class="piece-form-top-title">Tâche annexe</div> 
+            <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
         </div>
         <textarea class="piece-form-content" [(ngModel)]="task.objective" placeholder="Vérifier ses connaissances sur les formulaires PHP"></textarea>
         <div class="piece-form-bottom">

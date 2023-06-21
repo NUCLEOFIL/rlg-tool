@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Mission } from 'src/app/class/mission/mission';
 import { Role } from 'src/app/class/role/role';
 import { Step } from 'src/app/class/step/step';
+import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
 @Component({
   selector: 'app-step',
@@ -18,14 +19,14 @@ export class StepComponent implements OnInit {
   displayMenu: string = 'hide';
   pieceWidth = '400px';
 
-  constructor() { }
+  constructor(private pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
     this.durationChange();
   }
 
   onClickDots(): void {
-    
+    this.pieceDetailsService.piece = this.step;
   }
 
   onClickErase(): void {

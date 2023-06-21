@@ -86,6 +86,13 @@
             height: 50%;
             font-size: 15px;
         }
+
+        &-comment {
+            transform: scale(1.2);
+            position: absolute;
+            bottom: 50px;
+            left: 35px;
+        }
     }
 }
 

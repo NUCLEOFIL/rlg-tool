@@ -1,25 +1,22 @@
 <div class="form">
     <div class="form-comment">
-        <textarea [disabled]="true">Mon commentaire</textarea>
+        <textarea [disabled]="!isEditable" [(ngModel)]="comment.content"></textarea>
         <div class="form-comment-buttons">
-            <button mat-button>Modifier</button>
-            <button mat-button>Supprimer</button>
+            <button mat-button (click)="isEditable = !isEditable">Modifier</button>
+            <button mat-button (click)="removeComment(index)">Supprimer</button>
         </div>  
     </div>
-
-    <div class="form-answers">
-        <textarea [disabled]="true">Une réponse</textarea>
+    <div class="form-answers" *ngFor="let answer of comment.answers, let i = index">
+        <textarea [disabled]="!answerEditables[i]" [(ngModel)]="comment.answers[i]">Une réponse</textarea>
         <div class="form-comment-buttons">
-            <button mat-button>Modifier</button>
-            <button mat-button>Supprimer</button>
+            <button mat-button (click)="this.answerEditables[i] = !this.answerEditables[i]">Modifier</button>
+            <button mat-button (click)="removeAnwer(i)">Supprimer</button>
         </div>  
     </div>
-    
     <div class="form-newanswer">
-        <textarea></textarea>
+        <textarea [(ngModel)]="newAnswer"></textarea>
         <div class="form-newanswer-buttons">
-           <button mat-button>Répondre</button> 
+           <button mat-button (click)="addAnswer()">Répondre</button> 
         </div>
-        
     </div>
 </div>

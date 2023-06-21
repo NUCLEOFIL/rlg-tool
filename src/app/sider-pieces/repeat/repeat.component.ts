@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Task } from 'src/app/class/task/task';
 
 @Component({
   selector: 'app-repeat',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./repeat.component.scss']
 })
 export class RepeatComponent implements OnInit {
+
+  @Input() task: Task = new Task('normal');
 
   constructor() { }
 

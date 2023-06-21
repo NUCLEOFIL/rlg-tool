@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { EducationnalObjective } from 'src/app/class/educationnal-objective/educationnal-objective';
 import { Mission } from 'src/app/class/mission/mission';
 import { Scenario } from 'src/app/class/scenario/scenario';
+import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
 @Component({
   selector: 'app-educational-objective',
@@ -14,7 +15,7 @@ export class EducationalObjectiveComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() i: number = 0;
 
-  constructor() { }
+  constructor(private pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
   }
@@ -22,7 +23,7 @@ export class EducationalObjectiveComponent implements OnInit {
   displayMenu: string = 'hide';
 
   onClickDots(): void {
-
+    this.pieceDetailsService.piece = this.scenario.missions[this.i];
   }
 
   onClickAdd(): void {

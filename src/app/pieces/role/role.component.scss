@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined");
+
 .piece {
     --piece-background-color: #9ad5ec;
 
@@ -127,6 +129,13 @@
             margin-top: 20px;
             font-size: 25px;
             font-family: 'Glacial Indifference Bold';
+        }
+
+        &-comment {
+            position: absolute;
+            right: 30%;
+            top: 25px;
+            transform: scale(1.2);
         }
 
         &-intitule {

@@ -3,6 +3,7 @@ import { MissionContext } from "../mission-context/mission-context";
 import { Role } from "../role/role";
 import { Step } from "../step/step";
 import { Task } from "../task/task";
+import { Comment } from "../comment/comment";
 
 export class Mission {
 
@@ -10,6 +11,7 @@ export class Mission {
     context: MissionContext = new MissionContext();
     roles: Role[] = [new Role(), new Role()];
     chronologie: (Step | null)[] = [new Step()];
+    comments: Comment[] = [];
 
     public addChronologieStep(index: number) {
         this.chronologie[index] = new Step();

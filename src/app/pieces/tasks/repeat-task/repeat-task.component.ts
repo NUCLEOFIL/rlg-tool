@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Mission } from 'src/app/class/mission/mission';
 import { Role } from 'src/app/class/role/role';
 import { Task } from 'src/app/class/task/task';
+import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
 @Component({
   selector: 'app-repeat-task',
@@ -18,7 +19,7 @@ export class RepeatTaskComponent implements OnInit {
   @Input() i!: number;
   @Input() j!: number;
 
-  constructor() { }
+  constructor(protected pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
   }
@@ -28,7 +29,7 @@ export class RepeatTaskComponent implements OnInit {
   } 
 
   onClickDots(): void {
-    
+    this.pieceDetailsService.piece = this.task;
   }
 
   onClickDelete(): void {

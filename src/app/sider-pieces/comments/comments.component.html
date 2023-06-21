@@ -3,15 +3,15 @@
         <div class="piece-form-title">Commentaires</div>
 
         <div class="piece-form-comments">
-            <app-comment></app-comment>
+            <app-comment *ngFor="let comment of piece.comments, let i = index" [comment]="comment" [comments]="piece.comments" [index]="i"></app-comment>
         </div>
 
         <div class="piece-form-newcomment">
             <div class="piece-form-newcomment-form">
                 <label>Nouveau commentaire</label>
-                <textarea></textarea>
+                <textarea [(ngModel)]="newComment"></textarea>
             </div>
-            <button mat-button>Ajouter un commentaire</button>
+            <button mat-button (click)="addComment()">Ajouter un commentaire</button>
         </div>
 
     </div>

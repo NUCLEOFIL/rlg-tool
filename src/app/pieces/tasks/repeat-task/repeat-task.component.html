@@ -13,4 +13,5 @@
         <label>Recommencer<br>le tour jusqu'à ce que :</label>
         <textarea [(ngModel)]="task.objective" placeholder="Faire valider au commanditaire"></textarea>
     </div>
+    <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
 </div>

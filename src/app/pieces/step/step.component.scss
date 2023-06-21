@@ -84,6 +84,13 @@
             font-family: 'Glacial Indifference Bold';
         }
 
+        &-comment {
+            transform: scale(1.2);
+            position: absolute;
+            top: 15px;
+            right: 5%;
+        }
+
         textarea {
             margin-top: 5px;
             padding: 10px;

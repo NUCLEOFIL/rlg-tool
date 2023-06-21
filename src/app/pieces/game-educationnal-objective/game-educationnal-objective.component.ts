@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GameEducationnalObjective } from 'src/app/class/game-educationnal-objective/game-educationnal-objective';
+import { Scenario } from 'src/app/class/scenario/scenario';
+import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
 @Component({
   selector: 'app-game-educationnal-objective',
@@ -8,9 +10,10 @@ import { GameEducationnalObjective } from 'src/app/class/game-educationnal-objec
 })
 export class GameEducationnalObjectiveComponent implements OnInit {
 
+  @Input() scenario: Scenario = new Scenario();
   @Input() gameEducationnalObjective: GameEducationnalObjective = new GameEducationnalObjective();
 
-  constructor() { }
+  constructor(private pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
   }
@@ -18,7 +21,7 @@ export class GameEducationnalObjectiveComponent implements OnInit {
   displayMenu: string = 'hide';
 
   onClickDots(): void {
-    
+    this.pieceDetailsService.piece = this.scenario;
   }
 
   onClickErase(): void {

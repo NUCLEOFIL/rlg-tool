@@ -5,6 +5,7 @@ import { SupplementaryRole } from "../supplementary-role/supplementary-role";
 import { Reward } from "../rewards/reward";
 import { RoleOccurrence } from "../role-occurrence/role-occurrence";
 import { RoleEducationnalObjective } from "../role-educationnal-objective/role-educationnal-objective";
+import { Comment } from "../comment/comment";
 
 export class Role {
 

@@ -103,6 +103,7 @@
         <div class="piece-form-top">
             <input class="piece-form-top-identifier" name="identifier" type="text" [(ngModel)]="task.identifier" placeholder="A" min="1" maxlength="5"/>
             <div class="piece-form-top-title">Tâche finale</div>
+            <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
             <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()">
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    

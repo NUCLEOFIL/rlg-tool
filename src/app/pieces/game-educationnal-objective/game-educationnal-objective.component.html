@@ -9,6 +9,7 @@
    
     <div class="piece-form">
         <div class="piece-form-title">Objectif pédagogique</div>
+        <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="scenario.comments.length > 0"></mat-icon>
         <div class="piece-form-objective">
             <label for="objective">Commun pour le jeu</label>
             <textarea name="objective" [(ngModel)]="gameEducationnalObjective.objective" placeholder="- Améliorer les softskills&#10;- Apprendre à coopérer"></textarea>

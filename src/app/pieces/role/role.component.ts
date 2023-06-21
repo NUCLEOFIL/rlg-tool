@@ -11,6 +11,7 @@ import { SkillReward } from 'src/app/class/rewards/skill-reward/skill-reward';
 import { RoleEducationnalObjective } from 'src/app/class/role-educationnal-objective/role-educationnal-objective';
 import { Role } from 'src/app/class/role/role';
 import { SupplementaryRole } from 'src/app/class/supplementary-role/supplementary-role';
+import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
 @Component({
   selector: 'app-role',
@@ -23,7 +24,7 @@ export class RoleComponent implements OnInit {
   @Input() mission: Mission = new Mission();
   @Input() i: number = 0;
 
-  constructor() { }
+  constructor(protected pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -33,7 +34,7 @@ export class RoleComponent implements OnInit {
   rewardType: number = 0;
 
   onClickDots(): void {
-    
+    this.pieceDetailsService.piece = this.role;
   }
 
   onClickAdd(): void {

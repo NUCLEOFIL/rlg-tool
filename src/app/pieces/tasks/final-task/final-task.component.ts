@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Mission } from 'src/app/class/mission/mission';
 import { Role } from 'src/app/class/role/role';
 import { Task } from 'src/app/class/task/task';
+import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
 @Component({
   selector: 'app-final-task',
@@ -22,7 +23,7 @@ export class FinalTaskComponent implements OnInit {
   @Input() i!: number;
   @Input() j!: number;
 
-  constructor() { }
+  constructor(private pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
     this.durationChange();
@@ -54,7 +55,7 @@ export class FinalTaskComponent implements OnInit {
   } 
 
   onClickDots(): void {
-    
+    this.pieceDetailsService.piece = this.task;
   }
 
   onClickChange(type: string): void {
