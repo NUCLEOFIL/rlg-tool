@@ -1,14 +1,21 @@
-<div class="piece">
+<div class="piece" [style.background]="task.supplementaryRole ?
+    'linear-gradient(165deg, rgba(154,213,236,1) 0%, rgba(154,213,236,1) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
+    : 'linear-gradient(165deg, rgba(154,213,236,1) 0%, rgba(154,213,236,1) 55%, rgba(0,0,0,1) 55%, rgba(0,0,0,1) 100%)'">
     <div class="piece-form">
         <div class="piece-title">Tâche liée au rôle supplémentaire</div>
+        <!--
         <div class="piece-form-checkbox">
             <input type="checkbox" [(ngModel)]="checkbox"/>
             <label>Oui</label>
         </div>
-        <div class="piece-form-select" *ngIf="checkbox">
+        œ-->
+        <div class="piece-form-select">
             <label>Rôle</label>
-            <select>
-                <option>Rôle 1</option>
+            <select [(ngModel)]="task.supplementaryRole">
+                <option selected [ngValue]="undefined">Aucun</option>
+                <ng-container *ngFor="let supplementaryRole of role.supplementaryRoles">
+                    <option [ngValue]="supplementaryRole">{{supplementaryRole.name}}</option>
+                </ng-container>
             </select>
         </div>
     </div>

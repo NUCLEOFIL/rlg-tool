@@ -4,13 +4,13 @@
             <mat-icon fontIcon="refresh"></mat-icon>
             <div class="piece-form-header-for">
                 <label>Répéter</label>
-                <input type="text"/>
+                <input type="text" [(ngModel)]="task.repeat.iteration"/>
                 <label>fois</label>
             </div>
         </div>
         <div class="piece-form-while">
             <label>ou jusqu'à ce que :</label>
-            <textarea></textarea>
+            <textarea [(ngModel)]="task.repeat.while"></textarea>
         </div>    
     </div>
 </div>

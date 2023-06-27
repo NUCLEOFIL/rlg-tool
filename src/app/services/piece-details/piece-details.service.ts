@@ -11,6 +11,7 @@ import { Scenario } from 'src/app/class/scenario/scenario';
 export class PieceDetailsService {
 
   piece!: (Task | Role | Mission | Step | Scenario);
+  parent!: (Role | Mission | Scenario);
 
   constructor() { }
 
@@ -52,5 +53,9 @@ export class PieceDetailsService {
 
   pieceAsScenario(): Scenario {
     return this.piece as Scenario;
+  }
+
+  parentAsRole(): Role {
+    return this.parent as Role;
   }
 }

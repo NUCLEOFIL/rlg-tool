@@ -54,6 +54,7 @@ export class AnnexeTaskComponent implements OnInit {
 
   onClickDots(): void {
     this.pieceDetailsService.piece = this.task;
+    this.pieceDetailsService.parent = this.role;
   }
 
   onClickDelete(): void {

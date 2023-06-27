@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Character } from 'src/app/class/character/character';
+import { Task } from 'src/app/class/task/task';
 
 @Component({
   selector: 'app-character',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CharacterComponent implements OnInit {
 
+  @Input() task: Task = new Task('normal');
+  @Input() character: Character = new Character();
+  @Input() index: number = 0;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  unassignCharacter(index: number): void {
+    this.task.characters.splice(index, 1);
   }
 
 }

@@ -105,10 +105,10 @@
     <div class="container-sider">
         <app-rules class="container-sider-element" [scenario]="scenario"></app-rules>
         <app-role-occurence class="container-sider-element" [role]="pieceDetailsService.pieceAsRole()" *ngIf="pieceDetailsService.pieceIsRole()"></app-role-occurence>
-        <app-supplementary-task class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-supplementary-task>
+        <app-supplementary-task class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" [role]="pieceDetailsService.parentAsRole()" *ngIf="pieceDetailsService.pieceIsTask()"></app-supplementary-task>
         <app-repeat class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-repeat>
         <app-interupt class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-interupt>
-        <app-characters class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-characters>
+        <app-characters class="container-sider-element" [scenario]="scenario" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-characters>
         <app-comments class="container-sider-element" [piece]="pieceDetailsService.piece"></app-comments>
     </div>
 

@@ -111,6 +111,19 @@ export class AppComponent {
                 if (task instanceof Task) {
                   task.comments = task.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
                   task.symbol = Object.assign(new Symbol(), task.symbol);
+                  task.characters = task.characters.map((characterData: any) => Object.assign(new Character(), characterData));
+                  task.characters.forEach((character, index) => {
+                    console.log(character instanceof Character);
+                    let i: number | undefined = scenario.characters.findIndex(element => element.name == character.name && element.description == character.description && element.color == character.color);
+                    if (typeof i !== 'undefined' && i !== -1) {
+                      task.characters[i] = scenario.characters[index];
+                    }
+                  });
+                  let supplementaryRoleIndex: number | undefined = role.supplementaryRoles.findIndex(element =>
+                    element.name == task.supplementaryRole.name 
+                    && element.color == task.supplementaryRole.color
+                  );
+                  task.supplementaryRole = role.supplementaryRoles[supplementaryRoleIndex];
                 }
               });
             });

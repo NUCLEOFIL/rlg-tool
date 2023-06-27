@@ -56,6 +56,7 @@ export class OptionnalTaskComponent implements OnInit {
 
   onClickDots(): void {
     this.pieceDetailsService.piece = this.task;
+    this.pieceDetailsService.parent = this.role;
   }
 
   onClickChange(type: string): void {

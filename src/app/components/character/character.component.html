@@ -3,13 +3,13 @@
         <mat-icon fontIcon="person"></mat-icon>
         <div class="character-top-name">
             <label for="name">Nom</label>
-            <input name="name" type="text"/>                    
+            <input name="name" type="text" [(ngModel)]="character.name"/>                    
         </div>
     </div>
     <div class="character-infos">
         <div class="character-infos-description">
             <label for="description">Description</label>
-            <textarea name="description"></textarea>
+            <textarea name="description" [(ngModel)]="character.description"></textarea>
         </div>
 
         <!--
@@ -27,8 +27,8 @@
 
         <div class="character-infos-color">
             <label for="color">Couleur</label>
-            <input name="color" type="color"/>
+            <input name="color" type="color" [(ngModel)]="character.color"/>
         </div>
     </div>
-    <button mat-button>Retirer de ma tâche</button>
+    <button mat-button (click)="unassignCharacter(index)">Retirer de ma tâche</button>
 </div>

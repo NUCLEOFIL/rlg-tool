@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { RoleOccurrence } from 'src/app/class/role-occurrence/role-occurrence';
 import { Role } from 'src/app/class/role/role';
 
 @Component({
@@ -13,6 +14,14 @@ export class RoleOccurenceComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  addOccurrence(): void {
+    this.role.occurences.push(new RoleOccurrence());
+  }
+
+  removeOccurrence(index: number): void {
+    this.role.occurences.splice(index, 1);
   }
 
 }

@@ -4,7 +4,6 @@
     width: 400px;
     height: 400px;
     position: relative;
-    background-color: var(--piece-background-color);
     transition: all 0.5s ease;
 
     &-menu {
@@ -203,7 +202,6 @@
             border-right: solid black 1px;
             width: 40px;
             height: 40px;
-            background-color: var(--piece-background-color);
             transform: translateY(-50%) rotate(45deg);
             position: absolute;
             right: -20px;
@@ -281,7 +279,14 @@
             &-comment {
                 transform: scale(1.2);
                 position: absolute;
-                top: 25px;
+                top: 20px;
+                right: 25%;
+            }
+
+            &-repeat {
+                transform: scale(1.2);
+                position: absolute;
+                top: 45px;
                 right: 25%;
             }
 
@@ -341,6 +346,20 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+            }
+
+            &-interrupt {
+                transform: scale(1.2);
+                position: absolute;
+                right: 41%;
+                bottom: 25px;
+            }
+
+            &-character {
+                transform: scale(1.2);
+                position: absolute;
+                left: 40%;
+                bottom: 25px;
             }
         }
     }

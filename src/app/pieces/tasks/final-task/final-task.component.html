@@ -1,4 +1,7 @@
-<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displayPrequires='hide'; displaySymbolChoice='hide'">
+<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displayPrequires='hide'; displaySymbolChoice='hide'"
+    [style.background]="task.supplementaryRole ?
+    'linear-gradient(140deg, var(--piece-background-color) 0%, var(--piece-background-color) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
+    : 'var(--piece-background-color)'">
     <div class="piece-attach piece-attach-left"></div>
 
     <div class="piece-menu" [class]="displayMenu">
@@ -104,6 +107,7 @@
             <input class="piece-form-top-identifier" name="identifier" type="text" [(ngModel)]="task.identifier" placeholder="A" min="1" maxlength="5"/>
             <div class="piece-form-top-title">Tâche finale</div>
             <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
+            <mat-icon class="piece-form-top-repeat" fontIcon="refresh" *ngIf="task.repeat.iteration > 0 || task.repeat.while != ''"></mat-icon>
             <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()">
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    
@@ -113,6 +117,8 @@
             <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
                 Prérequis
             </button>
+            <mat-icon class="piece-form-bottom-character" fontIcon="person" *ngIf="task.characters.length > 0"></mat-icon>
+            <mat-icon class="piece-form-bottom-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
             <div class="piece-form-bottom-duration">
                 <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()"/>
                 <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange()">

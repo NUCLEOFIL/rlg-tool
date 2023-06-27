@@ -7,13 +7,13 @@
                 <mat-icon fontIcon="person_add"></mat-icon>
                 <div class="piece-form-create-top-name">
                     <label for="name">Nom</label>
-                    <input name="name" type="text" />
+                    <input name="name" type="text" [(ngModel)]="newCharacter.name"/>
                 </div>
             </div>
             <div class="piece-form-create-infos">
                 <div class="piece-form-create-infos-description">
                     <label for="description">Description</label>
-                    <textarea name="description"></textarea>
+                    <textarea name="description" [(ngModel)]="newCharacter.description"></textarea>
                 </div>
 
                 <!--
@@ -31,10 +31,10 @@
 
                 <div class="piece-form-create-infos-color">
                     <label for="color">Couleur</label>
-                    <input name="color" type="color" />
+                    <input name="color" type="color" [(ngModel)]="newCharacter.color"/>
                 </div>
             </div>
-            <button mat-button>Créer</button>
+            <button mat-button (click)="createCharacter()">Créer</button>
         </div>
 
         <div class="piece-form-select">
@@ -43,12 +43,14 @@
                 <mat-icon fontIcon="person"></mat-icon>
                 <div class="piece-form-select-container-select">
                     <label for="name">Nom</label>
-                    <select name="name">
-                        <option>test</option>
+                    <select name="name" [(ngModel)]="selectedAssignCharacter">
+                        <ng-container *ngFor="let character of scenario.characters">
+                            <option [ngValue]="character" *ngIf="notAlreadyAssigned(character)">{{character.name}}</option>
+                        </ng-container>
                     </select>
                 </div>
             </div>
-            <button mat-button>Sélectionner</button>
+            <button mat-button (click)="assignCharacter()">Sélectionner</button>
         </div>
 
         <div class="piece-form-delete">
@@ -57,18 +59,17 @@
                 <mat-icon fontIcon="person_off"></mat-icon>
                 <div class="piece-form-delete-container-select">
                     <label for="name">Nom</label>
-                    <select name="name">
-                        <option>test</option>
+                    <select name="name" [(ngModel)]="selectedDeleteCharacterIndex">
+                        <option [ngValue]="i" *ngFor="let character of scenario.characters, let i = index">{{character.name}}</option>
                     </select>
                 </div>
             </div>
-            <button mat-button>Supprimer</button>
+            <button mat-button (click)="deleteCharacter()">Supprimer</button>
         </div>
 
         <div>
             <div class="piece-form-title">Personnage(s) utilisé(s)</div>
-            <app-character></app-character>
-            <app-character></app-character>
+            <app-character [task]="task" [character]="character" [index]="i" *ngFor="let character of task.characters, let i = index"></app-character>
         </div>
 
     </div>

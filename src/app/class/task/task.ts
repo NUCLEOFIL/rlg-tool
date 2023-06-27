@@ -14,7 +14,7 @@ export class Task {
     duration: number = 1;
     durationUnit: string = 'UT';
     comments: Comment[] = [];
-    character!: Character;
+    characters: Character[] = [];
     repeat: Repeat = new Repeat();
 
     supplementaryRole!: SupplementaryRole;
