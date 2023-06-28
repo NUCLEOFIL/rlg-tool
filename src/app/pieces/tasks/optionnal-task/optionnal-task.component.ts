@@ -23,7 +23,7 @@ export class OptionnalTaskComponent implements OnInit {
   @Input() i!: number;
   @Input() j!: number;
 
-  urlIcon: string = '';
+  urlIcon: string = 'url("../../../../assets/background-images/optionnal.png")';
 
   constructor(private pieceDetailsService: PieceDetailsService) { }
 
