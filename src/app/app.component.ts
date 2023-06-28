@@ -113,7 +113,6 @@ export class AppComponent {
                   task.symbol = Object.assign(new Symbol(), task.symbol);
                   task.characters = task.characters.map((characterData: any) => Object.assign(new Character(), characterData));
                   task.characters.forEach((character, index) => {
-                    console.log(character instanceof Character);
                     let i: number | undefined = scenario.characters.findIndex(element => element.name == character.name && element.description == character.description && element.color == character.color);
                     if (typeof i !== 'undefined' && i !== -1) {
                       task.characters[i] = scenario.characters[index];
@@ -153,5 +152,17 @@ export class AppComponent {
 
   dontContainFinalOrRepeatTask(tasks: (Task|null)[]): boolean {
     return !(tasks.some(task => task?.type == 'final') || tasks.some(task => task?.type == 'repeat'));
+  }
+
+  dontHaveTaskAfter(tasks: (Task|null)[], index: number): boolean {
+    return !tasks.slice(index, tasks.length).some(task => task instanceof Task);
+  }
+
+  canCreateFinalOrRepeatTask(tasks: (Task|null)[], index: number): boolean {
+    let res: boolean = false;
+    if (this.dontContainFinalOrRepeatTask(tasks) && this.dontHaveTaskAfter(tasks, index)) {
+      res = true;
+    }
+    return res;
   }
 }
