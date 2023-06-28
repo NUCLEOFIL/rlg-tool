@@ -113,7 +113,8 @@
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    
         </div>
-        <textarea class="piece-form-content" [(ngModel)]="task.objective" placeholder="Partir d'un template / Partir de zéro"></textarea>
+        <textarea class="piece-form-content" [(ngModel)]="task.objective" [style.background-image]="(i == findFirstIndexOfTaskType('optionnal')[0] && j == findFirstIndexOfTaskType('optionnal')[1]) ? urlIcon : ''"
+            placeholder="Partir d'un template / Partir de zéro"></textarea>
         <div class="piece-form-bottom">
             <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
                 Prérequis

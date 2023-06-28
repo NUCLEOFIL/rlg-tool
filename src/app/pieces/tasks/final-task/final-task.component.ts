@@ -23,6 +23,8 @@ export class FinalTaskComponent implements OnInit {
   @Input() i!: number;
   @Input() j!: number;
 
+  urlIcon: string = 'url("../../../../assets/background-images/final.png")';
+
   constructor(private pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
@@ -113,4 +115,14 @@ export class FinalTaskComponent implements OnInit {
     return res;
   }
 
+  findFirstIndexOfTaskType(type: string): number[] {
+    for(let i = 0; i < this.role.tasks.length; i++) {
+      for(let j = 0; j < this.role.tasks[i].length; j++) {
+        if (this.role.tasks[i][j] instanceof Task && this.role.tasks[i][j]?.type == type) {
+          return [i, j];
+        }
+      }
+    }
+    return [0, 0];
+  } 
 }

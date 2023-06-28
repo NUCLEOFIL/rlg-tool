@@ -113,7 +113,8 @@
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    
         </div>
-        <textarea class="piece-form-content" [(ngModel)]="task.objective" placeholder="Positionner dans l'ordre les balises HTML principales"></textarea>
+        <textarea class="piece-form-content" [(ngModel)]="task.objective" [style.background-image]="(i == findFirstIndexOfTaskType('normal')[0] && j == findFirstIndexOfTaskType('normal')[1]) ? urlIcon : ''"
+            placeholder="Positionner dans l'ordre les balises HTML principales"></textarea>
         <div class="piece-form-bottom">
             <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
                 Prérequis
