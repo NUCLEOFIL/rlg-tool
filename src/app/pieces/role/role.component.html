@@ -11,9 +11,10 @@
     </div>
 
     <div class="piece-form">
-        <div class="piece-form-title">Rôle 1</div>
+        <div class="piece-form-title">{{role.intitule ? role.intitule : 'Role '+(i+1)}}</div>
         <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="role.comments.length > 0"></mat-icon>
-        <img src="../../../assets/background-images/role_opacity0.png"/>
+        <img src="../../../assets/background-images/role_opacity0.png" *ngIf="i == 0"/>
+        <img src="../../../assets/background-images/role2_opacity0.png" *ngIf="i == 1"/>
         <div class="piece-form-intitule">
             <label for="intitule">Intitulé</label>
             <input name="intitule" type="text" [(ngModel)]="role.intitule" placeholder="Développeur/euse web"/>   
