@@ -118,8 +118,8 @@
             <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
                 Prérequis
             </button>
-            <mat-icon class="piece-form-bottom-character" fontIcon="person" *ngIf="task.characters.length > 0"></mat-icon>
-            <mat-icon class="piece-form-bottom-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
+            <mat-icon class="piece-form-character" fontIcon="person" *ngIf="task.characters.length > 0"></mat-icon>
+            <mat-icon class="piece-form-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
             <div class="piece-form-bottom-duration">
                 <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()"/>
                 <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange()">

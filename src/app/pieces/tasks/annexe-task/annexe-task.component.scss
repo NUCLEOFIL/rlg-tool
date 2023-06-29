@@ -231,15 +231,21 @@
             &-comment {
                 transform: scale(1.2);
                 position: absolute;
-                top: 20px;
+                top: 8px;
                 right: 5%;
+                background-color: white;
+                border-radius: 50%;
+                padding: 4px;
             }
 
             &-repeat {
                 transform: scale(1.2);
                 position: absolute;
-                top: 45px;
+                top: 42px;
                 right: 5%;
+                background-color: white;
+                border-radius: 50%;
+                padding: 4px;
             }
 
             &-symbol {
@@ -303,13 +309,19 @@
                 position: absolute;
                 right: 41%;
                 bottom: 25px;
+                border-radius: 50%;
+                background-color: white;
+                padding: 4px;
             }
-
+    
             &-character {
                 transform: scale(1.2);
                 position: absolute;
                 left: 40%;
                 bottom: 25px;
+                border-radius: 50%;
+                background-color: white;
+                padding: 4px;
             }
         }
     }

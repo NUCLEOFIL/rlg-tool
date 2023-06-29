@@ -278,15 +278,21 @@
             &-comment {
                 transform: scale(1.2);
                 position: absolute;
-                top: 20px;
+                top: 8px;
                 right: 25%;
+                border-radius: 50%;
+                background-color: white;
+                padding: 4px;
             }
 
             &-repeat {
                 transform: scale(1.2);
                 position: absolute;
-                top: 45px;
+                top: 42px;
                 right: 25%;
+                border-radius: 50%;
+                background-color: white;
+                padding: 4px;
             }
 
             &-symbol {
@@ -347,19 +353,26 @@
                 justify-content: center;
             }
 
-            &-interrupt {
-                transform: scale(1.2);
-                position: absolute;
-                right: 41%;
-                bottom: 25px;
-            }
+        }
 
-            &-character {
-                transform: scale(1.2);
-                position: absolute;
-                left: 40%;
-                bottom: 25px;
-            }
+        &-interrupt {
+            transform: scale(1.2);
+            position: absolute;
+            right: 41%;
+            bottom: 25px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 4px;
+        }
+
+        &-character {
+            transform: scale(1.2);
+            position: absolute;
+            left: 40%;
+            bottom: 25px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 4px;
         }
     }
 }
