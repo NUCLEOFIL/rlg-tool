@@ -54,7 +54,7 @@
                                         </div>
 
                                         <div style="display: flex; flex-direction: row;">
-                                            <app-role [style.z-index]="2" [role]="role" [mission]="mission" [i]="i"></app-role>
+                                            <app-role [style.z-index]="2" [scenario]="scenario" [role]="role" [mission]="mission" [i]="i"></app-role>
                                             <div class="container-scenario-main-missions-mission-roles-role-tasks" [style.z-index]="1">
                                                 <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
                                                     <div *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j">

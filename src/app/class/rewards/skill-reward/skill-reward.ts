@@ -7,5 +7,6 @@ export class SkillReward extends Reward {
         super('skill');
     }
 
+    quantity: number = 1;
     skill!: Ressource;
 }

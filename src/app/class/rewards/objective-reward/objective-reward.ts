@@ -1,3 +1,4 @@
+import { RoleEducationnalObjective } from "../../role-educationnal-objective/role-educationnal-objective";
 import { Reward } from "../reward";
 
 export class ObjectiveReward extends Reward {
@@ -6,5 +7,5 @@ export class ObjectiveReward extends Reward {
         super('objective');
     }
 
-    name: string = '';
+    objective!: RoleEducationnalObjective;
 }

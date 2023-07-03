@@ -60,7 +60,7 @@
                 </div>
                 <div class="piece-form-rewards-reward-character" *ngIf="reward.type == 'character'">
                     <select [(ngModel)]="getCharacterReward(i).character">
-                        <option>Personnage 1</option>
+                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
@@ -73,21 +73,25 @@
                 </div>
                 -->
                 <div class="piece-form-rewards-reward-skill" *ngIf="reward.type == 'skill'">
-                    <input type="number"/>
+                    <input type="number" [(ngModel)]="getSkillReward(i).quantity"/>
                     <select [(ngModel)]="getSkillReward(i).skill">
-                        <option>Compétence 1</option>
+                        <ng-container *ngFor="let skill of role.ressources">
+                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                        </ng-container>
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-quest" *ngIf="reward.type == 'quest'">
-                    <select [(ngModel)]="getQuestReward(i).quest">
-                        <option>Quête 1</option>
+                    <select [(ngModel)]="getQuestReward(i).indexQuest">
+                        <ng-container *ngFor="let quest of mission.roles; let index = index">
+                           <option [ngValue]="index" *ngIf="i != index">{{quest.intitule ? quest.intitule : 'Role '+(index+1)}}</option> 
+                        </ng-container>
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-objective" *ngIf="reward.type == 'objective'">
-                    <select [(ngModel)]="getObjectiveReward(i).name">
-                        <option>Objectif pédagoqique 1</option>
+                    <select [(ngModel)]="getObjectiveReward(i).objective">
+                        <option [ngValue]="objective" *ngFor="let objective of role.educationnalObjectives">{{objective.objective}}</option>
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>

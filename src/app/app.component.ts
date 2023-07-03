@@ -15,6 +15,13 @@ import { SupplementaryRole } from './class/supplementary-role/supplementary-role
 import { Symbol } from './class/symbol/symbol';
 import { PieceDetailsService } from './services/piece-details/piece-details.service';
 import { Comment } from './class/comment/comment';
+import { Reward } from './class/rewards/reward';
+import { SkillReward } from './class/rewards/skill-reward/skill-reward';
+import { CharacterReward } from './class/rewards/character-reward/character-reward';
+import { QuestReward } from './class/rewards/quest-reward/quest-reward';
+import { ObjectsReward } from './class/rewards/objects-reward/objects-reward';
+import { ObjectiveReward } from './class/rewards/objective-reward/objective-reward';
+import { OtherReward } from './class/rewards/other-reward/other-reward';
 
 @Component({
   selector: 'app-root',
@@ -99,6 +106,41 @@ export class AppComponent {
             role.ressources = role.ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
             role.occurences = role.occurences.map((occurrenceData: any) => Object.assign(new RoleOccurrence(), occurrenceData));
             role.supplementaryRoles = role.supplementaryRoles.map((supplementaryRoleData: any) => Object.assign(new SupplementaryRole(), supplementaryRoleData));
+            role.rewards = role.rewards.map((rewardData: any) => {
+              if (rewardData.type == 'skill') {
+                return Object.assign(new SkillReward(), rewardData);
+              }
+              if (rewardData.type == 'character') {
+                return Object.assign(new CharacterReward(), rewardData);
+              }
+              if (rewardData.type == 'quest') {
+                return Object.assign(new QuestReward(), rewardData);
+              }
+              if (rewardData.type == 'objects') {
+                return Object.assign(new ObjectsReward(), rewardData);
+              }
+              if (rewardData.type == 'objective') {
+                return Object.assign(new ObjectiveReward(), rewardData);
+              }
+              if (rewardData.type == 'other') {
+                return Object.assign(new OtherReward(), rewardData);
+              }
+            });
+            role.rewards.forEach((reward: Reward, index: number) => {
+              if (reward instanceof SkillReward) {
+                let i: number = role.ressources.findIndex(element => element.type == 'attribut' && element.name == reward.skill.name && element.number == reward.skill.number);
+                reward.skill = role.ressources[i];
+              }
+              if (reward instanceof CharacterReward) {
+                let i: number = scenario.characters.findIndex(element => element.color == reward.character.color && element.description == reward.character.description && element.name == reward.character.name);
+                reward.character = scenario.characters[i];
+              }
+              if (reward instanceof ObjectiveReward) {
+                let i: number = role.educationnalObjectives.findIndex(element => element.objective == reward.objective.objective);
+                reward.objective = role.educationnalObjectives[i];
+              }
+              
+            });
             role.tasks.forEach((inlineTasks: any[], index: number) => {
               role.tasks[index] = inlineTasks.map((taskData: any) => {
                 if (taskData !== null) {

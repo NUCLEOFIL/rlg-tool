@@ -6,10 +6,10 @@ import { ObjectiveReward } from 'src/app/class/rewards/objective-reward/objectiv
 import { ObjectsReward } from 'src/app/class/rewards/objects-reward/objects-reward';
 import { OtherReward } from 'src/app/class/rewards/other-reward/other-reward';
 import { QuestReward } from 'src/app/class/rewards/quest-reward/quest-reward';
-import { Reward } from 'src/app/class/rewards/reward';
 import { SkillReward } from 'src/app/class/rewards/skill-reward/skill-reward';
 import { RoleEducationnalObjective } from 'src/app/class/role-educationnal-objective/role-educationnal-objective';
 import { Role } from 'src/app/class/role/role';
+import { Scenario } from 'src/app/class/scenario/scenario';
 import { SupplementaryRole } from 'src/app/class/supplementary-role/supplementary-role';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
@@ -20,6 +20,7 @@ import { PieceDetailsService } from 'src/app/services/piece-details/piece-detail
 })
 export class RoleComponent implements OnInit {
 
+  @Input() scenario: Scenario = new Scenario();
   @Input() role: Role = new Role();
   @Input() mission: Mission = new Mission();
   @Input() i: number = 0;
