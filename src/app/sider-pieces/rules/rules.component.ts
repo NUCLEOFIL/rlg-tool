@@ -21,7 +21,19 @@ export class RulesComponent implements OnInit {
   }
 
   removeRessource(index: number): void {
+    this.scenario.missions.forEach(mission => {
+      mission.roles.forEach(role => {
+        role.tasks.forEach(inlineTasks => {
+          inlineTasks.forEach(task => {
+            task?.prerequireRessources.forEach((prerequire, j) => {
+              if (this.scenario.ressources[index] == prerequire.ressource) {
+                task.prerequireRessources.splice(j, 1);
+              }
+            });
+          });
+        });
+      });
+    });
     this.scenario.ressources.splice(index, 1);
   }
-
 }

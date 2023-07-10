@@ -78,6 +78,15 @@ export class RoleComponent implements OnInit {
   }
 
   removeRessource(index: number): void {
+    this.role.tasks.forEach(inlineTasks => {
+      inlineTasks.forEach(task => {
+        task?.prerequireRessources.forEach((prerequire, j) => {
+          if (prerequire.ressource == this.role.ressources[index]) {
+            task.prerequireRessources.splice(j, 1);
+          }
+        });
+      });
+    });
     this.role.ressources.splice(index, 1);
   }
   

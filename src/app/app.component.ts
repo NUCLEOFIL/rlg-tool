@@ -22,6 +22,8 @@ import { QuestReward } from './class/rewards/quest-reward/quest-reward';
 import { ObjectsReward } from './class/rewards/objects-reward/objects-reward';
 import { ObjectiveReward } from './class/rewards/objective-reward/objective-reward';
 import { OtherReward } from './class/rewards/other-reward/other-reward';
+import { PrerequireRessource } from './class/prerequires/prerequire-ressource/prerequire-ressource';
+import { elementAt } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -165,6 +167,16 @@ export class AppComponent {
                     && element.color == task.supplementaryRole.color
                   );
                   task.supplementaryRole = role.supplementaryRoles[supplementaryRoleIndex];
+                  task.prerequireRessources = task.prerequireRessources.map((prerequireData: any) => Object.assign(new PrerequireRessource(), prerequireData));
+                  task.prerequireRessources.forEach((prerequire, index) => {
+                      if (scenario.ressources.some(element => element.name == prerequire.ressource.name && element.number == prerequire.ressource.number)) {
+                        let i: number = scenario.ressources.findIndex(element => element.name == prerequire.ressource.name && element.number == prerequire.ressource.number);
+                        prerequire.ressource = scenario.ressources[i];
+                      } else {
+                        let i: number = role.ressources.findIndex(element => element.name == prerequire.ressource.name && element.number == prerequire.ressource.number);
+                        prerequire.ressource = role.ressources[i];
+                      }
+                  })
                 }
               });
             });

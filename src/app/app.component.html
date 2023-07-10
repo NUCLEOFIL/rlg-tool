@@ -59,11 +59,11 @@
                                                 <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
                                                     <div *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j">
                                                         <div *ngIf="task != null">
-                                                            <app-task *ngIf="task.type == 'normal'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-task>
-                                                            <app-annexe-task *ngIf="task.type == 'annexe'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-annexe-task>
-                                                            <app-random-event *ngIf="task.type == 'event'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-random-event>
-                                                            <app-optionnal-task *ngIf="task.type == 'optionnal'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-optionnal-task>
-                                                            <app-final-task *ngIf="task.type == 'final'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-final-task>
+                                                            <app-task *ngIf="task.type == 'normal'" [task]="task" [scenario]="scenario" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-task>
+                                                            <app-annexe-task *ngIf="task.type == 'annexe'" [task]="task" [scenario]="scenario" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-annexe-task>
+                                                            <app-random-event *ngIf="task.type == 'event'" [task]="task" [scenario]="scenario" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-random-event>
+                                                            <app-optionnal-task *ngIf="task.type == 'optionnal'" [task]="task" [scenario]="scenario" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-optionnal-task>
+                                                            <app-final-task *ngIf="task.type == 'final'" [task]="task" [scenario]="scenario" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-final-task>
                                                             <app-repeat-task *ngIf="task.type == 'repeat'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-repeat-task>
                                                         </div>
                                                         <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="task == null">

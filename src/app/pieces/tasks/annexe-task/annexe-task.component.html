@@ -25,51 +25,55 @@
         <div class="piece-prerequires-prerequires">
             <label class="piece-prerequires-title">Antécédents</label>
             <div class="piece-prerequires-form">
-                <div class="piece-prerequires-prerequires-element">
-                    <input name="antecedent" type="checkbox" value="true"/>
-                    <label for="antecedent">EX1</label> 
-                </div>
-                <div class="piece-prerequires-prerequires-element">
-                    <input name="antecedent" type="checkbox"/>
-                    <label for="antecedent">EX2</label>
-                </div>
+                <ng-container *ngFor="let inlineTask of role.tasks">
+                    <ng-container *ngFor="let element of inlineTask; let index = index">
+                        <div class="piece-prerequires-prerequires-element" *ngIf="element?.identifier && (task.identifier != element?.identifier) && index < j">
+                            <input name="antecedent" type="checkbox" [checked]="isCheckedTask(element)" (change)="checkboxChangedTask($event, element)"/>
+                            <label for="antecedent">{{element?.identifier}}</label>
+                        </div>
+                    </ng-container>
+                </ng-container>
             </div>
         </div>
         <div class="piece-prerequires-ressources">
             <label class="piece-prerequires-title">Ressources & attributs</label>
             <div class="piece-prerequires-form">
-                <div class="piece-prerequires-ressources-element">
-                    <div class="piece-prerequires-ressources-element-checkbox">
-                        <input name="ressource" type="checkbox"/>
-                        <label for="ressource">Pain</label>   
+                <ng-container *ngFor="let ressource of scenario.ressources">
+                    <div class="piece-prerequires-ressources-element" *ngIf="ressource.name">
+                        <div class="piece-prerequires-ressources-element-checkbox">
+                            <input name="ressource" type="checkbox" (change)="checkboxChangedRessource($event, ressource)" [checked]="isCheckedRessource(ressource)"/>
+                            <label for="ressource">{{ressource.name}}</label>   
+                        </div>
+                        <div class="piece-prerequires-ressources-element-quantity" *ngIf="isCheckedRessource(ressource)">
+                            <select name="ressource" [(ngModel)]="getAssociatePrerequireRessource(ressource).operator">
+                                <option><</option>
+                                <option><=</option>
+                                <option>=</option>
+                                <option>>=</option>
+                                <option>></option>
+                            </select>
+                            <input type="text" value="1" [(ngModel)]="getAssociatePrerequireRessource(ressource).quantity"/> 
+                        </div>
                     </div>
-                    <div class="piece-prerequires-ressources-element-quantity">
-                        <select name="ressource">
-                            <option><</option>
-                            <option><=</option>
-                            <option>=</option>
-                            <option>>=</option>
-                            <option>></option>
-                        </select>
-                        <input type="text" value="1"/> 
+                </ng-container>
+                <ng-container *ngFor="let ressource of role.ressources">
+                    <div class="piece-prerequires-ressources-element" *ngIf="ressource.name">
+                        <div class="piece-prerequires-ressources-element-checkbox">
+                            <input name="ressource" type="checkbox" (change)="checkboxChangedRessource($event, ressource)" [checked]="isCheckedRessource(ressource)"/>
+                            <label for="ressource">{{ressource.name}}</label>   
+                        </div>
+                        <div class="piece-prerequires-ressources-element-quantity" *ngIf="isCheckedRessource(ressource)">
+                            <select name="ressource" [(ngModel)]="getAssociatePrerequireRessource(ressource).operator">
+                                <option><</option>
+                                <option><=</option>
+                                <option>=</option>
+                                <option>>=</option>
+                                <option>></option>
+                            </select>
+                            <input type="text" value="1" [(ngModel)]="getAssociatePrerequireRessource(ressource).quantity"/> 
+                        </div>
                     </div>
-                </div>
-                <div class="piece-prerequires-ressources-element">
-                    <div class="piece-prerequires-ressources-element-checkbox">
-                        <input name="ressource" type="checkbox"/>
-                        <label for="ressource">Citron</label>   
-                    </div>
-                    <div class="piece-prerequires-ressources-element-quantity">
-                        <select name="ressource">
-                            <option><</option>
-                            <option><=</option>
-                            <option>=</option>
-                            <option>>=</option>
-                            <option>></option>
-                        </select>
-                        <input type="text" value="1"/> 
-                    </div>
-                </div>
+                </ng-container>
             </div>
         </div>
     </div>

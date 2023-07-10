@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Mission } from 'src/app/class/mission/mission';
+import { PrerequireRessource } from 'src/app/class/prerequires/prerequire-ressource/prerequire-ressource';
+import { PrerequireTask } from 'src/app/class/prerequires/prerequire-task/prerequire-task';
+import { Ressource } from 'src/app/class/ressource/ressource';
 import { Role } from 'src/app/class/role/role';
+import { Scenario } from 'src/app/class/scenario/scenario';
 import { Task } from 'src/app/class/task/task';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 
@@ -18,6 +22,7 @@ export class TaskComponent implements OnInit {
   pieceWidth: string = '400px';
 
   @Input() task: Task = new Task('normal');
+  @Input() scenario: Scenario = new Scenario();
   @Input() mission: Mission = new Mission();
   @Input() role!: Role;
   @Input() i!: number;
@@ -70,6 +75,15 @@ export class TaskComponent implements OnInit {
   }
 
   onClickDelete(): void {
+    this.role.tasks.forEach(inlineTasks => {
+      inlineTasks.forEach(task => {
+        task?.prerequireTasks.forEach((prerequire, index) => {
+          if (prerequire.identifier == this.task.identifier) {
+            task.prerequireTasks.splice(index, 1);
+          }
+        });
+      });
+    });
     this.role.removeTask(this.i, this.j);
     this.mission.equalizeLengths();
   }
@@ -143,6 +157,83 @@ export class TaskComponent implements OnInit {
     }
     return [0, 0];
   } 
+
+  changeIdentifier(event: any): void {
+    let value: string = event.target.value;
+    if (value != '') {
+      this.role.tasks.forEach(inlineTasks => {
+        inlineTasks.forEach(task => {
+          task?.prerequireTasks.forEach(prerequire => {
+            if (prerequire.identifier == this.task.identifier) {
+              prerequire.identifier = value;
+            }
+          });
+        });
+      });
+    } else {
+      this.role.tasks.forEach(inlineTasks => {
+        inlineTasks.forEach(task => {
+          task?.prerequireTasks.forEach((prerequire, index) => {
+            if (prerequire.identifier == this.task.identifier) {
+              task.prerequireTasks.splice(index, 1);
+            }
+          });
+        });
+      }); 
+    }
+    this.task.identifier = value;
+  }
+
+  checkboxChangedTask(event: any, task:(Task|null)): void {
+    if (task instanceof Task) {
+      if (event.target.checked) {
+        this.onCheckTask(task);
+      } else {
+        this.onUncheckTask(task);
+      }      
+    }
+  }
+
+  isCheckedTask(task: (Task|null)): boolean {
+    if (task instanceof Task) {
+      return this.task.prerequireTasks.some(element => element.identifier == task.identifier);
+    }
+    return false;
+  }
+
+  onCheckTask(task: Task): void {
+    this.task.prerequireTasks.push(new PrerequireTask(task.identifier));
+  }
+
+  onUncheckTask(task: Task): void {
+    let i: number = this.task.prerequireTasks.findIndex(element => element.identifier == task.identifier);
+    this.task.prerequireTasks.splice(i,1);
+  }
+
+  checkboxChangedRessource(event: any, ressource: Ressource): void {
+    if (event.target.checked) {
+      this.onCheckRessource(ressource);
+    } else {
+      this.onUncheckRessource(ressource);
+    }
+    console.log(this.task.prerequireRessources);
+  }
+
+  isCheckedRessource(ressource: Ressource): boolean {
+    return this.task.prerequireRessources.some(element => element.ressource == ressource);
+  }
+
+  onCheckRessource(ressource: Ressource): void {
+    this.task.prerequireRessources.push(new PrerequireRessource(ressource));
+  }
+
+  onUncheckRessource(ressource: Ressource): void {
+    let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
+    this.task.prerequireRessources.splice(i, 1);
+  }
+
+  getAssociatePrerequireRessource(ressource: Ressource): PrerequireRessource {
+    let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
+    return this.task.prerequireRessources[i];
+  }
 }
-
-

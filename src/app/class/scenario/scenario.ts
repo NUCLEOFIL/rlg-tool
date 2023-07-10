@@ -12,6 +12,6 @@ export class Scenario {
     missions: Mission[] = [new Mission()];
     characters: Character[] = [];
     gameRules: string = '';
-    ressources: Ressource[] = [new Ressource()];
+    ressources: Ressource[] = [];
     comments: Comment[] = [];
 }
