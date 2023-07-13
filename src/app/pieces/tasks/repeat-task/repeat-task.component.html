@@ -12,7 +12,9 @@
     <div class="piece-form">
         <label>Recommencer<br>le tour jusqu'à ce que :</label>
         <textarea [(ngModel)]="task.objective" [(ngModel)]="task.objective" [style.background-image]="(i == findFirstIndexOfTaskType('repeat')[0] && j == findFirstIndexOfTaskType('repeat')[1]) ? urlIcon : ''"
-            placeholder="Faire valider au commanditaire"></textarea>
+            placeholder="Faire valider au commanditaire"
+            matTooltip="Action à effectuer (interagir avec un objet, parler avec quelqu'un, …)"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
     </div>
     <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
     <mat-icon class="piece-form-repeat" fontIcon="refresh" *ngIf="task.repeat.iteration > 0 || task.repeat.while != ''"></mat-icon>

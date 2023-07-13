@@ -5,6 +5,7 @@ import { Scenario } from 'src/app/class/scenario/scenario';
 import { Step } from 'src/app/class/step/step';
 import { Task } from 'src/app/class/task/task';
 import { Comment } from 'src/app/class/comment/comment';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-comments',
@@ -16,7 +17,7 @@ export class CommentsComponent implements OnInit {
   @Input() piece!: (Role | Task | Mission | Step | Scenario);
   newComment: string = '';
 
-  constructor() { }
+  constructor(protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
   }

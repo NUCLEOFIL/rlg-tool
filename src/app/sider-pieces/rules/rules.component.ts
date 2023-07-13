@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Ressource } from 'src/app/class/ressource/ressource';
 import { Scenario } from 'src/app/class/scenario/scenario';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-rules',
@@ -11,7 +12,7 @@ export class RulesComponent implements OnInit {
 
   @Input() scenario: Scenario = new Scenario();
 
-  constructor() { }
+  constructor(protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
   }

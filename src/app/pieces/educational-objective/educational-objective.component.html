@@ -15,7 +15,9 @@
         <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="scenario.missions[i].comments.length > 0"></mat-icon>
         <div class="piece-form-objective">
             <label for="objective">Commun pour la mission {{i+1}}</label>
-            <textarea name="objective" [(ngModel)]="educationnalObjective.objective" placeholder="Comprendre les rôles impliqués dans la conception d'un site web"></textarea>
+            <textarea name="objective" [(ngModel)]="educationnalObjective.objective" placeholder="Comprendre les rôles impliqués dans la conception d'un site web"
+            matTooltip="Ce que l’on veut atteindre en situation de formation. Commencer chaque objectif par un verbe. Si votre jeu est composé de plusieurs missions, distinguez les objectifs globaux du jeu et les objectifs de chaque mission"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
             
     </div>

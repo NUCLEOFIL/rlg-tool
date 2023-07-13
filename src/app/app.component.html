@@ -117,8 +117,12 @@
             <input name="unity" type="checkbox" />
             <label for="unity">Intégrer le jeu sous Unity</label>
         </div>
+        <div class="container-settings-mode">
+            <input name="tooltip" type="checkbox" [(ngModel)]="tooltipService.activatedTooltips"/>
+            <label for="tooltip">Activer les aides</label>
+        </div>
         <button mat-mini-fab color="white" (click)="downloadFile()"><mat-icon fontIcon="download_file"></mat-icon></button>
-        <button mat-mini-fab color="white"><mat-icon fontIcon="upload-file"></mat-icon></button>
-        <input type="file" (change)="onFileSelected($event)">
+        <button mat-mini-fab color="white" (click)="selectFile()"><mat-icon fontIcon="upload-file"></mat-icon></button>
+        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)"> 
     </div>
 </div>

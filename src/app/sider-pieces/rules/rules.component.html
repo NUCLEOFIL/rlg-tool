@@ -2,12 +2,16 @@
     <div class="piece-form">
         <div class="piece-form-rules">
             <div class="piece-form-title">Règles du jeu</div>  
-            <textarea [(ngModel)]="scenario.gameRules"></textarea>
+            <textarea [(ngModel)]="scenario.gameRules"
+            matTooltip="Éléments importants à prendre en compte dans les règles du jeu"
+            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-ressources">
             <div class="piece-form-title">Ressources / objets</div>
             <div class="piece-form-ressources-object">
-                <div class="piece-form-ressources-object-infos" *ngFor="let ressource of scenario.ressources; let i = index">
+                <div class="piece-form-ressources-object-infos" *ngFor="let ressource of scenario.ressources; let i = index"
+                matTooltip="Objets, ressources disponibles pour TOUS les rôles"
+                matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                     <div class="piece-form-ressources-object-infos-name">
                         <label for="name">Nom</label>
                         <input name="name" type="text" [(ngModel)]="ressource.name"/>

@@ -7,6 +7,7 @@ import { Role } from 'src/app/class/role/role';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { Task } from 'src/app/class/task/task';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-final-task',
@@ -30,7 +31,7 @@ export class FinalTaskComponent implements OnInit {
 
   urlIcon: string = 'url("../../../../assets/background-images/final.png")';
 
-  constructor(private pieceDetailsService: PieceDetailsService) { }
+  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
     this.durationChange();

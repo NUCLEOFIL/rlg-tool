@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RoleOccurrence } from 'src/app/class/role-occurrence/role-occurrence';
 import { Role } from 'src/app/class/role/role';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-role-occurence',
@@ -11,7 +12,7 @@ export class RoleOccurenceComponent implements OnInit {
 
   @Input() role: Role = new Role();
 
-  constructor() { }
+  constructor(protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
   }

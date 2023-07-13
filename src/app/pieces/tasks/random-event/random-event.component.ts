@@ -7,6 +7,7 @@ import { Role } from 'src/app/class/role/role';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { Task } from 'src/app/class/task/task';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-random-event',
@@ -30,7 +31,7 @@ export class RandomEventComponent implements OnInit {
 
   urlIcon: string = 'url("../../../../assets/background-images/event.png")';
 
-  constructor(protected pieceDetailsService: PieceDetailsService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
     this.durationChange();

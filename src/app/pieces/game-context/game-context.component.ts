@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { GameContext } from 'src/app/class/game-context/game-context';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-game-context',
@@ -13,7 +14,7 @@ export class GameContextComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() gameContext: GameContext = new GameContext();
 
-  constructor(private pieceDetailsService: PieceDetailsService) { }
+  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
   }

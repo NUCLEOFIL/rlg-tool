@@ -3,6 +3,7 @@ import { MissionContext } from 'src/app/class/mission-context/mission-context';
 import { Mission } from 'src/app/class/mission/mission';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-mission-context',
@@ -11,7 +12,7 @@ import { PieceDetailsService } from 'src/app/services/piece-details/piece-detail
 })
 export class MissionContextComponent implements OnInit {
 
-  constructor(private pieceDetailsService: PieceDetailsService) { }
+  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
 
   @Input() missionContext: MissionContext = new MissionContext();
   @Input() scenario: Scenario = new Scenario();

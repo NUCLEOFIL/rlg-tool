@@ -12,6 +12,7 @@ import { Role } from 'src/app/class/role/role';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { SupplementaryRole } from 'src/app/class/supplementary-role/supplementary-role';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-role',
@@ -25,7 +26,7 @@ export class RoleComponent implements OnInit {
   @Input() mission: Mission = new Mission();
   @Input() i: number = 0;
 
-  constructor(protected pieceDetailsService: PieceDetailsService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();

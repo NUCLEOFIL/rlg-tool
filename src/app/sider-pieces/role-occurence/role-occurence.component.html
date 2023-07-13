@@ -1,4 +1,6 @@
-<div class="piece">
+<div class="piece"
+matTooltip="Ceci permet de choisir combien de joueurs représenteront chaque rôle si le nombre de joueurs est amené à varier"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
         <div class="piece-title">Occurrence du rôle</div>
         <div class="piece-form-occurrence" *ngFor="let occurence of role.occurences, let i = index">

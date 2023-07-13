@@ -1,7 +1,9 @@
 <div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displayPrequires='hide'; displaySymbolChoice='hide'"
     [style.background]="task.supplementaryRole ?
     'linear-gradient(140deg, var(--piece-background-color) 0%, var(--piece-background-color) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
-    : 'var(--piece-background-color)'">
+    : 'var(--piece-background-color)'"
+    matTooltip="Tâche optionnelle: cette tâche peut être réalisée ou non. À la différence d'une tâche annexe, les tâches optionnelles sont utiles pour répondre aux objectifs pédagogiques, comme les tâches simples, mais offent la possibilité au joueur de réaliser la tâche de plusieurs manières différentes."
+    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-left"></div>
     <div class="piece-attach piece-attach-right" [style.background]="task.supplementaryRole ? task.supplementaryRole.color : 'var(--piece-background-color)'"></div>
 
@@ -109,23 +111,33 @@
 
     <div class="piece-form">
         <div class="piece-form-top">
-            <input class="piece-form-top-identifier" name="identifier" type="text" [(ngModel)]="task.identifier" placeholder="A" min="1" maxlength="5"/>
+            <input class="piece-form-top-identifier" name="identifier" type="text" [(ngModel)]="task.identifier" placeholder="A" min="1" maxlength="5"
+            matTooltip="Identifiant de la tâche (ex: A, B, C, …)"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
             <div class="piece-form-top-title">Tâche<br>optionnelle</div>
             <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
             <mat-icon class="piece-form-top-repeat" fontIcon="refresh" *ngIf="task.repeat.iteration > 0 || task.repeat.while != ''"></mat-icon>
-            <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()">
+            <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()"
+            matTooltip="Indicateur de tâche commune: si cette tâche doit être faite avec un autre rôle, mettez le même symbole sur la tâche de ces deux rôles"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    
         </div>
         <textarea class="piece-form-content" [(ngModel)]="task.objective" [style.background-image]="(i == findFirstIndexOfTaskType('optionnal')[0] && j == findFirstIndexOfTaskType('optionnal')[1]) ? urlIcon : ''"
-            placeholder="Partir d'un template / Partir de zéro"></textarea>
+            placeholder="Partir d'un template / Partir de zéro"
+            matTooltip="Action à effectuer (interagir avec un objet, parler avec quelqu'un, …)"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         <div class="piece-form-bottom">
-            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
+            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()"
+            matTooltip="Prérequis pour effectuer cette tâche"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 Prérequis
             </button>
             <mat-icon class="piece-form-character" fontIcon="person" *ngIf="task.characters.length > 0"></mat-icon>
             <mat-icon class="piece-form-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
-            <div class="piece-form-bottom-duration">
+            <div class="piece-form-bottom-duration"
+            matTooltip="Durée de la tâche (en unité de temps, minutes ou tours)"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()"/>
                 <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange()">
                     <option value="UT">UT</option>

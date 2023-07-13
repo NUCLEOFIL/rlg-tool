@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Character } from 'src/app/class/character/character';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { Task } from 'src/app/class/task/task';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-characters',
@@ -16,7 +17,7 @@ export class CharactersComponent implements OnInit {
   selectedAssignCharacter!: Character | undefined;
   selectedDeleteCharacterIndex!: number;
 
-  constructor() { }
+  constructor(protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
   }

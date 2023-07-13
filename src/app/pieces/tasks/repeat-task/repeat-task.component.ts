@@ -3,6 +3,7 @@ import { Mission } from 'src/app/class/mission/mission';
 import { Role } from 'src/app/class/role/role';
 import { Task } from 'src/app/class/task/task';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-repeat-task',
@@ -22,7 +23,7 @@ export class RepeatTaskComponent implements OnInit {
   urlIcon: string = 'url("../../../../assets/background-images/repeatTask.png")';
   
 
-  constructor(protected pieceDetailsService: PieceDetailsService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
   }

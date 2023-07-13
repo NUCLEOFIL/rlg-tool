@@ -14,7 +14,9 @@
         <div class="piece-form-title">Contexte de la mission {{i+1}}</div>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="text" [(ngModel)]="missionContext.duration" placeholder="1h"/>   
+            <input name="duration" type="text" [(ngModel)]="missionContext.duration" placeholder="1h"
+            matTooltip="Combien de temps va durer la mission ?"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>
         <div class="piece-form-intrigue">
             <label for="intrigue">Intrigue</label>

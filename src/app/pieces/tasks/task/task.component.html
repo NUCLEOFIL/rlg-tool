@@ -109,23 +109,33 @@
 
     <div class="piece-form">
         <div class="piece-form-top">
-            <input class="piece-form-top-identifier" name="identifier" type="text" [value]="task.identifier" (change)="changeIdentifier($event)" placeholder="A" min="1" maxlength="5"/>
+            <input class="piece-form-top-identifier" name="identifier" type="text" [value]="task.identifier" (change)="changeIdentifier($event)" placeholder="A" min="1" maxlength="5"
+            matTooltip="Identifiant de la tâche (ex: A, B, C, …)"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
             <div class="piece-form-top-title">Tâche</div>
             <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
             <mat-icon class="piece-form-top-repeat" fontIcon="refresh" *ngIf="task.repeat.iteration > 0 || task.repeat.while != ''"></mat-icon>
-            <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()">
+            <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()"
+            matTooltip="Indicateur de tâche commune: si cette tâche doit être faite avec un autre rôle, mettez le même symbole sur la tâche de ces deux rôles"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    
         </div>
         <textarea class="piece-form-content" [(ngModel)]="task.objective" [style.background-image]="(i == findFirstIndexOfTaskType('normal')[0] && j == findFirstIndexOfTaskType('normal')[1]) ? urlIcon : ''"
-            placeholder="Positionner dans l'ordre les balises HTML principales"></textarea>
+            placeholder="Positionner dans l'ordre les balises HTML principales"
+            matTooltip="Action à effectuer (interagir avec un objet, parler avec quelqu'un, …)"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         <div class="piece-form-bottom">
-            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
+            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()"
+            matTooltip="Prérequis pour effectuer cette tâche"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 Prérequis
             </button>
             <mat-icon class="piece-form-bottom-character" fontIcon="person" *ngIf="task.characters.length > 0"></mat-icon>
             <mat-icon class="piece-form-bottom-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
-            <div class="piece-form-bottom-duration">
+            <div class="piece-form-bottom-duration"
+            matTooltip="Durée de la tâche (en unité de temps, minutes ou tours)"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()"/>
                 <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange()">
                     <option value="UT">UT</option>

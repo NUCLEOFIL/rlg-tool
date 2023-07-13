@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Mission } from './class/mission/mission';
 import { Scenario } from './class/scenario/scenario';
 import { Step } from './class/step/step';
@@ -23,7 +23,7 @@ import { ObjectsReward } from './class/rewards/objects-reward/objects-reward';
 import { ObjectiveReward } from './class/rewards/objective-reward/objective-reward';
 import { OtherReward } from './class/rewards/other-reward/other-reward';
 import { PrerequireRessource } from './class/prerequires/prerequire-ressource/prerequire-ressource';
-import { elementAt } from 'rxjs';
+import { TooltipService } from './services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-root',
@@ -31,11 +31,12 @@ import { elementAt } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   title = 'RLG Maker';
-
   scenario: Scenario = new Scenario();
+  @ViewChild('fileInput') fileInput: any;
 
-  constructor(private cdr: ChangeDetectorRef, protected pieceDetailsService: PieceDetailsService) {
+  constructor(private cdr: ChangeDetectorRef, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) {
     pieceDetailsService.piece = this.scenario;
 
     this.scenario.missions.forEach(mission => {
@@ -52,6 +53,10 @@ export class AppComponent {
     link.href = url;
     link.click();
     URL.revokeObjectURL(url);
+  }
+
+  selectFile(): void {
+    this.fileInput.nativeElement.click();
   }
   
   onFileSelected(event: any): void {
@@ -141,7 +146,7 @@ export class AppComponent {
                 let i: number = role.educationnalObjectives.findIndex(element => element.objective == reward.objective.objective);
                 reward.objective = role.educationnalObjectives[i];
               }
-              
+
             });
             role.tasks.forEach((inlineTasks: any[], index: number) => {
               role.tasks[index] = inlineTasks.map((taskData: any) => {
