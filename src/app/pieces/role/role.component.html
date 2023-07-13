@@ -82,9 +82,14 @@
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-quest" *ngIf="reward.type == 'quest'">
-                    <select [(ngModel)]="getQuestReward(i).indexQuest">
-                        <ng-container *ngFor="let quest of mission.roles; let index = index">
-                           <option [ngValue]="index" *ngIf="i != index">{{quest.intitule ? quest.intitule : 'Role '+(index+1)}}</option> 
+                    <select (change)="changeQuestReward(i, $event)">
+                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                <option [ngValue]="quest.questName" [selected]="getQuestReward(i).intitule == quest.intitule && getQuestReward(i).questName == quest.questName"
+                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                    {{quest.questName}}
+                                </option>
+                            </ng-container>
                         </ng-container>
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>

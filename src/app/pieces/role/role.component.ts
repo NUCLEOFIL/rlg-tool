@@ -148,4 +148,12 @@ export class RoleComponent implements OnInit {
   removeObject(i: number, j: number): void {
     this.getObjectsReward(i).objects.splice(j, 1);
   }
+
+  changeQuestReward(index: number, event: any) {
+    let value: string = event.target.value;
+    let reward = new QuestReward();
+    reward.intitule = this.role.intitule;
+    reward.questName = value;
+    this.role.rewards[index] = reward;
+  }
 }

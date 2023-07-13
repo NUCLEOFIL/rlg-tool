@@ -196,7 +196,6 @@ export class AnnexeTaskComponent implements OnInit {
     } else {
       this.onUncheckRessource(ressource);
     }
-    console.log(this.task.prerequireRessources);
   }
 
   isCheckedRessource(ressource: Ressource): boolean {

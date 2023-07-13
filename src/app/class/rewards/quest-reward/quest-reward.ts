@@ -7,5 +7,6 @@ export class QuestReward extends Reward {
         super('quest');
     }
 
-    indexQuest!: number; 
+    intitule!: string;
+    questName!: string;
 }
