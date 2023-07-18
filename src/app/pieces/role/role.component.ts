@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Mission } from 'src/app/class/mission/mission';
 import { Ressource } from 'src/app/class/ressource/ressource';
 import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
@@ -13,6 +14,9 @@ import { Scenario } from 'src/app/class/scenario/scenario';
 import { SupplementaryRole } from 'src/app/class/supplementary-role/supplementary-role';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
+import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
+import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/create-dialog.component';
 
 @Component({
   selector: 'app-role',
@@ -26,7 +30,7 @@ export class RoleComponent implements OnInit {
   @Input() mission: Mission = new Mission();
   @Input() i: number = 0;
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -40,22 +44,37 @@ export class RoleComponent implements OnInit {
   }
 
   onClickAdd(): void {
-    this.mission.roles.push(new Role());
+    const dialogRef = this.dialog.open(CreateDialogComponent, { data: 'un nouveau Rôle pour la Mission '+(this.i+1) });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.mission.roles.push(new Role());        
+      }
+    });
   }
 
   onClickErase(): void {
-    this.role.intitule = '';
-    this.role.questName = '';
-    this.role.description = '';
-    this.role.educationnalObjectives = [new RoleEducationnalObjective()];
-    this.role.rewards = [];
-    this.role.stuff = '';
-    this.role.ressources = [];
-    this.role.supplementaryRoles = [];
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Role '+(this.role.intitule ? '<'+this.role.intitule+'>' : (this.i+1)) });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.role.intitule = '';
+        this.role.questName = '';
+        this.role.description = '';
+        this.role.educationnalObjectives = [new RoleEducationnalObjective()];
+        this.role.rewards = [];
+        this.role.stuff = '';
+        this.role.ressources = [];
+        this.role.supplementaryRoles = [];         
+      }
+    });
   }
 
   onClickDelete(): void {
-    this.mission.roles.splice(this.i, 1);
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'ce Rôle '+(this.role.intitule ? '<'+this.role.intitule+'>' : this.i+1) });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.mission.roles.splice(this.i, 1);       
+      }
+    });
   }
 
   canDelete(): boolean {
@@ -71,7 +90,12 @@ export class RoleComponent implements OnInit {
   }
 
   removeEducationnalObjective(index: number): void {
-    this.role.educationnalObjectives.splice(index, 1);
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Objectif Pédagogique' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.role.educationnalObjectives.splice(index, 1);
+      }
+    });
   }
 
   addRessource(): void {
@@ -79,16 +103,21 @@ export class RoleComponent implements OnInit {
   }
 
   removeRessource(index: number): void {
-    this.role.tasks.forEach(inlineTasks => {
-      inlineTasks.forEach(task => {
-        task?.prerequireRessources.forEach((prerequire, j) => {
-          if (prerequire.ressource == this.role.ressources[index]) {
-            task.prerequireRessources.splice(j, 1);
-          }
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Ressource' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.role.tasks.forEach(inlineTasks => {
+          inlineTasks.forEach(task => {
+            task?.prerequireRessources.forEach((prerequire, j) => {
+              if (prerequire.ressource == this.role.ressources[index]) {
+                task.prerequireRessources.splice(j, 1);
+              }
+            });
+          });
         });
-      });
+        this.role.ressources.splice(index, 1);        
+      }
     });
-    this.role.ressources.splice(index, 1);
   }
   
   addSupplementaryRole(): void {
@@ -96,7 +125,12 @@ export class RoleComponent implements OnInit {
   }
 
   removeSupplementaryRole(index: number) {
-    this.role.supplementaryRoles.splice(index, 1);
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'ce Rôle Supplémentaire'+(this.role.supplementaryRoles[index].name ? ' <'+this.role.supplementaryRoles[index].name+'>' : '') });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.role.supplementaryRoles.splice(index, 1);
+      }
+    });
   }
 
   addReward(): void {
@@ -115,7 +149,12 @@ export class RoleComponent implements OnInit {
   }
 
   removeReward(index: number): void {
-    this.role.rewards.splice(index, 1);
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Récompense' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.role.rewards.splice(index, 1);        
+      }
+    });
   }
 
   getObjectiveReward(index: number): ObjectiveReward {
@@ -147,7 +186,12 @@ export class RoleComponent implements OnInit {
   }
 
   removeObject(i: number, j: number): void {
-    this.getObjectsReward(i).objects.splice(j, 1);
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cet Objet de la Récompense' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.getObjectsReward(i).objects.splice(j, 1);
+      }
+    });
   }
 
   changeQuestReward(index: number, event: any) {

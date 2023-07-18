@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppComponent } from './app.component';
 import { EducationalObjectiveComponent } from './pieces/educational-objective/educational-objective.component';
@@ -30,9 +31,12 @@ import { InteruptComponent } from './sider-pieces/interupt/interupt.component';
 import { OptionnalTaskComponent } from './pieces/tasks/optionnal-task/optionnal-task.component';
 import { RoleOccurenceComponent } from './sider-pieces/role-occurence/role-occurence.component';
 import { SupplementaryTaskComponent } from './sider-pieces/supplementary-task/supplementary-task.component';
+import { SuppressDialogComponent } from './components/dialogs/suppress-dialog/suppress-dialog.component';
 
 import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
+import { CleanDialogComponent } from './components/dialogs/clean-dialog/clean-dialog.component';
+import { CreateDialogComponent } from './components/dialogs/create-dialog/create-dialog.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +63,10 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     InteruptComponent,
     OptionnalTaskComponent,
     RoleOccurenceComponent,
-    SupplementaryTaskComponent
+    SupplementaryTaskComponent,
+    SuppressDialogComponent,
+    CleanDialogComponent,
+    CreateDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +76,8 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

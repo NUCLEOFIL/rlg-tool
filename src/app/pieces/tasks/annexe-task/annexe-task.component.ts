@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Mission } from 'src/app/class/mission/mission';
 import { PrerequireRessource } from 'src/app/class/prerequires/prerequire-ressource/prerequire-ressource';
 import { PrerequireTask } from 'src/app/class/prerequires/prerequire-task/prerequire-task';
@@ -8,6 +9,8 @@ import { Scenario } from 'src/app/class/scenario/scenario';
 import { Task } from 'src/app/class/task/task';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
+import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 
 @Component({
   selector: 'app-annexe-task',
@@ -31,7 +34,7 @@ export class AnnexeTaskComponent implements OnInit {
 
   urlIcon: string = 'url("../../../../assets/background-images/annexe.png")';
 
-  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
+  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.durationChange();
@@ -54,10 +57,15 @@ export class AnnexeTaskComponent implements OnInit {
   }
 
   onClickErase(): void {
-    this.task.duration = 1;
-    this.task.durationUnit = 'UT';
-    this.task.identifier = '';
-    this.task.objective = '';
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Tâche annexe' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.task.duration = 1;
+        this.task.durationUnit = 'UT';
+        this.task.identifier = '';
+        this.task.objective = '';        
+      }
+    });
   } 
 
   onClickDots(): void {
@@ -66,17 +74,22 @@ export class AnnexeTaskComponent implements OnInit {
   }
 
   onClickDelete(): void {
-    this.role.tasks.forEach(inlineTasks => {
-      inlineTasks.forEach(task => {
-        task?.prerequireTasks.forEach((prerequire, index) => {
-          if (prerequire.identifier == this.task.identifier) {
-            task.prerequireTasks.splice(index, 1);
-          }
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Tâche annexe' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.role.tasks.forEach(inlineTasks => {
+          inlineTasks.forEach(task => {
+            task?.prerequireTasks.forEach((prerequire, index) => {
+              if (prerequire.identifier == this.task.identifier) {
+                task.prerequireTasks.splice(index, 1);
+              }
+            });
+          });
         });
-      });
+        this.role.removeTask(this.i, this.j);
+        this.mission.equalizeLengths();
+      }
     });
-    this.role.removeTask(this.i, this.j);
-    this.mission.equalizeLengths();
   }
 
   onClickChange(type: string): void {

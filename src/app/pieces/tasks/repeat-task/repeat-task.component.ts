@@ -4,6 +4,9 @@ import { Role } from 'src/app/class/role/role';
 import { Task } from 'src/app/class/task/task';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 
 @Component({
   selector: 'app-repeat-task',
@@ -23,13 +26,18 @@ export class RepeatTaskComponent implements OnInit {
   urlIcon: string = 'url("../../../../assets/background-images/repeatTask.png")';
   
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
   onClickErase(): void {
-    this.task.objective = '';
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Répétition de tour' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.task.objective = '';
+      }
+    });
   } 
 
   onClickDots(): void {
@@ -38,8 +46,22 @@ export class RepeatTaskComponent implements OnInit {
   }
 
   onClickDelete(): void {
-    this.role.removeTask(this.i, this.j);
-    this.mission.equalizeLengths();
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Répétition de tour' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.role.tasks.forEach(inlineTasks => {
+          inlineTasks.forEach(task => {
+            task?.prerequireTasks.forEach((prerequire, index) => {
+              if (prerequire.identifier == this.task.identifier) {
+                task.prerequireTasks.splice(index, 1);
+              }
+            });
+          });
+        });
+        this.role.removeTask(this.i, this.j);
+        this.mission.equalizeLengths();
+      }
+    });
   }
 
   moveTask(direction: string): void {

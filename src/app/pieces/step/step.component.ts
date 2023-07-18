@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Mission } from 'src/app/class/mission/mission';
 import { Role } from 'src/app/class/role/role';
 import { Step } from 'src/app/class/step/step';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
+import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
+import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 
 @Component({
   selector: 'app-step',
@@ -19,7 +22,7 @@ export class StepComponent implements OnInit {
   displayMenu: string = 'hide';
   pieceWidth = '400px';
 
-  constructor(private pieceDetailsService: PieceDetailsService) { }
+  constructor(private pieceDetailsService: PieceDetailsService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.durationChange();
@@ -30,18 +33,28 @@ export class StepComponent implements OnInit {
   }
 
   onClickErase(): void {
-    this.step.description = '';
-    this.step.durationUnit = 'UT';
-    this.step.duration = 1;
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Étape' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.step.description = '';
+        this.step.durationUnit = 'UT';
+        this.step.duration = 1; 
+      }
+    });
   }
 
   onClickDelete(): void {
-    if (this.parent instanceof Mission) {
-      this.parent.removeChronologieStep(this.index);
-    } else if (this.parent instanceof Role) {
-      this.parent.removeChronologieStep(this.index);
-    }
-    this.mission.equalizeLengths();
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Étape de '+(this.parent instanceof Mission ? 'Mission' : 'Rôle') });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        if (this.parent instanceof Mission) {
+          this.parent.removeChronologieStep(this.index);
+        } else if (this.parent instanceof Role) {
+          this.parent.removeChronologieStep(this.index);
+        }
+        this.mission.equalizeLengths();       
+      }
+    });
   }
 
   moveStep(direction: string) {

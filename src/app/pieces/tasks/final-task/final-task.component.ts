@@ -8,6 +8,9 @@ import { Scenario } from 'src/app/class/scenario/scenario';
 import { Task } from 'src/app/class/task/task';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 
 @Component({
   selector: 'app-final-task',
@@ -31,7 +34,7 @@ export class FinalTaskComponent implements OnInit {
 
   urlIcon: string = 'url("../../../../assets/background-images/final.png")';
 
-  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) { }
+  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.durationChange();
@@ -54,12 +57,17 @@ export class FinalTaskComponent implements OnInit {
   }
 
   onClickErase(): void {
-    this.task.duration = 1;
-    this.task.durationUnit = 'UT';
-    this.task.identifier = '';
-    this.task.objective = '';
-    this.task.symbol.color = '';
-    this.task.symbol.symbol = '';
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Tâche finale' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.task.duration = 1;
+        this.task.durationUnit = 'UT';
+        this.task.identifier = '';
+        this.task.objective = '';
+        this.task.symbol.color = '';
+        this.task.symbol.symbol = '';
+      }
+    });
   } 
 
   onClickDots(): void {
@@ -77,17 +85,22 @@ export class FinalTaskComponent implements OnInit {
   }
 
   onClickDelete(): void {
-    this.role.tasks.forEach(inlineTasks => {
-      inlineTasks.forEach(task => {
-        task?.prerequireTasks.forEach((prerequire, index) => {
-          if (prerequire.identifier == this.task.identifier) {
-            task.prerequireTasks.splice(index, 1);
-          }
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Tâche finale' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.role.tasks.forEach(inlineTasks => {
+          inlineTasks.forEach(task => {
+            task?.prerequireTasks.forEach((prerequire, index) => {
+              if (prerequire.identifier == this.task.identifier) {
+                task.prerequireTasks.splice(index, 1);
+              }
+            });
+          });
         });
-      });
+        this.role.removeTask(this.i, this.j);
+        this.mission.equalizeLengths();
+      }
     });
-    this.role.removeTask(this.i, this.j);
-    this.mission.equalizeLengths();
   }
 
   changeDisplaySymbolChoice(): void {
