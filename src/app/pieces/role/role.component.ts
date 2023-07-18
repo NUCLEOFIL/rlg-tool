@@ -62,8 +62,18 @@ export class RoleComponent implements OnInit {
         this.role.educationnalObjectives = [new RoleEducationnalObjective()];
         this.role.rewards = [];
         this.role.stuff = '';
-        this.role.ressources = [];
-        this.role.supplementaryRoles = [];         
+        this.role.supplementaryRoles = []; 
+        this.role.tasks.forEach(inlineTasks => {
+          inlineTasks.forEach(task => {
+            this.role.ressources.forEach(ressource => {
+              if (task?.prerequireRessources.some(element => element.ressource == ressource)) {
+                let index: number = task.prerequireRessources.findIndex(element => element.ressource == ressource);
+                task.prerequireRessources.splice(index, 1);
+              }
+            });
+          });
+        });
+        this.role.ressources = [];        
       }
     });
   }

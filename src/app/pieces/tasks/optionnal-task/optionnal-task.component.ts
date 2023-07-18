@@ -66,6 +66,17 @@ export class OptionnalTaskComponent implements OnInit {
         this.task.objective = '';
         this.task.symbol.color = '';
         this.task.symbol.symbol = '';
+        this.task.prerequireRessources = [];
+        this.task.prerequireTasks = [];  
+        this.role.tasks.forEach(inlineTasks => {
+          inlineTasks.forEach(task => {
+            task?.prerequireTasks.forEach((prerequire, index) => {
+              if (prerequire.identifier == this.task.identifier) {
+                task.prerequireTasks.splice(index, 1);
+              }
+            });
+          });
+        }); 
       }
     });
   } 

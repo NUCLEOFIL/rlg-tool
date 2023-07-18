@@ -63,7 +63,18 @@ export class AnnexeTaskComponent implements OnInit {
         this.task.duration = 1;
         this.task.durationUnit = 'UT';
         this.task.identifier = '';
-        this.task.objective = '';        
+        this.task.objective = '';
+        this.task.prerequireRessources = [];
+        this.task.prerequireTasks = [];
+        this.role.tasks.forEach(inlineTasks => {
+          inlineTasks.forEach(task => {
+            task?.prerequireTasks.forEach((prerequire, index) => {
+              if (prerequire.identifier == this.task.identifier) {
+                task.prerequireTasks.splice(index, 1);
+              }
+            });
+          });
+        });       
       }
     });
   } 
