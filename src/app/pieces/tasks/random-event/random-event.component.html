@@ -130,7 +130,9 @@
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 Prérequis
             </button>
-            <mat-icon class="piece-form-bottom-character" fontIcon="person" *ngIf="task.characters.length > 0"></mat-icon>
+            <mat-icon class="piece-form-bottom-character" fontIcon="person" *ngIf="task.characters.length > 0"
+            [style.color]="task.characters.length == 1 ? task.characters[0].color : 'black'"
+            [style.background]="task.characters.length > 1 ? 'linear-gradient('+ task.characters[0].color +','+ task.characters[task.characters.length-1].color +')' : 'white'"></mat-icon>
             <mat-icon class="piece-form-bottom-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
             <div class="piece-form-bottom-duration"
             matTooltip="Durée de la tâche (en unité de temps, minutes ou tours)"

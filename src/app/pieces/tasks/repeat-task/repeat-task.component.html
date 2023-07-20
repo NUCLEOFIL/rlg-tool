@@ -25,6 +25,8 @@
     </div>
     <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
     <mat-icon class="piece-form-repeat" fontIcon="refresh" *ngIf="task.repeat.iteration > 0 || task.repeat.while != ''"></mat-icon>
-    <mat-icon class="piece-form-character" fontIcon="person" *ngIf="task.characters.length > 0"></mat-icon>
+    <mat-icon class="piece-form-character" fontIcon="person" *ngIf="task.characters.length > 0"
+    [style.color]="task.characters.length == 1 ? task.characters[0].color : 'black'"
+    [style.background]="task.characters.length > 1 ? 'linear-gradient('+ task.characters[0].color +','+ task.characters[task.characters.length-1].color +')' : 'white'"></mat-icon>
     <mat-icon class="piece-form-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
 </div>
