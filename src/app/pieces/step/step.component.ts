@@ -6,6 +6,7 @@ import { Step } from 'src/app/class/step/step';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
+import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
 @Component({
   selector: 'app-step',
@@ -22,13 +23,13 @@ export class StepComponent implements OnInit {
   displayMenu: string = 'hide';
   pieceWidth = '400px';
 
-  constructor(private pieceDetailsService: PieceDetailsService, public dialog: MatDialog) { }
+  constructor(private pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
     this.durationChange();
   }
 
-  onClickDots(): void {
+  onClickPiece(): void {
     this.pieceDetailsService.piece = this.step;
   }
 

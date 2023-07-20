@@ -29,6 +29,7 @@ export class RoleComponent implements OnInit {
   @Input() role: Role = new Role();
   @Input() mission: Mission = new Mission();
   @Input() i: number = 0;
+  @Input() missionIndex: number = 0;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
@@ -39,12 +40,12 @@ export class RoleComponent implements OnInit {
   displayMenu: string = 'hide';
   rewardType: number = 0;
 
-  onClickDots(): void {
+  onClickPiece(): void {
     this.pieceDetailsService.piece = this.role;
   }
 
   onClickAdd(): void {
-    const dialogRef = this.dialog.open(CreateDialogComponent, { data: 'un nouveau Rôle pour la Mission '+(this.i+1) });
+    const dialogRef = this.dialog.open(CreateDialogComponent, { data: 'un nouveau Rôle pour la Mission '+(this.missionIndex+1) });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.mission.roles.push(new Role());        

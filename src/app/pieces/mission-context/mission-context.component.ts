@@ -27,7 +27,7 @@ export class MissionContextComponent implements OnInit {
 
   displayMenu: string = 'hide';
 
-  onClickDots(): void {
+  onClickPiece(): void {
     this.pieceDetailsService.piece = this.scenario.missions[this.i];
   }
 

@@ -81,7 +81,7 @@ export class FinalTaskComponent implements OnInit {
     });
   } 
 
-  onClickDots(): void {
+  onClickPiece(): void {
     this.pieceDetailsService.piece = this.task;
     this.pieceDetailsService.parent = this.role;
   }

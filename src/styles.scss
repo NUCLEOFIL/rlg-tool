@@ -25,9 +25,20 @@
 }
 
 body {
-    //margin-top: 60px;
     background-color: var(--background-color);
     font-family: 'Glacial Indifference', sans-serif;
-    //transform: scale(0.9);
-    //transform-origin: top left;
+
+    input {
+        font-family: 'Glacial Indifference', sans-serif;
+        font-size: 17px;
+    }
+
+    textarea {
+        font-family: 'Glacial Indifference', sans-serif;
+        font-size: 17px;
+    }
+
+    select {
+        font-family: 'Glacial Indifference', sans-serif;
+    }
 }

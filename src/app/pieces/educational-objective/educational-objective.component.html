@@ -1,13 +1,18 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()">
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
     
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"
+        matTooltip="Ajouter une mission."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        matTooltip="Effacer le contenu de cette tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"
+        matTooltip="Supprimer la mission."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
    
     <div class="piece-form">

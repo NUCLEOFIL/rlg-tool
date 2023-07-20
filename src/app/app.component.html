@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="container-scenario-main-missions">
-                    <div class="container-scenario-main-missions-mission" *ngFor="let mission of this.scenario.missions, let i = index">
+                    <div class="container-scenario-main-missions-mission" *ngFor="let mission of this.scenario.missions, let missionIndex = index">
 
                         <div class="container-scenario-chronologie">
                             <div class="container-scenario-chronologie-title">Chronologie générale de la mission</div>
@@ -17,11 +17,15 @@
                                 <div *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i">
                                     <app-step *ngIf="step != null" [step]="step" [parent]="mission" [index]="i" [mission]="mission"></app-step>
                                     <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
-                                        <button mat-button (click)="addMissionStep(mission, i)"><mat-icon fontIcon="add"></mat-icon></button>
+                                        <button mat-button (click)="addMissionStep(mission, i)"
+                                        matTooltip="Ajouter une nouvelle tuile de ce type."
+                                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                     </div>
                                 </div>
                                 <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;">
-                                    <button mat-button (click)="addMissionStep(mission, mission.chronologie.length)"><mat-icon fontIcon="add"></mat-icon></button>
+                                    <button mat-button (click)="addMissionStep(mission, mission.chronologie.length)"
+                                    matTooltip="Ajouter une nouvelle tuile de ce type."
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                 </div>
                             </div>
                         </div>           
@@ -29,8 +33,8 @@
                         <div style="display: flex;">
 
                             <div class="container-scenario-main-missions-mission-missionPieces" [style.z-index]="3">
-                                <app-educational-objective [educationnalObjective]="mission.educationnalObjective" [scenario]="scenario" [i]="i"></app-educational-objective>
-                                <app-mission-context [style.z-index]="2" [missionContext]="mission.context" [scenario]="scenario" [i]="i"></app-mission-context>
+                                <app-educational-objective [educationnalObjective]="mission.educationnalObjective" [scenario]="scenario" [i]="missionIndex"></app-educational-objective>
+                                <app-mission-context [style.z-index]="2" [missionContext]="mission.context" [scenario]="scenario" [i]="missionIndex"></app-mission-context>
                             </div>
 
                             <div class="container-scenario-main-missions-mission-roles" [style.z-index]="2">
@@ -44,17 +48,21 @@
                                                 <div *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i">
                                                     <app-step *ngIf="step != null" [step]="step" [parent]="role" [index]="i" [mission]="mission"></app-step>
                                                     <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
-                                                        <button mat-button (click)="addRoleStep(mission, role, i)"><mat-icon fontIcon="add"></mat-icon></button>
+                                                        <button mat-button (click)="addRoleStep(mission, role, i)"
+                                                        matTooltip="Ajouter une nouvelle tuile de ce type."
+                                                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                                     </div>
                                                 </div>   
                                                 <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;">
-                                                    <button mat-button (click)="addRoleStep(mission, role, role.chronologie.length)"><mat-icon fontIcon="add"></mat-icon></button>
+                                                    <button mat-button (click)="addRoleStep(mission, role, role.chronologie.length)"
+                                                    matTooltip="Ajouter une nouvelle tuile de ce type."
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div style="display: flex; flex-direction: row;">
-                                            <app-role [style.z-index]="2" [scenario]="scenario" [role]="role" [mission]="mission" [i]="i"></app-role>
+                                            <app-role [style.z-index]="2" [scenario]="scenario" [role]="role" [mission]="mission" [i]="i" [missionIndex]="missionIndex"></app-role>
                                             <div class="container-scenario-main-missions-mission-roles-role-tasks" [style.z-index]="1">
                                                 <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
                                                     <div *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j">
@@ -67,7 +75,9 @@
                                                             <app-repeat-task *ngIf="task.type == 'repeat'" [task]="task" [mission]="mission" [role]="role" [i]="i" [j]="j"></app-repeat-task>
                                                         </div>
                                                         <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="task == null">
-                                                            <button mat-button [matMenuTriggerFor]="addTaskMenu"><mat-icon fontIcon="add"></mat-icon></button>
+                                                            <button mat-button [matMenuTriggerFor]="addTaskMenu"
+                                                            matTooltip="Ajouter une nouvelle tuile de ce type."
+                                                            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                                             <mat-menu #addTaskMenu="matMenu">
                                                                 <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, i, j, 'normal')">Ajouter une Tâche</button>
                                                                 <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, i, j, 'annexe')">Ajouter une Tâche annexe</button>
@@ -79,7 +89,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="dontContainFinalOrRepeatTask(tasks)">
-                                                        <button mat-button [matMenuTriggerFor]="addTaskMenu"><mat-icon fontIcon="add"></mat-icon></button>
+                                                        <button mat-button [matMenuTriggerFor]="addTaskMenu"
+                                                        matTooltip="Ajouter une nouvelle tuile de ce type."
+                                                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                                         <mat-menu #addTaskMenu="matMenu">
                                                             <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, i, tasks.length, 'normal')">Ajouter une Tâche</button>
                                                             <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, i, tasks.length, 'annexe')">Ajouter une Tâche annexe</button>
@@ -121,8 +133,20 @@
             <input name="tooltip" type="checkbox" [(ngModel)]="tooltipService.activatedTooltips"/>
             <label for="tooltip">Activer les aides</label>
         </div>
-        <button mat-mini-fab color="white" (click)="downloadFile()"><mat-icon fontIcon="download_file"></mat-icon></button>
-        <button mat-mini-fab color="white" (click)="selectFile()"><mat-icon fontIcon="upload-file"></mat-icon></button>
+        <button mat-mini-fab color="white" (click)="downloadFile()"
+        matTooltip="Télécharger une sauvegarde du scénario."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="download_file"></mat-icon></button>
+        <button mat-mini-fab color="white" (click)="selectFile()"
+        matTooltip="Importer une sauvegarde du scénario."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="upload-file"></mat-icon></button>
         <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)"> 
+    </div>
+    <div class="container-zoom">
+        <button mat-mini-fab color="white" (click)="zoomIn()"
+        matTooltip="Zoomer le scénario."
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_in"></mat-icon></button>
+        <button mat-mini-fab color="white" (click)="zoomOut()"
+        matTooltip="Dézoomer le scénario."
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_out"></mat-icon></button>
     </div>
 </div>

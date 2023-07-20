@@ -125,7 +125,7 @@
                                     display: flex;
                                     flex-direction: row;
                                 }
-
+                                /*
                                 &-menuButton {
                                     border-radius: 10px;
                                     margin-bottom: 5px;
@@ -134,6 +134,7 @@
                                 &-menuButton:hover {
                                     opacity: 0.75;
                                 }
+                                */
                             }
                         }
                     }
@@ -187,8 +188,49 @@
             height: 50px;
         }
     }
+
+    &-zoom {
+        position: fixed;
+        height: 110px;
+        right: 350px;
+        bottom: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 2;
+
+        button {
+            width: 50px;
+            height: 50px;
+
+            mat-icon {
+                transform: scale(1.2);
+            }
+        }
+    }
 }
 
 ::ng-deep .mat-tooltip {
-    font-size: 13px;
+    font-size: 15px;
+    font-family: 'Glacial Indifference', sans-serif;
+}
+
+::ng-deep .mat-button {
+    font-family: 'Glacial Indifference', sans-serif;
+    font-size: 16px;
+}
+
+::ng-deep .mat-menu-content {
+    padding: 5px;
+
+    button {
+        font-family: 'Glacial Indifference', sans-serif;
+        font-size: 17px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+    }
+
+    button:hover {
+        opacity: 0.75;
+    }
 }

@@ -1,13 +1,18 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"
+        matTooltip="Ajouter un rôle."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        matTooltip="Effacer le contenu de cette tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"
+        matTooltip="Supprimer la tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
     <div class="piece-form">
@@ -29,7 +34,9 @@
         </div>
         <div class="piece-form-description">
             <label for="description">Description</label>
-            <textarea name="description" [(ngModel)]="role.description"></textarea>
+            <textarea name="description" [(ngModel)]="role.description"
+            matTooltip="Élément précis sur ce rôle si nécessaire."
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-objectives">
             <label for="objective">Objectif(s) pédagoqique(s)</label>
@@ -128,7 +135,9 @@
             </div>
         </div>
 
-        <div class="piece-form-ressources">
+        <div class="piece-form-ressources"
+        matTooltip="Objets, ressources disponibles pour ce rôle"
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
             <div class="piece-form-title">Ressources & compétences</div>
             <div class="piece-form-ressources-ressource" *ngFor="let ressource of role.ressources, let i = index">
                 <div class="piece-form-ressources-ressource-name">

@@ -1,4 +1,4 @@
-<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displaySymbolChoice='hide'"
+<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displaySymbolChoice='hide'" (click)="onClickPiece()"
     [style.background]="task.supplementaryRole ?
     'linear-gradient(140deg, var(--piece-background-color) 0%, var(--piece-background-color) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
     : 'var(--piece-background-color)'"
@@ -8,19 +8,28 @@
     <div class="piece-attach piece-attach-right" [style.background]="task.supplementaryRole ? task.supplementaryRole.color : 'var(--piece-background-color)'"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="arrow_back_ios" (click)="moveTask('left')" *ngIf="canMoveTo('left')"></mat-icon>
+        <mat-icon fontIcon="arrow_back_ios" (click)="moveTask('left')" *ngIf="canMoveTo('left')"
+        matTooltip="Décaler la tuile vers la gauche."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <div>    
-            <mat-icon fontIcon="change_circle" [matMenuTriggerFor]="menuChange"></mat-icon>
+            <mat-icon fontIcon="change_circle" [matMenuTriggerFor]="menuChange"
+            matTooltip="Changer le type de cette tuile."
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
             <mat-menu #menuChange="matMenu">
                 <button class="piece-menu-changeMenuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="onClickChange('normal')">Transformer en Tâche</button>
                 <button class="piece-menu-changeMenuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="onClickChange('annexe')">Transformer Tâche annexe</button>
                 <button class="piece-menu-changeMenuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="onClickChange('final')" *ngIf="canChangeInFinalTask()">Transformer une Tâche finale</button>
             </mat-menu>
         </div>
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="delete" (click)="onClickDelete()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
-        <mat-icon fontIcon="arrow_forward_ios" (click)="moveTask('right')" *ngIf="canMoveTo('right')"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        matTooltip="Effacer le contenu de cette tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()"
+        matTooltip="Supprimer la tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="arrow_forward_ios" (click)="moveTask('right')" *ngIf="canMoveTo('right')"
+        matTooltip="Décaler la tuile vers la droite."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
     <div class="piece-symbolchoice" [class]="displaySymbolChoice">

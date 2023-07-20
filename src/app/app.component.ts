@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { Mission } from './class/mission/mission';
 import { Scenario } from './class/scenario/scenario';
 import { Step } from './class/step/step';
@@ -24,6 +24,7 @@ import { ObjectiveReward } from './class/rewards/objective-reward/objective-rewa
 import { OtherReward } from './class/rewards/other-reward/other-reward';
 import { PrerequireRessource } from './class/prerequires/prerequire-ressource/prerequire-ressource';
 import { TooltipService } from './services/tooltip/tooltip.service';
+import { ZoomService } from './services/zoom/zoom.service';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +37,8 @@ export class AppComponent {
   scenario: Scenario = new Scenario();
   @ViewChild('fileInput') fileInput: any;
 
-  constructor(private cdr: ChangeDetectorRef, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService) {
+  constructor(private cdr: ChangeDetectorRef, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
+    private elementRef: ElementRef, private zoomService: ZoomService) {
     pieceDetailsService.piece = this.scenario;
 
     this.scenario.missions.forEach(mission => {
@@ -192,6 +194,21 @@ export class AppComponent {
         this.cdr.detectChanges();
       };
     }
+  }
+
+  zoomIn(): void {
+    const element = this.elementRef.nativeElement.querySelector('.container-appMouseWheelZoom');
+    this.zoomService.zoom += 0.1;
+    element.style.transform = `scale(${this.zoomService.zoom})`;
+  }
+
+  zoomOut(): void {
+    if (this.zoomService.zoom > 0.3) {
+      const element = this.elementRef.nativeElement.querySelector('.container-appMouseWheelZoom');
+      this.zoomService.zoom -= 0.1;
+      element.style.transform = `scale(${this.zoomService.zoom})`;      
+    }
+
   }
 
   addMissionStep(mission: Mission, index: number): void {

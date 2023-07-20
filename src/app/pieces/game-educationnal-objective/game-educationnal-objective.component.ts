@@ -23,7 +23,7 @@ export class GameEducationnalObjectiveComponent implements OnInit {
 
   displayMenu: string = 'hide';
 
-  onClickDots(): void {
+  onClickPiece(): void {
     this.pieceDetailsService.piece = this.scenario;
   }
 

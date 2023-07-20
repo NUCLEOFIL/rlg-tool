@@ -1,13 +1,18 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"
+        matTooltip="Ajouter une mission."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        matTooltip="Effacer le contenu de cette tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"
+        matTooltip="Supprimer la mission."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
     <div class="piece-form">
@@ -20,15 +25,21 @@
         </div>
         <div class="piece-form-intrigue">
             <label for="intrigue">Intrigue</label>
-            <textarea name="intrigue" [(ngModel)]="missionContext.intrigue" placeholder="Concevez un site web ergonomique pour votre premier client"></textarea>  
+            <textarea name="intrigue" [(ngModel)]="missionContext.intrigue" placeholder="Concevez un site web ergonomique pour votre premier client"  
+            matTooltip="Quelle est l’histoire de la mission ? Quel est l’enjeu pour les joueurs ?"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-communication">
             <label for="communication">Moyen(s) de communication</label>
-            <textarea name="communication" [(ngModel)]="missionContext.communication"></textarea>
+            <textarea name="communication" [(ngModel)]="missionContext.communication"
+            matTooltip="Comment les joueurs vont-ils communiquer entre eux : à l'oral, par chat, en vocal sur ordinateur, par messages, etc."
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-divers">
             <label for="divers">Divers</label>
-            <textarea name="divers" [(ngModel)]="missionContext.various"></textarea>
+            <textarea name="divers" [(ngModel)]="missionContext.various"
+            matTooltip="Tout autre élément que vous souhaiteriez prendre en compte dans la mission et non défini dans les tuiles"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
     </div>
 </div>

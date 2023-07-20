@@ -1,13 +1,20 @@
-<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()">
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="arrow_back_ios" (click)="moveStep('left')" *ngIf="index > 0"></mat-icon>
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="delete" (click)="onClickDelete()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
-        <mat-icon fontIcon="arrow_forward_ios" (click)="moveStep('right')"></mat-icon>
+        <mat-icon fontIcon="arrow_back_ios" (click)="moveStep('left')" *ngIf="index > 0"
+        matTooltip="Décaler la tuile vers la gauche."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        matTooltip="Effacer le contenu de cette tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()"
+        matTooltip="Supprimer la tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="arrow_forward_ios" (click)="moveStep('right')"
+        matTooltip="Décaler la tuile vers la droite."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
     <div class="piece-form">

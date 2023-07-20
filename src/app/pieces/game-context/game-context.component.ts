@@ -36,7 +36,7 @@ export class GameContextComponent implements OnInit {
     });
   } 
 
-  onClickDots(): void {
+  onClickPiece(): void {
     this.pieceDetailsService.piece = this.scenario;
   }
 
