@@ -58,10 +58,22 @@ export class Role {
         if (direction == 'left') {
             this.tasks[i][j] = this.tasks[i][j-1];
             this.tasks[i][j-1] = tmp;
-        } else if (direction == 'right' && (this.tasks[i][j+1]?.type != 'final' && this.tasks[i][j+1]?.type != 'repeat')) {
+        } else if (direction == 'right') {
             this.tasks[i][j] = this.tasks[i][j+1];
             this.tasks[i][j+1] = tmp;
-        }   
+        } else if (direction == 'top') {
+            this.tasks[i][j] = this.tasks[i-1][j];
+            this.tasks[i-1][j] = tmp;
+            if (!this.tasks[i].some(element => element instanceof Task)) {
+                this.tasks.splice(i,1);
+            }
+        } else if (direction == 'bottom') {
+            if (this.tasks[i+2] == null) {
+                this.tasks[i+2] = [];
+            }
+            this.tasks[i][j] = this.tasks[i+1][j];
+            this.tasks[i+1][j] = tmp;  
+        }
     }
 
     public moveStep(i: number, direction: string): void {

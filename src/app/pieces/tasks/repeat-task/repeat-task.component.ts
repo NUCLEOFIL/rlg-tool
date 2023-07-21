@@ -76,6 +76,22 @@ export class RepeatTaskComponent implements OnInit {
       if (this.role.tasks[this.i][this.j-1] instanceof Task || this.j == 0) {
         res = false;
       }
+    } else if (direction == 'top') {
+      if (this.i == 0) {
+        res = false;
+      } else if (this.role.tasks[this.i - 1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
+        let index: number = this.role.tasks[this.i - 1].findIndex(element => element?.type == 'final' || element?.type == 'repeat');
+        if (index != this.j) {
+          res = false;
+        }
+      }
+    } else if (direction == 'bottom') {
+      if (this.role.tasks[this.i + 1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
+        let index: number = this.role.tasks[this.i + 1].findIndex(element => element?.type == 'final' || element?.type == 'repeat');
+        if (index != this.j) {
+          res = false;
+        }
+      }
     }
     return res;
   }

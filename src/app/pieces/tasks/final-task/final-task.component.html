@@ -10,6 +10,9 @@
         <mat-icon fontIcon="arrow_back_ios" (click)="moveTask('left')" *ngIf="canMoveTo('left')"
         matTooltip="Décaler la tuile vers la gauche."
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="expand_less" (click)="moveTask('top')" *ngIf="canMoveTo('top')"
+        matTooltip="Décaler la tuile vers le haut."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <div>
             <mat-icon fontIcon="change_circle" [matMenuTriggerFor]="menuChange"
             matTooltip="Changer le type de cette tuile."
@@ -25,6 +28,9 @@
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <mat-icon fontIcon="delete" (click)="onClickDelete()"
         matTooltip="Supprimer la tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="expand_more" (click)="moveTask('bottom')" *ngIf="canMoveTo('bottom')"
+        matTooltip="Décaler la tuile vers le bas."
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <mat-icon fontIcon="arrow_forward_ios" (click)="moveTask('right')" *ngIf="canMoveTo('right')"
         matTooltip="Décaler la tuile vers la droite."

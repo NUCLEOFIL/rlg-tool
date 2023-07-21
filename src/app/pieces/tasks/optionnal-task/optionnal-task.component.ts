@@ -157,7 +157,6 @@ export class OptionnalTaskComponent implements OnInit {
     this.displaySymbolChoice = 'hide';
     this.mission.equalizeLengths();
   }
-
   canMoveTo(direction: string): boolean {
     let res: boolean = true;
     if (direction == 'left') {
@@ -166,6 +165,20 @@ export class OptionnalTaskComponent implements OnInit {
       }
     } else if (direction == 'right') {
       if (this.role.tasks[this.i][this.j+1]?.type == 'final' || this.role.tasks[this.i][this.j+1]?.type == 'repeat') {
+        res = false;
+      }
+    } else if (direction == 'top') {
+      if (this.i == 0) {
+        res = false;
+      } else if (this.role.tasks[this.i-1].slice(0, this.j).some(element => element?.type == 'final' || element?.type == 'repeat')) {
+        res = false;
+      } else if (this.role.tasks[this.i].some(element => element?.type == 'final' || element?.type == 'repeat') && (this.role.tasks[this.i-1][this.j]?.type == 'final' || this.role.tasks[this.i-1][this.j]?.type == 'repeat')) {
+        res = false;
+      }
+    } else if (direction == 'bottom') {
+      if (this.role.tasks[this.i+1].slice(0, this.j).some(element => element?.type == 'final' || element?.type == 'repeat')) {
+        res = false;
+      } else if (this.role.tasks[this.i].some(element => element?.type == 'final' || element?.type == 'repeat') && (this.role.tasks[this.i+1][this.j]?.type == 'final' || this.role.tasks[this.i+1][this.j]?.type == 'repeat')) {
         res = false;
       }
     }
