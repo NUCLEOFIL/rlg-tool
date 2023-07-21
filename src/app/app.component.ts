@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Mission } from './class/mission/mission';
 import { Scenario } from './class/scenario/scenario';
 import { Step } from './class/step/step';
@@ -44,6 +44,13 @@ export class AppComponent {
     this.scenario.missions.forEach(mission => {
       mission.equalizeLengths();
     });
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeUnloadHandler(event: any) {
+    const message = "Êtes vous sûr de vouloir quitter RLG Maker ?\nVous risquez de perdre les données non sauvegardées.";
+    event.returnValue = message;
+    return message;
   }
 
   downloadFile(): void {
