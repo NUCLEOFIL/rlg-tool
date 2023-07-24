@@ -7,12 +7,6 @@
     <div class="piece-attach piece-attach-left"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="arrow_back_ios" (click)="moveTask('left')" *ngIf="canMoveTo('left')"
-        matTooltip="Décaler la tuile vers la gauche."
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
-        <mat-icon fontIcon="expand_less" (click)="moveTask('top')" *ngIf="canMoveTo('top')"
-        matTooltip="Décaler la tuile vers le haut."
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <div>
             <mat-icon fontIcon="change_circle" [matMenuTriggerFor]="menuChange"
             matTooltip="Changer le type de cette tuile."
@@ -29,12 +23,30 @@
         <mat-icon fontIcon="delete" (click)="onClickDelete()"
         matTooltip="Supprimer la tuile."
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
-        <mat-icon fontIcon="expand_more" (click)="moveTask('bottom')" *ngIf="canMoveTo('bottom')"
-        matTooltip="Décaler la tuile vers le bas."
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
-        <mat-icon fontIcon="arrow_forward_ios" (click)="moveTask('right')" *ngIf="canMoveTo('right')"
-        matTooltip="Décaler la tuile vers la droite."
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <div class="piece-menu-directioncross">
+            <div class="piece-menu-directioncross-left">
+                <mat-icon style="transform: rotate(0turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('left')"
+                matTooltip="Décaler la tuile vers la gauche."
+                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
+            </div>
+            <div class="piece-menu-directioncross-updownarrows">
+                <div class="piece-menu-updownarrows-up">
+                    <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top')"
+                    matTooltip="Décaler la tuile vers le haut."
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
+                </div>
+                <div class="piece-menu-directioncross-updownarrows-down">
+                    <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom')"
+                    matTooltip="Décaler la tuile vers le bas."
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+                </div>
+            </div>
+            <div class="piece-menu-directioncross-right">
+                <mat-icon style="transform: rotate(0.5turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('right')"
+                matTooltip="Décaler la tuile vers la droite."
+                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+            </div>
+        </div>
     </div>
 
     <div class="piece-symbolchoice" [class]="displaySymbolChoice">

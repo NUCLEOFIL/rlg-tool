@@ -11,7 +11,7 @@
 
     &-menu {
         position: absolute;
-        width: 200px;
+        width: 220px;
         height: 50px;
         background-color: #f7f7f7;
         z-index: -1;
@@ -24,7 +24,7 @@
         border: solid black 1px;
         display: flex;
         padding: 15px 20px 15px 20px;
-        justify-content: space-around;
+        justify-content: space-between;
 
         mat-icon {
             cursor: pointer;
@@ -33,6 +33,23 @@
 
         mat-icon:hover {
             opacity: 0.75;
+        }
+
+        &-directioncross {
+            display: flex;
+            flex-direction: row;
+
+            &-updownarrows {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                top: -10px;
+
+                &-down {
+                    position: relative;
+                    top: -8px;
+                }
+            }            
         }
     }
 

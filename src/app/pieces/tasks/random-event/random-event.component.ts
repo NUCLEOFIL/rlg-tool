@@ -128,11 +128,31 @@ export class RandomEventComponent implements OnInit {
   }
 
   moveTask(direction: string): void {
-    this.role.moveTask(this.i, this.j, direction);
-    this.displayMenu = 'hide';
-    this.displayPrequires = 'hide';
-    this.displaySymbolChoice = 'hide';
-    this.mission.equalizeLengths();
+    if (direction == 'left' && this.canMoveTo('left')) {
+      this.role.moveTask(this.i, this.j, direction);
+      this.displayMenu = 'hide';
+      this.displayPrequires = 'hide';
+      this.displaySymbolChoice = 'hide';
+      this.mission.equalizeLengths();
+    } else if (direction == 'top' && this.canMoveTo('top')) {
+      this.role.moveTask(this.i, this.j, direction);
+      this.displayMenu = 'hide';
+      this.displayPrequires = 'hide';
+      this.displaySymbolChoice = 'hide';
+      this.mission.equalizeLengths();
+    } else if (direction == 'right' && this.canMoveTo('right')) {
+      this.role.moveTask(this.i, this.j, direction);
+      this.displayMenu = 'hide';
+      this.displayPrequires = 'hide';
+      this.displaySymbolChoice = 'hide';
+      this.mission.equalizeLengths();
+    } else if (direction == 'bottom' && this.canMoveTo('bottom')) {
+      this.role.moveTask(this.i, this.j, direction);
+      this.displayMenu = 'hide';
+      this.displayPrequires = 'hide';
+      this.displaySymbolChoice = 'hide';
+      this.mission.equalizeLengths();
+    }
   }
 
   canMoveTo(direction: string): boolean {
