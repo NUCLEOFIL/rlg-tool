@@ -1,4 +1,4 @@
-<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displaySymbolChoice='hide'" (click)="onClickPiece()"
+<div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displaySymbolChoice='hide'" (click)="onClickPiece()"
     [style.background]="task.supplementaryRole ?
     'linear-gradient(140deg, var(--piece-background-color) 0%, var(--piece-background-color) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
     : 'var(--piece-background-color)'">
@@ -31,12 +31,12 @@
             <div class="piece-menu-directioncross-updownarrows">
                 <div class="piece-menu-updownarrows-up">
                     <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top')"
-                    matTooltip="Décaler la tuile vers le haut."
+                    matTooltip="Décaler la tuile vers le haut (ceci placera la tuile à la fin de la ligne)."
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
                 </div>
                 <div class="piece-menu-directioncross-updownarrows-down">
                     <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom')"
-                    matTooltip="Décaler la tuile vers le bas."
+                    matTooltip="Décaler la tuile vers le bas (ceci placera la tuile à la fin de la ligne)."
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
                 </div>
             </div>
@@ -153,15 +153,6 @@
             matTooltip="Action à effectuer (interagir avec un objet, parler avec quelqu'un, …)"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         <div class="piece-form-bottom">
-            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()"
-            matTooltip="Prérequis pour effectuer cette tâche"
-            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-                Prérequis
-            </button>
-            <mat-icon class="piece-form-bottom-character" fontIcon="person" *ngIf="task.characters.length > 0"
-                [style.color]="task.characters.length == 1 ? task.characters[0].color : 'black'"
-                [style.background]="task.characters.length > 1 ? 'linear-gradient('+ task.characters[0].color +','+ task.characters[task.characters.length-1].color +')' : 'white'"></mat-icon>
-            <mat-icon class="piece-form-bottom-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
             <div class="piece-form-bottom-duration"
             matTooltip="Durée de la tâche (en unité de temps, minutes ou tours)"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
@@ -172,7 +163,15 @@
                     <option value="tours">tours</option> 
                 </select>
             </div>
+            <mat-icon class="piece-form-bottom-character" fontIcon="person" *ngIf="task.characters.length > 0"
+                [style.color]="task.characters.length == 1 ? task.characters[0].color : 'black'"
+                [style.background]="task.characters.length > 1 ? 'linear-gradient('+ task.characters[0].color +','+ task.characters[task.characters.length-1].color +')' : 'white'"></mat-icon>
+            <mat-icon class="piece-form-bottom-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
+            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()"
+            matTooltip="Prérequis pour effectuer cette tâche"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                Prérequis
+            </button>
         </div>
-
     </div>
 </div>

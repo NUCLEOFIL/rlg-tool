@@ -77,7 +77,7 @@ export class RepeatTaskComponent implements OnInit {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.mission.equalizeLengths();
-    } else if (direction == 'bottom' && this.canMoveTo('bottom')) {
+    } else if (direction == 'bottom') {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.mission.equalizeLengths();

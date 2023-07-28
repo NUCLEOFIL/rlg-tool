@@ -62,8 +62,20 @@ export class Role {
             this.tasks[i][j] = this.tasks[i][j+1];
             this.tasks[i][j+1] = tmp;
         } else if (direction == 'top') {
-            this.tasks[i][j] = this.tasks[i-1][j];
-            this.tasks[i-1][j] = tmp;
+            if (this.tasks[i-1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
+                if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
+                    this.tasks[i][j] = this.tasks[i-1][this.getLastTaskIndex(i-1)];
+                    this.tasks[i-1][this.getLastTaskIndex(i-1)] = tmp;
+                } else {
+                    let deplace = this.tasks[i-1][this.getLastTaskIndex(i-1)];
+                    this.tasks[i-1][this.getLastTaskIndex(i-1)] = tmp;
+                    this.tasks[i-1][this.getLastTaskIndex(i-1)+1] = deplace;
+                    this.tasks[i].splice(j, 1);
+                }
+            } else {
+                this.tasks[i-1][this.getLastTaskIndex(i-1)+1] = tmp;
+                this.tasks[i].splice(j, 1);
+            }
             if (!this.tasks[i].some(element => element instanceof Task)) {
                 this.tasks.splice(i,1);
             }
@@ -71,8 +83,20 @@ export class Role {
             if (this.tasks[i+2] == null) {
                 this.tasks[i+2] = [];
             }
-            this.tasks[i][j] = this.tasks[i+1][j];
-            this.tasks[i+1][j] = tmp;  
+            if (this.tasks[i+1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
+                if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
+                    this.tasks[i][j] = this.tasks[i+1][this.getLastTaskIndex(i+1)];
+                    this.tasks[i+1][this.getLastTaskIndex(i+1)] = tmp;
+                } else {
+                    let deplace = this.tasks[i+1][this.getLastTaskIndex(i+1)];
+                    this.tasks[i+1][this.getLastTaskIndex(i+1)] = tmp;
+                    this.tasks[i+1][this.getLastTaskIndex(i+1)+1] = deplace;
+                    this.tasks[i].splice(j, 1);
+                }
+            } else {
+                this.tasks[i+1][this.getLastTaskIndex(i+1)+1] = tmp;
+                this.tasks[i].splice(j, 1);
+            }
         }
     }
 
@@ -85,5 +109,18 @@ export class Role {
             this.chronologie[i] = this.chronologie[i+1];
             this.chronologie[i+1] = tmp;
         }
+    }
+
+    public getLastTaskIndex(i: number): number {
+        let index: number;
+        if (this.tasks[i].some(element => element instanceof Task)) {
+            index = this.tasks[i].length-1 ;
+            while (!(this.tasks[i][index] instanceof Task)) {
+                index--;
+            }
+        } else {
+            index = 0;
+        }
+        return index;
     }
 }

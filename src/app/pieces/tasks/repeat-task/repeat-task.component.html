@@ -17,12 +17,12 @@
             <div class="piece-menu-directioncross-updownarrows">
                 <div class="piece-menu-updownarrows-up">
                     <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top')"
-                    matTooltip="Décaler la tuile vers le haut."
+                    matTooltip="Décaler la tuile vers le haut (ceci placera la tuile à la fin de la ligne)."
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
                 </div>
                 <div class="piece-menu-directioncross-updownarrows-down">
                     <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom')"
-                    matTooltip="Décaler la tuile vers le bas."
+                    matTooltip="Décaler la tuile vers le bas (ceci placera la tuile à la fin de la ligne)."
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
                 </div>
             </div>

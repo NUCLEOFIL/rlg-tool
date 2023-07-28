@@ -23,7 +23,7 @@ export class AnnexeTaskComponent implements OnInit {
   displaySymbolChoice: string = 'hide';
   displayPrequires: string = 'hide';
 
-  pieceWidth: string = '400px';
+  pieceWidth: number = 400;
 
   @Input() task: Task = new Task('normal');
   @Input() scenario: Scenario = new Scenario();
@@ -37,23 +37,46 @@ export class AnnexeTaskComponent implements OnInit {
   constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.durationChange();
+    this.setPieceWidth();
+    this.mission.equalizeLengths();
   }
   
   durationChange(): void {
-    /*
+    let beforeWidth: number = this.pieceWidth;
+    this.setPieceWidth();
+    let afterWidth: number = this.pieceWidth;
+    let difference: number;
+    // Increase
+    if (beforeWidth < afterWidth) {
+      difference = (afterWidth/beforeWidth)-1;
+      for(let k = 0; k < difference; k++) {
+        if (!(this.role.tasks[this.i][this.j+k+1] instanceof Task)) {
+          this.role.tasks[this.i].splice(this.j+k+1, 1);
+        }
+      }
+    }
+    // Decrease
+    if (afterWidth < beforeWidth) {
+      difference = (beforeWidth/afterWidth)-1
+      for (let k = 0; k < difference; k++) {
+        this.role.tasks[this.i].splice(this.j+k+1, 0, null);
+      }
+    }
+    this.mission.equalizeLengths();
+  }
+
+  setPieceWidth(): void {
     if(this.task.durationUnit === 'UT') {
       if(this.task.duration >= 1 && this.task.duration <= 10) {
-        this.pieceWidth = (this.task.duration*400)+'px';
+        this.pieceWidth = (this.task.duration*400);
       } else if(this.task.duration > 10) {
-        this.pieceWidth = '4000px';
+        this.pieceWidth = 4000;
       } else {
-        this.pieceWidth = '400px';
+        this.pieceWidth = 400;
       }
     } else {
-      this.pieceWidth = '400px';
+      this.pieceWidth = 400;
     }
-    */
   }
 
   onClickErase(): void {
@@ -149,7 +172,7 @@ export class AnnexeTaskComponent implements OnInit {
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-    } else if (direction == 'bottom' && this.canMoveTo('bottom')) {
+    } else if (direction == 'bottom') {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
@@ -170,16 +193,6 @@ export class AnnexeTaskComponent implements OnInit {
       }
     } else if (direction == 'top') {
       if (this.i == 0) {
-        res = false;
-      } else if (this.role.tasks[this.i-1].slice(0, this.j).some(element => element?.type == 'final' || element?.type == 'repeat')) {
-        res = false;
-      } else if (this.role.tasks[this.i].some(element => element?.type == 'final' || element?.type == 'repeat') && (this.role.tasks[this.i-1][this.j]?.type == 'final' || this.role.tasks[this.i-1][this.j]?.type == 'repeat')) {
-        res = false;
-      }
-    } else if (direction == 'bottom') {
-      if (this.role.tasks[this.i+1].slice(0, this.j).some(element => element?.type == 'final' || element?.type == 'repeat')) {
-        res = false;
-      } else if (this.role.tasks[this.i].some(element => element?.type == 'final' || element?.type == 'repeat') && (this.role.tasks[this.i+1][this.j]?.type == 'final' || this.role.tasks[this.i+1][this.j]?.type == 'repeat')) {
         res = false;
       }
     }

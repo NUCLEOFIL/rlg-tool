@@ -21,12 +21,51 @@ export class StepComponent implements OnInit {
   @Input() mission!: Mission;
 
   displayMenu: string = 'hide';
-  pieceWidth = '400px';
+  pieceWidth: number = 400;
 
   constructor(private pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
-    this.durationChange();
+    this.setPieceWidth();
+    this.mission.equalizeLengths();
+  }
+  
+  durationChange(): void {
+    let beforeWidth: number = this.pieceWidth;
+    this.setPieceWidth();
+    let afterWidth: number = this.pieceWidth;
+    let difference: number;
+    // Increase
+    if (beforeWidth < afterWidth) {
+      difference = (afterWidth/beforeWidth)-1;
+      for(let k = 0; k < difference; k++) {
+        if (!(this.parent.chronologie[this.index+k+1] instanceof Step)) {
+          this.parent.chronologie.splice(this.index+k+1, 1);
+        }
+      }
+    }
+    // Decrease
+    if (afterWidth < beforeWidth) {
+      difference = (beforeWidth/afterWidth)-1
+      for (let k = 0; k < difference; k++) {
+        this.parent.chronologie.splice(this.index+k+1, 0, null);
+      }
+    }
+    this.mission.equalizeLengths();
+  }
+
+  setPieceWidth(): void {
+    if(this.step.durationUnit === 'UT') {
+      if(this.step.duration >= 1 && this.step.duration <= 10) {
+        this.pieceWidth = (this.step.duration*400);
+      } else if(this.step.duration > 10) {
+        this.pieceWidth = 4000;
+      } else {
+        this.pieceWidth = 400;
+      }
+    } else {
+      this.pieceWidth = 400;
+    }
   }
 
   onClickPiece(): void {
@@ -63,21 +102,4 @@ export class StepComponent implements OnInit {
     this.displayMenu = 'hide';
     this.mission.equalizeLengths();
   }
-
-  durationChange(): void {
-    /*
-    if(this.step.durationUnit === 'UT') {
-      if(this.step.duration >= 1 && this.step.duration <= 10) {
-        this.pieceWidth = (this.step.duration*400)+'px';
-      } else if(this.step.duration > 10) {
-        this.pieceWidth = '4000px';
-      } else {
-        this.pieceWidth = '400px';
-      }
-    } else {
-      this.pieceWidth = '400px';
-    }
-    */
-  }
-
 }

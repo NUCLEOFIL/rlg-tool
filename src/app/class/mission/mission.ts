@@ -35,6 +35,30 @@ export class Mission {
             this.chronologie[i+1] = tmp;
         }
     }
+    
+    public equalizeLengths(): void {
+        this.unequalizeLenghts();
+
+        let maxLineLength: number = this.calcMaxLineLength()-1;
+
+        if (!(this.chronologie[maxLineLength - this.sumUT(this.chronologie)] instanceof Step)) {
+            this.chronologie[maxLineLength - this.sumUT(this.chronologie)] = null;
+        }
+
+        this.roles.forEach(role => {
+            if (!(role.chronologie[maxLineLength - this.sumUT(role.chronologie)] instanceof Step)) {
+                role.chronologie[maxLineLength - this.sumUT(role.chronologie)] = null;
+            }
+
+            role.tasks.forEach(inlineTasks => {
+                if (!(inlineTasks.some(task => task?.type == 'final') || inlineTasks.some(task => task?.type == 'repeat'))) {
+                    if (!(inlineTasks[maxLineLength - this.sumUT(inlineTasks)] instanceof Task)) {
+                        inlineTasks[maxLineLength - this.sumUT(inlineTasks)] = null;
+                    }
+                }
+            });
+        });
+    }
 
     public calcMaxLineLength(): number {
         let length: number = 0;
@@ -116,15 +140,15 @@ export class Mission {
         }
         return length;
     }
-    
-    public equalizeLengths(): void {
+
+    public unequalizeLenghts(): void {
         //Pour la chronologie
         if (this.chronologie.some(element => element instanceof Step)) {
-            let lastIndexStep = this.chronologie.length-1;
+            let lastIndexStep = this.chronologie.length - 1;
             while (!(this.chronologie[lastIndexStep] instanceof Step)) {
                 lastIndexStep--;
             }
-            this.chronologie.splice(lastIndexStep+1, this.chronologie.length);
+            this.chronologie.splice(lastIndexStep + 1, this.chronologie.length);
         } else {
             this.chronologie = [];
         }
@@ -133,11 +157,11 @@ export class Mission {
         this.roles.forEach(role => {
             // Pour la chronologie du role
             if (role.chronologie.some(element => element instanceof Step)) {
-                let lastIndexStep = role.chronologie.length-1;
+                let lastIndexStep = role.chronologie.length - 1;
                 while (!(role.chronologie[lastIndexStep] instanceof Step)) {
                     lastIndexStep--;
                 }
-                role.chronologie.splice(lastIndexStep+1, role.chronologie.length);
+                role.chronologie.splice(lastIndexStep + 1, role.chronologie.length);
             } else {
                 role.chronologie = [];
             }
@@ -145,80 +169,32 @@ export class Mission {
             // Pour les taches
             role.tasks.forEach((inlineTasks, index) => {
                 if (inlineTasks.some(element => element instanceof Task)) {
-                    let lastIndexTask = inlineTasks.length-1;
+                    let lastIndexTask = inlineTasks.length - 1;
                     while (!(inlineTasks[lastIndexTask] instanceof Task)) {
                         lastIndexTask--;
                     }
-                    inlineTasks.splice(lastIndexTask+1, inlineTasks.length);
+                    inlineTasks.splice(lastIndexTask + 1, inlineTasks.length);
                 } else {
                     role.tasks[index] = [];
                 }
             });
         });
-
-        //---------
-
-        let maxLineLength: number = this.calcMaxLineLength()-1;
-        if (!(this.chronologie[maxLineLength] instanceof Step)) {
-            this.chronologie[maxLineLength] = null;
-        }
-
-        this.roles.forEach(role => {
-            if (!(role.chronologie[maxLineLength] instanceof Step)) {
-                role.chronologie[maxLineLength] = null;
-            }
-
-            role.tasks.forEach(inlineTasks => {
-                if (!(inlineTasks.some(task => task?.type == 'final') || inlineTasks.some(task => task?.type == 'repeat'))) {
-                    if (!(inlineTasks[maxLineLength] instanceof Task)) {
-                        inlineTasks[maxLineLength] = null;
-                    }
-                }
-            });
-        });
-
-        // DurationChange
-        /* 
-        let maxLineLength: number = this.calcMaxLineLength()-1;
-        if (!(this.chronologie[maxLineLength] instanceof Step)) {
-            this.chronologie[maxLineLength - this.sumUT(this.chronologie)] = null;
-        }
-
-        this.roles.forEach(role => {
-            if (!(role.chronologie[maxLineLength] instanceof Step)) {
-                role.chronologie[maxLineLength - this.sumUT(role.chronologie)] = null;
-            }
-
-            role.tasks.forEach(inlineTasks => {
-                if (!(inlineTasks[maxLineLength] instanceof Task)) {
-                    inlineTasks[maxLineLength - this.sumUT(inlineTasks)] = null;
-                }
-            });
-        });
-        */
     }
-
-    // DurationChange
-    /*
-    sumUT(list: ((Step|null)|(Task|null))[]): number {
+    
+    public sumUT(list: ((Step|null)|(Task|null))[]): number {
         let sum = 0;
-
         list.forEach(element => {
             if (element?.durationUnit == 'UT') {
-                console.log('UT OK');
                 if (element.duration > 1) {
-                    console.log('Duration < 1 OK');
                     if (element.duration>=10) {
-                        sum = sum + 10;
+                        sum = sum + 10-1;
                     } else {
-                        sum = sum + element.duration;
-                        console.log('addition : '+sum);
+                        sum = sum + element.duration-1;
                     }
                 }
             }
         });
-        console.log(sum);
         return sum;
     }
-    */
+    
 }
