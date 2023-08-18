@@ -1,0 +1,57 @@
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()">
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        matTooltip="Effacer le contenu de cette tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+    </div>
+
+    <div class="piece-form">
+        <div class="piece-form-character-create">
+            <div class="piece-form-title">Créer un nouveau personnage</div>
+            <div class="piece-form-character-create-top">
+                <mat-icon fontIcon="person_add"></mat-icon>
+                <div class="piece-form-character-create-top-name">
+                    <label for="name">Nom</label>
+                    <input name="name" type="text" [(ngModel)]="newCharacter.name"/>
+                </div>
+            </div>
+            <div class="piece-form-create-infos">
+                <div class="piece-form-character-create-infos-description">
+                    <label for="description">Description</label>
+                    <textarea class="background" name="description" [(ngModel)]="newCharacter.description"></textarea>
+                </div>
+
+                <div class="piece-form-character-create-infos-color">
+                    <label for="color">Couleur</label>
+                    <input name="color" type="color" [(ngModel)]="newCharacter.color"/>
+                </div>
+            </div>
+            <button mat-button (click)="createCharacter()">Créer</button>
+        </div>   
+        <div class="piece-form-character-characters"  *ngIf="scenario.characters.length > 0" >
+            <div class="piece-form-title">Personnages</div>
+            <div class="piece-form-character-characters-character" *ngFor="let character of scenario.characters; let index = index" [style]="index == 0? '' : 'border-top: solid black 1px;'">
+                <div class="piece-form-character-create-top">
+                    <mat-icon fontIcon="person"></mat-icon>
+                    <div class="piece-form-character-create-top-name">
+                        <label for="name">Nom</label>
+                        <input name="name" type="text" [(ngModel)]="character.name"/>
+                    </div>
+                </div>
+                <div class="piece-form-create-infos">
+                    <div class="piece-form-character-create-infos-description">
+                        <label for="description">Description</label>
+                        <textarea name="description" [(ngModel)]="character.description"></textarea>
+                    </div>
+
+                    <div class="piece-form-character-create-infos-color">
+                        <label for="color">Couleur</label>
+                        <input name="color" type="color" [(ngModel)]="character.color"/>
+                    </div>
+                </div>
+                <button mat-button (click)="deleteCharacter(index)">Supprimer</button>
+            </div>
+        </div>     
+    </div>
+</div>

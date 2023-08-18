@@ -25,41 +25,6 @@ export class CharactersComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  createCharacter(): void {
-    if (this.newCharacter.name != '') {
-      const dialogRef = this.dialog.open(CreateDialogComponent, { data: 'un nouveau Personnage <'+this.newCharacter.name+'>' });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result == true) {
-          this.scenario.characters.push(this.newCharacter);
-          this.newCharacter = new Character();     
-        }
-      });
-    }
-  }
-
-  deleteCharacter(): void {
-    if (this.selectedDeleteCharacterIndex != undefined) {
-      const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'ce Personnage <'+this.scenario.characters[this.selectedDeleteCharacterIndex].name+'>' });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result == true) {
-          this.scenario.missions.forEach(mission => {
-            mission.roles.forEach(role => {
-              role.tasks.forEach(inlineTask => {
-                inlineTask.forEach(task => {
-                  let index: number | undefined = task?.characters.findIndex(character => character == this.scenario.characters[this.selectedDeleteCharacterIndex]);
-                  if (typeof index !== 'undefined' && index !== -1) {
-                    task?.characters.splice(index, 1);
-                  }
-                });
-              });
-            });
-          });
-          this.scenario.characters.splice(this.selectedDeleteCharacterIndex, 1);
-        }
-      });
-    }
-  }
-
   assignCharacter(): void {
     if (this.selectedAssignCharacter != undefined) {
       this.task.characters.push(this.selectedAssignCharacter);
@@ -69,5 +34,9 @@ export class CharactersComponent implements OnInit {
 
   notAlreadyAssigned(character: Character): boolean {
     return !this.task.characters.includes(character);
+  }
+
+  unassignCharacter(index: number): void {
+    this.task.characters.splice(index, 1);
   }
 }

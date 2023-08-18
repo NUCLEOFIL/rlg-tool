@@ -6,6 +6,8 @@
                 <div class="container-scenario-main-gamePieces" [style.z-index]="4">
                     <app-game-educationnal-objective [scenario]="scenario" [gameEducationnalObjective]="this.scenario.educationnalObjective"></app-game-educationnal-objective>
                     <app-game-context [style.z-index]="2" [scenario]="scenario" [gameContext]="this.scenario.context"></app-game-context>
+                    <app-game-characters [style.z-index]="3" [scenario]="scenario"></app-game-characters>
+                    <app-rules [style.z-index]="4" [scenario]="scenario"></app-rules>
                 </div>
 
                 <div class="container-scenario-main-missions">
@@ -115,7 +117,6 @@
     </div>
 
     <div class="container-sider">
-        <app-rules class="container-sider-element" [scenario]="scenario"></app-rules>
         <app-role-occurence class="container-sider-element" [role]="pieceDetailsService.pieceAsRole()" *ngIf="pieceDetailsService.pieceIsRole()"></app-role-occurence>
         <app-supplementary-task class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" [role]="pieceDetailsService.parentAsRole()" *ngIf="pieceDetailsService.pieceIsTask()"></app-supplementary-task>
         <app-repeat class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-repeat>

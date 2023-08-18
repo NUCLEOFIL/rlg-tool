@@ -2,45 +2,8 @@
 matTooltip="Si des personnages non joueurs (PNJ) doivent intervenir dans le scénario, ils doivent être décrits avec cette tuile. Chaque personnage a sa propre couleur et sont visibles sur les tâches où ils interviennent. L'enseignant peut être considéré comme un personnage s'il n'a pas un Rôle à part entière."
 matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
-
-        <div class="piece-form-create">
-            <div class="piece-form-title">Créer un nouveau personnage</div>
-            <div class="piece-form-create-top">
-                <mat-icon fontIcon="person_add"></mat-icon>
-                <div class="piece-form-create-top-name">
-                    <label for="name">Nom</label>
-                    <input name="name" type="text" [(ngModel)]="newCharacter.name"/>
-                </div>
-            </div>
-            <div class="piece-form-create-infos">
-                <div class="piece-form-create-infos-description">
-                    <label for="description">Description</label>
-                    <textarea name="description" [(ngModel)]="newCharacter.description"></textarea>
-                </div>
-
-                <!--
-                <div>
-                    <div class="piece-form-create-infos-phone">
-                        <label for="phonenumber">N° tél.</label>
-                        <input name="phonenumber" type="tel"/>                    
-                    </div>
-                    <div class="piece-form-create-infos-title">
-                        <label for="title">Titre</label>
-                        <input name="title" type="text"/>
-                    </div>                    
-                </div>
-                -->
-
-                <div class="piece-form-create-infos-color">
-                    <label for="color">Couleur</label>
-                    <input name="color" type="color" [(ngModel)]="newCharacter.color"/>
-                </div>
-            </div>
-            <button mat-button (click)="createCharacter()">Créer</button>
-        </div>
-
         <div class="piece-form-select">
-            <div class="piece-form-title">Sélectionner un personnage déjà créé</div>
+            <div class="piece-form-title">Affecter un personnage déjà créé</div>
             <div class="piece-form-select-container">
                 <mat-icon fontIcon="person"></mat-icon>
                 <div class="piece-form-select-container-select">
@@ -54,24 +17,28 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
             </div>
             <button mat-button (click)="assignCharacter()">Sélectionner</button>
         </div>
-
-        <div class="piece-form-delete">
-            <div class="piece-form-title">Supprimer un personnage</div>
-            <div class="piece-form-delete-container">
-                <mat-icon fontIcon="person_off"></mat-icon>
-                <div class="piece-form-delete-container-select">
-                    <label for="name">Nom</label>
-                    <select name="name" [(ngModel)]="selectedDeleteCharacterIndex">
-                        <option [ngValue]="i" *ngFor="let character of scenario.characters, let i = index">{{character.name}}</option>
-                    </select>
-                </div>
-            </div>
-            <button mat-button (click)="deleteCharacter()">Supprimer</button>
-        </div>
-
         <div>
             <div class="piece-form-title">Personnage(s) utilisé(s)</div>
-            <app-character [task]="task" [character]="character" [index]="i" *ngFor="let character of task.characters, let i = index"></app-character>
+            <div class="piece-form-character-create" *ngFor="let character of task.characters, let index = index">
+                <div class="piece-form-character-create-top">
+                    <mat-icon fontIcon="person"></mat-icon>
+                    <div class="piece-form-character-create-top-name">
+                        <label for="name">Nom</label>
+                        <input name="name" type="text" [(ngModel)]="character.name" disabled/>                    
+                    </div>
+                </div>
+                <div class="piece-form-character-infos">
+                    <div class="piece-form-character-infos-description">
+                        <label for="description">Description</label>
+                        <textarea name="description" [(ngModel)]="character.description" disabled></textarea>
+                    </div>
+                    <div class="piece-form-character-infos-color">
+                        <label for="color">Couleur</label>
+                        <input name="color" type="color" [(ngModel)]="character.color" disabled/>
+                    </div>
+                </div>
+                <button mat-button (click)="unassignCharacter(index)">Retirer de ma tâche</button>
+            </div>
         </div>
 
     </div>

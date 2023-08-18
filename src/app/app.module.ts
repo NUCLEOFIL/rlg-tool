@@ -22,8 +22,7 @@ import { RepeatComponent } from './sider-pieces/repeat/repeat.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { RandomEventComponent } from './pieces/tasks/random-event/random-event.component';
 import { CharactersComponent } from './sider-pieces/characters/characters.component';
-import { CharacterComponent } from './components/character/character.component';
-import { RulesComponent } from './sider-pieces/rules/rules.component';
+import { RulesComponent } from './pieces/rules/rules.component';
 import { StepComponent } from './pieces/step/step.component';
 import { FinalTaskComponent } from './pieces/tasks/final-task/final-task.component';
 import { RepeatTaskComponent } from './pieces/tasks/repeat-task/repeat-task.component';
@@ -37,6 +36,7 @@ import { DragScrollDirective } from './directives/drag-scroll.directive';
 import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive';
 import { CleanDialogComponent } from './components/dialogs/clean-dialog/clean-dialog.component';
 import { CreateDialogComponent } from './components/dialogs/create-dialog/create-dialog.component';
+import { GameCharactersComponent } from './pieces/game-characters/game-characters.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,6 @@ import { CreateDialogComponent } from './components/dialogs/create-dialog/create
     CommentComponent,
     RandomEventComponent,
     CharactersComponent,
-    CharacterComponent,
     RulesComponent,
     StepComponent,
     FinalTaskComponent,
@@ -66,7 +65,8 @@ import { CreateDialogComponent } from './components/dialogs/create-dialog/create
     SupplementaryTaskComponent,
     SuppressDialogComponent,
     CleanDialogComponent,
-    CreateDialogComponent
+    CreateDialogComponent,
+    GameCharactersComponent
   ],
   imports: [
     BrowserModule,

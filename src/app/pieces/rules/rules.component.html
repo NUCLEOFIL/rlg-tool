@@ -1,24 +1,31 @@
-<div class="piece">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()">
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        matTooltip="Effacer le contenu de cette tuile."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+    </div>
+
     <div class="piece-form">
         <div class="piece-form-rules">
             <div class="piece-form-title">Règles du jeu</div>  
             <textarea [(ngModel)]="scenario.gameRules"
             matTooltip="Éléments importants à prendre en compte dans les règles du jeu"
-            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-ressources">
             <div class="piece-form-title">Ressources / objets</div>
             <div class="piece-form-ressources-object">
                 <div class="piece-form-ressources-object-infos" *ngFor="let ressource of scenario.ressources; let i = index"
                 matTooltip="Objets, ressources disponibles pour TOUS les rôles"
-                matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                     <div class="piece-form-ressources-object-infos-name">
                         <label for="name">Nom</label>
                         <input name="name" type="text" [(ngModel)]="ressource.name"/>
                     </div>
                     <div class="piece-form-ressources-object-infos-quantity">
                         <label for="quantity">Quantité</label>
-                        <input name="quantity" type="text" [(ngModel)]="ressource.number"/>
+                        <input name="quantity" type="number" min="1"[(ngModel)]="ressource.number"/>
                     </div>
                     <button mat-button (click)="removeRessource(i)"><mat-icon fontIcon="remove"></mat-icon></button>                           
                 </div>

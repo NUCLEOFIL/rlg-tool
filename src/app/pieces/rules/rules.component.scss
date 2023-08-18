@@ -1,16 +1,47 @@
 .piece {
     --piece-background-color: #c6c2bd;
 
-    width: 300px;
+    width: 400px;
     position: relative;
     background-color: var(--piece-background-color);
-    border: solid black 1px;
-    border-radius: 10px;
+
+    &-menu {
+        position: absolute;
+        width: 150px;
+        height: 50px;
+        background-color: #f7f7f7;
+        z-index: -1;
+        top: -51px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: transform 0.5s ease;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border: solid black 1px;
+        display: flex;
+        padding: 15px 20px 15px 20px;
+        justify-content: space-around;
+        mat-icon {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+        mat-icon:hover {
+            opacity: 0.75;
+        }
+    }
+    &-menu.show {
+        transform: translateX(-50%) translateY(0);
+    }
+    &-menu.hide {
+        transform: translateX(-50%) translateY(100%);
+    }
 
     &-form {
-        margin: 10px 5px 10px 5px;
+        margin: 0px 10px 0px 10px;
         display: flex;
         flex-direction: column;
+        z-index: 2;
+        position: relative;
 
         button {
             border-radius: 10px;
@@ -18,8 +49,10 @@
         }    
 
         &-title {
+            margin-top: 20px;
             font-family: "Glacial Indifference Bold";
             margin-bottom: 10px;
+            font-size: 25px;
         }
 
         &-rules {
@@ -33,16 +66,16 @@
                 background-repeat: no-repeat;
                 background-size: 30%;
 
-                border-radius: 10px;
+                border-radius: 20px;
                 border: none;
-                resize: vertical;
-                min-height: 100px;
-                max-height: 200px;
+                height: 150px;
                 padding: 5px 5px 5px 5px;
+                resize: none;
             }
         }
 
         &-ressources {
+            margin-bottom: 20px;
 
             button {
                 position: relative;
@@ -84,15 +117,15 @@
             }
 
         }
-
-        &-validate {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-
-            button {
-                margin-top: 10px;
-            }
-        }
     }
+}
+
+.piece::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border: 1px solid black;
 }
