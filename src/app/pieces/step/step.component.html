@@ -19,7 +19,7 @@
     </div>
 
     <div class="piece-form">
-        <div class="piece-form-title">Étape 1</div>
+        <div class="piece-form-title">Étape {{index+1}}</div>
         <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="step.comments.length > 0"></mat-icon>
         <textarea [(ngModel)]="step.description"></textarea>
         <div class="piece-form-duration">
