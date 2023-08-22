@@ -18,7 +18,7 @@ export class RulesComponent implements OnInit {
   displayMenu: string = 'hide';
   @Input() scenario: Scenario = new Scenario();
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, private pieceDetailsService: PieceDetailsService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
   }

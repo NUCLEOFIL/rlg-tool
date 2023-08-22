@@ -3,7 +3,8 @@
     'linear-gradient(140deg, var(--piece-background-color) 0%, var(--piece-background-color) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
     : 'var(--piece-background-color)'"
     matTooltip="Tâche optionnelle: cette tâche peut être réalisée ou non. À la différence d'une tâche annexe, les tâches optionnelles sont utiles pour répondre aux objectifs pédagogiques, comme les tâches simples, mais offent la possibilité au joueur de réaliser la tâche de plusieurs manières différentes."
-    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+    [ngClass]="{'isActive': (pieceDetailsService.piece == task ? true : false)}">
     <div class="piece-attach piece-attach-left"></div>
     <div class="piece-attach piece-attach-right" [style.background]="task.supplementaryRole ? task.supplementaryRole.color : 'var(--piece-background-color)'"></div>
 

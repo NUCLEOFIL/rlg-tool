@@ -117,12 +117,16 @@
     </div>
 
     <div class="container-sider">
-        <app-role-occurence class="container-sider-element" [role]="pieceDetailsService.pieceAsRole()" *ngIf="pieceDetailsService.pieceIsRole()"></app-role-occurence>
-        <app-supplementary-task class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" [role]="pieceDetailsService.parentAsRole()" *ngIf="pieceDetailsService.pieceIsTask()"></app-supplementary-task>
-        <app-repeat class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-repeat>
-        <app-interupt class="container-sider-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-interupt>
-        <app-characters class="container-sider-element" [scenario]="scenario" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-characters>
-        <app-comments class="container-sider-element" [piece]="pieceDetailsService.piece"></app-comments>
+        <div class="container-sider-title">{{getSiderTitle()}}</div>
+        <div class="container-sider-elements">
+            <app-role-occurence class="container-sider-elements-element" [role]="pieceDetailsService.pieceAsRole()" *ngIf="pieceDetailsService.pieceIsRole()"></app-role-occurence>
+            <app-supplementary-task class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" [role]="pieceDetailsService.parentAsRole()" *ngIf="pieceDetailsService.pieceIsTask()"></app-supplementary-task>
+            <app-repeat class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-repeat>
+            <app-interupt class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-interupt>
+            <app-characters class="container-sider-elements-element" [scenario]="scenario" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-characters>
+            <app-comments class="container-sider-elements-element" [piece]="pieceDetailsService.piece"></app-comments> 
+        </div>
+        
     </div>
 
     <div class="container-settings">

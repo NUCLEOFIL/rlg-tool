@@ -23,7 +23,7 @@ export class StepComponent implements OnInit {
   displayMenu: string = 'hide';
   pieceWidth: number = 400;
 
-  constructor(private pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();

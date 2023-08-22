@@ -1,7 +1,8 @@
 <div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displaySymbolChoice='hide'" (click)="onClickPiece()"
     [style.background]="task.supplementaryRole ?
     'linear-gradient(140deg, var(--piece-background-color) 0%, var(--piece-background-color) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
-    : 'var(--piece-background-color)'">
+    : 'var(--piece-background-color)'"
+    [ngClass]="{'isActive': (pieceDetailsService.piece == task ? true : false)}">
     <div class="piece-attach piece-attach-left"></div>
     <div class="piece-attach piece-attach-right" [style.background]="task.supplementaryRole ? task.supplementaryRole.color : 'var(--piece-background-color)'"></div>
 

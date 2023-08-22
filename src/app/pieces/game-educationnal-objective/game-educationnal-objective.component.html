@@ -1,4 +1,5 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
+[ngClass]="{'isActive': (pieceDetailsService.piece == scenario ? true : false)}">
     <div class="piece-attach piece-attach-right-top"></div>
     <div class="piece-attach piece-attach-right-bottom"></div>
 

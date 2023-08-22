@@ -1,4 +1,5 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
+[ngClass]="{'isActive': (pieceDetailsService.piece == role ? true : false)}">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
@@ -161,7 +162,9 @@
         </div>
 
         <div class="piece-form-title">Rôle supplémentaire</div>
-        <div class="piece-form-supplementary" [style.background]="'linear-gradient(302deg, '+supplementaryRole.color+' 0%, '+supplementaryRole.color+' 50%, #9ad5ec 50%, #9ad5ec 100%)'" *ngFor="let supplementaryRole of role.supplementaryRoles, let i = index">
+        <div class="piece-form-supplementary" [style.background]="'linear-gradient(302deg, '+supplementaryRole.color+' 0%, '+supplementaryRole.color+' 50%, #9ad5ec 50%, #9ad5ec 100%)'"
+        *ngFor="let supplementaryRole of role.supplementaryRoles, let i = index"
+        [ngClass]="{'isActive-supplementaryRole': (pieceDetailsService.piece == role ? true : false)}">
             <div class="piece-form-supplementary-form">
                 <div>
                     <div class="piece-form-supplementary-form-name">

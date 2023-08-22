@@ -20,7 +20,7 @@ export class GameCharactersComponent implements OnInit {
   @Input() scenario = new Scenario()
   newCharacter: Character = new Character();
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, private pieceDetailsService: PieceDetailsService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService) { }
 
   ngOnInit(): void {
   }

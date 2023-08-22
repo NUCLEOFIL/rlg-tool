@@ -34,7 +34,7 @@ export class AnnexeTaskComponent implements OnInit {
 
   urlIcon: string = 'url("../../../../assets/background-images/annexe.png")';
 
-  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.setPieceWidth();

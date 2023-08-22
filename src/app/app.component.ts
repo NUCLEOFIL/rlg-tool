@@ -45,7 +45,7 @@ export class AppComponent {
       mission.equalizeLengths();
     });
   }
-
+ 
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: any) {
     const message = "Êtes vous sûr de vouloir quitter RLG Maker ?\nVous risquez de perdre les données non sauvegardées.";
@@ -215,7 +215,6 @@ export class AppComponent {
       this.zoomService.zoom -= 0.1;
       element.style.transform = `scale(${this.zoomService.zoom})`;      
     }
-
   }
 
   addMissionStep(mission: Mission, index: number): void {
@@ -247,5 +246,26 @@ export class AppComponent {
       res = true;
     }
     return res;
+  }
+
+  getSiderTitle(): string {
+    let piece = this.pieceDetailsService.piece;
+    if (piece instanceof Task) {
+      return "Tâche";
+    }
+    if (piece instanceof Role) {
+      return "Rôle";
+    }
+    if (piece instanceof Mission) {
+      return "Mission";
+    }
+    if (piece instanceof Scenario) {
+      return "Scénario";
+    }
+    if (piece instanceof Step) {
+      return "Étape";
+    } else {
+      return "";
+    }
   }
 }

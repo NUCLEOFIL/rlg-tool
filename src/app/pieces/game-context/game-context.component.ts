@@ -16,7 +16,7 @@ export class GameContextComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() gameContext: GameContext = new GameContext();
 
-  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }

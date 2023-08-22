@@ -125,16 +125,6 @@
                                     display: flex;
                                     flex-direction: row;
                                 }
-                                /*
-                                &-menuButton {
-                                    border-radius: 10px;
-                                    margin-bottom: 5px;
-                                }
-
-                                &-menuButton:hover {
-                                    opacity: 0.75;
-                                }
-                                */
                             }
                         }
                     }
@@ -156,12 +146,31 @@
         overflow: scroll;
         box-shadow: -20px 0px 25px rgba(0, 0, 0, 0.3);
 
-        &-element {
-            margin-top: 10px;
-            margin-bottom: 10px;
+        &-title {
+            height: 30px;
+            border-bottom: solid black 2px;
+            font-size: 20px;
+            position: fixed;
+            width: 320px;
+            background-color: #e3e3e3;
+            z-index: 2;
+            box-shadow: 0px 20px 25px rgba(0, 0, 0, 0.3);
+            font-family: 'Glacial Indifference Bold', sans-serif;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            
+        }
+        &-elements {
+            margin-top: 40px;
             flex-direction: column;
             align-items: center;
+            display: flex;
+
+            &-element {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }            
         }
     }
 

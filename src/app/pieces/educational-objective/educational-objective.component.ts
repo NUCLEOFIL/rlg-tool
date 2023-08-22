@@ -20,7 +20,7 @@ export class EducationalObjectiveComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() i: number = 0;
 
-  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }

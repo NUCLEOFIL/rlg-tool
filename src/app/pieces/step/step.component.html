@@ -1,4 +1,5 @@
-<div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()">
+<div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
+[ngClass]="{'isActive': (pieceDetailsService.piece == step ? true : false)}">
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left"></div>
 

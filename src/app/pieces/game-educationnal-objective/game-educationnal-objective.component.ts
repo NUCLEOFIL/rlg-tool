@@ -16,7 +16,7 @@ export class GameEducationnalObjectiveComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() gameEducationnalObjective: GameEducationnalObjective = new GameEducationnalObjective();
 
-  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }

@@ -16,7 +16,7 @@ import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/
 })
 export class MissionContextComponent implements OnInit {
 
-  constructor(private pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
   @Input() missionContext: MissionContext = new MissionContext();
   @Input() scenario: Scenario = new Scenario();
