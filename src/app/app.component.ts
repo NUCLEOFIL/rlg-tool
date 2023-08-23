@@ -195,9 +195,9 @@ export class AppComponent {
                       task.characters[i] = scenario.characters[index];
                     }
                   });
+                  task.supplementaryRole = Object.assign(new SupplementaryRole, task.supplementaryRole);
                   let supplementaryRoleIndex: number | undefined = role.supplementaryRoles.findIndex(element =>
-                    element.name == task.supplementaryRole.name 
-                    && element.color == task.supplementaryRole.color
+                    element.name == task.supplementaryRole.name && element.color == task.supplementaryRole.color
                   );
                   task.supplementaryRole = role.supplementaryRoles[supplementaryRoleIndex];
                   task.prerequireRessources = task.prerequireRessources.map((prerequireData: any) => Object.assign(new PrerequireRessource(), prerequireData));
