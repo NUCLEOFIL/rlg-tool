@@ -37,6 +37,7 @@ import { MouseWheelZoomDirective } from './directives/mouse-wheel-zoom.directive
 import { CleanDialogComponent } from './components/dialogs/clean-dialog/clean-dialog.component';
 import { CreateDialogComponent } from './components/dialogs/create-dialog/create-dialog.component';
 import { GameCharactersComponent } from './pieces/game-characters/game-characters.component';
+import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { GameCharactersComponent } from './pieces/game-characters/game-character
     SuppressDialogComponent,
     CleanDialogComponent,
     CreateDialogComponent,
-    GameCharactersComponent
+    GameCharactersComponent,
+    SaveDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -25,6 +25,8 @@ import { OtherReward } from './class/rewards/other-reward/other-reward';
 import { PrerequireRessource } from './class/prerequires/prerequire-ressource/prerequire-ressource';
 import { TooltipService } from './services/tooltip/tooltip.service';
 import { ZoomService } from './services/zoom/zoom.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +40,7 @@ export class AppComponent {
   @ViewChild('fileInput') fileInput: any;
 
   constructor(private cdr: ChangeDetectorRef, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
-    private elementRef: ElementRef, private zoomService: ZoomService) {
+    private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog) {
     pieceDetailsService.piece = this.scenario;
 
     this.scenario.missions.forEach(mission => {
@@ -54,14 +56,31 @@ export class AppComponent {
   }
 
   downloadFile(): void {
-    const jsonString = JSON.stringify(this.scenario);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.download = 'scenario.json';
-    link.href = url;
-    link.click();
-    URL.revokeObjectURL(url);
+    let fileName: string = this.scenario.projectName;
+    const dialogRef = this.dialog.open(SaveDialogComponent, {
+      data: {
+        fileName: fileName,
+        result: false
+      }
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if (data.result) {
+        if (data.fileName == '') {
+          fileName = "Scénario - RLG Maker";
+        } else {
+          this.scenario.projectName = data.fileName;
+          fileName = data.fileName+' - RLG Maker';
+        }
+        const jsonString = JSON.stringify(this.scenario);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = fileName;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);        
+      }
+    });
   }
 
   selectFile(): void {

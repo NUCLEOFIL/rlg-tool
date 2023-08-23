@@ -14,4 +14,5 @@ export class Scenario {
     gameRules: string = '';
     ressources: Ressource[] = [];
     comments: Comment[] = [];
+    projectName: string = '';
 }
