@@ -15,4 +15,5 @@ export class Scenario {
     ressources: Ressource[] = [];
     comments: Comment[] = [];
     projectName: string = '';
+    tooltips: boolean = true;
 }

@@ -71,6 +71,7 @@ export class AppComponent {
           this.scenario.projectName = data.fileName;
           fileName = data.fileName+' - RLG Maker';
         }
+        this.scenario.tooltips = this.tooltipService.activatedTooltips;
         const jsonString = JSON.stringify(this.scenario);
         const blob = new Blob([jsonString], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -96,6 +97,7 @@ export class AppComponent {
         const fileContent: string = reader.result as string;
         const jsonData: any = JSON.parse(fileContent);
         const scenario: Scenario = Object.assign(new Scenario(), jsonData);
+        this.tooltipService.activatedTooltips = scenario.tooltips;
         scenario.context = Object.assign(new GameContext(), jsonData.context);
         scenario.context.comments = jsonData.context.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
         scenario.educationnalObjective = Object.assign(new GameEducationnalObjective(), jsonData.educationnalObjective);
