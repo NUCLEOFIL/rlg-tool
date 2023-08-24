@@ -8,7 +8,9 @@
     </div>
 
     <div class="piece-form">
-        <div class="piece-form-character-create">
+        <div class="piece-form-character-create"
+        matTooltip="Si des personnages non joueurs (PNJ) doivent intervenir dans le scénario, ils doivent être décrits avec cette tuile. Chaque personnage a sa propre couleur et sont visibles sur les tâches où ils interviennent. L'enseignant peut être considéré comme un personnage s'il n'a pas un Rôle à part entière."
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
             <div class="piece-form-title">Créer un nouveau personnage</div>
             <div class="piece-form-character-create-top">
                 <mat-icon fontIcon="person_add"></mat-icon>
