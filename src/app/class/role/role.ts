@@ -62,7 +62,10 @@ export class Role {
             this.tasks[i][j] = this.tasks[i][j+1];
             this.tasks[i][j+1] = tmp;
         } else if (direction == 'top') {
-            if (this.tasks[i-1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
+            if (!(this.tasks[i-1].some(element => element instanceof Task))) {
+                this.tasks[i-1][j] = tmp;
+                this.tasks[i].splice(j, 1);
+            } else if (this.tasks[i-1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
                 if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
                     this.tasks[i][j] = this.tasks[i-1][this.getLastTaskIndex(i-1)];
                     this.tasks[i-1][this.getLastTaskIndex(i-1)] = tmp;
@@ -83,7 +86,10 @@ export class Role {
             if (this.tasks[i+2] == null) {
                 this.tasks[i+2] = [];
             }
-            if (this.tasks[i+1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
+            if (!(this.tasks[i+1].some(element => element instanceof Task))) {
+                this.tasks[i+1][j] = tmp;
+                this.tasks[i].splice(j, 1);
+            } else if (this.tasks[i+1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
                 if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
                     this.tasks[i][j] = this.tasks[i+1][this.getLastTaskIndex(i+1)];
                     this.tasks[i+1][this.getLastTaskIndex(i+1)] = tmp;
