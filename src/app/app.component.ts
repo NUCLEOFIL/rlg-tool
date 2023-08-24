@@ -47,7 +47,7 @@ export class AppComponent {
       mission.equalizeLengths();
     });
   }
- 
+
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: any) {
     const message = "Êtes vous sûr de vouloir quitter RLG Maker ?\nVous risquez de perdre les données non sauvegardées.";
@@ -192,7 +192,7 @@ export class AppComponent {
                   task.characters.forEach((character, index) => {
                     let i: number | undefined = scenario.characters.findIndex(element => element.name == character.name && element.description == character.description && element.color == character.color);
                     if (typeof i !== 'undefined' && i !== -1) {
-                      task.characters[i] = scenario.characters[index];
+                      task.characters[index] = scenario.characters[i];
                     }
                   });
                   task.supplementaryRole = Object.assign(new SupplementaryRole, task.supplementaryRole);
