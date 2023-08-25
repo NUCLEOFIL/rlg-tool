@@ -22,6 +22,7 @@ export class StepComponent implements OnInit {
 
   displayMenu: string = 'hide';
   pieceWidth: number = 400;
+  urlIcon: string = 'url("../../../assets/background-images/step.png")';
 
   constructor(protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService) { }
 
@@ -101,5 +102,14 @@ export class StepComponent implements OnInit {
     this.parent.moveStep(this.index, direction);
     this.displayMenu = 'hide';
     this.mission.equalizeLengths();
+  }
+
+  FirstStepIndex(): number {
+    for(let i = 0; i < this.parent.chronologie.length; i++) {
+      if (this.parent.chronologie[i] instanceof Step) {
+        return i;
+      }
+    }
+    return 0;
   }
 }
