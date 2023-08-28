@@ -27,6 +27,7 @@ import { TooltipService } from './services/tooltip/tooltip.service';
 import { ZoomService } from './services/zoom/zoom.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialog.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -40,7 +41,7 @@ export class AppComponent {
   @ViewChild('fileInput') fileInput: any;
 
   constructor(private cdr: ChangeDetectorRef, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
-    private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog) {
+    private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title) {
     pieceDetailsService.piece = this.scenario;
 
     this.scenario.missions.forEach(mission => {
@@ -67,9 +68,11 @@ export class AppComponent {
       if (data.result) {
         if (data.fileName == '') {
           fileName = "Scénario - RLG Maker";
+          this.titleService.setTitle('RLG Maker'); 
         } else {
           this.scenario.projectName = data.fileName;
           fileName = data.fileName+' - RLG Maker';
+          this.titleService.setTitle('RLG Maker - '+this.scenario.projectName);
         }
         this.scenario.tooltips = this.tooltipService.activatedTooltips;
         const jsonString = JSON.stringify(this.scenario);
@@ -219,6 +222,12 @@ export class AppComponent {
         });
         this.scenario = scenario;
         this.pieceDetailsService.piece = this.scenario;
+        if (scenario.projectName) {
+          this.titleService.setTitle('RLG Maker - '+this.scenario.projectName);
+        } else {
+          this.titleService.setTitle('RLG Maker');
+        }
+        
         this.cdr.detectChanges();
       };
     }
