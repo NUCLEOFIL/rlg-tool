@@ -65,7 +65,7 @@ export class AppComponent {
       }
     });
     dialogRef.afterClosed().subscribe(data => {
-      if (data.result) {
+      if (data && data.result) {
         if (data.fileName == '') {
           fileName = "Scénario - RLG Maker";
           this.titleService.setTitle('RLG Maker'); 
