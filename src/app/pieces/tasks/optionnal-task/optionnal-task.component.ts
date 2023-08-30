@@ -33,6 +33,7 @@ export class OptionnalTaskComponent implements OnInit {
   @Input() j!: number;
 
   urlIcon: string = 'url("../../../../assets/background-images/optionnal.png")';
+  antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
 
@@ -305,5 +306,17 @@ export class OptionnalTaskComponent implements OnInit {
   getAssociatePrerequireRessource(ressource: Ressource): PrerequireRessource {
     let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
     return this.task.prerequireRessources[i];
+  }
+
+  hasPossibleAntecedents(): boolean {
+    let res = false;
+    this.role.tasks.forEach(inlineTask => {
+      for(let i = 0; i < this.j; i++) {
+        if (inlineTask[i]?.identifier && (this.task.identifier != inlineTask[i]?.identifier)) {
+          res = true;
+        }
+      }
+    });
+    return res;
   }
 }
