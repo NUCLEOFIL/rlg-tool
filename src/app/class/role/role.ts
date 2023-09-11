@@ -64,7 +64,7 @@ export class Role {
         } else if (direction == 'top') {
             if (!(this.tasks[i-1].some(element => element instanceof Task))) {
                 this.tasks[i-1][j] = tmp;
-                this.tasks[i].splice(j, 1);
+                this.tasks[i][j] = null;
             } else if (this.tasks[i-1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
                 if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
                     this.tasks[i][j] = this.tasks[i-1][this.getLastTaskIndex(i-1)];
@@ -73,11 +73,12 @@ export class Role {
                     let deplace = this.tasks[i-1][this.getLastTaskIndex(i-1)];
                     this.tasks[i-1][this.getLastTaskIndex(i-1)] = tmp;
                     this.tasks[i-1][this.getLastTaskIndex(i-1)+1] = deplace;
-                    this.tasks[i].splice(j, 1);
+                    this.tasks[i][j] = null;
                 }
             } else {
                 this.tasks[i-1][this.getLastTaskIndex(i-1)+1] = tmp;
-                this.tasks[i].splice(j, 1);
+                this.tasks[i][j] = null;
+                
             }
             if (!this.tasks[i].some(element => element instanceof Task)) {
                 this.tasks.splice(i,1);
@@ -88,7 +89,7 @@ export class Role {
             }
             if (!(this.tasks[i+1].some(element => element instanceof Task))) {
                 this.tasks[i+1][j] = tmp;
-                this.tasks[i].splice(j, 1);
+                this.tasks[i][j] = null;
             } else if (this.tasks[i+1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
                 if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
                     this.tasks[i][j] = this.tasks[i+1][this.getLastTaskIndex(i+1)];
@@ -97,11 +98,11 @@ export class Role {
                     let deplace = this.tasks[i+1][this.getLastTaskIndex(i+1)];
                     this.tasks[i+1][this.getLastTaskIndex(i+1)] = tmp;
                     this.tasks[i+1][this.getLastTaskIndex(i+1)+1] = deplace;
-                    this.tasks[i].splice(j, 1);
+                    this.tasks[i][j] = null;
                 }
             } else {
                 this.tasks[i+1][this.getLastTaskIndex(i+1)+1] = tmp;
-                this.tasks[i].splice(j, 1);
+                this.tasks[i][j] = null;
             }
         }
     }
