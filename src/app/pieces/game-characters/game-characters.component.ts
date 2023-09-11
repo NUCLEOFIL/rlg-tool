@@ -3,7 +3,6 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { Scenario } from 'src/app/class/scenario/scenario';
-import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/create-dialog.component';
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { Character } from 'src/app/class/character/character';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
@@ -52,13 +51,8 @@ export class GameCharactersComponent implements OnInit {
 
   createCharacter(): void {
     if (this.newCharacter.name != '') {
-      const dialogRef = this.dialog.open(CreateDialogComponent, { data: 'un nouveau Personnage <'+this.newCharacter.name+'>' });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result == true) {
-          this.scenario.characters.push(this.newCharacter);
-          this.newCharacter = new Character();     
-        }
-      });
+      this.scenario.characters.push(this.newCharacter);
+      this.newCharacter = new Character();     
     }
   }
 
