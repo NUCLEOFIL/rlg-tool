@@ -26,7 +26,7 @@
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
             <input name="duration" type="text" [(ngModel)]="gameContext.duration" placeholder="3h"
-            matTooltip="Combien de temps va durer le jeu ?"
+            matTooltip="Combien de temps va durer le jeu ? Sachant que le jeu comporte 1 ou plusieurs missions. Une mission peut être la durée d’une séance de cours et le jeu se déroulerait sur plusieurs séances de cours."
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
         </div>
         <div class="piece-form-intrigue">

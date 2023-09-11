@@ -26,7 +26,7 @@
         <div class="piece-menu-directioncross">
             <div class="piece-menu-directioncross-left">
                 <mat-icon style="transform: rotate(0turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('left')"
-                matTooltip="Décaler la tuile vers la gauche."
+                matTooltip="Décaler la tuile vers la gauche. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
             </div>
             <div class="piece-menu-directioncross-updownarrows">
@@ -43,7 +43,7 @@
             </div>
             <div class="piece-menu-directioncross-right">
                 <mat-icon style="transform: rotate(0.5turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('right')"
-                matTooltip="Décaler la tuile vers la droite."
+                matTooltip="Décaler la tuile vers la droite. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
             </div>
         </div>

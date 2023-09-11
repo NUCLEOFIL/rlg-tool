@@ -1,11 +1,13 @@
 <div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[ngClass]="{'isActive': (pieceDetailsService.piece == step ? true : false)}">
+[ngClass]="{'isActive': (pieceDetailsService.piece == step ? true : false)}"
+matTooltip="Permet de découper le scénario en grandes étapes."
+matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left"></div>
 
     <div class="piece-menu" [class]="displayMenu">
         <mat-icon fontIcon="arrow_back_ios" (click)="moveStep('left')" *ngIf="index > 0"
-        matTooltip="Décaler la tuile vers la gauche."
+        matTooltip="Décaler la tuile vers la gauche. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <mat-icon fontIcon="backspace" (click)="onClickErase()"
         matTooltip="Effacer le contenu de cette tuile."
@@ -14,7 +16,7 @@
         matTooltip="Supprimer la tuile."
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <mat-icon fontIcon="arrow_forward_ios" (click)="moveStep('right')"
-        matTooltip="Décaler la tuile vers la droite."
+        matTooltip="Décaler la tuile vers la droite. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
