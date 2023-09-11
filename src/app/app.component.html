@@ -131,9 +131,10 @@
 
     <div class="container-settings">
         <div class="container-settings-mode"
-        matTooltip="Utilisation dans un template de jeu précis. Contacter gaelle.guigon@imt-nord-europe.fr pour plus d’informations."
-        matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-            <input name="unity" type="checkbox" />
+        matTooltip="Utilisation dans un template de jeu précis. Contacter gaelle.guigon@imt-nord-europe.fr pour plus d’informations. Non disponible dans cette version."
+        matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+        [style.background-color]="'lightgray'">
+            <input name="unity" type="checkbox" disabled/>
             <label for="unity">Intégrer le jeu sous Unity (WIP)</label>
         </div>
         <div class="container-settings-mode"
