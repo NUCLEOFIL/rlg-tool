@@ -129,7 +129,7 @@
             <div class="piece-form-bottom-duration"
             matTooltip="Durée de la tâche (en unité de temps, minutes ou tours)"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-                <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()"/>
+                <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="1" (change)="task.duration < 1 ? task.duration = 1 : ''"/>
                 <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange()">
                     <option value="UT">UT</option>
                     <option value="min">min</option>

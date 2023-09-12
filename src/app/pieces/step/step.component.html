@@ -26,7 +26,7 @@ matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedToolti
         <textarea [(ngModel)]="step.description" [style.background-image]="index == FirstStepIndex() ? urlIcon : ''"></textarea>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="number" [(ngModel)]="step.duration" (input)="durationChange()"/>
+            <input name="duration" type="number" [(ngModel)]="step.duration" (input)="durationChange()" min="1" (change)="step.duration < 1 ? step.duration = 1 : ''"/>
             <select name="duration" [(ngModel)]="step.durationUnit" (change)="durationChange()">
                 <option value="UT">UT</option>
                 <option value="min">min</option>
