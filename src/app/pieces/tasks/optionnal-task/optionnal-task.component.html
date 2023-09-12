@@ -80,7 +80,7 @@
         </div>
     </div>
 
-    <div class="piece-prerequires" [class]="displayPrequires">
+    <div class="piece-prerequires" [class]="pieceDetailsService.piece == task ? displayPrequires : 'hide'">
         <div class="piece-prerequires-prerequires">
             <label class="piece-prerequires-title">Antécédents</label>
             <div class="piece-prerequires-form">
