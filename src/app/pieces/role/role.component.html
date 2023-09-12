@@ -59,7 +59,7 @@
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                         <option value="quest">Débuter une nouvelle quête</option>
                         <option value="skill">Travailler un champ de compétence</option>
-                        <option value="character">Récupérer le contact d'un PNJ</option>
+                        <!--<option value="character">Récupérer le contact d'un PNJ</option>-->
                         <option value="objective">Atteindre un objectif pédagoqique</option>
                         <option value="objects">Récupérer un objet</option>
                         <!--<option value="discuss">Changer de discussion</option>-->
@@ -74,13 +74,14 @@
                     </div>
                     <button mat-button class="piece-form-rewards-reward-objects-add" (click)="addObject(i)"><mat-icon fontIcon="add"></mat-icon></button>
                 </div>
+                <!--
                 <div class="piece-form-rewards-reward-character" *ngIf="reward.type == 'character'">
                     <select [(ngModel)]="getCharacterReward(i).character">
                         <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <!--
+                
                 <div class="piece-form-rewards-reward-discussion" *ngIf="reward.type == 'discuss'">
                     <select>
                         <option>Discussion 1</option>
