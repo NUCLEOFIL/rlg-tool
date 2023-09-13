@@ -30,6 +30,16 @@ export class StepComponent implements OnInit {
     this.setPieceWidth();
     this.mission.equalizeLengths();
   }
+
+  getStepNumber(): number {
+    let number: number = 1;
+    for(let i = 0; i < this.index; i++) {
+      if (this.parent.chronologie[i] instanceof Step) {
+        number++;
+      }
+    }
+    return number;
+  }
   
   durationChange(): void {
     let beforeWidth: number = this.pieceWidth;
