@@ -147,14 +147,7 @@
     }
 }
 
-.piece::after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    border: 1px solid black;
+.isActive::after, .border::after {
     border-top-right-radius: 50%;
     border-bottom-right-radius: 50%;
 }

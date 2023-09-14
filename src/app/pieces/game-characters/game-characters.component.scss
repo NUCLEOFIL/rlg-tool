@@ -151,16 +151,6 @@
     }
 }
 
-.piece::after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    border: 1px solid black;
-}
-
 .background {
     background-image: url("../../../assets/background-images/perso.png");
     background-position: center;

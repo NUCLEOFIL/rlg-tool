@@ -1,5 +1,5 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[ngClass]="{'isActive': (pieceDetailsService.piece == scenario ? true : false)}">
+[class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'">
 
     <div class="piece-menu" [class]="displayMenu">
         <mat-icon fontIcon="backspace" (click)="onClickErase()"

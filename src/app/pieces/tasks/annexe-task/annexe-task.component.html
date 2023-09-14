@@ -4,7 +4,7 @@
     : 'var(--piece-background-color)'"
     matTooltip="Tâches annexe: ces tâches ne sont pas obligatoires pour atteindre les objectifs pédagogiques définis. Elles sont rapides et permettent aux joueurs plus rapides d'être occupés en attendant que les autres finissent leurs tâches. Il est préférable d'en mettre."
     matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"
-    [ngClass]="{'isActive': (pieceDetailsService.piece == task ? true : false)}">
+    [class]="pieceDetailsService.piece == task ? 'isActive' : 'border'">
     <div class="piece-attach piece-attach-left"></div>
     <div class="piece-attach piece-attach-right" [style.background]="task.supplementaryRole ? task.supplementaryRole.color : 'var(--piece-background-color)'"></div>
 

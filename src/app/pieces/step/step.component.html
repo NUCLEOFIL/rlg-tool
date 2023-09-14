@@ -1,5 +1,5 @@
 <div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[ngClass]="{'isActive': (pieceDetailsService.piece == step ? true : false)}"
+[class]="pieceDetailsService.piece == step ? 'isActive' : 'border'"
 matTooltip="Permet de découper le scénario en grandes étapes."
 matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-right"></div>

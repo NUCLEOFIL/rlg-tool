@@ -1,5 +1,5 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[ngClass]="{'isActive': (pieceDetailsService.piece == scenario.missions[i] ? true : false)}">
+[class]="pieceDetailsService.piece == scenario.missions[i] ? 'isActive' : 'border'">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>

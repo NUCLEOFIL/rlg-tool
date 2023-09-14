@@ -4,7 +4,7 @@
     : 'var(--piece-background-color)'"
     matTooltip="Tâche finale: il s'agit de la dernière action à effectuer pour clore la quête."
     matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"
-    [ngClass]="{'isActive': (pieceDetailsService.piece == task ? true : false)}">
+    [class]="pieceDetailsService.piece == task ? 'isActive' : 'border'">
     <div class="piece-attach piece-attach-left"></div>
 
     <div class="piece-menu" [class]="displayMenu">
