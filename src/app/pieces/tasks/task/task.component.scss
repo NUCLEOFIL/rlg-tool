@@ -140,7 +140,8 @@
         &-form {
             display: flex;
             flex-direction: column;
-            overflow: scroll;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         &-prerequires {
@@ -150,7 +151,6 @@
             transform: translateY(-50%);
             width: 50%;
             height: 90%;
-            border-bottom-left-radius: 10px;
             display: flex;
             flex-direction: column;
         }
@@ -162,8 +162,6 @@
             position: relative;
             top: 50%;
             transform: translateY(-50%);
-            width: 50%;
-            height: 90%;
             border-bottom-left-radius: 10px;
             display: flex;
             flex-direction: column;
@@ -171,7 +169,6 @@
             &-element {
                 display: flex;
                 flex-direction: row;
-                width: 100%;
                 margin-top: 5px;
 
                 &-checkbox {
@@ -186,7 +183,7 @@
                     position: relative;
                     width: 50%;
                     display: flex;
-                    padding-right: 5px;
+                    margin-right: 10px;
                     justify-content: flex-end;
 
                     input {

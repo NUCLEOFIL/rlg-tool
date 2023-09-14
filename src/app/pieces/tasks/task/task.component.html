@@ -103,7 +103,7 @@
                     <div class="piece-prerequires-ressources-element" *ngIf="ressource.name">
                         <div class="piece-prerequires-ressources-element-checkbox">
                             <input name="ressource" type="checkbox" (change)="checkboxChangedRessource($event, ressource)" [checked]="isCheckedRessource(ressource)"/>
-                            <label for="ressource">{{ressource.name}}</label>   
+                            <label for="ressource" [title]="ressource.name">{{ressource.name}}</label>   
                         </div>
                         <div class="piece-prerequires-ressources-element-quantity" *ngIf="isCheckedRessource(ressource)">
                             <select name="ressource" [(ngModel)]="getAssociatePrerequireRessource(ressource).operator">
@@ -121,7 +121,7 @@
                     <div class="piece-prerequires-ressources-element" *ngIf="ressource.name">
                         <div class="piece-prerequires-ressources-element-checkbox">
                             <input name="ressource" type="checkbox" (change)="checkboxChangedRessource($event, ressource)" [checked]="isCheckedRessource(ressource)"/>
-                            <label for="ressource">{{ressource.name}}</label>   
+                            <label for="ressource" [title]="ressource.name">{{ressource.name}}</label>   
                         </div>
                         <div class="piece-prerequires-ressources-element-quantity" *ngIf="isCheckedRessource(ressource)">
                             <select name="ressource" [(ngModel)]="getAssociatePrerequireRessource(ressource).operator">
