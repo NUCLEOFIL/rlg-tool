@@ -37,7 +37,7 @@
         </div>
         <div class="piece-form-other">
             <label for="other">Autre</label>
-            <textarea name="other" [(ngModel)]="gameContext.other"
+            <textarea name="other" [(ngModel)]="gameContext.other" placeholder="Contexte d’utilisation : lieu, présence de tuteur/formateur, à quel moment du cursus utiliser ce jeu, matériel nécessaire"
             matTooltip="Tout autre élément que vous souhaiteriez prendre en compte dans le jeu et non défini dans les tuiles"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>  
         </div> 

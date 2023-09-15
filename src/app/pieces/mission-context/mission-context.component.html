@@ -37,8 +37,8 @@
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-divers">
-            <label for="divers">Divers</label>
-            <textarea name="divers" [(ngModel)]="missionContext.various"
+            <label for="divers">Autre</label>
+            <textarea name="divers" [(ngModel)]="missionContext.various" placeholder="Contexte d’utilisation : lieu, présence de tuteur/formateur, à quel moment du cursus utiliser ce jeu, matériel nécessaire"
             matTooltip="Tout autre élément que vous souhaiteriez prendre en compte dans la mission et non défini dans les tuiles"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
