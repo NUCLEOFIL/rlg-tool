@@ -8,8 +8,6 @@ import { MatSnackBarRef } from '@angular/material/snack-bar';
 })
 export class IdentifierSnackbarComponent implements OnInit {
 
-  snackBarRef = inject(MatSnackBarRef);
-
   constructor() { }
 
   ngOnInit(): void {

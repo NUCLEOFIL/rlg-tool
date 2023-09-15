@@ -40,6 +40,8 @@ import { CreateDialogComponent } from './components/dialogs/create-dialog/create
 import { GameCharactersComponent } from './pieces/game-characters/game-characters.component';
 import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialog.component';
 import { IdentifierSnackbarComponent } from './components/snackbars/identifier-snackbar/identifier-snackbar.component';
+import { LoadingsucessSnackbarComponent } from './components/snackbars/loadingsucess-snackbar/loadingsucess-snackbar.component';
+import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail-snackbar/loadingfail-snackbar.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ import { IdentifierSnackbarComponent } from './components/snackbars/identifier-s
     CreateDialogComponent,
     GameCharactersComponent,
     SaveDialogComponent,
-    IdentifierSnackbarComponent
+    IdentifierSnackbarComponent,
+    LoadingsucessSnackbarComponent,
+    LoadingfailSnackbarComponent
   ],
   imports: [
     BrowserModule,

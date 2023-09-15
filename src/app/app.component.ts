@@ -28,6 +28,9 @@ import { ZoomService } from './services/zoom/zoom.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialog.component';
 import { Title } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoadingsucessSnackbarComponent } from './components/snackbars/loadingsucess-snackbar/loadingsucess-snackbar.component';
+import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail-snackbar/loadingfail-snackbar.component';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +44,8 @@ export class AppComponent {
   @ViewChild('fileInput') fileInput: any;
 
   constructor(private cdr: ChangeDetectorRef, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
-    private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title) {
+    private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
+    private _snackBar: MatSnackBar) {
     pieceDetailsService.piece = this.scenario;
 
     this.scenario.missions.forEach(mission => {
@@ -97,116 +101,117 @@ export class AppComponent {
       const reader: FileReader = new FileReader();
       reader.readAsText(file);
       reader.onload = (e) => {
-        const fileContent: string = reader.result as string;
-        const jsonData: any = JSON.parse(fileContent);
-        const scenario: Scenario = Object.assign(new Scenario(), jsonData);
-        this.tooltipService.activatedTooltips = scenario.tooltips;
-        scenario.context = Object.assign(new GameContext(), jsonData.context);
-        scenario.context.comments = jsonData.context.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
-        scenario.educationnalObjective = Object.assign(new GameEducationnalObjective(), jsonData.educationnalObjective);
-        scenario.educationnalObjective.comments = jsonData.educationnalObjective.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
-        scenario.gameRules = jsonData.gameRules;
-        scenario.characters = jsonData.characters.map((characterData: any) => Object.assign(new Character(), characterData));
-        scenario.ressources = jsonData.ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
-        scenario.comments = jsonData.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
-        scenario.missions = jsonData.missions.map((missionData: any) => Object.assign(new Mission(), missionData));
-        scenario.missions.forEach((mission, index)=> {
-          mission.chronologie = jsonData.missions[index].chronologie.map((chronologieData: any) => {
-            if (chronologieData !== null) {
-              return Object.assign(new Step(), chronologieData);
-            } else {
-              return null;
-            }
-          });
-          mission.chronologie.forEach((step) => {
-            if (step instanceof Step) {
-              step.comments = step.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
-            }
-          });
-          mission.comments = jsonData.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
-          mission.context = Object.assign(new MissionContext(), jsonData.missions[index].context);
-          mission.context.comments = jsonData.missions[index].context.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
-          mission.educationnalObjective = Object.assign(new EducationnalObjective(), jsonData.missions[index].educationnalObjective);
-          mission.educationnalObjective.comments = jsonData.missions[index].educationnalObjective.comments.map((commentData: any) => Object.assign(new Comment, commentData));
-          mission.roles = jsonData.missions[index].roles.map((roleData: any) => Object.assign(new Role(), roleData));
-          mission.roles.forEach((role, index) => {
-            role.comments = role.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
-            role.chronologie = mission.roles[index].chronologie.map((chronologieData: any) => {
+        try {
+          const fileContent: string = reader.result as string;
+          const jsonData: any = JSON.parse(fileContent);
+          const scenario: Scenario = Object.assign(new Scenario(), jsonData);
+          this.tooltipService.activatedTooltips = scenario.tooltips;
+          scenario.context = Object.assign(new GameContext(), jsonData.context);
+          scenario.context.comments = jsonData.context.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
+          scenario.educationnalObjective = Object.assign(new GameEducationnalObjective(), jsonData.educationnalObjective);
+          scenario.educationnalObjective.comments = jsonData.educationnalObjective.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
+          scenario.gameRules = jsonData.gameRules;
+          scenario.characters = jsonData.characters.map((characterData: any) => Object.assign(new Character(), characterData));
+          scenario.ressources = jsonData.ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
+          scenario.comments = jsonData.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
+          scenario.missions = jsonData.missions.map((missionData: any) => Object.assign(new Mission(), missionData));
+          scenario.missions.forEach((mission, index) => {
+            mission.chronologie = jsonData.missions[index].chronologie.map((chronologieData: any) => {
               if (chronologieData !== null) {
                 return Object.assign(new Step(), chronologieData);
               } else {
                 return null;
               }
             });
-            role.chronologie.forEach((step) => {
+            mission.chronologie.forEach((step) => {
               if (step instanceof Step) {
                 step.comments = step.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
               }
             });
-            role.ressources = role.ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
-            role.occurences = role.occurences.map((occurrenceData: any) => Object.assign(new RoleOccurrence(), occurrenceData));
-            role.supplementaryRoles = role.supplementaryRoles.map((supplementaryRoleData: any) => Object.assign(new SupplementaryRole(), supplementaryRoleData));
-            role.rewards = role.rewards.map((rewardData: any) => {
-              if (rewardData.type == 'skill') {
-                return Object.assign(new SkillReward(), rewardData);
-              }
-              if (rewardData.type == 'character') {
-                return Object.assign(new CharacterReward(), rewardData);
-              }
-              if (rewardData.type == 'quest') {
-                return Object.assign(new QuestReward(), rewardData);
-              }
-              if (rewardData.type == 'objects') {
-                return Object.assign(new ObjectsReward(), rewardData);
-              }
-              if (rewardData.type == 'objective') {
-                return Object.assign(new ObjectiveReward(), rewardData);
-              }
-              if (rewardData.type == 'other') {
-                return Object.assign(new OtherReward(), rewardData);
-              }
-            });
-            role.rewards.forEach((reward: Reward, index: number) => {
-              if (reward instanceof SkillReward) {
-                let i: number = role.ressources.findIndex(element => element.type == 'attribut' && element.name == reward.skill.name && element.number == reward.skill.number);
-                reward.skill = role.ressources[i];
-              }
-              if (reward instanceof CharacterReward) {
-                let i: number = scenario.characters.findIndex(element => element.color == reward.character.color && element.description == reward.character.description && element.name == reward.character.name);
-                reward.character = scenario.characters[i];
-              }
-              if (reward instanceof ObjectiveReward) {
-                let i: number = role.educationnalObjectives.findIndex(element => element.objective == reward.objective.objective);
-                reward.objective = role.educationnalObjectives[i];
-              }
-
-            });
-            role.tasks.forEach((inlineTasks: any[], index: number) => {
-              role.tasks[index] = inlineTasks.map((taskData: any) => {
-                if (taskData !== null) {
-                  return Object.assign(new Task(taskData.type), taskData);
+            mission.comments = jsonData.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
+            mission.context = Object.assign(new MissionContext(), jsonData.missions[index].context);
+            mission.context.comments = jsonData.missions[index].context.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
+            mission.educationnalObjective = Object.assign(new EducationnalObjective(), jsonData.missions[index].educationnalObjective);
+            mission.educationnalObjective.comments = jsonData.missions[index].educationnalObjective.comments.map((commentData: any) => Object.assign(new Comment, commentData));
+            mission.roles = jsonData.missions[index].roles.map((roleData: any) => Object.assign(new Role(), roleData));
+            mission.roles.forEach((role, index) => {
+              role.comments = role.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
+              role.chronologie = mission.roles[index].chronologie.map((chronologieData: any) => {
+                if (chronologieData !== null) {
+                  return Object.assign(new Step(), chronologieData);
                 } else {
                   return null;
                 }
               });
-              role.tasks[index].forEach(task => {
-                if (task instanceof Task) {
-                  task.comments = task.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
-                  task.symbol = Object.assign(new Symbol(), task.symbol);
-                  task.characters = task.characters.map((characterData: any) => Object.assign(new Character(), characterData));
-                  task.characters.forEach((character, index) => {
-                    let i: number | undefined = scenario.characters.findIndex(element => element.name == character.name && element.description == character.description && element.color == character.color);
-                    if (typeof i !== 'undefined' && i !== -1) {
-                      task.characters[index] = scenario.characters[i];
-                    }
-                  });
-                  task.supplementaryRole = Object.assign(new SupplementaryRole, task.supplementaryRole);
-                  let supplementaryRoleIndex: number | undefined = role.supplementaryRoles.findIndex(element =>
-                    element.name == task.supplementaryRole.name && element.color == task.supplementaryRole.color
-                  );
-                  task.supplementaryRole = role.supplementaryRoles[supplementaryRoleIndex];
-                  task.prerequireRessources = task.prerequireRessources.map((prerequireData: any) => Object.assign(new PrerequireRessource(), prerequireData));
-                  task.prerequireRessources.forEach((prerequire, index) => {
+              role.chronologie.forEach((step) => {
+                if (step instanceof Step) {
+                  step.comments = step.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
+                }
+              });
+              role.ressources = role.ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
+              role.occurences = role.occurences.map((occurrenceData: any) => Object.assign(new RoleOccurrence(), occurrenceData));
+              role.supplementaryRoles = role.supplementaryRoles.map((supplementaryRoleData: any) => Object.assign(new SupplementaryRole(), supplementaryRoleData));
+              role.rewards = role.rewards.map((rewardData: any) => {
+                if (rewardData.type == 'skill') {
+                  return Object.assign(new SkillReward(), rewardData);
+                }
+                if (rewardData.type == 'character') {
+                  return Object.assign(new CharacterReward(), rewardData);
+                }
+                if (rewardData.type == 'quest') {
+                  return Object.assign(new QuestReward(), rewardData);
+                }
+                if (rewardData.type == 'objects') {
+                  return Object.assign(new ObjectsReward(), rewardData);
+                }
+                if (rewardData.type == 'objective') {
+                  return Object.assign(new ObjectiveReward(), rewardData);
+                }
+                if (rewardData.type == 'other') {
+                  return Object.assign(new OtherReward(), rewardData);
+                }
+              });
+              role.rewards.forEach((reward: Reward, index: number) => {
+                if (reward instanceof SkillReward) {
+                  let i: number = role.ressources.findIndex(element => element.type == 'attribut' && element.name == reward.skill.name && element.number == reward.skill.number);
+                  reward.skill = role.ressources[i];
+                }
+                if (reward instanceof CharacterReward) {
+                  let i: number = scenario.characters.findIndex(element => element.color == reward.character.color && element.description == reward.character.description && element.name == reward.character.name);
+                  reward.character = scenario.characters[i];
+                }
+                if (reward instanceof ObjectiveReward) {
+                  let i: number = role.educationnalObjectives.findIndex(element => element.objective == reward.objective.objective);
+                  reward.objective = role.educationnalObjectives[i];
+                }
+
+              });
+              role.tasks.forEach((inlineTasks: any[], index: number) => {
+                role.tasks[index] = inlineTasks.map((taskData: any) => {
+                  if (taskData !== null) {
+                    return Object.assign(new Task(taskData.type), taskData);
+                  } else {
+                    return null;
+                  }
+                });
+                role.tasks[index].forEach(task => {
+                  if (task instanceof Task) {
+                    task.comments = task.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
+                    task.symbol = Object.assign(new Symbol(), task.symbol);
+                    task.characters = task.characters.map((characterData: any) => Object.assign(new Character(), characterData));
+                    task.characters.forEach((character, index) => {
+                      let i: number | undefined = scenario.characters.findIndex(element => element.name == character.name && element.description == character.description && element.color == character.color);
+                      if (typeof i !== 'undefined' && i !== -1) {
+                        task.characters[index] = scenario.characters[i];
+                      }
+                    });
+                    task.supplementaryRole = Object.assign(new SupplementaryRole, task.supplementaryRole);
+                    let supplementaryRoleIndex: number | undefined = role.supplementaryRoles.findIndex(element =>
+                      element.name == task.supplementaryRole.name && element.color == task.supplementaryRole.color
+                    );
+                    task.supplementaryRole = role.supplementaryRoles[supplementaryRoleIndex];
+                    task.prerequireRessources = task.prerequireRessources.map((prerequireData: any) => Object.assign(new PrerequireRessource(), prerequireData));
+                    task.prerequireRessources.forEach((prerequire, index) => {
                       if (scenario.ressources.some(element => element.name == prerequire.ressource.name && element.number == prerequire.ressource.number)) {
                         let i: number = scenario.ressources.findIndex(element => element.name == prerequire.ressource.name && element.number == prerequire.ressource.number);
                         prerequire.ressource = scenario.ressources[i];
@@ -214,21 +219,24 @@ export class AppComponent {
                         let i: number = role.ressources.findIndex(element => element.name == prerequire.ressource.name && element.number == prerequire.ressource.number);
                         prerequire.ressource = role.ressources[i];
                       }
-                  })
-                }
+                    })
+                  }
+                });
               });
             });
           });
-        });
-        this.scenario = scenario;
-        this.pieceDetailsService.piece = this.scenario;
-        if (scenario.projectName) {
-          this.titleService.setTitle('RLG Maker - '+this.scenario.projectName);
-        } else {
-          this.titleService.setTitle('RLG Maker');
+          this.scenario = scenario;
+          this.pieceDetailsService.piece = this.scenario;
+          if (scenario.projectName) {
+            this.titleService.setTitle('RLG Maker - ' + this.scenario.projectName);
+          } else {
+            this.titleService.setTitle('RLG Maker');
+          }
+          this.cdr.detectChanges();
+          this._snackBar.openFromComponent(LoadingsucessSnackbarComponent, { duration: 5000 });
+        } catch {
+          this._snackBar.openFromComponent(LoadingfailSnackbarComponent, { duration: 5000 });
         }
-        
-        this.cdr.detectChanges();
       };
     }
   }
