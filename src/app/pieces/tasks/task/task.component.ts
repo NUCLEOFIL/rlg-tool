@@ -11,6 +11,8 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identifier-snackbar/identifier-snackbar.component';
 
 @Component({
   selector: 'app-task',
@@ -35,7 +37,8 @@ export class TaskComponent implements OnInit {
   urlIcon: string = 'url("../../../../assets/background-images/tache.png")';
   antecedent: boolean = false;
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -265,6 +268,9 @@ export class TaskComponent implements OnInit {
       }); 
     }
     this.task.identifier = value;
+    if (this.role.isAlreadyUsedIdentifier(this.task.identifier)) {
+      this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });      
+    }
   }
 
   checkboxChangedTask(event: any, task:(Task|null)): void {

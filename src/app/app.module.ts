@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar'; 
 
 import { AppComponent } from './app.component';
 import { EducationalObjectiveComponent } from './pieces/educational-objective/educational-objective.component';
@@ -38,6 +39,7 @@ import { CleanDialogComponent } from './components/dialogs/clean-dialog/clean-di
 import { CreateDialogComponent } from './components/dialogs/create-dialog/create-dialog.component';
 import { GameCharactersComponent } from './pieces/game-characters/game-characters.component';
 import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialog.component';
+import { IdentifierSnackbarComponent } from './components/snackbars/identifier-snackbar/identifier-snackbar.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialo
     CleanDialogComponent,
     CreateDialogComponent,
     GameCharactersComponent,
-    SaveDialogComponent
+    SaveDialogComponent,
+    IdentifierSnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +82,8 @@ import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialo
     MatButtonModule,
     MatMenuModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
