@@ -269,7 +269,8 @@ export class TaskComponent implements OnInit {
     }
     this.task.identifier = value;
     if (this.role.isAlreadyUsedIdentifier(this.task.identifier)) {
-      this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });      
+      this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });
+      this.task.identifier = '';
     }
   }
 
