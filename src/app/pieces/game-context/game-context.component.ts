@@ -5,6 +5,7 @@ import { PieceDetailsService } from 'src/app/services/piece-details/piece-detail
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Trace } from 'src/app/class/trace/trace';
 
 @Component({
   selector: 'app-game-context',
@@ -31,7 +32,10 @@ export class GameContextComponent implements OnInit {
         this.gameContext.support = '';
         this.gameContext.duration = '';
         this.gameContext.intrigue = '';
-        this.gameContext.other = '';                      
+        this.gameContext.other = '';
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Context_g','#B6CC87'));                      
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',undefined,undefined,'all','Context_g','#B6CC87'));
       }
     });
   } 
@@ -40,4 +44,11 @@ export class GameContextComponent implements OnInit {
     this.pieceDetailsService.piece = this.scenario;
   }
 
+  editTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Context_g', '#B6CC87'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Context_g', '#B6CC87'));
+    }
+  }
 }

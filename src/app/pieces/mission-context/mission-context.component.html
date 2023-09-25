@@ -20,25 +20,25 @@
         <div class="piece-form-title">Contexte de la mission {{i+1}}</div>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="text" [(ngModel)]="missionContext.duration" placeholder="1h"
+            <input name="duration" type="text" [(ngModel)]="missionContext.duration" (change)="editTrace($event, 'Duration_m')" placeholder="1h"
             matTooltip="Combien de temps va durer la mission ?"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>
         <div class="piece-form-intrigue">
             <label for="intrigue">Intrigue</label>
-            <textarea name="intrigue" [(ngModel)]="missionContext.intrigue" placeholder="Concevez un site web ergonomique pour votre premier client"  
+            <textarea name="intrigue" [(ngModel)]="missionContext.intrigue" (change)="editTrace($event, 'Plot_m')" placeholder="Concevez un site web ergonomique pour votre premier client"  
             matTooltip="Quelle est l’histoire de la mission ? Quel est l’enjeu pour les joueurs ?"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-communication">
             <label for="communication">Moyen(s) de communication</label>
-            <textarea name="communication" [(ngModel)]="missionContext.communication"
+            <textarea name="communication" [(ngModel)]="missionContext.communication" (change)="editTrace($event, 'Communication')" placeholder="Chat en ligne, vocal en ligne, face à face, talkie walkie, pigeon voyageur..."
             matTooltip="Comment les joueurs vont-ils communiquer entre eux : à l'oral, par chat, en vocal sur ordinateur, par messages, etc."
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-divers">
             <label for="divers">Autre</label>
-            <textarea name="divers" [(ngModel)]="missionContext.various" placeholder="Contexte d’utilisation : lieu, présence de tuteur/formateur, à quel moment du cursus utiliser ce jeu, matériel nécessaire"
+            <textarea name="divers" [(ngModel)]="missionContext.various" (change)="editTrace($event, 'Other_m')" placeholder="Contexte d’utilisation : lieu, présence de tuteur/formateur, à quel moment du cursus utiliser ce jeu, matériel nécessaire, public cible"
             matTooltip="Tout autre élément que vous souhaiteriez prendre en compte dans la mission et non défini dans les tuiles"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>

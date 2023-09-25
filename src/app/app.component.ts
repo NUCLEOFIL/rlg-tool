@@ -31,6 +31,7 @@ import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingsucessSnackbarComponent } from './components/snackbars/loadingsucess-snackbar/loadingsucess-snackbar.component';
 import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail-snackbar/loadingfail-snackbar.component';
+import { Trace } from './class/trace/trace';
 
 @Component({
   selector: 'app-root',
@@ -79,6 +80,7 @@ export class AppComponent {
           this.titleService.setTitle('RLG Maker - '+this.scenario.projectName);
         }
         this.scenario.tooltips = this.tooltipService.activatedTooltips;
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'save', undefined, undefined, 'all', 'Scenario'));
         const jsonString = JSON.stringify(this.scenario);
         const blob = new Blob([jsonString], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -87,6 +89,8 @@ export class AppComponent {
         link.href = url;
         link.click();
         URL.revokeObjectURL(url);        
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'cancel_save', undefined, undefined, 'all', 'Scenario'));
       }
     });
   }
@@ -227,6 +231,7 @@ export class AppComponent {
           });
           this.scenario = scenario;
           this.pieceDetailsService.piece = this.scenario;
+          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'import', undefined, undefined, 'all', 'Scenario'));
           if (scenario.projectName) {
             this.titleService.setTitle('RLG Maker - ' + this.scenario.projectName);
           } else {

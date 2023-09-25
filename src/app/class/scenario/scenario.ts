@@ -4,6 +4,7 @@ import { GameEducationnalObjective } from "../game-educationnal-objective/game-e
 import { Mission } from "../mission/mission";
 import { Ressource } from "../ressource/ressource";
 import { Comment } from "../comment/comment";
+import { Trace } from "../trace/trace";
 
 export class Scenario {
 
@@ -16,4 +17,5 @@ export class Scenario {
     comments: Comment[] = [];
     projectName: string = '';
     tooltips: boolean = true;
+    traces: Trace[] = [new Trace(0, 'new', undefined, undefined, 'all', 'Scenario')];
 }

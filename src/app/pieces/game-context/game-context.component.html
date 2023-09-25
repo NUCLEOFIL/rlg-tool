@@ -13,31 +13,31 @@
         <div class="piece-form-title">Contexte du jeu</div>
         <div class="piece-form-universe">
             <label for="univers">Univers</label>
-            <input name="univers" type="text" [(ngModel)]="gameContext.univers" placeholder="Réaliste"
+            <input name="univers" type="text" [(ngModel)]="gameContext.univers" (change)="editTrace($event, 'Universe')" placeholder="Réaliste" 
             matTooltip="Est-ce que le jeu est réaliste ou est-il futuriste, médiéval-fantastique, post-apocalyptique, est-ce la science-fiction ?"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>
         <div class="piece-form-support">
             <label for="support">Medium / Support(s)</label>
-            <input name="support" type="text" [(ngModel)]="gameContext.support" placeholder="Ordinateur en 3D"
+            <input name="support" type="text" [(ngModel)]="gameContext.support" (change)="editTrace($event, 'Medium')" placeholder="Ordinateur en 3D" 
             matTooltip="Votre jeu sera-t-il sur ordinateur, en VR, sur tablette / smartphone ou sans technologie particulière ?"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="text" [(ngModel)]="gameContext.duration" placeholder="3h"
+            <input name="duration" type="text" [(ngModel)]="gameContext.duration" (change)="editTrace($event, 'Duration_g')" placeholder="3h" 
             matTooltip="Combien de temps va durer le jeu ? Sachant que le jeu comporte 1 ou plusieurs missions. Une mission peut être la durée d’une séance de cours et le jeu se déroulerait sur plusieurs séances de cours."
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
         </div>
         <div class="piece-form-intrigue">
             <label for="intrigue">Intrigue</label>
-            <textarea name="intrigue" [(ngModel)]="gameContext.intrigue" placeholder="Vous êtes stagiaire dans une agence de communication et devez faire vos preuves pour être embauché.e"
+            <textarea name="intrigue" [(ngModel)]="gameContext.intrigue" (change)="editTrace($event, 'Plot_g')" placeholder="Vous êtes stagiaire dans une agence de communication et devez faire vos preuves pour être embauché.e"
             matTooltip="Quelle est l’histoire du jeu ? Quel est l’enjeu pour les joueurs ?"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>  
         </div>
         <div class="piece-form-other">
             <label for="other">Autre</label>
-            <textarea name="other" [(ngModel)]="gameContext.other" placeholder="Contexte d’utilisation : lieu, présence de tuteur/formateur, à quel moment du cursus utiliser ce jeu, matériel nécessaire"
+            <textarea name="other" [(ngModel)]="gameContext.other" (change)="editTrace($event, 'Other_g')" placeholder="Contexte d’utilisation : lieu, présence de tuteur/formateur, à quel moment du cursus utiliser ce jeu, matériel nécessaire"
             matTooltip="Tout autre élément que vous souhaiteriez prendre en compte dans le jeu et non défini dans les tuiles"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>  
         </div> 

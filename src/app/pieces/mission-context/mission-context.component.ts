@@ -8,6 +8,7 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/create-dialog.component';
+import { Trace } from 'src/app/class/trace/trace';
 
 @Component({
   selector: 'app-mission-context',
@@ -35,7 +36,10 @@ export class MissionContextComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateDialogComponent, { data: 'une nouvelle Mission' });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
-        this.scenario.missions.push(new Mission());           
+        this.scenario.missions.push(new Mission());
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.i,undefined,'all','Mission_['+(this.scenario.missions.length-1)+']'));        
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_new',this.i,undefined,'all','Mission_['+(this.scenario.missions.length-1)+']'));
       }
     });
   }
@@ -47,7 +51,10 @@ export class MissionContextComponent implements OnInit {
         this.missionContext.duration = '';
         this.missionContext.intrigue = '';
         this.missionContext.communication = '';
-        this.missionContext.various = '';                      
+        this.missionContext.various = '';
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.i,undefined,'all','Context_m_['+(this.i)+']','#EAC19B'));                     
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.i,undefined,'all','Context_m_['+(this.i)+']','#EAC19B'));
       }
     });
   } 
@@ -56,7 +63,10 @@ export class MissionContextComponent implements OnInit {
     const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Mission '+(this.i+1) });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
-        this.scenario.missions.splice(this.i, 1);        
+        this.scenario.missions.splice(this.i, 1);
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.i,undefined,'all','Mission_['+(this.i)+']'));       
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.i,undefined,'all','Mission_['+(this.i)+']'));
       }
     });
   }
@@ -69,4 +79,11 @@ export class MissionContextComponent implements OnInit {
     return res;
   }
 
+  editTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.i,undefined,source,'Context_m', '#EAC19B'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.i,undefined,source,'Context_m', '#EAC19B'));
+    }
+  }
 }

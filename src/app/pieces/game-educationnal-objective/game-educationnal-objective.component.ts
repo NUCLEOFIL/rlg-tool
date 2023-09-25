@@ -5,6 +5,7 @@ import { PieceDetailsService } from 'src/app/services/piece-details/piece-detail
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Trace } from 'src/app/class/trace/trace';
 
 @Component({
   selector: 'app-game-educationnal-objective',
@@ -31,8 +32,19 @@ export class GameEducationnalObjectiveComponent implements OnInit {
     const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Objectif pédagogique' });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
-        this.gameEducationnalObjective.objective = '';                     
+        this.gameEducationnalObjective.objective = '';
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Obj_g','#BAC5D8'));                
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',undefined,undefined,'all','Obj_g','#BAC5D8'));
       }
     });  
   } 
+
+  editTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Obj_g', '#BAC5D8'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Obj_g', '#BAC5D8'));
+    }
+  }
 }

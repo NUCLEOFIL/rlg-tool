@@ -14,7 +14,7 @@
         <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="scenario.comments.length > 0"></mat-icon>
         <div class="piece-form-objective">
             <label for="objective">Commun pour le jeu</label>
-            <textarea name="objective" [(ngModel)]="gameEducationnalObjective.objective" placeholder="- Améliorer les softskills&#10;- Apprendre à coopérer"
+            <textarea name="objective" [(ngModel)]="gameEducationnalObjective.objective" (change)="editTrace($event, 'Obj_game')" placeholder="- Améliorer les softskills&#10;- Apprendre à coopérer"
             matTooltip="Ce que l’on veut atteindre en situation de formation. Commencer chaque objectif par un verbe. Si votre jeu est composé de plusieurs missions, distinguez les objectifs globaux du jeu et les objectifs de chaque mission."
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
