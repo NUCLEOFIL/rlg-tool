@@ -13,6 +13,7 @@ import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dia
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identifier-snackbar/identifier-snackbar.component';
+import { Trace } from 'src/app/class/trace/trace';
 
 @Component({
   selector: 'app-annexe-task',
@@ -30,7 +31,9 @@ export class AnnexeTaskComponent implements OnInit {
   @Input() task: Task = new Task('normal');
   @Input() scenario: Scenario = new Scenario();
   @Input() mission!: Mission;
+  @Input() missionIndex: number = 0;
   @Input() role!: Role;
+  @Input() roleIndex: number = 0;
   @Input() i!: number;
   @Input() j!: number;
 
@@ -102,6 +105,9 @@ export class AnnexeTaskComponent implements OnInit {
             });
           });
         });       
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
       }
     });
   } 
@@ -126,19 +132,25 @@ export class AnnexeTaskComponent implements OnInit {
         });
         this.role.removeTask(this.i, this.j);
         this.mission.equalizeLengths();
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
       }
     });
   }
 
   onClickChange(type: string): void {
     this.task.changeType(type);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform_into_['+type+']',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   changeDisplayPrerequires(): void {
     if(this.displayPrequires == 'show') {
       this.displayPrequires = 'hide';
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'hide',this.missionIndex,this.roleIndex,'prerequires','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
     } else {
       this.displayPrequires = 'show';
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
     }
   }
 
@@ -242,6 +254,7 @@ export class AnnexeTaskComponent implements OnInit {
       this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });
       this.task.identifier = '';
     }
+    this.editTrace(event, 'Task_identifier');
   }
 
   checkboxChangedTask(event: any, task:(Task|null)): void {
@@ -263,11 +276,13 @@ export class AnnexeTaskComponent implements OnInit {
 
   onCheckTask(task: Task): void {
     this.task.prerequireTasks.push(new PrerequireTask(task.identifier));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   onUncheckTask(task: Task): void {
     let i: number = this.task.prerequireTasks.findIndex(element => element.identifier == task.identifier);
     this.task.prerequireTasks.splice(i,1);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_task','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   checkboxChangedRessource(event: any, ressource: Ressource): void {
@@ -284,11 +299,13 @@ export class AnnexeTaskComponent implements OnInit {
 
   onCheckRessource(ressource: Ressource): void {
     this.task.prerequireRessources.push(new PrerequireRessource(ressource));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   onUncheckRessource(ressource: Ressource): void {
     let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
     this.task.prerequireRessources.splice(i, 1);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_ressource','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   getAssociatePrerequireRessource(ressource: Ressource): PrerequireRessource {
@@ -306,5 +323,17 @@ export class AnnexeTaskComponent implements OnInit {
       }
     });
     return res;
+  }
+
+  editTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+    }
+  }
+
+  editMoveTrace(event: any, source: string): void {
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 }

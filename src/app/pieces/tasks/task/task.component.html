@@ -25,24 +25,24 @@
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <div class="piece-menu-directioncross">
             <div class="piece-menu-directioncross-left">
-                <mat-icon style="transform: rotate(0turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('left')"
+                <mat-icon style="transform: rotate(0turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('left'); editMoveTrace($event,'Task_moveLeft')"
                 matTooltip="Décaler la tuile vers la gauche. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
             </div>
             <div class="piece-menu-directioncross-updownarrows">
                 <div class="piece-menu-updownarrows-up">
-                    <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top')"
+                    <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top'); editMoveTrace($event,'Task_moveTop')"
                     matTooltip="Décaler la tuile vers le haut (ceci placera la tuile à la fin de la ligne)."
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
                 </div>
                 <div class="piece-menu-directioncross-updownarrows-down">
-                    <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom')"
+                    <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom'); editMoveTrace($event,'Task_moveBottom')"
                     matTooltip="Décaler la tuile vers le bas (ceci placera la tuile à la fin de la ligne)."
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
                 </div>
             </div>
             <div class="piece-menu-directioncross-right">
-                <mat-icon style="transform: rotate(0.5turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('right')"
+                <mat-icon style="transform: rotate(0.5turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('right'); editMoveTrace($event,'Task_moveRight')"
                 matTooltip="Décaler la tuile vers la droite. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
             </div>
@@ -153,7 +153,7 @@
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    
         </div>
-        <textarea class="piece-form-content" [(ngModel)]="task.objective" [style.background-image]="(i == findFirstIndexOfTaskType('normal')[0] && j == findFirstIndexOfTaskType('normal')[1]) ? urlIcon : ''"
+        <textarea class="piece-form-content" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action')" [style.background-image]="(i == findFirstIndexOfTaskType('normal')[0] && j == findFirstIndexOfTaskType('normal')[1]) ? urlIcon : ''"
             placeholder="Positionner dans l'ordre les balises HTML principales"
             matTooltip="Action à effectuer (interagir avec un objet, parler avec quelqu'un, …)"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
@@ -161,8 +161,8 @@
             <div class="piece-form-bottom-duration"
             matTooltip="Durée de la tâche (en unité de temps, minutes ou tours)"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-                <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="1" (change)="task.duration < 1 ? task.duration = 1 : ''"/>
-                <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange()">
+                <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="1" (change)="task.duration < 1 ? task.duration = 1 : ''; editTrace($event,'Task_duration')"/>
+                <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange(); editTrace($event,'Task_duration_unit')">
                     <option value="UT">UT</option>
                     <option value="min">min</option>
                     <option value="tours">tours</option> 

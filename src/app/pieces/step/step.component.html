@@ -6,7 +6,7 @@ matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedToolti
     <div class="piece-attach piece-attach-left"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="arrow_back_ios" (click)="moveStep('left')" *ngIf="index > 0"
+        <mat-icon fontIcon="arrow_back_ios" (click)="moveStep('left'); editTrace($event,'Step_moveLeft')" *ngIf="index > 0"
         matTooltip="Décaler la tuile vers la gauche. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <mat-icon fontIcon="backspace" (click)="onClickErase()"
@@ -15,7 +15,7 @@ matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedToolti
         <mat-icon fontIcon="delete" (click)="onClickDelete()"
         matTooltip="Supprimer la tuile."
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
-        <mat-icon fontIcon="arrow_forward_ios" (click)="moveStep('right')"
+        <mat-icon fontIcon="arrow_forward_ios" (click)="moveStep('right'); editTrace($event,'Step_moveRight')"
         matTooltip="Décaler la tuile vers la droite. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
@@ -23,11 +23,11 @@ matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedToolti
     <div class="piece-form">
         <div class="piece-form-title">Étape {{getStepNumber()}}</div>
         <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="step.comments.length > 0"></mat-icon>
-        <textarea [(ngModel)]="step.description" [style.background-image]="index == FirstStepIndex() ? urlIcon : ''"></textarea>
+        <textarea [(ngModel)]="step.description" [style.background-image]="index == FirstStepIndex() ? urlIcon : ''" (change)="editTrace($event,'Step_content')"></textarea>
         <div class="piece-form-duration">
             <label for="duration">Durée</label>
-            <input name="duration" type="number" [(ngModel)]="step.duration" (input)="durationChange()" min="1" (change)="step.duration < 1 ? step.duration = 1 : ''"/>
-            <select name="duration" [(ngModel)]="step.durationUnit" (change)="durationChange()">
+            <input name="duration" type="number" [(ngModel)]="step.duration" (input)="durationChange()" min="1" (change)="step.duration < 1 ? step.duration = 1 : ''; editTrace($event, 'Step_duration')"/>
+            <select name="duration" [(ngModel)]="step.durationUnit" (change)="durationChange(); editTrace($event, 'Step_duration_unit')">
                 <option value="UT">UT</option>
                 <option value="min">min</option>
                 <option value="tours">tours</option>

@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identifier-snackbar/identifier-snackbar.component';
+import { Trace } from 'src/app/class/trace/trace';
 
 @Component({
   selector: 'app-optionnal-task',
@@ -30,7 +31,9 @@ export class OptionnalTaskComponent implements OnInit {
   @Input() task: Task = new Task('normal');
   @Input() scenario: Scenario = new Scenario();
   @Input() mission!: Mission;
+  @Input() missionIndex: number = 0;
   @Input() role!: Role;
+  @Input() roleIndex: number = 0;
   @Input() i!: number;
   @Input() j!: number;
 
@@ -104,6 +107,9 @@ export class OptionnalTaskComponent implements OnInit {
             });
           });
         }); 
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
       }
     });
   } 
@@ -119,6 +125,7 @@ export class OptionnalTaskComponent implements OnInit {
       this.task.symbol.symbol = '';
     }
     this.task.changeType(type);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform_into_['+type+']',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
   }
 
   onClickDelete(): void {
@@ -136,6 +143,9 @@ export class OptionnalTaskComponent implements OnInit {
         });
         this.role.removeTask(this.i, this.j);
         this.mission.equalizeLengths();
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
       }
     });
   }
@@ -152,13 +162,20 @@ export class OptionnalTaskComponent implements OnInit {
     this.task.symbol.symbol = symbol;
     this.task.symbol.color = symbolColor;
     this.displaySymbolChoice = 'hide';
+    if (symbol != '' && symbolColor != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'select_common',this.missionIndex,this.roleIndex,'symbol','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete_common',this.missionIndex,this.roleIndex,'symbol','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
+    }
   }
 
   changeDisplayPrerequires(): void {
     if(this.displayPrequires == 'show') {
       this.displayPrequires = 'hide';
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'hide',this.missionIndex,this.roleIndex,'prerequires','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
     } else {
       this.displayPrequires = 'show';
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
     }
   }
 
@@ -261,6 +278,7 @@ export class OptionnalTaskComponent implements OnInit {
       this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });
       this.task.identifier = '';  
     }
+    this.editTrace(event, 'Task_identifier');
   }
 
   checkboxChangedTask(event: any, task:(Task|null)): void {
@@ -282,11 +300,13 @@ export class OptionnalTaskComponent implements OnInit {
 
   onCheckTask(task: Task): void {
     this.task.prerequireTasks.push(new PrerequireTask(task.identifier));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
   }
 
   onUncheckTask(task: Task): void {
     let i: number = this.task.prerequireTasks.findIndex(element => element.identifier == task.identifier);
     this.task.prerequireTasks.splice(i,1);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_task','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
   }
 
   checkboxChangedRessource(event: any, ressource: Ressource): void {
@@ -303,11 +323,13 @@ export class OptionnalTaskComponent implements OnInit {
 
   onCheckRessource(ressource: Ressource): void {
     this.task.prerequireRessources.push(new PrerequireRessource(ressource));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
   }
 
   onUncheckRessource(ressource: Ressource): void {
     let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
     this.task.prerequireRessources.splice(i, 1);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_ressource','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
   }
 
   getAssociatePrerequireRessource(ressource: Ressource): PrerequireRessource {
@@ -325,5 +347,17 @@ export class OptionnalTaskComponent implements OnInit {
       }
     });
     return res;
+  }
+
+  editTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
+    }
+  }
+
+  editMoveTrace(event: any, source: string): void {
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
   }
 }

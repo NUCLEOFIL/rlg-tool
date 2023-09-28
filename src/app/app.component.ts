@@ -260,18 +260,28 @@ export class AppComponent {
     }
   }
 
-  addMissionStep(mission: Mission, index: number): void {
+  addMissionStep(mission: Mission, index: number, missionIndex: number): void {
     mission.addChronologieStep(index);
     mission.equalizeLengths();
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',missionIndex,undefined,'all','Step_m_['+index+']','#ACC9FC'));
   }
 
-  addRoleStep(mission: Mission, role: Role, index: number): void {
+  addRoleStep(mission: Mission, role: Role, index: number, missionIndex: number, roleIndex: number): void {
     role.addChronologieStep(index);
     mission.equalizeLengths();
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',missionIndex,roleIndex,'all','Step_r_['+index+']','#ACC9FC'));
   }
 
-  addTask(mission: Mission, role: Role, i: number, j: number, type: string) {
+  addTask(mission: Mission, role: Role, missionIndex: number, roleIndex: number, i: number, j: number, type: string) {
     role.addTask(i, j, type);
+    switch(type) {
+      case 'normal': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#B9DFE3')); break;
+      case 'annexe': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#BCCECC')); break;
+      case 'optionnal': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#E8E3B3')); break;
+      case 'final': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#B28386')); break;
+      case 'event': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#BFDAA3')); break;
+      case 'reppeat': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#ABBCC6')); break;
+    }
     mission.equalizeLengths();
   }
 
@@ -309,6 +319,14 @@ export class AppComponent {
       return "Étape";
     } else {
       return "";
+    }
+  }
+
+  tooltipsTrace(event: any) {
+    if(event.target.checked) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'enable_tooltips',undefined, undefined,'tooltips','Scenario'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'disable_tooltips',undefined, undefined,'tooltips','Scenario'));
     }
   }
 }

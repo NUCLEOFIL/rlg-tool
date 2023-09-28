@@ -7,6 +7,8 @@ import { PieceDetailsService } from 'src/app/services/piece-details/piece-detail
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { Trace } from 'src/app/class/trace/trace';
+import { Scenario } from 'src/app/class/scenario/scenario';
 
 @Component({
   selector: 'app-step',
@@ -15,10 +17,13 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 })
 export class StepComponent implements OnInit {
 
-  @Input() step: Step = new Step;
+  @Input() scenario: Scenario = new Scenario();
+  @Input() step: Step = new Step();
   @Input() parent!: Mission | Role;
   @Input() index!: number;
   @Input() mission!: Mission;
+  @Input() roleIndex!: number;
+  @Input() missionIndex: number = 0;
 
   displayMenu: string = 'hide';
   pieceWidth: number = 400;
@@ -89,7 +94,18 @@ export class StepComponent implements OnInit {
       if (result == true) {
         this.step.description = '';
         this.step.durationUnit = 'UT';
-        this.step.duration = 1; 
+        this.step.duration = 1;
+        if (this.parent instanceof Mission) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
+        } else if (this.parent instanceof Role) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+        }
+      } else {
+        if (this.parent instanceof Mission) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
+        } else if (this.parent instanceof Role) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+        }
       }
     });
   }
@@ -104,6 +120,17 @@ export class StepComponent implements OnInit {
           this.parent.removeChronologieStep(this.index);
         }
         this.mission.equalizeLengths();       
+        if (this.parent instanceof Mission) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
+        } else if (this.parent instanceof Role) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+        }
+      } else {
+        if (this.parent instanceof Mission) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
+        } else if (this.parent instanceof Role) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+        }
       }
     });
   }
@@ -121,5 +148,31 @@ export class StepComponent implements OnInit {
       }
     }
     return 0;
+  }
+
+  editTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      if (this.parent instanceof Mission) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC'));
+      } else if (this.parent instanceof Role) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
+      }
+    } else {
+      if (this.parent instanceof Mission) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC'));
+      } else if (this.parent instanceof Role) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
+      }
+    }
+  }
+
+  editMoveTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      if (this.parent instanceof Mission) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC'));
+      } else if (this.parent instanceof Role) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
+      }
+    }
   }
 }
