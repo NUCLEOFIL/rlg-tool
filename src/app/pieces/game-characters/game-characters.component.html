@@ -16,18 +16,18 @@
                 <mat-icon fontIcon="person_add"></mat-icon>
                 <div class="piece-form-character-create-top-name">
                     <label for="name">Nom</label>
-                    <input name="name" type="text" [(ngModel)]="newCharacter.name"/>
+                    <input name="name" type="text" [(ngModel)]="newCharacter.name" (change)="editTrace($event,'newCharacter_name')"/>
                 </div>
             </div>
             <div class="piece-form-create-infos">
                 <div class="piece-form-character-create-infos-description">
                     <label for="description">Description</label>
-                    <textarea class="background" name="description" [(ngModel)]="newCharacter.description"></textarea>
+                    <textarea class="background" name="description" [(ngModel)]="newCharacter.description" (change)="editTrace($event,'newCharacter_description')"></textarea>
                 </div>
 
                 <div class="piece-form-character-create-infos-color">
                     <label for="color">Couleur</label>
-                    <input name="color" type="color" [(ngModel)]="newCharacter.color"/>
+                    <input name="color" type="color" [(ngModel)]="newCharacter.color" (change)="editTrace($event,'newCharacter_color')"/>
                 </div>
             </div>
             <button mat-button (click)="createCharacter()">Créer</button>
@@ -39,18 +39,18 @@
                     <mat-icon fontIcon="person"></mat-icon>
                     <div class="piece-form-character-create-top-name">
                         <label for="name">Nom</label>
-                        <input name="name" type="text" [(ngModel)]="character.name"/>
+                        <input name="name" type="text" [(ngModel)]="character.name" (change)="editTrace($event,'Character_['+index+']_name')"/>
                     </div>
                 </div>
                 <div class="piece-form-create-infos">
                     <div class="piece-form-character-create-infos-description">
                         <label for="description">Description</label>
-                        <textarea name="description" [(ngModel)]="character.description"></textarea>
+                        <textarea name="description" [(ngModel)]="character.description" (change)="editTrace($event,'Character_['+index+']_description')"></textarea>
                     </div>
 
                     <div class="piece-form-character-create-infos-color">
                         <label for="color">Couleur</label>
-                        <input name="color" type="color" [(ngModel)]="character.color"/>
+                        <input name="color" type="color" [(ngModel)]="character.color" (change)="editTrace($event,'Character_['+index+']_color')"/>
                     </div>
                 </div>
                 <button mat-button (click)="deleteCharacter(index)">Supprimer</button>

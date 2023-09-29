@@ -10,7 +10,7 @@
     <div class="piece-form">
         <div class="piece-form-rules">
             <div class="piece-form-title">Règles du jeu</div>  
-            <textarea [(ngModel)]="scenario.gameRules"
+            <textarea [(ngModel)]="scenario.gameRules" (change)="editTrace($event,'rules')"
             matTooltip="Éléments importants à prendre en compte dans les règles du jeu"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
@@ -22,11 +22,11 @@
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                     <div class="piece-form-ressources-object-infos-name">
                         <label for="name">Nom</label>
-                        <input name="name" type="text" [(ngModel)]="ressource.name"/>
+                        <input name="name" type="text" [(ngModel)]="ressource.name" (change)="editTrace($event,'Ressource_['+i+']_name')"/>
                     </div>
                     <div class="piece-form-ressources-object-infos-quantity">
                         <label for="quantity">Quantité</label>
-                        <input name="quantity" type="number" min="1"[(ngModel)]="ressource.number"/>
+                        <input name="quantity" type="number" min="1"[(ngModel)]="ressource.number" (change)="editTrace($event,'Ressource_['+i+']_quantity')"/>
                     </div>
                     <button mat-button (click)="removeRessource(i)"><mat-icon fontIcon="remove"></mat-icon></button>                           
                 </div>

@@ -7,6 +7,7 @@ import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dia
 import { Character } from 'src/app/class/character/character';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { Task } from 'src/app/class/task/task';
+import { Trace } from 'src/app/class/trace/trace';
 
 @Component({
   selector: 'app-game-characters',
@@ -44,7 +45,10 @@ export class GameCharactersComponent implements OnInit {
               });
             });
           });
-        });                   
+        });  
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Characters','#CE7B66'));                 
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',undefined,undefined,'all','Characters','#CE7B66'));                 
       }
     });
   }
@@ -52,7 +56,8 @@ export class GameCharactersComponent implements OnInit {
   createCharacter(): void {
     if (this.newCharacter.name != '') {
       this.scenario.characters.push(this.newCharacter);
-      this.newCharacter = new Character();     
+      this.newCharacter = new Character();
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',undefined,undefined,'all','Characters_['+(this.scenario.characters.length-1)+']','#CE7B66'));                     
     }
   }
 
@@ -73,9 +78,18 @@ export class GameCharactersComponent implements OnInit {
             });
           });
           this.scenario.characters.splice(index, 1);
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',undefined,undefined,'all','Characters_['+index+']','#CE7B66'));                 
+        } else {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',undefined,undefined,'all','Characters_['+index+']','#CE7B66'));                 
         }
       });
-    
   }
 
+  editTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Characters', '#EAC19B'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Characters', '#EAC19B'));
+    }
+  }
 }

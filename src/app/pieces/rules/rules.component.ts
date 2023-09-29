@@ -7,6 +7,7 @@ import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dia
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { Task } from 'src/app/class/task/task';
+import { Trace } from 'src/app/class/trace/trace';
 
 @Component({
   selector: 'app-rules',
@@ -32,7 +33,6 @@ export class RulesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.scenario.gameRules = '';
-        //this.scenario.ressources = [];
         this.scenario.ressources.forEach((ressource, i) => {
           this.scenario.missions.forEach(mission => {
             mission.roles.forEach(role => {
@@ -51,12 +51,16 @@ export class RulesComponent implements OnInit {
           });
         });
         this.scenario.ressources = [];
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Rules', '#C6C2BD'));
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',undefined,undefined,'all','Rules', '#C6C2BD'));
       }
     });
   }
 
   addRessource(): void {
     this.scenario.ressources.push(new Ressource());
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',undefined,undefined,'Ressource_['+(this.scenario.traces.length-1)+']','Rules', '#C6C2BD'));
   }
 
   removeRessource(index: number): void {
@@ -77,7 +81,18 @@ export class RulesComponent implements OnInit {
           });
         });
         this.scenario.ressources.splice(index, 1);
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',undefined,undefined,'Ressource_['+index+']','Rules', '#C6C2BD'));
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',undefined,undefined,'Ressource_['+index+']','Rules', '#C6C2BD'));
       }
     });
+  }
+
+  editTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Rules', '#C6C2BD'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Rules', '#C6C2BD'));
+    }
   }
 }
