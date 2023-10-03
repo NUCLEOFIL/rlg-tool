@@ -6,13 +6,13 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
             <mat-icon fontIcon="refresh"></mat-icon>
             <div class="piece-form-header-for">
                 <label>Répéter</label>
-                <input type="text" [(ngModel)]="task.repeat.iteration"/>
+                <input type="text" [(ngModel)]="task.repeat.iteration" (change)="editTrace($event,'repeat_nbTimes')"/>
                 <label>fois</label>
             </div>
         </div>
         <div class="piece-form-while">
             <label>ou jusqu'à ce que :</label>
-            <textarea [(ngModel)]="task.repeat.while"></textarea>
+            <textarea [(ngModel)]="task.repeat.while" (change)="editTrace($event,'repeat_stopCondition')"></textarea>
         </div>    
     </div>
 </div>
