@@ -5,13 +5,13 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
         <div class="piece-form-title">Commentaires</div>
 
         <div class="piece-form-comments">
-            <app-comment *ngFor="let comment of piece.comments, let i = index" [comment]="comment" [comments]="piece.comments" [index]="i"></app-comment>
+            <app-comment *ngFor="let comment of piece.comments, let i = index" [comment]="comment" [comments]="piece.comments" [index]="i" [scenario]="scenario"></app-comment>
         </div>
 
         <div class="piece-form-newcomment">
             <div class="piece-form-newcomment-form">
                 <label>Nouveau commentaire</label>
-                <textarea [(ngModel)]="newComment"></textarea>
+                <textarea [(ngModel)]="newComment" (change)="editTrace($event,'newComment')"></textarea>
             </div>
             <button mat-button (click)="addComment()">Ajouter un commentaire</button>
         </div>

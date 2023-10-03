@@ -12,6 +12,9 @@ export class PieceDetailsService {
 
   piece!: (Task | Role | Mission | Step | Scenario);
   parent!: (Role | Mission | Scenario);
+  missionIndex: number|undefined = undefined;
+  roleIndex: number|undefined = undefined;
+  pieceIndex: number|number[]|undefined = undefined;
 
   constructor() { }
 

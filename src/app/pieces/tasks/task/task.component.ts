@@ -117,6 +117,9 @@ export class TaskComponent implements OnInit {
   onClickPiece(): void {
     this.pieceDetailsService.piece = this.task;
     this.pieceDetailsService.parent = this.role;
+    this.pieceDetailsService.missionIndex = this.missionIndex;
+    this.pieceDetailsService.roleIndex = this.roleIndex;
+    this.pieceDetailsService.pieceIndex = [this.i,this.j];
   }
 
   onClickChange(type: string): void {

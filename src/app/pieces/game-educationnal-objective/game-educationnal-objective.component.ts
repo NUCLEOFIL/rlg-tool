@@ -26,6 +26,9 @@ export class GameEducationnalObjectiveComponent implements OnInit {
 
   onClickPiece(): void {
     this.pieceDetailsService.piece = this.scenario;
+    this.pieceDetailsService.missionIndex = undefined;
+    this.pieceDetailsService.roleIndex = undefined;
+    this.pieceDetailsService.pieceIndex = undefined;
   }
 
   onClickErase(): void {

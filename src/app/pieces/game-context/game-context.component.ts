@@ -42,6 +42,9 @@ export class GameContextComponent implements OnInit {
 
   onClickPiece(): void {
     this.pieceDetailsService.piece = this.scenario;
+    this.pieceDetailsService.missionIndex = undefined,
+    this.pieceDetailsService.roleIndex = undefined;
+    this.pieceDetailsService.pieceIndex = undefined;
   }
 
   editTrace(event: any, source: string): void {

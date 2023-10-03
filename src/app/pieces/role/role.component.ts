@@ -43,6 +43,9 @@ export class RoleComponent implements OnInit {
 
   onClickPiece(): void {
     this.pieceDetailsService.piece = this.role;
+    this.pieceDetailsService.missionIndex = this.missionIndex;
+    this.pieceDetailsService.roleIndex = this.i;
+    this.pieceDetailsService.pieceIndex = this.i;
   }
 
   onClickAdd(): void {

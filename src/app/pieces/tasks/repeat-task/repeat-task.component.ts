@@ -41,9 +41,9 @@ export class RepeatTaskComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.task.objective = '';
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
       }
     });
   } 
@@ -51,6 +51,9 @@ export class RepeatTaskComponent implements OnInit {
   onClickPiece(): void {
     this.pieceDetailsService.piece = this.task;
     this.pieceDetailsService.parent = this.role;
+    this.pieceDetailsService.missionIndex = this.missionIndex;
+    this.pieceDetailsService.roleIndex = this.roleIndex;
+    this.pieceDetailsService.pieceIndex = [this.i,this.j];
   }
 
   onClickDelete(): void {
@@ -68,9 +71,9 @@ export class RepeatTaskComponent implements OnInit {
         });
         this.role.removeTask(this.i, this.j);
         this.mission.equalizeLengths();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
       }
     });
   }
@@ -134,13 +137,13 @@ export class RepeatTaskComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
     }
   }
 
   editMoveTrace(event: any, source: string): void {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
   }
 }

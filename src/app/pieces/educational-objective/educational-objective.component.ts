@@ -30,6 +30,9 @@ export class EducationalObjectiveComponent implements OnInit {
 
   onClickPiece(): void {
     this.pieceDetailsService.piece = this.scenario.missions[this.i];
+    this.pieceDetailsService.missionIndex = this.i;
+    this.pieceDetailsService.roleIndex = undefined;
+    this.pieceDetailsService.pieceIndex = this.i;
   }
 
   onClickAdd(): void {

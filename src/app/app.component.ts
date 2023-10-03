@@ -276,11 +276,11 @@ export class AppComponent {
     role.addTask(i, j, type);
     switch(type) {
       case 'normal': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#B9DFE3')); break;
-      case 'annexe': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#BCCECC')); break;
-      case 'optionnal': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#E8E3B3')); break;
-      case 'final': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#B28386')); break;
-      case 'event': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#BFDAA3')); break;
-      case 'reppeat': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#ABBCC6')); break;
+      case 'annexe': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Side_task_['+i+';'+j+']', '#BCCECC')); break;
+      case 'optionnal': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Opt_task_['+i+';'+j+']', '#E8E3B3')); break;
+      case 'final': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Final_task_['+i+';'+j+']', '#B28386')); break;
+      case 'event': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Event_task_['+i+';'+j+']', '#BFDAA3')); break;
+      case 'repeat': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Repeat_task_['+i+';'+j+']', '#ABBCC6')); break;
     }
     mission.equalizeLengths();
   }
