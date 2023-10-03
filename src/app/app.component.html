@@ -119,7 +119,7 @@
     <div class="container-sider">
         <div class="container-sider-title">{{getSiderTitle()}}</div>
         <div class="container-sider-elements">
-            <app-role-occurence class="container-sider-elements-element" [role]="pieceDetailsService.pieceAsRole()" *ngIf="pieceDetailsService.pieceIsRole()"></app-role-occurence>
+            <app-role-occurence class="container-sider-elements-element" [role]="pieceDetailsService.pieceAsRole()" *ngIf="pieceDetailsService.pieceIsRole()" [scenario]="scenario"></app-role-occurence>
             <app-supplementary-task class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" [role]="pieceDetailsService.parentAsRole()" *ngIf="pieceDetailsService.pieceIsTask()"></app-supplementary-task>
             <app-repeat class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-repeat>
             <app-interupt class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask()"></app-interupt>

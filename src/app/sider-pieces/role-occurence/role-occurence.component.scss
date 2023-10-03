@@ -27,6 +27,19 @@
             margin-right: 5px;
         }
 
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          appearance: none;
+          margin: 0;
+        }
+
+        @-moz-document url-prefix() {
+            input[type=number] {
+              -moz-appearance: textfield;
+            }
+          }
+
         button {
             background-color: white;
             border-radius: 10px;

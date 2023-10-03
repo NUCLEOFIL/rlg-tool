@@ -5,11 +5,11 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
         <div class="piece-title">Occurrence du rôle</div>
         <div class="piece-form-occurrence" *ngFor="let occurence of role.occurences, let i = index">
             <div class="piece-form-occurrence-text">
-                <input type="text" [(ngModel)]="occurence.iteration"/>
+                <input type="number" [(ngModel)]="occurence.iteration" (change)="editTrace($event,'Occurrence_['+i+']_nbRole')"/>
                 <label> entre </label>
-                <input type="text" [(ngModel)]="occurence.min"/>
+                <input type="number" [(ngModel)]="occurence.min" (change)="editTrace($event,'Occurrence_['+i+']_playersMin')"/>
                 <label> et </label>
-                <input type="text" [(ngModel)]="occurence.max"/>
+                <input type="number" [(ngModel)]="occurence.max" (change)="editTrace($event,'Occurrence_['+i+']_playersMax')"/>
                 <label> joueurs</label>  
             </div>
             <button mat-button (click)="removeOccurrence(i)"><mat-icon fontIcon="remove"></mat-icon></button>
