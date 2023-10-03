@@ -9,7 +9,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
             </div>
         </div>
         <div class="piece-form-textarea">
-            <textarea [(ngModel)]="task.interrupt"></textarea>
+            <textarea [(ngModel)]="task.interrupt" (change)="editTrace($event,'interrupt')"></textarea>
         </div>    
     </div>
 </div>
