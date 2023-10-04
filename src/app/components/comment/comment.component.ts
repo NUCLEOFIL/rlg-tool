@@ -67,6 +67,10 @@ export class CommentComponent implements OnInit {
     });
   }
 
+  trackByIdx(index: number, obj: any): any {
+    return index;
+  }  
+
   formatTraceTarget(): string {
     let res: string = '';
 

@@ -6,15 +6,15 @@
             <button mat-button (click)="removeComment(index)">Supprimer</button>
         </div>  
     </div>
-    <div class="form-answers" *ngFor="let answer of comment.answers, let i = index">
-        <textarea [disabled]="!answerEditables[i]" [(ngModel)]="comment.answers[i]">Une réponse</textarea>
+    <div class="form-answers" *ngFor="let answer of comment.answers, let i = index;trackBy:trackByIdx">
+        <textarea [disabled]="!answerEditables[i]" [(ngModel)]="comment.answers[i]" (change)="editTrace($event,'answer_['+i+']')">Une réponse</textarea>
         <div class="form-comment-buttons">
             <button mat-button (click)="this.answerEditables[i] = !this.answerEditables[i]">Modifier</button>
             <button mat-button (click)="removeAnswer(i)">Supprimer</button>
         </div>  
     </div>
     <div class="form-newanswer">
-        <textarea [(ngModel)]="newAnswer"></textarea>
+        <textarea [(ngModel)]="newAnswer" (change)="editTrace($event,'newAnswer')"></textarea>
         <div class="form-newanswer-buttons">
            <button mat-button (click)="addAnswer()">Répondre</button> 
         </div>
