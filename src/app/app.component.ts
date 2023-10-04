@@ -81,7 +81,7 @@ export class AppComponent {
         }
         this.scenario.tooltips = this.tooltipService.activatedTooltips;
         this.scenario.traces.push(new Trace(this.scenario.traces.length, 'save', undefined, undefined, 'all', 'Scenario'));
-        const jsonString = JSON.stringify(this.scenario);
+        const jsonString = JSON.stringify(this.scenario,undefined,2);
         const blob = new Blob([jsonString], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
