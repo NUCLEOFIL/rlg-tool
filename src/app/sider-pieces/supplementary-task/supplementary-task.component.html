@@ -13,7 +13,7 @@
         œ-->
         <div class="piece-form-select">
             <label>Rôle</label>
-            <select [(ngModel)]="task.supplementaryRole">
+            <select [(ngModel)]="task.supplementaryRole" (change)="editTrace($event,'supplementaryRole')">
                 <option selected [ngValue]="undefined">Aucun</option>
                 <ng-container *ngFor="let supplementaryRole of role.supplementaryRoles">
                     <option [ngValue]="supplementaryRole">{{supplementaryRole.name}}</option>
