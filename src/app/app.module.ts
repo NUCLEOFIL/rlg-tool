@@ -42,6 +42,7 @@ import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialo
 import { IdentifierSnackbarComponent } from './components/snackbars/identifier-snackbar/identifier-snackbar.component';
 import { LoadingsucessSnackbarComponent } from './components/snackbars/loadingsucess-snackbar/loadingsucess-snackbar.component';
 import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail-snackbar/loadingfail-snackbar.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
     MatIconModule,

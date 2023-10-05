@@ -151,6 +151,11 @@
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="upload-file"></mat-icon></button>
         <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)"> 
     </div>
+    <div class="container-settings container-settings-secondline">
+        <button mat-mini-fab color="white" (click)="downloadManual()"
+        matTooltip="Télécharger le manuel d'utilisation."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="menu_book"></mat-icon></button>
+    </div>
     <div class="container-zoom">
         <button mat-mini-fab color="white" (click)="zoomIn()"
         matTooltip="Zoomer le scénario."

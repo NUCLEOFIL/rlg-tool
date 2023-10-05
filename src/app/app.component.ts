@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Mission } from './class/mission/mission';
 import { Scenario } from './class/scenario/scenario';
 import { Step } from './class/step/step';
@@ -44,7 +45,7 @@ export class AppComponent {
   scenario: Scenario = new Scenario();
   @ViewChild('fileInput') fileInput: any;
 
-  constructor(private cdr: ChangeDetectorRef, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
+  constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
     private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
     private _snackBar: MatSnackBar) {
     pieceDetailsService.piece = this.scenario;
@@ -59,6 +60,19 @@ export class AppComponent {
     const message = "Êtes vous sûr de vouloir quitter RLG Maker ?\nVous risquez de perdre les données non sauvegardées.";
     event.returnValue = message;
     return message;
+  }
+
+  downloadManual(): void {
+    const manualUrl = '/assets/GuideMakerWeb_v2.0.pdf';
+    this.http.get(manualUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'GuideMakerWeb_v2.0.pdf';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 
   downloadFile(): void {
