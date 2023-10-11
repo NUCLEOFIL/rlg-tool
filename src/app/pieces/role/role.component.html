@@ -40,7 +40,7 @@
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-objectives">
-            <label for="objective">Objectif(s) pédagoqique(s)</label>
+            <label for="objective">Objectif(s) pédagogique(s)</label>
             <div class="piece-form-objectives-objective" *ngFor="let objective of role.educationnalObjectives, let i = index">
                 <input name="objective" type="text" [(ngModel)]="role.educationnalObjectives[i].objective" (change)="editTrace($event, 'Obj_['+(i)+']')" placeholder="Nom de l'objectif"
                 matTooltip="Les objectifs visés pour ce rôle en particulier"
