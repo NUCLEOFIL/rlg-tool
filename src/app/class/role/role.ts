@@ -53,7 +53,7 @@ export class Role {
     }
 
     public moveTask(i: number, j: number, direction: string): void {
-        let tmp: Task | null = this.tasks[i][j];
+        let tmp: Task | null = this.tasks[i][j] as Task;
 
         if (direction == 'left') {
             this.tasks[i][j] = this.tasks[i][j - 1];
@@ -69,16 +69,29 @@ export class Role {
                 if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
                     this.tasks[i][j] = this.tasks[i - 1][this.getLastTaskIndex(i - 1)];
                     this.tasks[i - 1][this.getLastTaskIndex(i - 1)] = tmp;
+                }  else if (this.thereIsSpace(i - 1, this.getRealIndex(i-1,j), this.tasks[i][j] as Task)) {
+                    this.tasks[i - 1][this.getRealIndex(i-1,j)] = tmp;
+                    this.tasks[i][j] = null;
+                    this.tasks[i - 1].splice(this.getRealIndex(i-1,j)+1,tmp?.duration-1);
+                    for(let index = 1; index < tmp.duration; index++) {
+                        this.tasks[i].splice(j+index,0,null);
+                    }
                 } else {
                     let deplace = this.tasks[i - 1][this.getLastTaskIndex(i - 1)];
                     this.tasks[i - 1][this.getLastTaskIndex(i - 1)] = tmp;
                     this.tasks[i - 1][this.getLastTaskIndex(i - 1) + 1] = deplace;
                     this.tasks[i][j] = null;
                 }
+            }  else if (this.thereIsSpace(i - 1, this.getRealIndex(i-1,j), this.tasks[i][j] as Task)) {
+                this.tasks[i - 1][this.getRealIndex(i-1,j)] = tmp;
+                this.tasks[i][j] = null;
+                this.tasks[i - 1].splice(this.getRealIndex(i-1,j)+1,tmp.duration-1);
+                for(let index = 1; index < tmp.duration; index++) {
+                    this.tasks[i].splice(j+index,0,null);
+                }
             } else {
                 this.tasks[i - 1][this.getLastTaskIndex(i - 1) + 1] = tmp;
                 this.tasks[i][j] = null;
-
             }
             if (!this.tasks[i].some(element => element instanceof Task)) {
                 this.tasks.splice(i, 1);
@@ -94,17 +107,80 @@ export class Role {
                 if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
                     this.tasks[i][j] = this.tasks[i + 1][this.getLastTaskIndex(i + 1)];
                     this.tasks[i + 1][this.getLastTaskIndex(i + 1)] = tmp;
+                } else if (this.thereIsSpace(i + 1, this.getRealIndex(i+1,j), this.tasks[i][j] as Task)) {
+                    this.tasks[i + 1][this.getRealIndex(i+1,j)] = tmp;
+                    this.tasks[i][j] = null;
+                    this.tasks[i + 1].splice(this.getRealIndex(i+1,j)+1,tmp?.duration-1);
+                    for(let index = 1; index < tmp.duration; index++) {
+                        this.tasks[i].splice(j+index,0,null);
+                    }
                 } else {
                     let deplace = this.tasks[i + 1][this.getLastTaskIndex(i + 1)];
                     this.tasks[i + 1][this.getLastTaskIndex(i + 1)] = tmp;
                     this.tasks[i + 1][this.getLastTaskIndex(i + 1) + 1] = deplace;
                     this.tasks[i][j] = null;
                 }
+            } else if (this.thereIsSpace(i + 1, this.getRealIndex(i+1,j), this.tasks[i][j] as Task)) {
+                    this.tasks[i + 1][this.getRealIndex(i+1,j)] = tmp;
+                    this.tasks[i][j] = null;
+                    this.tasks[i + 1].splice(this.getRealIndex(i+1,j)+1,tmp.duration-1);    
+                    for(let index = 1; index < tmp.duration; index++) {
+                        this.tasks[i].splice(j+index,0,null);
+                    }
             } else {
                 this.tasks[i + 1][this.getLastTaskIndex(i + 1) + 1] = tmp;
                 this.tasks[i][j] = null;
             }
         }
+    }
+
+    thereIsSpace(iDest: number, j: number, task: Task): boolean {
+        let res: boolean = true;
+        let spaceNecessary: number = 0;
+        if (task.durationUnit == 'UT') {
+            if (task.duration < 10) {
+                spaceNecessary = task.duration;
+            } else {
+                spaceNecessary = 10;
+            }
+        } else {
+            spaceNecessary = 1;
+        }
+        for(let i = 0; i < spaceNecessary; i++) {
+            if (this.tasks[iDest][j+i] != null) {
+                res = false;
+            } 
+        }
+        return res;
+    }
+
+    getRealIndex(i: number, j: number): number {
+        let realj: number = 0;
+        let index: number = 0;
+        
+        while (index < j) {
+            let task: Task|null = this.tasks[i][index];
+            if (task instanceof Task) {
+                if (task.durationUnit == 'UT') {
+                    if (task.duration <= 10) {
+                        index = index+task.duration;
+                        realj++;
+                    } else {
+                        index = index + 10;
+                        realj++;
+                    }
+                } else {
+                    realj++;
+                    index++;
+                }
+            } else {
+                realj++;
+                index++;
+            }
+        }
+        
+        console.log(realj);
+        return realj;
     }
 
     public moveStep(i: number, direction: string): void {
