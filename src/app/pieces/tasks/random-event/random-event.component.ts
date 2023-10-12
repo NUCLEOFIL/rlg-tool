@@ -37,7 +37,7 @@ export class RandomEventComponent implements OnInit {
   @Input() i!: number;
   @Input() j!: number;
 
-  urlIcon: string = 'url("../../../../assets/background-images/event.png")';
+  urlIcon: string = 'url("./assets/background-images/event.png")';
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,

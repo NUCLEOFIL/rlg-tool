@@ -28,7 +28,7 @@ export class RepeatTaskComponent implements OnInit {
   @Input() i!: number;
   @Input() j!: number;
 
-  urlIcon: string = 'url("../../../../assets/background-images/repeatTask.png")';
+  urlIcon: string = 'url("./assets/background-images/repeatTask.png")';
   
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }

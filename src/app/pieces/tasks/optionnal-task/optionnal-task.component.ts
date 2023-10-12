@@ -37,7 +37,7 @@ export class OptionnalTaskComponent implements OnInit {
   @Input() i!: number;
   @Input() j!: number;
 
-  urlIcon: string = 'url("../../../../assets/background-images/optionnal.png")';
+  urlIcon: string = 'url("./assets/background-images/optionnal.png")';
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,

@@ -63,7 +63,7 @@ export class AppComponent {
   }
 
   downloadManual(): void {
-    const manualUrl = '/assets/GuideMakerWeb_v2.0.pdf';
+    const manualUrl = './assets/GuideMakerWeb_v2.0.pdf';
     this.http.get(manualUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');

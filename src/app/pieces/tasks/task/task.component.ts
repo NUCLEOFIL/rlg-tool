@@ -37,7 +37,7 @@ export class TaskComponent implements OnInit {
   @Input() i!: number;
   @Input() j!: number;
 
-  urlIcon: string = 'url("../../../../assets/background-images/tache.png")';
+  urlIcon: string = 'url("./assets/background-images/tache.png")';
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,

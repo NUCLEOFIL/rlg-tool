@@ -27,7 +27,7 @@ export class StepComponent implements OnInit {
 
   displayMenu: string = 'hide';
   pieceWidth: number = 400;
-  urlIcon: string = 'url("../../../assets/background-images/step.png")';
+  urlIcon: string = 'url("./assets/background-images/step.png")';
 
   constructor(protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService) { }
 
