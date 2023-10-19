@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { Trace } from 'src/app/class/trace/trace';
+import { MinimapService } from 'src/app/services/minimap/minimap.service';
 
 @Component({
   selector: 'app-repeat-task',
@@ -31,9 +32,11 @@ export class RepeatTaskComponent implements OnInit {
   urlIcon: string = 'url("./assets/background-images/repeatTask.png")';
   
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService) { }
 
   ngOnInit(): void {
+    this.mission.equalizeLengths();
+    this.minimapService.reset();
   }
 
   onClickErase(): void {

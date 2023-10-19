@@ -8,6 +8,7 @@ import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/cl
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { Task } from 'src/app/class/task/task';
 import { Trace } from 'src/app/class/trace/trace';
+import { MinimapService } from 'src/app/services/minimap/minimap.service';
 
 @Component({
   selector: 'app-rules',
@@ -19,7 +20,7 @@ export class RulesComponent implements OnInit {
   displayMenu: string = 'hide';
   @Input() scenario: Scenario = new Scenario();
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService) { }
 
   ngOnInit(): void {
   }
@@ -55,6 +56,7 @@ export class RulesComponent implements OnInit {
         });
         this.scenario.ressources = [];
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Rules', '#C6C2BD'));
+        this.minimapService.reset();
       } else {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',undefined,undefined,'all','Rules', '#C6C2BD'));
       }
@@ -64,6 +66,7 @@ export class RulesComponent implements OnInit {
   addRessource(): void {
     this.scenario.ressources.push(new Ressource());
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',undefined,undefined,'Ressource_['+(this.scenario.traces.length-1)+']','Rules', '#C6C2BD'));
+    this.minimapService.reset();
   }
 
   removeRessource(index: number): void {
@@ -85,6 +88,7 @@ export class RulesComponent implements OnInit {
         });
         this.scenario.ressources.splice(index, 1);
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',undefined,undefined,'Ressource_['+index+']','Rules', '#C6C2BD'));
+        this.minimapService.reset();
       } else {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',undefined,undefined,'Ressource_['+index+']','Rules', '#C6C2BD'));
       }

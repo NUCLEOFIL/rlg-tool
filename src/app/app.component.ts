@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, SimpleChanges, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Mission } from './class/mission/mission';
 import { Scenario } from './class/scenario/scenario';
@@ -33,6 +33,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingsucessSnackbarComponent } from './components/snackbars/loadingsucess-snackbar/loadingsucess-snackbar.component';
 import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail-snackbar/loadingfail-snackbar.component';
 import { Trace } from './class/trace/trace';
+import Minimap from 'js-minimap';
+import { MinimapService } from './services/minimap/minimap.service';
 
 @Component({
   selector: 'app-root',
@@ -47,12 +49,23 @@ export class AppComponent {
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
     private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
-    private _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar, protected minimapService: MinimapService) {
     pieceDetailsService.piece = this.scenario;
 
     this.scenario.missions.forEach(mission => {
       mission.equalizeLengths();
     });
+  }
+
+  ngOnInit(): void {
+    const container = this.elementRef.nativeElement.querySelector('.container-appDragScroll');
+    const target = this.elementRef.nativeElement.querySelector('.container-minimap');
+    container.scrollTo(0,800);
+    this.minimapService.minimap = new Minimap({
+      container,
+      target,
+      observe: false
+    })
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -261,29 +274,33 @@ export class AppComponent {
   }
 
   zoomIn(): void {
-    const element = this.elementRef.nativeElement.querySelector('.container-appMouseWheelZoom');
-    this.zoomService.zoom += 0.1;
-    element.style.transform = `scale(${this.zoomService.zoom})`;
+    if (this.zoomService.zoom < 1.5) {
+      const element = this.elementRef.nativeElement.querySelector('.container-appMouseWheelZoom');
+      this.zoomService.zoom += 0.1;
+      element.style.transform = `scale(${this.zoomService.zoom})`;
+      this.minimapService.reset();
+    }
   }
 
   zoomOut(): void {
     if (this.zoomService.zoom > 0.3) {
       const element = this.elementRef.nativeElement.querySelector('.container-appMouseWheelZoom');
       this.zoomService.zoom -= 0.1;
-      element.style.transform = `scale(${this.zoomService.zoom})`;      
+      element.style.transform = `scale(${this.zoomService.zoom})`;
+      this.minimapService.reset();  
     }
   }
 
   addMissionStep(mission: Mission, index: number, missionIndex: number): void {
     mission.addChronologieStep(index);
     mission.equalizeLengths();
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',missionIndex,undefined,'all','Step_m_['+index+']','#ACC9FC'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,undefined,'all','Step_m_['+index+']','#ACC9FC'));
   }
 
   addRoleStep(mission: Mission, role: Role, index: number, missionIndex: number, roleIndex: number): void {
     role.addChronologieStep(index);
     mission.equalizeLengths();
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',missionIndex,roleIndex,'all','Step_r_['+index+']','#ACC9FC'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Step_r_['+index+']','#ACC9FC'));
   }
 
   addTask(mission: Mission, role: Role, missionIndex: number, roleIndex: number, i: number, j: number, type: string) {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Mission } from 'src/app/class/mission/mission';
 import { Role } from 'src/app/class/role/role';
@@ -9,6 +9,7 @@ import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/cl
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { Trace } from 'src/app/class/trace/trace';
 import { Scenario } from 'src/app/class/scenario/scenario';
+import { MinimapService } from 'src/app/services/minimap/minimap.service';
 
 @Component({
   selector: 'app-step',
@@ -29,11 +30,12 @@ export class StepComponent implements OnInit {
   pieceWidth: number = 400;
   urlIcon: string = 'url("./assets/background-images/step.png")';
 
-  constructor(protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService, private minimapService: MinimapService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
     this.mission.equalizeLengths();
+    this.minimapService.reset();
   }
 
   getStepNumber(): number {
@@ -68,6 +70,7 @@ export class StepComponent implements OnInit {
       }
     }
     this.mission.equalizeLengths();
+    this.minimapService.reset();
   }
 
   setPieceWidth(): void {

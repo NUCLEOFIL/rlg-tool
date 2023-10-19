@@ -18,6 +18,7 @@ import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dia
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/create-dialog.component';
 import { Trace } from 'src/app/class/trace/trace';
+import { MinimapService } from 'src/app/services/minimap/minimap.service';
 
 @Component({
   selector: 'app-role',
@@ -32,7 +33,7 @@ export class RoleComponent implements OnInit {
   @Input() i: number = 0;
   @Input() missionIndex: number = 0;
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -81,7 +82,10 @@ export class RoleComponent implements OnInit {
           });
         });
         this.role.ressources = [];
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));      
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
+        this.minimapService.reset();      
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
       }
     });
   }
@@ -89,10 +93,13 @@ export class RoleComponent implements OnInit {
   onClickDelete(): void {
     const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'ce Rôle '+(this.role.intitule ? '<'+this.role.intitule+'>' : this.i+1) });
     dialogRef.afterClosed().subscribe(result => {
+      let missionIndex: number = this.scenario.missions.findIndex(mission => mission == this.mission);
       if (result == true) {
         this.mission.roles.splice(this.i, 1);
-        let missionIndex: number = this.scenario.missions.findIndex(mission => mission == this.mission);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));     
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
+        this.minimapService.reset();  
+      } else {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
       }
     });
   }
@@ -108,6 +115,7 @@ export class RoleComponent implements OnInit {
   addEducationnalObjective(): void {
     this.role.educationnalObjectives.push(new RoleEducationnalObjective());
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Obj_['+(this.role.educationnalObjectives.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.minimapService.reset();
   }
 
   removeEducationnalObjective(index: number): void {
@@ -116,6 +124,7 @@ export class RoleComponent implements OnInit {
       if (result == true) {
         this.role.educationnalObjectives.splice(index, 1);
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Obj_['+(index)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.minimapService.reset();
       } else {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Obj_['+(index)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
       }
@@ -125,6 +134,7 @@ export class RoleComponent implements OnInit {
   addRessource(): void {
     this.role.ressources.push(new Ressource());
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'skill/ressource_['+this.role.ressources.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.minimapService.reset();
   }
 
   removeRessource(index: number): void {
@@ -141,7 +151,8 @@ export class RoleComponent implements OnInit {
           });
         });
         this.role.ressources.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Skill/Ressource_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));        
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Skill/Ressource_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.minimapService.reset();       
       } else {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Skill/Ressource_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
       }
@@ -151,6 +162,7 @@ export class RoleComponent implements OnInit {
   addSupplementaryRole(): void {
     this.role.supplementaryRoles.push(new SupplementaryRole());
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Secondary_role_['+this.role.supplementaryRoles.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.minimapService.reset();
   }
 
   removeSupplementaryRole(index: number) {
@@ -159,6 +171,7 @@ export class RoleComponent implements OnInit {
       if (result == true) {
         this.role.supplementaryRoles.splice(index, 1);
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Secondary_role_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.minimapService.reset();
       } else {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Secondary_role_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
       }
@@ -168,6 +181,7 @@ export class RoleComponent implements OnInit {
   addReward(): void {
     this.role.rewards.push(new QuestReward());
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Reward_['+this.role.rewards.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.minimapService.reset();
   }
 
   changeRewardType(index: number, type: string): void {
@@ -192,7 +206,8 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.rewards.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Reward_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));        
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Reward_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.minimapService.reset();      
       } else {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Reward_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));        
       }
@@ -226,6 +241,7 @@ export class RoleComponent implements OnInit {
   addObject(index: number): void {
     this.getObjectsReward(index).objects.push(new Ressource);
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Reward_['+index+']_object_['+this.getObjectsReward(index).objects.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.minimapService.reset();
   }
 
   removeObject(i: number, j: number): void {
@@ -234,6 +250,7 @@ export class RoleComponent implements OnInit {
       if (result == true) {
         this.getObjectsReward(i).objects.splice(j, 1);
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Reward_['+i+']_object_['+j+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.minimapService.reset();
       } else {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Reward_['+i+']_object_['+j+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
       }

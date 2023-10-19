@@ -8,6 +8,7 @@ import { Character } from 'src/app/class/character/character';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { Task } from 'src/app/class/task/task';
 import { Trace } from 'src/app/class/trace/trace';
+import { MinimapService } from 'src/app/services/minimap/minimap.service';
 
 @Component({
   selector: 'app-game-characters',
@@ -20,7 +21,7 @@ export class GameCharactersComponent implements OnInit {
   @Input() scenario = new Scenario()
   newCharacter: Character = new Character();
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService) { }
 
   ngOnInit(): void {
   }
@@ -49,7 +50,8 @@ export class GameCharactersComponent implements OnInit {
             });
           });
         });  
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Characters','#CE7B66'));                 
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Characters','#CE7B66'));
+        this.minimapService.reset();                 
       } else {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',undefined,undefined,'all','Characters','#CE7B66'));                 
       }
@@ -60,7 +62,8 @@ export class GameCharactersComponent implements OnInit {
     if (this.newCharacter.name != '') {
       this.scenario.characters.push(this.newCharacter);
       this.newCharacter = new Character();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',undefined,undefined,'all','Characters_['+(this.scenario.characters.length-1)+']','#CE7B66'));                     
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',undefined,undefined,'all','Characters_['+(this.scenario.characters.length-1)+']','#CE7B66'));
+      this.minimapService.reset();                    
     }
   }
 
@@ -81,7 +84,8 @@ export class GameCharactersComponent implements OnInit {
             });
           });
           this.scenario.characters.splice(index, 1);
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',undefined,undefined,'all','Characters_['+index+']','#CE7B66'));                 
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',undefined,undefined,'all','Characters_['+index+']','#CE7B66'));
+          this.minimapService.reset();                
         } else {
           this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',undefined,undefined,'all','Characters_['+index+']','#CE7B66'));                 
         }

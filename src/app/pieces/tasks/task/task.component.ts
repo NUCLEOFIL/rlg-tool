@@ -14,6 +14,7 @@ import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/cl
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identifier-snackbar/identifier-snackbar.component';
 import { Trace } from 'src/app/class/trace/trace';
+import { MinimapService } from 'src/app/services/minimap/minimap.service';
 
 @Component({
   selector: 'app-task',
@@ -41,11 +42,12 @@ export class TaskComponent implements OnInit {
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar, private minimapService: MinimapService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
     this.mission.equalizeLengths();
+    this.minimapService.reset();
   }
   
   durationChange(): void {
@@ -70,6 +72,7 @@ export class TaskComponent implements OnInit {
       }
     }
     this.mission.equalizeLengths();
+    this.minimapService.reset();
   }
 
   setPieceWidth(): void {
