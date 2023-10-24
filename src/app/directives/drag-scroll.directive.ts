@@ -39,4 +39,24 @@ export class DragScrollDirective {
       this.startY = event.clientY;
     }
   }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (document.activeElement!.tagName.toLowerCase() !== 'input' && document.activeElement!.tagName.toLowerCase() !== 'textarea') {
+      const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+      if (arrowKeys.includes(event.key)) {
+        event.preventDefault();
+        const distance = 50;
+        if (event.key === 'ArrowUp') {
+          this.element.scrollBy(0, -distance);
+        } else if (event.key === 'ArrowDown') {
+          this.element.scrollBy(0, distance);
+        } else if (event.key === 'ArrowLeft') {
+          this.element.scrollBy(-distance, 0);
+        } else if (event.key === 'ArrowRight') {
+          this.element.scrollBy(distance, 0);
+        }
+      }
+    }
+  }
 }

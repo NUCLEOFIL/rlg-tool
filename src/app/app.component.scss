@@ -13,6 +13,7 @@
         overflow: scroll;
         -ms-overflow-style: none;
         scrollbar-width: none;
+        user-select: none;
     }
 
     &-appDragScroll::-webkit-scrollbar {
@@ -20,7 +21,6 @@
     }
 
     &-appMouseWheelZoom {
-        position: relative;
         transform-origin: top left;
         padding: 60px 5px 10px 5px;
         margin-right: 7px;

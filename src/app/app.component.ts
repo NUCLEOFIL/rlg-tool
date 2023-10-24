@@ -75,6 +75,31 @@ export class AppComponent {
     return message;
   }
 
+  @HostListener('document:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 's') {
+      event.preventDefault();
+      let fileName: string = this.scenario.projectName;
+      if (this.scenario.projectName == '') {
+        fileName = "Scénario - RLG Maker";
+        this.titleService.setTitle('RLG Maker'); 
+      } else {
+        fileName = this.scenario.projectName+' - RLG Maker';
+        this.titleService.setTitle('RLG Maker - '+this.scenario.projectName);
+      }
+      this.scenario.tooltips = this.tooltipService.activatedTooltips;
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'quick_save', undefined, undefined, 'all', 'Scenario'));
+      const jsonString = JSON.stringify(this.scenario,undefined,2);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = fileName;
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+  }
+
   downloadManual(): void {
     const manualUrl = './assets/GuideMakerWeb_v2.0.pdf';
     this.http.get(manualUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
