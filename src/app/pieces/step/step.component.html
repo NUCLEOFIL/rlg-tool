@@ -24,7 +24,9 @@ matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedToolti
         <div class="piece-form-title">Étape {{getStepNumber()}}</div>
         <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="step.comments.length > 0"></mat-icon>
         <textarea [(ngModel)]="step.description" [style.background-image]="index == FirstStepIndex() ? urlIcon : ''" (change)="editTrace($event,'Step_content')"></textarea>
-        <div class="piece-form-duration">
+        <div class="piece-form-duration"
+        matTooltip="Durée de l'étape' (en unité de temps, minutes ou tours). Il est conseillé d'utiliser les mêmes unités sur toutes les tuiles pour pouvoir comparer plus facilement les durées des actions."
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
             <label for="duration">Durée</label>
             <input name="duration" type="number" [(ngModel)]="step.duration" (input)="durationChange()" min="1" (change)="step.duration < 1 ? step.duration = 1 : ''; editTrace($event, 'Step_duration')"/>
             <select name="duration" [(ngModel)]="step.durationUnit" (change)="durationChange(); editTrace($event, 'Step_duration_unit')">

@@ -1,5 +1,7 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[class]="pieceDetailsService.piece == scenario.missions[i] ? 'isActive' : 'border'">
+[class]="pieceDetailsService.piece == scenario.missions[i] ? 'isActive' : 'border'"
+matTooltip="La mission est commune à tous les Rôles"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
@@ -17,7 +19,7 @@
     </div>
    
     <div class="piece-form">
-        <div class="piece-form-title">Objectif pédagogique</div>
+        <div class="piece-form-title">Objectif(s) pédagogique</div>
         <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="scenario.missions[i].comments.length > 0"></mat-icon>
         <div class="piece-form-objective">
             <label for="objective">Commun pour la mission {{i+1}}</label>

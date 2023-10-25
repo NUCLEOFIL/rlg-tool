@@ -1,5 +1,7 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[class]="pieceDetailsService.piece == scenario.missions[i] ? 'isActive' : 'border'">
+[class]="pieceDetailsService.piece == scenario.missions[i] ? 'isActive' : 'border'"
+matTooltip="La mission est commune à tous les Rôles"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>

@@ -369,7 +369,7 @@ export class AppComponent {
       return "Mission";
     }
     if (piece instanceof Scenario) {
-      return "Scénario";
+      return "Jeu";
     }
     if (piece instanceof Step) {
       return "Étape";

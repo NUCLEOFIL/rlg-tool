@@ -348,7 +348,7 @@
                 }
 
                 select {
-                    width: 60px;
+                    width: 86px;
                     border-top-left-radius: 0px;
                     border-bottom-left-radius: 0px;
                     z-index: 1;
@@ -369,7 +369,7 @@
             &-interrupt {
                 transform: scale(1.2);
                 position: absolute;
-                right: 35%;
+                right: 30%;
                 bottom: 25px;
                 border-radius: 50%;
                 background-color: white;
@@ -379,7 +379,7 @@
             &-character {
                 transform: scale(1.2);
                 position: absolute;
-                left: 45%;
+                left: 50%;
                 bottom: 25px;
                 border-radius: 50%;
                 padding: 4px;

@@ -127,7 +127,7 @@
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         <div class="piece-form-bottom">
             <div class="piece-form-bottom-duration"
-            matTooltip="Durée de la tâche (en unité de temps, minutes ou tours)"
+            matTooltip="Durée de la tâche (en unité de temps, minutes ou tours). Il est conseillé d'utiliser les mêmes unités sur toutes les tuiles pour pouvoir comparer plus facilement les durées des actions."
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="1" (change)="task.duration < 1 ? task.duration = 1 : ''; editTrace($event,'Task_duration')"/>
                 <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange(); editTrace($event,'Task_duration_unit')">

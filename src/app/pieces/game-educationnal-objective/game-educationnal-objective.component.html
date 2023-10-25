@@ -1,5 +1,7 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'">
+[class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'"
+matTooltip="Le jeu comprend une ou plusieurs Missions. Chaque mission comprend au moins 2 Rôles. Les Rôles peuvent être différents au sein des différentes Missions du jeu."
+matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-right-top"></div>
     <div class="piece-attach piece-attach-right-bottom"></div>
 
@@ -10,7 +12,7 @@
     </div>
    
     <div class="piece-form">
-        <div class="piece-form-title">Objectif pédagogique</div>
+        <div class="piece-form-title">Objectif(s) pédagogique</div>
         <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="scenario.comments.length > 0"></mat-icon>
         <div class="piece-form-objective">
             <label for="objective">Commun pour le jeu</label>

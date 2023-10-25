@@ -1,5 +1,7 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'">
+[class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'"
+matTooltip="Le jeu comprend une ou plusieurs Missions. Chaque mission comprend au moins 2 Rôles. Les Rôles peuvent être différents au sein des différentes Missions du jeu."
+matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
 
     <div class="piece-menu" [class]="displayMenu">
         <mat-icon fontIcon="backspace" (click)="onClickErase()"
@@ -11,7 +13,7 @@
         <div class="piece-form-character-create"
         matTooltip="Si des personnages non joueurs (PNJ) doivent intervenir dans le scénario, ils doivent être décrits avec cette tuile. Chaque personnage a sa propre couleur et sont visibles sur les tâches où ils interviennent. L'enseignant peut être considéré comme un personnage s'il n'a pas un Rôle à part entière."
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-            <div class="piece-form-title">Créer un nouveau personnage</div>
+            <div class="piece-form-title">Créer un nouveau personnage non joueur</div>
             <div class="piece-form-character-create-top">
                 <mat-icon fontIcon="person_add"></mat-icon>
                 <div class="piece-form-character-create-top-name">
@@ -33,8 +35,10 @@
             <button mat-button (click)="createCharacter()">Créer</button>
         </div>   
         <div class="piece-form-character-characters"  *ngIf="scenario.characters.length > 0" >
-            <div class="piece-form-title">Personnages</div>
-            <div class="piece-form-character-characters-character" *ngFor="let character of scenario.characters; let index = index" [style]="index == 0? '' : 'border-top: solid black 1px;'">
+            <div class="piece-form-title">Personnages non joueur</div>
+            <div class="piece-form-character-characters-character" *ngFor="let character of scenario.characters; let index = index" [style]="index == 0? '' : 'border-top: solid black 1px;'"
+            matTooltip="Pour faire intervenir ce personnage sur une Tâche ou Événement aléatoire, cliquez sur la tuile en question et sélectionnez ce personnage dans la barre latérale."
+            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <div class="piece-form-character-create-top">
                     <mat-icon fontIcon="person"></mat-icon>
                     <div class="piece-form-character-create-top-name">

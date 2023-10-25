@@ -1,5 +1,7 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[class]="pieceDetailsService.piece == role ? 'isActive' : 'border'">
+[class]="pieceDetailsService.piece == role ? 'isActive' : 'border'"
+matTooltip="Premier Rôle incarné par un joueur. Le deuxième se trouve un plus bas dans la page."
+matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips || i != 0">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
@@ -91,7 +93,9 @@
                 -->
                 <div class="piece-form-rewards-reward-skill" *ngIf="reward.type == 'skill'">
                     <input type="number" [(ngModel)]="getSkillReward(i).quantity" (change)="editTrace($event, 'Reward_['+i+']_quantity')"/>
-                    <select [(ngModel)]="getSkillReward(i).skill" (change)="editTrace($event, 'Reward_['+i+']_skill')">
+                    <select [(ngModel)]="getSkillReward(i).skill" (change)="editTrace($event, 'Reward_['+i+']_skill')"
+                    matTooltip="Choisir une compétence créée ci-dessous"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                         <ng-container *ngFor="let skill of role.ressources">
                             <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
                         </ng-container>
@@ -99,7 +103,9 @@
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-quest" *ngIf="reward.type == 'quest'">
-                    <select (change)="changeQuestReward(i, $event)">
+                    <select (change)="changeQuestReward(i, $event)"
+                    matTooltip="Choisir une quête d'une autre mission avec le même nom de Rôle"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                         <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
                             <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
                                 <option [ngValue]="quest.questName" [selected]="getQuestReward(i).intitule == quest.intitule && getQuestReward(i).questName == quest.questName"
@@ -112,7 +118,9 @@
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 <div class="piece-form-rewards-reward-objective" *ngIf="reward.type == 'objective'">
-                    <select [(ngModel)]="getObjectiveReward(i).objective" (change)="editTrace($event, 'Reward_['+i+']_objective')">
+                    <select [(ngModel)]="getObjectiveReward(i).objective" (change)="editTrace($event, 'Reward_['+i+']_objective')"
+                    matTooltip="Choisir un objectif pédagogique créé ci-dessus"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                         <option [ngValue]="objective" *ngFor="let objective of role.educationnalObjectives">{{objective.objective}}</option>
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
@@ -153,7 +161,7 @@
                 <div class="piece-form-ressources-ressource-quantity">
                     <label for="type">Type</label>
                     <select name="type" [(ngModel)]="ressource.type" (change)="editTrace($event, 'Skill/Ressource_['+i+']_type')">
-                        <option value="ressource">Ressource / Objet</option>
+                        <option value="ressource">Objet</option>
                         <option value="attribut">Compétence</option>
                     </select>
                 </div>
@@ -175,7 +183,9 @@
                     </div>
                     <div class="piece-form-supplementary-form-color">
                         <label for="color">Couleur</label>
-                        <input name="color" type="color" [(ngModel)]="supplementaryRole.color" (change)="editTrace($event, 'Secondary_role_['+i+']_color')"/>
+                        <input name="color" type="color" [(ngModel)]="supplementaryRole.color" (change)="editTrace($event, 'Secondary_role_['+i+']_color')"
+                        matTooltip="Mettre une couleur différente pour ces Rôles additionnels permet de repérer plus rapidement les Tâches qui leur sont associées"
+                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
                     </div>
                     <div class="piece-form-supplementary-form-textarea">
                         <label for="objectives">Objectifs</label>
@@ -186,7 +196,7 @@
                     <div class="piece-form-supplementary-form-textarea">
                         <label for="skills">Compétences</label>
                         <textarea name="skills" [(ngModel)]="supplementaryRole.skills" (change)="editTrace($event, 'Secondary_role_['+i+']_skill')"
-                        matTooltip="Compétences spécifiques à ce rôle pour effectuer les tâches qui lui seront liées (même couleur)"
+                        matTooltip="Compétences spécifiques à ce rôle pour effectuer les tâches qui lui seront liées"
                         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
                     </div>
                     <div class="piece-form-supplementary-form-textarea">
