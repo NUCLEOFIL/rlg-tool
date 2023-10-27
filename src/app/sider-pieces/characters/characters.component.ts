@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { Character } from 'src/app/class/character/character';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { Task } from 'src/app/class/task/task';
@@ -20,7 +21,7 @@ export class CharactersComponent implements OnInit {
   selectedAssignCharacter!: Character | undefined;
   selectedDeleteCharacterIndex!: number;
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, private pieceDetailsService: PieceDetailsService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
   }

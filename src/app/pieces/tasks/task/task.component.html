@@ -9,41 +9,41 @@
     <div class="piece-menu" [class]="displayMenu">
         <div>
             <mat-icon fontIcon="change_circle" [matMenuTriggerFor]="menuChange"
-            matTooltip="Changer le type de cette tuile."
+            [matTooltip]="translate.instant('task_transform_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
             <mat-menu #menuChange="matMenu">
-                <button class="piece-menu-changeMenuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="onClickChange('annexe')">Transformer en Tâche annexe</button>
-                <button class="piece-menu-changeMenuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="onClickChange('optionnal')">Transformer Tâche optionnelle</button>
-                <button class="piece-menu-changeMenuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="onClickChange('final')" *ngIf="canChangeInFinalTask()">Transformer une Tâche finale</button>
+                <button class="piece-menu-changeMenuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="onClickChange('annexe')">{{'task_transform_annexeTask' | translate}}</button>
+                <button class="piece-menu-changeMenuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="onClickChange('optionnal')">{{'task_transform_optionnalTask' | translate}}</button>
+                <button class="piece-menu-changeMenuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="onClickChange('final')" *ngIf="canChangeInFinalTask()">{{'task_transform_finalTask' | translate}}</button>
             </mat-menu>
         </div>
         <mat-icon fontIcon="backspace" (click)="onClickErase()"
-        matTooltip="Effacer le contenu de cette tuile."
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <mat-icon fontIcon="delete" (click)="onClickDelete()"
-        matTooltip="Supprimer la tuile."
+        [matTooltip]="translate.instant('deletePiece_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <div class="piece-menu-directioncross">
             <div class="piece-menu-directioncross-left">
                 <mat-icon style="transform: rotate(0turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('left'); editMoveTrace($event,'Task_moveLeft')"
-                matTooltip="Décaler la tuile vers la gauche. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
+                [matTooltip]="translate.instant('moveLeft_tooltip')"
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
             </div>
             <div class="piece-menu-directioncross-updownarrows">
                 <div class="piece-menu-updownarrows-up">
                     <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top'); editMoveTrace($event,'Task_moveTop')"
-                    matTooltip="Décaler la tuile vers le haut (ceci placera la tuile à la fin de la ligne)."
+                    [matTooltip]="translate.instant('moveTop_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
                 </div>
                 <div class="piece-menu-directioncross-updownarrows-down">
                     <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom'); editMoveTrace($event,'Task_moveBottom')"
-                    matTooltip="Décaler la tuile vers le bas (ceci placera la tuile à la fin de la ligne)."
+                    [matTooltip]="translate.instant('moveBottom_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
                 </div>
             </div>
             <div class="piece-menu-directioncross-right">
                 <mat-icon style="transform: rotate(0.5turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('right'); editMoveTrace($event,'Task_moveRight')"
-                matTooltip="Décaler la tuile vers la droite. Dans le cas où une tuile est déjà présente, leurs places sont inversées."
+                [matTooltip]="translate.instant('moveRight_tooltip')"
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
             </div>
         </div>
@@ -51,7 +51,7 @@
 
     <div class="piece-symbolchoice" [class]="displaySymbolChoice">
         <div class="piece-symbolchoice-header">
-            <label>Choisir un symbole de tâche commune :</label>
+            <label>{{'task_common_label' | translate}}</label>
             <div><mat-icon fontIcon="delete" (click)="setSymbol('','')"></mat-icon></div>
         </div>
         <div class="piece-symbolchoice-symbols">
@@ -80,9 +80,9 @@
 
     <div class="piece-prerequires" [class]="pieceDetailsService.piece == task ? displayPrequires : 'hide'">
         <div class="piece-prerequires-prerequires">
-            <label class="piece-prerequires-title">Antécédents</label>
+            <label class="piece-prerequires-title">{{'task_prerequire_antecedents_title' | translate}}</label>
             <div class="piece-prerequires-form">
-                <div style="text-align: center;" *ngIf="j == 0">La première tâche de la ligne ne peut pas avoir d'antécédent</div>
+                <div style="text-align: center;" *ngIf="j == 0">{{'task_prerequire_antecedents_err1' | translate}}</div>
                 <ng-container *ngIf="hasPossibleAntecedents()">
                     <ng-container *ngFor="let inlineTask of role.tasks">
                         <ng-container *ngFor="let element of inlineTask; let index = index">
@@ -93,11 +93,11 @@
                         </ng-container>
                     </ng-container>
                 </ng-container>
-                <div style="text-align: center;" *ngIf="!hasPossibleAntecedents() && j != 0">Veuillez d'abord entrer des identifiants aux tâches précédentes</div>
+                <div style="text-align: center;" *ngIf="!hasPossibleAntecedents() && j != 0">{{'task_prerequire_antecedents_err2' | translate}}</div>
             </div>
         </div>
         <div class="piece-prerequires-ressources">
-            <label class="piece-prerequires-title">Ressources & Compétences</label>
+            <label class="piece-prerequires-title">{{'task_prerequire_ressource_title' | translate}}</label>
             <div class="piece-prerequires-form">
                 <ng-container *ngFor="let ressource of scenario.ressources">
                     <div class="piece-prerequires-ressources-element" *ngIf="ressource.name">
@@ -142,30 +142,30 @@
     <div class="piece-form">
         <div class="piece-form-top">
             <input class="piece-form-top-identifier" name="identifier" type="text" [value]="task.identifier" (change)="changeIdentifier($event)" placeholder="A" min="1" maxlength="5"
-            matTooltip="Identifiant de la tâche (ex: A, B, C, …)"
+            [matTooltip]="translate.instant('task_identifier_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
-            <div class="piece-form-top-title">Tâche</div>
+            <div class="piece-form-top-title">{{'normalTask_title' | translate}}</div>
             <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
             <mat-icon class="piece-form-top-repeat" fontIcon="refresh" *ngIf="task.repeat.iteration > 0 || task.repeat.while != ''"></mat-icon>
             <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()"
-            matTooltip="Indicateur de tâche commune: si cette tâche doit être faite avec un autre rôle, mettez le même symbole sur la tâche de ces deux rôles"
+            [matTooltip]="translate.instant('task_common_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    
         </div>
         <textarea class="piece-form-content" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action')" [style.background-image]="(i == findFirstIndexOfTaskType('normal')[0] && j == findFirstIndexOfTaskType('normal')[1]) ? urlIcon : ''"
-            placeholder="Positionner dans l'ordre les balises HTML principales"
-            matTooltip="Action à effectuer (interagir avec un objet, parler avec quelqu'un, …)"
+            [placeholder]="translate.instant('normalTask_action_placeholder')"
+            [matTooltip]="translate.instant('task_action_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         <div class="piece-form-bottom">
             <div class="piece-form-bottom-duration"
-            matTooltip="Durée de la tâche (en unité de temps, minutes ou tours). Il est conseillé d'utiliser les mêmes unités sur toutes les tuiles pour pouvoir comparer plus facilement les durées des actions."
+            [matTooltip]="translate.instant('task_duration_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="1" (change)="task.duration < 1 ? task.duration = 1 : ''; editTrace($event,'Task_duration')"/>
                 <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange(); editTrace($event,'Task_duration_unit')">
-                    <option value="UT">UT</option>
-                    <option value="min">min</option>
-                    <option value="tours">tours</option> 
+                    <option value="UT">{{'task_duration_ut' | translate}}</option>
+                    <option value="min">{{'task_duration_min' | translate}}</option>
+                    <option value="tours">{{'task_duration_turn' | translate}}</option> 
                 </select>
             </div>
             <mat-icon class="piece-form-bottom-character" fontIcon="person" *ngIf="task.characters.length > 0"
@@ -173,9 +173,9 @@
                 [style.background]="task.characters.length > 1 ? 'linear-gradient('+ task.characters[0].color +','+ task.characters[task.characters.length-1].color +')' : 'white'"></mat-icon>
             <mat-icon class="piece-form-bottom-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != ''"></mat-icon>
             <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()"
-            matTooltip="Prérequis pour effectuer cette tâche"
+            [matTooltip]="translate.instant('task_prerequire_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-                Prérequis
+                {{'task_prerequire_label' | translate}}
             </button>
         </div>
     </div>

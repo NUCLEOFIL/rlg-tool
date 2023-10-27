@@ -9,6 +9,7 @@ import { PieceDetailsService } from 'src/app/services/piece-details/piece-detail
 import { Task } from 'src/app/class/task/task';
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-rules',
@@ -20,7 +21,7 @@ export class RulesComponent implements OnInit {
   displayMenu: string = 'hide';
   @Input() scenario: Scenario = new Scenario();
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
   }
@@ -33,7 +34,7 @@ export class RulesComponent implements OnInit {
   }
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Règles du jeu (cela inclut la suppression de toutes les ressources)' });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('rules_clean') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.scenario.gameRules = '';
@@ -70,7 +71,7 @@ export class RulesComponent implements OnInit {
   }
 
   removeRessource(index: number): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Ressource' });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('rules_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.scenario.missions.forEach(mission => {

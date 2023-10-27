@@ -19,6 +19,7 @@ import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/cl
 import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/create-dialog.component';
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-role',
@@ -33,7 +34,7 @@ export class RoleComponent implements OnInit {
   @Input() i: number = 0;
   @Input() missionIndex: number = 0;
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -50,7 +51,7 @@ export class RoleComponent implements OnInit {
   }
 
   onClickAdd(): void {
-    const dialogRef = this.dialog.open(CreateDialogComponent, { data: 'un nouveau Rôle pour la Mission '+(this.missionIndex+1) });
+    const dialogRef = this.dialog.open(CreateDialogComponent, { data: this.translate.instant('role_new')+' '+(this.missionIndex+1) });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.mission.roles.push(new Role());
@@ -61,7 +62,7 @@ export class RoleComponent implements OnInit {
   }
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Role '+(this.role.intitule ? '<'+this.role.intitule+'>' : (this.i+1)) });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('role_clean')+' '+(this.role.intitule ? '<'+this.role.intitule+'>' : (this.i+1)) });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.intitule = '';
@@ -91,7 +92,7 @@ export class RoleComponent implements OnInit {
   }
 
   onClickDelete(): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'ce Rôle '+(this.role.intitule ? '<'+this.role.intitule+'>' : this.i+1) });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('role_delete')+' '+(this.role.intitule ? '<'+this.role.intitule+'>' : this.i+1) });
     dialogRef.afterClosed().subscribe(result => {
       let missionIndex: number = this.scenario.missions.findIndex(mission => mission == this.mission);
       if (result == true) {
@@ -119,7 +120,7 @@ export class RoleComponent implements OnInit {
   }
 
   removeEducationnalObjective(index: number): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Objectif Pédagogique' });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('role_objective_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.educationnalObjectives.splice(index, 1);
@@ -138,7 +139,7 @@ export class RoleComponent implements OnInit {
   }
 
   removeRessource(index: number): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Ressource' });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('role_ressource_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.tasks.forEach(inlineTasks => {
@@ -166,7 +167,7 @@ export class RoleComponent implements OnInit {
   }
 
   removeSupplementaryRole(index: number) {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'ce Rôle Supplémentaire'+(this.role.supplementaryRoles[index].name ? ' <'+this.role.supplementaryRoles[index].name+'>' : '') });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('role_supplementaryRole_delete')+(this.role.supplementaryRoles[index].name ? ' <'+this.role.supplementaryRoles[index].name+'>' : '') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.supplementaryRoles.splice(index, 1);
@@ -202,7 +203,7 @@ export class RoleComponent implements OnInit {
   }
 
   removeReward(index: number): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Récompense' });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('role_reward_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.rewards.splice(index, 1);
@@ -245,7 +246,7 @@ export class RoleComponent implements OnInit {
   }
 
   removeObject(i: number, j: number): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cet Objet de la Récompense' });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('role_reward_type_object_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.getObjectsReward(i).objects.splice(j, 1);

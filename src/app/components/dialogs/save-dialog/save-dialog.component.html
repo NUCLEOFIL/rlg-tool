@@ -1,9 +1,9 @@
-<h2 mat-dialog-title>Télécharger le scénario</h2>
+<h2 mat-dialog-title>{{'dialog_save_title' | translate}}</h2>
 <mat-dialog-content>
-    <label for="name">Nom du projet :</label>
-    <input name="name" type="text" placeholder="Mon Scénario" [(ngModel)]="data.fileName"/>
+    <label for="name">{{'dialog_save_content' | translate}}</label>
+    <input name="name" type="text" [placeholder]="translate.instant('dialog_save_placeholder')" [(ngModel)]="data.fileName"/>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-    <button mat-button mat-dialog-close>Annuler</button>
-    <button mat-button (click)="data.result = true" [mat-dialog-close]="data" cdkFocusInitial>Télécharger</button>
+    <button mat-button mat-dialog-close>{{'dialog_button_cancel' | translate}}</button>
+    <button mat-button (click)="data.result = true" [mat-dialog-close]="data" cdkFocusInitial>{{'dialog_button_save' | translate}}</button>
 </mat-dialog-actions>

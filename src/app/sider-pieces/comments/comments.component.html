@@ -1,8 +1,8 @@
 <div class="piece"
-matTooltip="Permet de rajouter des commentaires sur une tuile"
+[matTooltip]="translate.instant('comments_tooltip')"
 matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
-        <div class="piece-form-title">Commentaires</div>
+        <div class="piece-form-title">{{'comments_title' | translate}}</div>
 
         <div class="piece-form-comments">
             <app-comment *ngFor="let comment of piece.comments, let i = index" [comment]="comment" [comments]="piece.comments" [index]="i" [scenario]="scenario"></app-comment>
@@ -10,10 +10,10 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
 
         <div class="piece-form-newcomment">
             <div class="piece-form-newcomment-form">
-                <label>Nouveau commentaire</label>
+                <label>{{'comments_newComment' | translate}}</label>
                 <textarea [(ngModel)]="newComment" (change)="editTrace($event,'newComment')"></textarea>
             </div>
-            <button mat-button (click)="addComment()">Ajouter un commentaire</button>
+            <button mat-button (click)="addComment()">{{'comments_button_newComment' | translate}}</button>
         </div>
 
     </div>

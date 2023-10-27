@@ -6,6 +6,7 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Trace } from 'src/app/class/trace/trace';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-game-educationnal-objective',
@@ -17,7 +18,7 @@ export class GameEducationnalObjectiveComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() gameEducationnalObjective: GameEducationnalObjective = new GameEducationnalObjective();
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService) { }
 
   ngOnInit(): void {
   }
@@ -32,7 +33,7 @@ export class GameEducationnalObjectiveComponent implements OnInit {
   }
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Objectif pédagogique' });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('gameEducationnalObjective_title') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.gameEducationnalObjective.objective = '';

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { Task } from 'src/app/class/task/task';
 import { Trace } from 'src/app/class/trace/trace';
@@ -15,7 +16,7 @@ export class RepeatComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() task: Task = new Task('normal');
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
   }

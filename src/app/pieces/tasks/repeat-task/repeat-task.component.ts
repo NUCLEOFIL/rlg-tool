@@ -10,6 +10,7 @@ import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/cl
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-repeat-task',
@@ -32,7 +33,7 @@ export class RepeatTaskComponent implements OnInit {
   urlIcon: string = 'url("./assets/background-images/repeatTask.png")';
   
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -40,7 +41,7 @@ export class RepeatTaskComponent implements OnInit {
   }
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Répétition de tour' });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('repeatTask_title') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.task.objective = '';
@@ -60,7 +61,7 @@ export class RepeatTaskComponent implements OnInit {
   }
 
   onClickDelete(): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Répétition de tour' });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('task_prefix')+' '+this.translate.instant('repeatTask_title') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.tasks.forEach(inlineTasks => {

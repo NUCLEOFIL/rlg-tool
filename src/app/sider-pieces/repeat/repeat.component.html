@@ -1,17 +1,17 @@
 <div class="piece"
-matTooltip="Une tâche peut-être répétée un certain nombre de fois avant d'être résolue"
+[matTooltip]="translate.instant('repeat_tooltip')"
 matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
         <div class="piece-form-header">
             <mat-icon fontIcon="refresh"></mat-icon>
             <div class="piece-form-header-for">
-                <label>Répéter</label>
+                <label>{{'repeat_title1' | translate}}</label>
                 <input type="text" [(ngModel)]="task.repeat.iteration" (change)="editTrace($event,'repeat_nbTimes')"/>
-                <label>fois</label>
+                <label>{{'repeat_title2' | translate}}</label>
             </div>
         </div>
         <div class="piece-form-while">
-            <label>ou jusqu'à ce que :</label>
+            <label>{{'repeat_title3' | translate}}</label>
             <textarea [(ngModel)]="task.repeat.while" (change)="editTrace($event,'repeat_stopCondition')"></textarea>
         </div>    
     </div>

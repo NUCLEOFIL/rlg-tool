@@ -1,63 +1,61 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
-[class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'"
-matTooltip="Le jeu comprend une ou plusieurs Missions. Chaque mission comprend au moins 2 Rôles. Les Rôles peuvent être différents au sein des différentes Missions du jeu."
-matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+[class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'">
 
     <div class="piece-menu" [class]="displayMenu">
         <mat-icon fontIcon="backspace" (click)="onClickErase()"
-        matTooltip="Effacer le contenu de cette tuile."
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
     <div class="piece-form">
         <div class="piece-form-character-create"
-        matTooltip="Si des personnages non joueurs (PNJ) doivent intervenir dans le scénario, ils doivent être décrits avec cette tuile. Chaque personnage a sa propre couleur et sont visibles sur les tâches où ils interviennent. L'enseignant peut être considéré comme un personnage s'il n'a pas un Rôle à part entière."
+        [matTooltip]="translate.instant('char_create_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-            <div class="piece-form-title">Créer un nouveau personnage non joueur</div>
+            <div class="piece-form-title">{{'char_create_title' | translate}}</div>
             <div class="piece-form-character-create-top">
                 <mat-icon fontIcon="person_add"></mat-icon>
                 <div class="piece-form-character-create-top-name">
-                    <label for="name">Nom</label>
+                    <label for="name">{{'char_name_label' | translate}}</label>
                     <input name="name" type="text" [(ngModel)]="newCharacter.name" (change)="editTrace($event,'newCharacter_name')"/>
                 </div>
             </div>
             <div class="piece-form-create-infos">
                 <div class="piece-form-character-create-infos-description">
-                    <label for="description">Description</label>
+                    <label for="description">{{'char_description_label' | translate}}</label>
                     <textarea class="background" name="description" [(ngModel)]="newCharacter.description" (change)="editTrace($event,'newCharacter_description')"></textarea>
                 </div>
 
                 <div class="piece-form-character-create-infos-color">
-                    <label for="color">Couleur</label>
+                    <label for="color">{{'char_color_label' | translate}}</label>
                     <input name="color" type="color" [(ngModel)]="newCharacter.color" (change)="editTrace($event,'newCharacter_color')"/>
                 </div>
             </div>
-            <button mat-button (click)="createCharacter()">Créer</button>
+            <button mat-button (click)="createCharacter()">{{'char_button_create' | translate}}</button>
         </div>   
         <div class="piece-form-character-characters"  *ngIf="scenario.characters.length > 0" >
-            <div class="piece-form-title">Personnages non joueur</div>
+            <div class="piece-form-title">{{'chars_title' | translate}}</div>
             <div class="piece-form-character-characters-character" *ngFor="let character of scenario.characters; let index = index" [style]="index == 0? '' : 'border-top: solid black 1px;'"
-            matTooltip="Pour faire intervenir ce personnage sur une Tâche ou Événement aléatoire, cliquez sur la tuile en question et sélectionnez ce personnage dans la barre latérale."
+            [matTooltip]="translate.instant('char_tooltip')"
             matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <div class="piece-form-character-create-top">
                     <mat-icon fontIcon="person"></mat-icon>
                     <div class="piece-form-character-create-top-name">
-                        <label for="name">Nom</label>
+                        <label for="name">{{'char_name_label' | translate}}</label>
                         <input name="name" type="text" [(ngModel)]="character.name" (change)="editTrace($event,'Character_['+index+']_name')"/>
                     </div>
                 </div>
                 <div class="piece-form-create-infos">
                     <div class="piece-form-character-create-infos-description">
-                        <label for="description">Description</label>
+                        <label for="description">{{'char_description_label' | translate}}</label>
                         <textarea name="description" [(ngModel)]="character.description" (change)="editTrace($event,'Character_['+index+']_description')"></textarea>
                     </div>
 
                     <div class="piece-form-character-create-infos-color">
-                        <label for="color">Couleur</label>
+                        <label for="color">{{'char_color_label' | translate}}</label>
                         <input name="color" type="color" [(ngModel)]="character.color" (change)="editTrace($event,'Character_['+index+']_color')"/>
                     </div>
                 </div>
-                <button mat-button (click)="deleteCharacter(index)">Supprimer</button>
+                <button mat-button (click)="deleteCharacter(index)">{{'char_button_delete' | translate}}</button>
             </div>
         </div>     
     </div>

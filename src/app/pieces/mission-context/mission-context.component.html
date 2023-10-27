@@ -1,6 +1,6 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
 [class]="pieceDetailsService.piece == scenario.missions[i] ? 'isActive' : 'border'"
-matTooltip="La mission est commune à tous les Rôles"
+[matTooltip]="translate.instant('mission_tooltip')"
 matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
@@ -8,40 +8,40 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
 
     <div class="piece-menu" [class]="displayMenu">
         <mat-icon fontIcon="add" (click)="onClickAdd()"
-        matTooltip="Ajouter une mission."
+        [matTooltip]="translate.instant('mission_add_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <mat-icon fontIcon="backspace" (click)="onClickErase()"
-        matTooltip="Effacer le contenu de cette tuile."
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"
-        matTooltip="Supprimer la mission."
+        [matTooltip]="translate.instant('mission_delete_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
     <div class="piece-form">
-        <div class="piece-form-title">Contexte de la mission {{i+1}}</div>
+        <div class="piece-form-title">{{'missionContext_title' | translate}} {{i+1}}</div>
         <div class="piece-form-duration">
-            <label for="duration">Durée</label>
-            <input name="duration" type="text" [(ngModel)]="missionContext.duration" (change)="editTrace($event, 'Duration_m')" placeholder="1h"
-            matTooltip="Combien de temps va durer la mission ?"
+            <label for="duration">{{'missionContext_duration_label' | translate}}</label>
+            <input name="duration" type="text" [(ngModel)]="missionContext.duration" (change)="editTrace($event, 'Duration_m')" [placeholder]="translate.instant('missionContext_duration_placeholder')"
+            [matTooltip]="translate.instant('missionContext_duration_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>
         <div class="piece-form-intrigue">
-            <label for="intrigue">Intrigue</label>
-            <textarea name="intrigue" [(ngModel)]="missionContext.intrigue" (change)="editTrace($event, 'Plot_m')" placeholder="Concevez un site web ergonomique pour votre premier client"  
-            matTooltip="Quelle est l’histoire de la mission ? Quel est l’enjeu pour les joueurs ?"
+            <label for="intrigue">{{'missionContext_intrigue_label' | translate}}</label>
+            <textarea name="intrigue" [(ngModel)]="missionContext.intrigue" (change)="editTrace($event, 'Plot_m')" [placeholder]="translate.instant('missionContext_intrigue_placeholder')"
+            [matTooltip]="translate.instant('missionContext_intrigue_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-communication">
-            <label for="communication">Moyen(s) de communication</label>
-            <textarea name="communication" [(ngModel)]="missionContext.communication" (change)="editTrace($event, 'Communication')" placeholder="Chat en ligne, vocal en ligne, face à face, talkie walkie, pigeon voyageur..."
-            matTooltip="Comment les joueurs vont-ils communiquer entre eux : à l'oral, par chat, en vocal sur ordinateur, par messages, etc."
+            <label for="communication">{{'missionContext_communication_label' | translate}}</label>
+            <textarea name="communication" [(ngModel)]="missionContext.communication" (change)="editTrace($event, 'Communication')" [placeholder]="translate.instant('missionContext_communication_placeholder')"
+            [matTooltip]="translate.instant('missionContext_communication_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-divers">
-            <label for="divers">Autre</label>
-            <textarea name="divers" [(ngModel)]="missionContext.various" (change)="editTrace($event, 'Other_m')" placeholder="Contexte d’utilisation : lieu, présence de tuteur/formateur, à quel moment du cursus utiliser ce jeu, matériel nécessaire, public cible"
-            matTooltip="Tout autre élément que vous souhaiteriez prendre en compte dans la mission et non défini dans les tuiles"
+            <label for="divers">{{'missionContext_other_label' | translate}}</label>
+            <textarea name="divers" [(ngModel)]="missionContext.various" (change)="editTrace($event, 'Other_m')" [placeholder]="translate.instant('missionContext_other_placeholder')"
+            [matTooltip]="translate.instant('missionContext_other_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
     </div>

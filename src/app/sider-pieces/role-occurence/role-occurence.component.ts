@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { RoleOccurrence } from 'src/app/class/role-occurrence/role-occurrence';
 import { Role } from 'src/app/class/role/role';
 import { Scenario } from 'src/app/class/scenario/scenario';
@@ -16,7 +17,7 @@ export class RoleOccurenceComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() role: Role = new Role();
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
   }

@@ -8,6 +8,7 @@ import { Comment } from 'src/app/class/comment/comment';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { Trace } from 'src/app/class/trace/trace';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-comments',
@@ -20,7 +21,7 @@ export class CommentsComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   newComment: string = '';
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
   }

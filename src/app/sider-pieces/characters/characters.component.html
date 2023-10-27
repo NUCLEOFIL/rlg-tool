@@ -1,13 +1,13 @@
 <div class="piece"
-matTooltip="Permet d'affecter un ou des personnages précédemment créé(s) à la tâche."
+[matTooltip]="translate.instant('sider_char_tooltip')"
 matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
         <div class="piece-form-select">
-            <div class="piece-form-title">Affecter un personnage non joueur déjà créé</div>
+            <div class="piece-form-title">{{'sider_char_select_title' | translate}}</div>
             <div class="piece-form-select-container">
                 <mat-icon fontIcon="person"></mat-icon>
                 <div class="piece-form-select-container-select">
-                    <label for="name">Nom</label>
+                    <label for="name">{{'char_name_label' | translate}}</label>
                     <select name="name" [(ngModel)]="selectedAssignCharacter">
                         <ng-container *ngFor="let character of scenario.characters">
                             <option [ngValue]="character" *ngIf="notAlreadyAssigned(character)">{{character.name}}</option>
@@ -15,29 +15,29 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                     </select>
                 </div>
             </div>
-            <button mat-button (click)="assignCharacter()">Sélectionner</button>
+            <button mat-button (click)="assignCharacter()">{{'sider_char_button_select' | translate}}</button>
         </div>
         <div>
-            <div class="piece-form-title">Personnage(s) non joueur utilisé(s)</div>
+            <div class="piece-form-title">{{'sider_chars_title' | translate}}</div>
             <div class="piece-form-character-create" *ngFor="let character of task.characters, let index = index">
                 <div class="piece-form-character-create-top">
                     <mat-icon fontIcon="person"></mat-icon>
                     <div class="piece-form-character-create-top-name">
-                        <label for="name">Nom</label>
+                        <label for="name">{{'char_name_label' | translate}}</label>
                         <input name="name" type="text" [(ngModel)]="character.name" disabled/>                    
                     </div>
                 </div>
                 <div class="piece-form-character-infos">
                     <div class="piece-form-character-infos-description">
-                        <label for="description">Description</label>
+                        <label for="description">{{'char_description_label' | translate}}</label>
                         <textarea name="description" [(ngModel)]="character.description" disabled></textarea>
                     </div>
                     <div class="piece-form-character-infos-color">
-                        <label for="color">Couleur</label>
+                        <label for="color">{{'char_color_label' | translate}}</label>
                         <input name="color" type="color" [(ngModel)]="character.color" disabled/>
                     </div>
                 </div>
-                <button mat-button (click)="unassignCharacter(index)">Retirer de ma tâche</button>
+                <button mat-button (click)="unassignCharacter(index)">{{'sider_char_button_unselect' | translate}}</button>
             </div>
         </div>
 

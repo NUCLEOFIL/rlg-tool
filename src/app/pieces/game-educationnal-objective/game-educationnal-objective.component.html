@@ -1,23 +1,23 @@
 <div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
 [class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'"
-matTooltip="Le jeu comprend une ou plusieurs Missions. Chaque mission comprend au moins 2 Rôles. Les Rôles peuvent être différents au sein des différentes Missions du jeu."
-matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+[matTooltip]="translate.instant('game_tooltip')"
+matTooltipPosition="after" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-right-top"></div>
     <div class="piece-attach piece-attach-right-bottom"></div>
 
     <div class="piece-menu" [class]="displayMenu">
         <mat-icon fontIcon="backspace" (click)="onClickErase()"
-        matTooltip="Effacer le contenu de cette tuile."
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
    
     <div class="piece-form">
-        <div class="piece-form-title">Objectif(s) pédagogique</div>
+        <div class="piece-form-title">{{'gameEducationnalObjective_title' | translate}}</div>
         <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="scenario.comments.length > 0"></mat-icon>
         <div class="piece-form-objective">
-            <label for="objective">Commun pour le jeu</label>
-            <textarea name="objective" [(ngModel)]="gameEducationnalObjective.objective" (change)="editTrace($event, 'Obj_game')" placeholder="- Améliorer les softskills&#10;- Apprendre à coopérer"
-            matTooltip="Ce que l’on veut atteindre en situation de formation. Commencer chaque objectif par un verbe. Si votre jeu est composé de plusieurs missions, distinguez les objectifs globaux du jeu et les objectifs de chaque mission."
+            <label for="objective">{{'gameEducationnalObjective_objective_label' | translate}}</label>
+            <textarea name="objective" [(ngModel)]="gameEducationnalObjective.objective" (change)="editTrace($event, 'Obj_game')" [placeholder]="translate.instant('gameEducationnalObjective_objective_placeholder')"
+            [matTooltip]="translate.instant('gameEducationnalObjective_objective_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-footer">Sorbonne Université, LIP6 - IMT Nord Europe</div>

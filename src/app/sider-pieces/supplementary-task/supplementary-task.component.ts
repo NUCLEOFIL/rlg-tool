@@ -5,6 +5,7 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { Trace } from 'src/app/class/trace/trace';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-supplementary-task',
@@ -17,7 +18,7 @@ export class SupplementaryTaskComponent implements OnInit {
   @Input() task: Task = new Task('normal');
   @Input() role: Role = new Role();
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
   }

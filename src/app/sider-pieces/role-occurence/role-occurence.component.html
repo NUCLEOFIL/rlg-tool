@@ -1,16 +1,16 @@
 <div class="piece"
-matTooltip="Ceci permet de choisir combien de joueurs représenteront chaque rôle si le nombre de joueurs est amené à varier"
+[matTooltip]="translate.instant('occurence_tooltip')"
 matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
-        <div class="piece-title">Occurrence du rôle</div>
+        <div class="piece-title">{{'occurence_title' | translate}}</div>
         <div class="piece-form-occurrence" *ngFor="let occurence of role.occurences, let i = index">
             <div class="piece-form-occurrence-text">
                 <input type="number" [(ngModel)]="occurence.iteration" (change)="editTrace($event,'Occurrence_['+i+']_nbRole')"/>
-                <label> entre </label>
+                <label> {{'occurence_between' | translate}} </label>
                 <input type="number" [(ngModel)]="occurence.min" (change)="editTrace($event,'Occurrence_['+i+']_playersMin')"/>
-                <label> et </label>
+                <label> {{'occurence_and' | translate}} </label>
                 <input type="number" [(ngModel)]="occurence.max" (change)="editTrace($event,'Occurrence_['+i+']_playersMax')"/>
-                <label> joueurs</label>  
+                <label> {{'occurence_player' | translate}}</label>  
             </div>
             <button mat-button (click)="removeOccurrence(i)"><mat-icon fontIcon="remove"></mat-icon></button>
         </div>

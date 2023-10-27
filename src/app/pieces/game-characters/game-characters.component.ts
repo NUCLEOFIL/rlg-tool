@@ -9,6 +9,7 @@ import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/cl
 import { Task } from 'src/app/class/task/task';
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-game-characters',
@@ -21,7 +22,7 @@ export class GameCharactersComponent implements OnInit {
   @Input() scenario = new Scenario()
   newCharacter: Character = new Character();
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
   }
@@ -34,7 +35,7 @@ export class GameCharactersComponent implements OnInit {
   }
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Personnages (cela inclut la suppression de tous les personnages)' });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('char_clean') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.newCharacter = new Character();
@@ -68,7 +69,7 @@ export class GameCharactersComponent implements OnInit {
   }
 
   deleteCharacter(index: number): void {
-      const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'ce Personnage <'+this.scenario.characters[index].name+'>' });
+      const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('char_delete')+' <'+this.scenario.characters[index].name+'>' });
       dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           this.scenario.missions.forEach(mission => {

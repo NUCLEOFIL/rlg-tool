@@ -2,21 +2,21 @@
     <div class="form-comment">
         <textarea [disabled]="!isEditable" [(ngModel)]="comment.content" (change)="editTrace($event, 'comment')"></textarea>
         <div class="form-comment-buttons">
-            <button mat-button (click)="isEditable = !isEditable">Modifier</button>
-            <button mat-button (click)="removeComment(index)">Supprimer</button>
+            <button mat-button (click)="isEditable = !isEditable">{{'comments_button_edit' | translate}}</button>
+            <button mat-button (click)="removeComment(index)">{{'comments_button_delete' | translate}}</button>
         </div>  
     </div>
     <div class="form-answers" *ngFor="let answer of comment.answers, let i = index;trackBy:trackByIdx">
         <textarea [disabled]="!answerEditables[i]" [(ngModel)]="comment.answers[i]" (change)="editTrace($event,'answer_['+i+']')">Une réponse</textarea>
         <div class="form-comment-buttons">
-            <button mat-button (click)="this.answerEditables[i] = !this.answerEditables[i]">Modifier</button>
-            <button mat-button (click)="removeAnswer(i)">Supprimer</button>
+            <button mat-button (click)="this.answerEditables[i] = !this.answerEditables[i]">{{'comments_button_edit' | translate}}</button>
+            <button mat-button (click)="removeAnswer(i)">{{'comments_button_delete' | translate}}</button>
         </div>  
     </div>
     <div class="form-newanswer">
         <textarea [(ngModel)]="newAnswer" (change)="editTrace($event,'newAnswer')"></textarea>
         <div class="form-newanswer-buttons">
-           <button mat-button (click)="addAnswer()">Répondre</button> 
+           <button mat-button (click)="addAnswer()">{{'comments_button_answer' | translate}}</button> 
         </div>
     </div>
 </div>

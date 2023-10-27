@@ -6,6 +6,7 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Trace } from 'src/app/class/trace/trace';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-game-context',
@@ -17,7 +18,7 @@ export class GameContextComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() gameContext: GameContext = new GameContext();
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService) { }
 
   ngOnInit(): void {
   }
@@ -25,7 +26,7 @@ export class GameContextComponent implements OnInit {
   displayMenu: string = 'hide';
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Contexte du jeu' });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('gameContext_title') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.gameContext.univers = '';

@@ -10,6 +10,7 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { Trace } from 'src/app/class/trace/trace';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-step',
@@ -30,7 +31,7 @@ export class StepComponent implements OnInit {
   pieceWidth: number = 400;
   urlIcon: string = 'url("./assets/background-images/step.png")';
 
-  constructor(protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService, private minimapService: MinimapService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService, private minimapService: MinimapService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -99,7 +100,7 @@ export class StepComponent implements OnInit {
   }
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Étape' });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('step_clean') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.step.description = '';
@@ -121,7 +122,7 @@ export class StepComponent implements OnInit {
   }
 
   onClickDelete(): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Étape de '+(this.parent instanceof Mission ? 'Mission' : 'Rôle') });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('step_delete')+' '+(this.parent instanceof Mission ? this.translate.instant('mission') : this.translate.instant('role_title')) });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         if (this.parent instanceof Mission) {

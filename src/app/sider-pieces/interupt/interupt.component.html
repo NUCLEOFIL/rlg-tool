@@ -1,11 +1,11 @@
 <div class="piece"
-matTooltip="Une tâche peut être interrompue par un autre rôle, ceci est plutôt utilisé dans les jeux compétitifs"
+[matTooltip]="translate.instant('interruption_tooltip')"
 matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
         <div class="piece-form-header">
             <mat-icon fontIcon="front_hand"></mat-icon>
             <div class="piece-form-header-label">
-                <label>Interruption de la tâche</label>
+                <label>{{'interruption_title' | translate}}</label>
             </div>
         </div>
         <div class="piece-form-textarea">

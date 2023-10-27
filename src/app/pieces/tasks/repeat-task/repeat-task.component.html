@@ -4,42 +4,42 @@
 
     <div class="piece-menu" [class]="displayMenu">
         <mat-icon fontIcon="backspace" (click)="onClickErase()"
-        matTooltip="Effacer le contenu de cette tuile."
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <mat-icon fontIcon="delete" (click)="onClickDelete()"
-        matTooltip="Supprimer la tuile."
+        [matTooltip]="translate.instant('deletePiece_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <div class="piece-menu-directioncross">
             <div class="piece-menu-directioncross-left">
                 <mat-icon style="transform: rotate(0turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('left'); editMoveTrace($event,'Task_moveLeft')"
-                matTooltip="Décaler la tuile vers la gauche."
+                [matTooltip]="translate.instant('moveLeftFinal_tooltip')"
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
             </div>
             <div class="piece-menu-directioncross-updownarrows">
                 <div class="piece-menu-updownarrows-up">
                     <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top'); editMoveTrace($event,'Task_moveTop')"
-                    matTooltip="Décaler la tuile vers le haut (ceci placera la tuile à la fin de la ligne)."
+                    [matTooltip]="translate.instant('moveTop_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
                 </div>
                 <div class="piece-menu-directioncross-updownarrows-down">
                     <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom'); editMoveTrace($event,'Task_moveBottom')"
-                    matTooltip="Décaler la tuile vers le bas (ceci placera la tuile à la fin de la ligne)."
+                    [matTooltip]="translate.instant('moveBottom_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
                 </div>
             </div>
             <div class="piece-menu-directioncross-right">
                 <mat-icon style="transform: rotate(0.5turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('right'); editMoveTrace($event,'Task_moveRight')"
-                matTooltip="Décaler la tuile vers la droite."
+                [matTooltip]="translate.instant('moveRightFinal_tooltip')"
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
             </div>
         </div>
     </div>
 
     <div class="piece-form">
-        <label>Recommencer<br>le tour jusqu'à ce que :</label>
+        <label>{{'repeatTask_title' | translate}}<br>{{'repeatTask_while' | translate}}</label>
         <textarea [(ngModel)]="task.objective" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action')" [style.background-image]="(i == findFirstIndexOfTaskType('repeat')[0] && j == findFirstIndexOfTaskType('repeat')[1]) ? urlIcon : ''"
-            placeholder="Faire valider au commanditaire"
-            matTooltip="Action à effectuer (interagir avec un objet, parler avec quelqu'un, …)"
+            [placeholder]="translate.instant('repeatTask_action_placeholder')"
+            [matTooltip]="translate.instant('task_action_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
     </div>
     <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>

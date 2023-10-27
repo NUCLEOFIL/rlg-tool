@@ -9,6 +9,7 @@ import { Task } from 'src/app/class/task/task';
 import { Role } from 'src/app/class/role/role';
 import { Step } from 'src/app/class/step/step';
 import { Trace } from 'src/app/class/trace/trace';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-comment',
@@ -25,7 +26,7 @@ export class CommentComponent implements OnInit {
   isEditable: boolean = false;
   newAnswer: string = '';
 
-  constructor(public dialog: MatDialog, private pieceDetailsService: PieceDetailsService) { }
+  constructor(public dialog: MatDialog, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
     this.comment.answers.forEach(answer => {
@@ -34,7 +35,7 @@ export class CommentComponent implements OnInit {
   }
 
   removeAnswer(index: number): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Réponse' });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('comments_answer_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.comment.answers.splice(index, 1);
@@ -56,7 +57,7 @@ export class CommentComponent implements OnInit {
   }
 
   removeComment(index: number): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'ce Commentaire' });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('comments_comment_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.comments.splice(index, 1);

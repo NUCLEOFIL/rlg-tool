@@ -35,6 +35,7 @@ import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail
 import { Trace } from './class/trace/trace';
 import Minimap from 'js-minimap';
 import { MinimapService } from './services/minimap/minimap.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -46,10 +47,23 @@ export class AppComponent {
   title = 'RLG Maker';
   scenario: Scenario = new Scenario();
   @ViewChild('fileInput') fileInput: any;
+  selectedLang: string = 'en';
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
     private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
-    private _snackBar: MatSnackBar, protected minimapService: MinimapService) {
+    private _snackBar: MatSnackBar, protected minimapService: MinimapService, protected translate: TranslateService) {
+
+    translate.setTranslation('en', require('../assets/lang/en.json'));
+    translate.setTranslation('fr', require('../assets/lang/fr.json'));  
+    translate.addLangs(['en', 'fr']);
+    translate.setDefaultLang('en');
+    let browserLang = translate.getBrowserLang();
+    let selectedLang = browserLang && (browserLang.match(/en|fr/) ? browserLang : 'en');
+    if(selectedLang) {
+      this.selectedLang = selectedLang;
+    }
+    translate.use(this.selectedLang);
+
     pieceDetailsService.piece = this.scenario;
 
     this.scenario.missions.forEach(mission => {
@@ -98,6 +112,17 @@ export class AppComponent {
       link.click();
       URL.revokeObjectURL(url);
     }
+  }
+
+  changeLanguage(): void {
+    if (this.selectedLang == 'en') {
+      this.selectedLang = 'fr';
+      this.translate.use('fr');
+    } else if (this.selectedLang == 'fr') {
+      this.selectedLang = 'en';
+      this.translate.use('en');
+    }
+    this.minimapService.reset();
   }
 
   downloadManual(): void {
@@ -360,19 +385,19 @@ export class AppComponent {
   getSiderTitle(): string {
     let piece = this.pieceDetailsService.piece;
     if (piece instanceof Task) {
-      return "Tâche";
+      return this.translate.instant('siderTitle_task');
     }
     if (piece instanceof Role) {
-      return "Rôle";
+      return this.translate.instant('siderTitle_role');
     }
     if (piece instanceof Mission) {
-      return "Mission";
+      return this.translate.instant('siderTitle_mission');
     }
     if (piece instanceof Scenario) {
-      return "Jeu";
+      return this.translate.instant('siderTitle_game');
     }
     if (piece instanceof Step) {
-      return "Étape";
+      return this.translate.instant('siderTitle_step');
     } else {
       return "";
     }

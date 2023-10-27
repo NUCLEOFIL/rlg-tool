@@ -14,19 +14,19 @@
                     <div class="container-scenario-main-missions-mission" *ngFor="let mission of this.scenario.missions, let missionIndex = index">
 
                         <div class="container-scenario-chronologie">
-                            <div class="container-scenario-chronologie-title">Chronologie générale de la mission</div>
+                            <div class="container-scenario-chronologie-title">{{'steps_mission' | translate}}</div>
                             <div class="container-scenario-chronologie-steps">
                                 <div *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i">
                                     <app-step *ngIf="step != null" [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [parent]="mission" [index]="i" [mission]="mission"></app-step>
                                     <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
                                         <button mat-button (click)="addMissionStep(mission, i, missionIndex)"
-                                        matTooltip="Ajouter une nouvelle tuile de ce type."
+                                        [matTooltip]="translate.instant('plus_tooltip')"
                                         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                     </div>
                                 </div>
                                 <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;">
                                     <button mat-button (click)="addMissionStep(mission, mission.chronologie.length, missionIndex)"
-                                    matTooltip="Ajouter une nouvelle tuile de ce type."
+                                    [matTooltip]="translate.instant('plus_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                 </div>
                             </div>
@@ -44,20 +44,20 @@
 
                                     <div style="display: flex; flex-direction: column;">
                                         <div class="container-scenario-main-missions-mission-roles-role-chronologie">
-                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-title">Chronologie du rôle</div>
+                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-title">{{'steps_role' | translate}}</div>
                                             <div class="container-scenario-main-missions-mission-roles-role-chronologie-steps">
 
                                                 <div *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i">
                                                     <app-step *ngIf="step != null" [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [roleIndex]="roleIndex" [parent]="role" [index]="i" [mission]="mission"></app-step>
                                                     <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
                                                         <button mat-button (click)="addRoleStep(mission, role, i, missionIndex, roleIndex)"
-                                                        matTooltip="Ajouter une nouvelle tuile de ce type."
+                                                        [matTooltip]="translate.instant('plus_tooltip')"
                                                         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                                     </div>
                                                 </div>   
                                                 <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;">
                                                     <button mat-button (click)="addRoleStep(mission, role, role.chronologie.length, missionIndex, roleIndex)"
-                                                    matTooltip="Ajouter une nouvelle tuile de ce type."
+                                                    [matTooltip]="translate.instant('plus_tooltip')"
                                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                                 </div>
                                             </div>
@@ -78,29 +78,29 @@
                                                         </div>
                                                         <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="task == null">
                                                             <button mat-button [matMenuTriggerFor]="addTaskMenu"
-                                                            matTooltip="Ajouter une nouvelle tuile de ce type."
+                                                            [matTooltip]="translate.instant('plus_tooltip')"
                                                             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                                             <mat-menu #addTaskMenu="matMenu">
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'normal')">Ajouter une Tâche</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'annexe')">Ajouter une Tâche annexe</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'optionnal')">Ajouter une Tâche optionnelle</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'final')" *ngIf="canCreateFinalOrRepeatTask(tasks, j)">Ajouter une Tâche finale</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'event')">Ajouter un Événement aléatoire</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'repeat')" *ngIf="canCreateFinalOrRepeatTask(tasks, j)">Recommencer le tour</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'normal')">{{'normalTask_add' | translate}}</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'annexe')">{{'annexeTask_add' | translate}}</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'optionnal')">{{'optionnalTask_add' | translate}}</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'final')" *ngIf="canCreateFinalOrRepeatTask(tasks, j)">{{'finalTask_add' | translate}}</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'event')">{{'randomEvent_add' | translate}}</button>
+                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'repeat')" *ngIf="canCreateFinalOrRepeatTask(tasks, j)">{{'repeatTask_add' | translate}}</button>
                                                             </mat-menu>
                                                         </div>
                                                     </div>
                                                     <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="dontContainFinalOrRepeatTask(tasks)">
                                                         <button mat-button [matMenuTriggerFor]="addTaskMenu"
-                                                        matTooltip="Ajouter une nouvelle tuile de ce type."
+                                                        [matTooltip]="translate.instant('plus_tooltip')"
                                                         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
                                                         <mat-menu #addTaskMenu="matMenu">
-                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'normal')">Ajouter une Tâche</button>
-                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'annexe')">Ajouter une Tâche annexe</button>
-                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'optionnal')">Ajouter une Tâche optionnelle</button>
-                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'final')">Ajouter une Tâche finale</button>
-                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'event')">Ajouter un Événement aléatoire</button>
-                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'repeat')">Recommencer le tour</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'normal')">{{'normalTask_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'annexe')">{{'annexeTask_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'optionnal')">{{'optionnalTask_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'final')">{{'finalTask_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'event')">{{'randomEvent_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'repeat')">{{'repeatTask_add' | translate}}</button>
                                                         </mat-menu>
                                                     </div>
                                                 </div>
@@ -131,38 +131,41 @@
 
     <div class="container-settings">
         <div class="container-settings-mode"
-        matTooltip="Utilisation dans un template de jeu précis. Contacter gaelle.guigon@imt-nord-europe.fr pour plus d’informations. Non disponible dans cette version."
+        [matTooltip]="translate.instant('unity_tooltip')"
         matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedTooltips"
         [style.background-color]="'lightgray'">
             <input name="unity" type="checkbox" disabled/>
-            <label for="unity">Intégrer le jeu sous Unity (WIP)</label>
+            <label for="unity">{{'unity_label' | translate}}</label>
         </div>
         <div class="container-settings-mode"
-        matTooltip="Descriptif de chaque élément du RLG Maker."
+        [matTooltip]="translate.instant('enableHelp_tooltip')"
         matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedTooltips">
             <input name="tooltip" type="checkbox" [(ngModel)]="tooltipService.activatedTooltips" (change)="tooltipsTrace($event)"/>
-            <label for="tooltip">Activer les aides</label>
+            <label for="tooltip">{{'enableHelp_label' | translate}}</label>
         </div>
         <button mat-mini-fab color="white" (click)="downloadFile()"
-        matTooltip="Télécharger une sauvegarde du scénario."
+        [matTooltip]="translate.instant('download_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="download_file"></mat-icon></button>
         <button mat-mini-fab color="white" (click)="selectFile()"
-        matTooltip="Importer une sauvegarde du scénario."
+        [matTooltip]="translate.instant('upload_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="upload-file"></mat-icon></button>
         <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)"> 
     </div>
     <div class="container-settings container-settings-secondline">
         <button mat-mini-fab color="white" (click)="downloadManual()"
-        matTooltip="Télécharger le manuel d'utilisation."
+        [matTooltip]="translate.instant('manual_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="menu_book"></mat-icon></button>
+        <button mat-mini-fab color="white" (click)="changeLanguage()"
+        [matTooltip]="translate.instant('lang_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">🇫🇷</button>
     </div>
     <div class="container-minimap"></div>
     <div class="container-zoom">
         <button mat-mini-fab color="white" (click)="zoomIn()"
-        matTooltip="Zoomer le scénario."
+        [matTooltip]="translate.instant('zoomIn_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_in"></mat-icon></button>
         <button mat-mini-fab color="white" (click)="zoomOut()"
-        matTooltip="Dézoomer le scénario."
+        [matTooltip]="translate.instant('zoomOut_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_out"></mat-icon></button>
     </div>
 </div>

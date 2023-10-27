@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identifier-snackbar/identifier-snackbar.component';
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-random-event',
@@ -42,7 +43,7 @@ export class RandomEventComponent implements OnInit {
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar, private minimapService: MinimapService) { }
+    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -90,7 +91,7 @@ export class RandomEventComponent implements OnInit {
   }
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Événement aléatoire' });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('randomEvent_title') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.task.duration = 1;
@@ -126,7 +127,7 @@ export class RandomEventComponent implements OnInit {
   }
 
   onClickDelete(): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cet Événement aléatoire' });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('task_prefix')+' '+this.translate.instant('randomEvent_title') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.tasks.forEach(inlineTasks => {

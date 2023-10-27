@@ -9,6 +9,7 @@ import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dia
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/create-dialog.component';
 import { Trace } from 'src/app/class/trace/trace';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mission-context',
@@ -17,7 +18,7 @@ import { Trace } from 'src/app/class/trace/trace';
 })
 export class MissionContextComponent implements OnInit {
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService) { }
 
   @Input() missionContext: MissionContext = new MissionContext();
   @Input() scenario: Scenario = new Scenario();
@@ -36,7 +37,7 @@ export class MissionContextComponent implements OnInit {
   }
 
   onClickAdd(): void {
-    const dialogRef = this.dialog.open(CreateDialogComponent, { data: 'une nouvelle Mission' });
+    const dialogRef = this.dialog.open(CreateDialogComponent, { data: this.translate.instant('mission_new') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.scenario.missions.push(new Mission());
@@ -48,7 +49,7 @@ export class MissionContextComponent implements OnInit {
   }
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: 'Contexte de la mission '+(this.i+1) });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('missionContext_clean')+' '+(this.i+1) });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.missionContext.duration = '';
@@ -63,7 +64,7 @@ export class MissionContextComponent implements OnInit {
   } 
 
   onClickDelete(): void {
-    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: 'cette Mission '+(this.i+1) });
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('mission_delete')+' '+(this.i+1) });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.scenario.missions.splice(this.i, 1);
