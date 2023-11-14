@@ -152,12 +152,16 @@
         <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)"> 
     </div>
     <div class="container-settings container-settings-secondline">
+        <button mat-mini-fab color="white" style="font-size: 20px;" [matMenuTriggerFor]="changeLanguageMenu"
+        [matTooltip]="translate.instant('lang_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">{{langEmoji}}</button>
+        <mat-menu #changeLanguageMenu="matMenu">
+            <button mat-menu-item (click)="changeLanguage('fr')">🇫🇷 {{'language_fr' | translate}}</button>
+            <button mat-menu-item (click)="changeLanguage('en')">🇬🇧 {{'language_en' | translate}}</button>
+        </mat-menu>
         <button mat-mini-fab color="white" (click)="downloadManual()"
         [matTooltip]="translate.instant('manual_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="menu_book"></mat-icon></button>
-        <button mat-mini-fab color="white" (click)="changeLanguage()"
-        [matTooltip]="translate.instant('lang_tooltip')"
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">🇫🇷</button>
     </div>
     <div class="container-minimap"></div>
     <div class="container-zoom">

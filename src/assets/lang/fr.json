@@ -1,4 +1,7 @@
 {
+    "language_fr": "Français",
+    "language_en": "Anglais",
+
     "clearPiece_tooltip": "Effacer le contenu de cette tuile",
     "deletePiece_tooltip": "Supprimer la tuile",
     "moveRight_tooltip": "Décaler la tuile vers la droite. Dans le cas où une tuile est déjà présente, leurs places sont inversées.",
