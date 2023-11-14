@@ -126,7 +126,7 @@ export class AppComponent {
         case 'en': this.selectedLang = 'en'; this.translate.use('en'); this.langEmoji = '🇬🇧'; break;
       }
       this.minimapService.reset();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'change_lang', undefined, undefined, 'all', 'Scenario'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'change_lang', undefined, undefined, this.selectedLang, 'Scenario'));
     }
   }
 
