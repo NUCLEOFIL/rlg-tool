@@ -8,7 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatSnackBarModule} from '@angular/material/snack-bar'; 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
 import { EducationalObjectiveComponent } from './pieces/educational-objective/educational-objective.component';
@@ -45,6 +46,8 @@ import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TutorialComponent } from './components/tutorial/tutorial.component';
+import { FinishTutorialComponent } from './components/snackbars/finish-tutorial/finish-tutorial.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -82,7 +85,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     SaveDialogComponent,
     IdentifierSnackbarComponent,
     LoadingsucessSnackbarComponent,
-    LoadingfailSnackbarComponent
+    LoadingfailSnackbarComponent,
+    TutorialComponent,
+    FinishTutorialComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +107,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

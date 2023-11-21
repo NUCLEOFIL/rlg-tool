@@ -36,6 +36,7 @@ import { Trace } from './class/trace/trace';
 import Minimap from 'js-minimap';
 import { MinimapService } from './services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialService } from './services/tutorial/tutorial.service';
 
 @Component({
   selector: 'app-root',
@@ -52,7 +53,7 @@ export class AppComponent {
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
     private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
-    private _snackBar: MatSnackBar, protected minimapService: MinimapService, protected translate: TranslateService) {
+    private _snackBar: MatSnackBar, protected minimapService: MinimapService, protected translate: TranslateService, protected tutorialService: TutorialService) {
 
     translate.setTranslation('en', require('../assets/lang/en.json'));
     translate.setTranslation('fr', require('../assets/lang/fr.json'));  
@@ -79,21 +80,21 @@ export class AppComponent {
   ngOnInit(): void {
     const container = this.elementRef.nativeElement.querySelector('.container-appDragScroll');
     const target = this.elementRef.nativeElement.querySelector('.container-minimap');
-    container.scrollTo(0,800);
+    container.scrollTo(0,500);
     this.minimapService.minimap = new Minimap({
       container,
       target,
       observe: false
     })
   }
-
+/*
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: any) {
     const message = "Êtes vous sûr de vouloir quitter RLG Maker ?\nVous risquez de perdre les données non sauvegardées.";
     event.returnValue = message;
     return message;
   }
-
+*/
   @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if (event.ctrlKey && event.key === 's') {
@@ -162,6 +163,10 @@ export class AppComponent {
           this.titleService.setTitle('RLG Maker - '+this.scenario.projectName);
         }
         this.scenario.tooltips = this.tooltipService.activatedTooltips;
+        this.scenario.tutorial_isActive = this.tutorialService.isActive;
+        this.scenario.tutorial_phase = this.tutorialService.phase;
+        this.scenario.tutorial_optionnalPhase = this.tutorialService.optionnalPhase;
+        this.scenario.tutorial_phaseDone = this.tutorialService.phaseDone;
         this.scenario.traces.push(new Trace(this.scenario.traces.length, 'save', undefined, undefined, 'all', 'Scenario'));
         const jsonString = JSON.stringify(this.scenario,undefined,2);
         const blob = new Blob([jsonString], { type: 'application/json' });
@@ -192,6 +197,10 @@ export class AppComponent {
           const jsonData: any = JSON.parse(fileContent);
           const scenario: Scenario = Object.assign(new Scenario(), jsonData);
           this.tooltipService.activatedTooltips = scenario.tooltips;
+          this.tutorialService.isActive = scenario.tutorial_isActive;
+          this.tutorialService.phase = scenario.tutorial_phase;
+          this.tutorialService.optionnalPhase = scenario.tutorial_optionnalPhase;
+          this.tutorialService.phaseDone = scenario.tutorial_phaseDone;
           scenario.context = Object.assign(new GameContext(), jsonData.context);
           scenario.context.comments = jsonData.context.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
           scenario.educationnalObjective = Object.assign(new GameEducationnalObjective(), jsonData.educationnalObjective);
@@ -334,6 +343,10 @@ export class AppComponent {
       this.zoomService.zoom += 0.1;
       element.style.transform = `scale(${this.zoomService.zoom})`;
       this.minimapService.reset();
+      if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 2) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+        this.tutorialService.validPhase();
+      }
     }
   }
 
@@ -343,6 +356,10 @@ export class AppComponent {
       this.zoomService.zoom -= 0.1;
       element.style.transform = `scale(${this.zoomService.zoom})`;
       this.minimapService.reset();  
+      if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 2) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+        this.tutorialService.validPhase();
+      }
     }
   }
 
@@ -414,5 +431,9 @@ export class AppComponent {
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'disable_tooltips',undefined, undefined,'tooltips','Scenario'));
     }
+  }
+
+  resumeTutorialTrace() {
+    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'resume_tutorial', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
   }
 }

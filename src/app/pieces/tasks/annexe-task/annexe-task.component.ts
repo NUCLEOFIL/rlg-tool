@@ -16,6 +16,8 @@ import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identi
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
+import { FinishTutorialComponent } from 'src/app/components/snackbars/finish-tutorial/finish-tutorial.component';
 
 @Component({
   selector: 'app-annexe-task',
@@ -43,12 +45,17 @@ export class AnnexeTaskComponent implements OnInit {
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService) { }
+    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
     this.mission.equalizeLengths();
     this.minimapService.reset();
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 9) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this._snackBar.openFromComponent(FinishTutorialComponent, { duration: 5000 });
+      this.tutorialService.validPhase();
+    }
   }
   
   durationChange(): void {

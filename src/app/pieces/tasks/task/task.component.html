@@ -153,7 +153,7 @@
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    
         </div>
-        <textarea class="piece-form-content" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action')" [style.background-image]="(i == findFirstIndexOfTaskType('normal')[0] && j == findFirstIndexOfTaskType('normal')[1]) ? urlIcon : ''"
+        <textarea class="piece-form-content" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action'); validTutorialPhase6();" [style.background-image]="(i == findFirstIndexOfTaskType('normal')[0] && j == findFirstIndexOfTaskType('normal')[1]) ? urlIcon : ''"
             [placeholder]="translate.instant('normalTask_action_placeholder')"
             [matTooltip]="translate.instant('task_action_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>

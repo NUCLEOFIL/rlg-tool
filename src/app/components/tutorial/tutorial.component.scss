@@ -1,0 +1,107 @@
+.piece {
+    width: 500px;
+    height: auto;
+    background-color: #d6d6d6;
+    border-radius: 10px;
+    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+    padding: 5px;
+    cursor: grab;
+
+    button {
+        background-color: white;
+        border-radius: 10px;
+    }
+
+    &-top {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+
+        &-title {
+            font-size: 25px;
+            font-family: "Glacial Indifference Bold";
+        }
+
+        &-phases {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            position: relative;
+
+            &-phase {
+                font-size: 16px;
+                margin-top: 8px;
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    &-tutorial {
+        width: 98%;
+        margin-top: 20px;
+        border-radius: 10px;
+        padding: 5px;
+        overflow-y: auto;
+
+        &-title {
+            font-family: "Glacial Indifference Bold";
+        }
+    }
+
+    &-optionnal {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        button {
+            width: 100%;
+        }
+
+        &-options {
+            transition: max-height 0.5s linear;
+            overflow: hidden;
+            
+            button {
+                width: auto;
+            }
+
+            &-line {
+                display: flex;
+                flex-direction: row;
+                margin-top: 5px;
+                justify-content: space-evenly;
+            }
+        }
+
+        &-options.show {
+            max-height: 500px;
+        }
+
+        &-options.hide {
+            max-height: 0;
+        }
+    }
+}
+
+.piece:active {
+    box-shadow: 0px 3px 6px 5px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+    cursor: grabbing;
+}
+
+.valid {
+    transition: background-color 1s linear;
+    background-color: white;
+}
+
+.valid.validation {
+    background-color: lightgreen;
+}
+
+.isValid {
+    background: no-repeat center url(../../../assets/background-images/tuto.png) white;
+    background-size: 20%;
+}

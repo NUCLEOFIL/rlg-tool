@@ -1,4 +1,7 @@
-import { Directive, HostListener, ElementRef } from '@angular/core';
+import { Directive, HostListener, ElementRef, Input } from '@angular/core';
+import { TutorialService } from '../services/tutorial/tutorial.service';
+import { Scenario } from '../class/scenario/scenario';
+import { Trace } from '../class/trace/trace';
 
 @Directive({
   selector: '[appDragScroll]'
@@ -8,8 +11,9 @@ export class DragScrollDirective {
   private startX: number = 0;
   private startY: number = 0;
   private element: HTMLElement;
+  @Input() scenario: Scenario = new Scenario();
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef, private tutorialService: TutorialService) {
     this.element = elementRef.nativeElement;
   }
 
@@ -37,6 +41,10 @@ export class DragScrollDirective {
       this.element.scrollTop -= y;
       this.startX = event.clientX;
       this.startY = event.clientY;
+      if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 1) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+        this.tutorialService.validPhase();
+      }
     }
   }
 
@@ -55,6 +63,10 @@ export class DragScrollDirective {
           this.element.scrollBy(-distance, 0);
         } else if (event.key === 'ArrowRight') {
           this.element.scrollBy(distance, 0);
+        }
+        if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 1) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+          this.tutorialService.validPhase();
         }
       }
     }

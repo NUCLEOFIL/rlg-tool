@@ -1,0 +1,53 @@
+<div class="piece">
+    <div class="piece-top">
+        <button mat-button (click)="tutorialService.isActive = !tutorialService.isActive; closeTutorialTrace();"><mat-icon fontIcon="expand_less"></mat-icon> {{'tutorial_leave' | translate}}</button>
+        <div class="piece-top-title">{{'tutorial_title' | translate}}</div>
+        <div class="piece-top-phases" *ngIf="!tutorialService.optionnalPhase">
+            <button mat-button (click)="onClickPrevious()" [disabled]="tutorialService.phase == 1">{{'tutorial_previous' | translate}}</button>
+            <div class="piece-top-phases-phase">{{'tutorial_phase' | translate}} {{tutorialService.phase}}/9</div>
+            <button mat-button (click)="onClickNext()" [disabled]="tutorialService.phase == 9">{{'tutorial_next' | translate}}</button>            
+        </div>
+        <div class="piece-top-phases" *ngIf="tutorialService.optionnalPhase">
+            <button mat-button (click)="tutorialService.optionnalPhase = ''; resumeClassicTrace();">{{'tutorial_back' | translate}}</button>
+        </div>
+    </div>
+    <div class="piece-tutorial valid" [ngClass]="[tutorialService.validationFeedback, tutorialService.phaseDone[tutorialService.phase-1] && !tutorialService.optionnalPhase ? 'isValid' : '']">
+        <div *ngIf="!tutorialService.optionnalPhase">
+            <p class="piece-tutorial-title">{{'tutorial_phase_'+tutorialService.phase+'_title' | translate}}</p>
+            <p>{{'tutorial_phase_'+tutorialService.phase | translate}}</p>
+        </div>
+        <div *ngIf="tutorialService.optionnalPhase">
+            <p class="piece-tutorial-title">{{'tutorial_optionnal_'+tutorialService.optionnalPhase | translate}}</p>
+            <p>{{'tutorial_optionnalPhase_'+tutorialService.optionnalPhase | translate}}</p>
+        </div>
+    </div>
+    <div class="piece-optionnal">
+        <button mat-button (click)="onClickOptionnal()">{{'tutorial_optionnal' | translate}} <mat-icon fontIcon="expand_more" *ngIf="optionnalExpanded == 'hide'"></mat-icon><mat-icon fontIcon="expand_less" *ngIf="optionnalExpanded == 'show'"></mat-icon></button>
+        <div class="piece-optionnal-options" [class]="optionnalExpanded">
+            <div class="piece-optionnal-options-line">
+                <button mat-button [style.background-color]="'#f3ed97'" (click)="setOptionnalPhase('comments')">{{'tutorial_optionnal_comments' | translate}}</button>
+                <button mat-button [style.background-color]="'#c0d5fc'" (click)="setOptionnalPhase('step')">{{'tutorial_optionnal_step' | translate}}</button>
+                <button mat-button [style.background-color]="'#bfdaa3'" (click)="setOptionnalPhase('event')">{{'tutorial_optionnal_event' | translate}}</button>
+            </div>
+            <div class="piece-optionnal-options-line">
+                <button mat-button [style.background-color]="'#f7c9cf'" (click)="setOptionnalPhase('interrupt')">{{'tutorial_optionnal_interrupt' | translate}}</button>
+                <button mat-button [style.background-color]="'#e5c5ac'" (click)="setOptionnalPhase('occurence')">{{'tutorial_optionnal_occurence' | translate}}</button>
+            </div>
+            <div class="piece-optionnal-options-line">
+                <button mat-button [style.background-color]="'#ce7b66'" (click)="setOptionnalPhase('characters')">{{'tutorial_optionnal_characters' | translate}}</button>
+                <button mat-button [style.background-color]="'#c6c2bd'" (click)="setOptionnalPhase('rules')">{{'tutorial_optionnal_rules' | translate}}</button>
+                <button mat-button [style.background-color]="'#abbcc6'" (click)="setOptionnalPhase('repeat')">{{'tutorial_optionnal_repeat' | translate}}</button>
+            </div>
+            <div class="piece-optionnal-options-line">
+                <button mat-button [style.background-color]="'#f7f7f7'" (click)="setOptionnalPhase('resource')">{{'tutorial_optionnal_resource' | translate}}</button>
+                <button mat-button [style.background-color]="'#9ad5eb'" (click)="setOptionnalPhase('supplementaryRole')">{{'tutorial_optionnal_supplementaryRole' | translate}}</button>
+            </div>
+            <div class="piece-optionnal-options-line">
+                <button mat-button [style.background-color]="'#b28386'" (click)="setOptionnalPhase('finalTask')">{{'tutorial_optionnal_finalTask' | translate}}</button>
+                <button mat-button [style.background-color]="'#e8e3b3'" (click)="setOptionnalPhase('optionnalTask')">{{'tutorial_optionnal_optionnalTask' | translate}}</button>
+                <button mat-button [style.background-color]="'#a6c9ec'" (click)="setOptionnalPhase('repeatTask')">{{'tutorial_optionnal_repeatTask' | translate}}</button>
+            </div>
+        </div>
+    </div>
+
+</div>

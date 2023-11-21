@@ -24,7 +24,11 @@
     font-style: italic;
 }
 
-body {
+body, html {
+
+    width: 99%;
+    height: 99%;
+    
     background-color: var(--background-color);
     font-family: 'Glacial Indifference', sans-serif;
 

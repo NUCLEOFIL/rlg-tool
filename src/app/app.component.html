@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="container-appDragScroll" appDragScroll appMouseWheelZoom>
+    <div class="container-appDragScroll" appDragScroll appMouseWheelZoom [scenario]="scenario">
         <div class="container-appMouseWheelZoom">
 
             <div class="container-scenario-main">
@@ -172,4 +172,7 @@
         [matTooltip]="translate.instant('zoomOut_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_out"></mat-icon></button>
     </div>
+
+    <button class="container-tutorial-resume" mat-raised-button (click)="tutorialService.isActive = !tutorialService.isActive; resumeTutorialTrace()" *ngIf="!tutorialService.isActive"><mat-icon fontIcon="keyboard_return"></mat-icon> {{'tutorial_resume' | translate}}</button>
+    <app-tutorial style="z-index: 10; position: absolute;" *ngIf="tutorialService.isActive" cdkDrag cdkDragBoundary=".container"></app-tutorial>
 </div>

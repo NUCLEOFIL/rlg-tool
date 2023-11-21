@@ -16,6 +16,7 @@ import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identi
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 
 @Component({
   selector: 'app-task',
@@ -43,7 +44,7 @@ export class TaskComponent implements OnInit {
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService) { }
+    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -174,6 +175,7 @@ export class TaskComponent implements OnInit {
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete_common',this.missionIndex,this.roleIndex,'symbol','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
     }
+    this.validTutorialPhase7();
   }
 
   changeDisplayPrerequires(): void {
@@ -226,6 +228,10 @@ export class TaskComponent implements OnInit {
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
+    }
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
     }
   }
 
@@ -305,7 +311,7 @@ export class TaskComponent implements OnInit {
         this.onCheckTask(task);
       } else {
         this.onUncheckTask(task);
-      }      
+      }
     }
   }
 
@@ -319,6 +325,7 @@ export class TaskComponent implements OnInit {
   onCheckTask(task: Task): void {
     this.task.prerequireTasks.push(new PrerequireTask(task.identifier));
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+    this.validTutorialPhase7();
   }
 
   onUncheckTask(task: Task): void {
@@ -342,6 +349,7 @@ export class TaskComponent implements OnInit {
   onCheckRessource(ressource: Ressource): void {
     this.task.prerequireRessources.push(new PrerequireRessource(ressource));
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+    this.validTutorialPhase7();
   }
 
   onUncheckRessource(ressource: Ressource): void {
@@ -377,5 +385,20 @@ export class TaskComponent implements OnInit {
 
   editMoveTrace(event: any, source: string): void {
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+  }
+
+  validTutorialPhase6(): void {
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 6) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
+    }
+  }
+
+  validTutorialPhase7(): void {
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 7 
+        && this.task.symbol.symbol && (this.task.prerequireTasks.length > 0 || this.task.prerequireRessources.length > 0)) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
+    }
   }
 }

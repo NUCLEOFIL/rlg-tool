@@ -31,7 +31,7 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
         </div>
         <div class="piece-form-name">
             <label for="name">{{'role_name_label' | translate}}</label>
-            <input name="name" type="text" [(ngModel)]="role.questName" (change)="editTrace($event,'quest_name')" [placeholder]="translate.instant('role_name_placeholder')"
+            <input name="name" type="text" [(ngModel)]="role.questName" (change)="editTrace($event,'quest_name'); validTutorialPhase5();" [placeholder]="translate.instant('role_name_placeholder')"
             [matTooltip]="translate.instant('role_name_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>

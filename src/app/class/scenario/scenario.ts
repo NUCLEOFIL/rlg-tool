@@ -17,5 +17,9 @@ export class Scenario {
     comments: Comment[] = [];
     projectName: string = '';
     tooltips: boolean = true;
+    tutorial_isActive: boolean = true;
+    tutorial_phase: number = 1;
+    tutorial_optionnalPhase: string = '';
+    tutorial_phaseDone: boolean[] = []; 
     traces: Trace[] = [new Trace(0, 'new', undefined, undefined, 'all', 'Scenario')];
 }

@@ -20,6 +20,7 @@ import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 
 @Component({
   selector: 'app-role',
@@ -34,7 +35,7 @@ export class RoleComponent implements OnInit {
   @Input() i: number = 0;
   @Input() missionIndex: number = 0;
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -48,6 +49,10 @@ export class RoleComponent implements OnInit {
     this.pieceDetailsService.missionIndex = this.missionIndex;
     this.pieceDetailsService.roleIndex = this.i;
     this.pieceDetailsService.pieceIndex = this.i;
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 4) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
+    }
   }
 
   onClickAdd(): void {
@@ -183,6 +188,7 @@ export class RoleComponent implements OnInit {
     this.role.rewards.push(new QuestReward());
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Reward_['+this.role.rewards.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
+    this.validTutorialPhase5();
   }
 
   changeRewardType(index: number, type: string): void {
@@ -272,6 +278,13 @@ export class RoleComponent implements OnInit {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.i,source,'Role_['+(this.i)+']', '#9AD5EC','*'));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.i,source,'Role_['+(this.i)+']', '#9AD5EC','*'));
+    }
+  }
+
+  validTutorialPhase5(): void {
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 5 && this.role.questName && this.role.rewards.length > 0) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
     }
   }
 }

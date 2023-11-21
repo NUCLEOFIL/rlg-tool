@@ -7,6 +7,7 @@ import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/cl
 import { MatDialog } from '@angular/material/dialog';
 import { Trace } from 'src/app/class/trace/trace';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 
 @Component({
   selector: 'app-game-context',
@@ -18,7 +19,7 @@ export class GameContextComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() gameContext: GameContext = new GameContext();
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService, private tutorialService: TutorialService) { }
 
   ngOnInit(): void {
   }
@@ -53,6 +54,10 @@ export class GameContextComponent implements OnInit {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Context_g', '#B6CC87'));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Context_g', '#B6CC87'));
+    }
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 3) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
     }
   }
 }
