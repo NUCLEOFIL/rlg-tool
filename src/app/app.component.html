@@ -154,14 +154,14 @@
     <div class="container-settings container-settings-secondline">
         <button mat-mini-fab color="white" style="font-size: 20px;" [matMenuTriggerFor]="changeLanguageMenu"
         [matTooltip]="translate.instant('lang_tooltip')"
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><img class="langIcon" [src]="'../assets/lang/icons/'+selectedLang+'.png'"></button>
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><img class="langIcon" [src]="'./assets/lang/icons/'+selectedLang+'.png'"></button>
         <mat-menu #changeLanguageMenu="matMenu">
             <button mat-menu-item class="buttonLang" (click)="changeLanguage('fr')">
-                <img class="langIcon" src="../assets/lang/icons/fr.png"/>
+                <img class="langIcon" src="./assets/lang/icons/fr.png"/>
                 <div>{{'language_fr' | translate}}</div>
             </button>
             <button mat-menu-item class="buttonLang" (click)="changeLanguage('en')">
-                <img class="langIcon langIcon-icon" src="../assets/lang/icons/en.png"/>
+                <img class="langIcon langIcon-icon" src="./assets/lang/icons/en.png"/>
                 <div>{{'language_en' | translate}}</div>
             </button>
         </mat-menu>
