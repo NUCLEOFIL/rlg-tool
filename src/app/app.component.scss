@@ -250,6 +250,21 @@
         }
     }
 }
+  
+.langIcon {
+    width: 28px;
+    height: 28px;
+}
+
+.buttonLang {
+    display: flex;
+    flex-direction: row;
+
+    img {
+        margin-top: 10px;
+        margin-right: 5px;
+    }
+}
 
 ::ng-deep .mat-tooltip {
     font-size: 15px;

@@ -49,7 +49,6 @@ export class AppComponent {
   scenario: Scenario = new Scenario();
   @ViewChild('fileInput') fileInput: any;
   selectedLang: string = 'en';
-  langEmoji: string = '🇬🇧';
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
     private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
@@ -65,10 +64,6 @@ export class AppComponent {
       this.selectedLang = selectedLang;
     }
     translate.use(this.selectedLang);
-    switch(selectedLang) {
-      case 'en': this.langEmoji = '🇬🇧'; break;
-      case 'fr': this.langEmoji = '🇫🇷'; break;
-    }
 
     pieceDetailsService.piece = this.scenario;
 
@@ -87,14 +82,14 @@ export class AppComponent {
       observe: false
     })
   }
-/*
+
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: any) {
     const message = "Êtes vous sûr de vouloir quitter RLG Maker ?\nVous risquez de perdre les données non sauvegardées.";
     event.returnValue = message;
     return message;
   }
-*/
+
   @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if (event.ctrlKey && event.key === 's') {
@@ -123,8 +118,8 @@ export class AppComponent {
   changeLanguage(lang: string): void {
     if (lang !== this.selectedLang) {
       switch(lang) {
-        case 'fr': this.selectedLang = 'fr'; this.translate.use('fr'); this.langEmoji = '🇫🇷'; break;
-        case 'en': this.selectedLang = 'en'; this.translate.use('en'); this.langEmoji = '🇬🇧'; break;
+        case 'fr': this.selectedLang = 'fr'; this.translate.use('fr'); break;
+        case 'en': this.selectedLang = 'en'; this.translate.use('en'); break;
       }
       this.minimapService.reset();
       this.scenario.traces.push(new Trace(this.scenario.traces.length, 'change_lang', undefined, undefined, this.selectedLang, 'Scenario'));

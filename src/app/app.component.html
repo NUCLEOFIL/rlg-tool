@@ -154,10 +154,16 @@
     <div class="container-settings container-settings-secondline">
         <button mat-mini-fab color="white" style="font-size: 20px;" [matMenuTriggerFor]="changeLanguageMenu"
         [matTooltip]="translate.instant('lang_tooltip')"
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">{{langEmoji}}</button>
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><img class="langIcon" [src]="'../assets/lang/icons/'+selectedLang+'.png'"></button>
         <mat-menu #changeLanguageMenu="matMenu">
-            <button mat-menu-item (click)="changeLanguage('fr')">🇫🇷 {{'language_fr' | translate}}</button>
-            <button mat-menu-item (click)="changeLanguage('en')">🇬🇧 {{'language_en' | translate}}</button>
+            <button mat-menu-item class="buttonLang" (click)="changeLanguage('fr')">
+                <img class="langIcon" src="../assets/lang/icons/fr.png"/>
+                <div>{{'language_fr' | translate}}</div>
+            </button>
+            <button mat-menu-item class="buttonLang" (click)="changeLanguage('en')">
+                <img class="langIcon langIcon-icon" src="../assets/lang/icons/en.png"/>
+                <div>{{'language_en' | translate}}</div>
+            </button>
         </mat-menu>
         <button mat-mini-fab color="white" (click)="downloadManual()"
         [matTooltip]="translate.instant('manual_tooltip')"
