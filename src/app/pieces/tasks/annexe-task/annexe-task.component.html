@@ -55,18 +55,17 @@
         <div class="piece-prerequires-prerequires">
             <label class="piece-prerequires-title">{{'task_prerequire_antecedents_title' | translate}}</label>
             <div class="piece-prerequires-form">
-                <div style="text-align: center;" *ngIf="j == 0">{{'task_prerequire_antecedents_err1' | translate}}</div>
                 <ng-container *ngIf="hasPossibleAntecedents()">
                     <ng-container *ngFor="let inlineTask of role.tasks">
                         <ng-container *ngFor="let element of inlineTask; let index = index">
-                            <div class="piece-prerequires-prerequires-element" *ngIf="element?.identifier && (task.identifier != element?.identifier) && index < j">
+                            <div class="piece-prerequires-prerequires-element" *ngIf="element?.identifier && (task.identifier != element?.identifier)">
                                 <input name="antecedent" type="checkbox" [checked]="isCheckedTask(element)" (change)="checkboxChangedTask($event, element)"/>
                                 <label for="antecedent">{{element?.identifier}}</label>
                             </div>
                         </ng-container>
                     </ng-container>
                 </ng-container>
-                <div style="text-align: center;" *ngIf="!hasPossibleAntecedents() && j != 0">{{'task_prerequire_antecedents_err2' | translate}}</div>
+                <div style="text-align: center;" *ngIf="!hasPossibleAntecedents()">{{'task_prerequire_antecedents_err2' | translate}}</div>
             </div>
         </div>
         <div class="piece-prerequires-ressources">

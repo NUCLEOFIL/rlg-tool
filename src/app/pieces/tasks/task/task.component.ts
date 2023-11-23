@@ -178,6 +178,16 @@ export class TaskComponent implements OnInit {
     this.validTutorialPhase7();
   }
 
+  canUseSymbol(symbol: string, symbolColor: string): string {
+    let res: string = 'enable';
+      this.role.tasks.forEach(inlineTasks => {
+        if (inlineTasks.some(task => task?.symbol.symbol == symbol && task?.symbol.color == symbolColor)) {
+          res = 'disable';
+        }
+      });
+    return res;
+  }
+
   changeDisplayPrerequires(): void {
     if(this.displayPrequires == 'show') {
       this.displayPrequires = 'hide';
@@ -366,7 +376,7 @@ export class TaskComponent implements OnInit {
   hasPossibleAntecedents(): boolean {
     let res = false;
     this.role.tasks.forEach(inlineTask => {
-      for(let i = 0; i < this.j; i++) {
+      for(let i = 0; i < inlineTask.length; i++) {
         if (inlineTask[i]?.identifier && (this.task.identifier != inlineTask[i]?.identifier)) {
           res = true;
         }
@@ -388,7 +398,9 @@ export class TaskComponent implements OnInit {
   }
 
   validTutorialPhase6(): void {
-    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 6) {
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 6
+      && this.scenario.missions[0].roles[0].tasks[0].some(task => task?.objective)
+      && this.scenario.missions[0].roles[1].tasks[0].some(task => task?.objective)) {
       this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }
@@ -396,7 +408,11 @@ export class TaskComponent implements OnInit {
 
   validTutorialPhase7(): void {
     if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 7 
-        && this.task.symbol.symbol && (this.task.prerequireTasks.length > 0 || this.task.prerequireRessources.length > 0)) {
+        && this.task.symbol.symbol && (this.task.prerequireTasks.length > 0 || this.task.prerequireRessources.length > 0)
+        && this.scenario.missions[0].roles[0].tasks[0].some(task => task?.symbol.symbol && (task.prerequireTasks.length > 0 || task.prerequireRessources.length > 0))
+        && this.scenario.missions[0].roles[1].tasks[0].some(task => task?.symbol.symbol && (task.prerequireTasks.length > 0 || task.prerequireRessources.length > 0))) {
+
+
       this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }

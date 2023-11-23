@@ -49,10 +49,6 @@ export class RoleComponent implements OnInit {
     this.pieceDetailsService.missionIndex = this.missionIndex;
     this.pieceDetailsService.roleIndex = this.i;
     this.pieceDetailsService.pieceIndex = this.i;
-    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 4) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
-      this.tutorialService.validPhase();
-    }
   }
 
   onClickAdd(): void {
@@ -281,8 +277,18 @@ export class RoleComponent implements OnInit {
     }
   }
 
+  validTutorialPhase4(): void {
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 4
+      && this.scenario.missions[0].roles[0].intitule && this.scenario.missions[0].roles[1].intitule) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
+    }
+  }
+
   validTutorialPhase5(): void {
-    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 5 && this.role.questName && this.role.rewards.length > 0) {
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 5
+      && this.scenario.missions[0].roles[0].questName && this.scenario.missions[0].roles[0].rewards.length > 0
+      && this.scenario.missions[0].roles[1].questName && this.scenario.missions[0].roles[1].rewards.length > 0) {
       this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }

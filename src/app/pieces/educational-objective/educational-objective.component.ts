@@ -10,6 +10,7 @@ import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/cl
 import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/create-dialog.component';
 import { Trace } from 'src/app/class/trace/trace';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 
 @Component({
   selector: 'app-educational-objective',
@@ -22,7 +23,7 @@ export class EducationalObjectiveComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() i: number = 0;
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService, private tutorialService: TutorialService) { }
 
   ngOnInit(): void {
   }
@@ -85,6 +86,14 @@ export class EducationalObjectiveComponent implements OnInit {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.i,undefined,source,'Obj_m', '#D0BBDB'));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.i,undefined,source,'Obj_m', '#D0BBDB'));
+    }
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 3
+      && this.scenario.educationnalObjective.objective
+      && this.scenario.context.univers && this.scenario.context.support && this.scenario.context.duration && this.scenario.context.intrigue && this.scenario.context.other
+      && this.scenario.missions[0].context.duration && this.scenario.missions[0].context.intrigue && this.scenario.missions[0].context.communication && this.scenario.missions[0].context.various
+      && this.scenario.missions[0].educationnalObjective.objective) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
     }
   }
 }

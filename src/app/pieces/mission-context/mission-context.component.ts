@@ -10,6 +10,7 @@ import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/cl
 import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/create-dialog.component';
 import { Trace } from 'src/app/class/trace/trace';
 import { TranslateService } from '@ngx-translate/core';
+import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 
 @Component({
   selector: 'app-mission-context',
@@ -18,7 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class MissionContextComponent implements OnInit {
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService, private tutorialService: TutorialService) { }
 
   @Input() missionContext: MissionContext = new MissionContext();
   @Input() scenario: Scenario = new Scenario();
@@ -88,6 +89,14 @@ export class MissionContextComponent implements OnInit {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.i,undefined,source,'Context_m', '#EAC19B'));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.i,undefined,source,'Context_m', '#EAC19B'));
+    }
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 3
+      && this.scenario.educationnalObjective.objective
+      && this.scenario.context.univers && this.scenario.context.support && this.scenario.context.duration && this.scenario.context.intrigue && this.scenario.context.other
+      && this.scenario.missions[0].context.duration && this.scenario.missions[0].context.intrigue && this.scenario.missions[0].context.communication && this.scenario.missions[0].context.various
+      && this.scenario.missions[0].educationnalObjective.objective) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
     }
   }
 }

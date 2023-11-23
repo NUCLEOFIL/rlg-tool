@@ -85,6 +85,11 @@
             opacity: 0.75;
         }
 
+        mat-icon.disable {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
         &-header {
             display: flex;
             flex-direction: row;

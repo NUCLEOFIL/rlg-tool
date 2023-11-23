@@ -55,26 +55,26 @@
             <div><mat-icon fontIcon="delete" (click)="setSymbol('','')"></mat-icon></div>
         </div>
         <div class="piece-symbolchoice-symbols">
-            <mat-icon [style.color]="'#d79297'" fontIcon="favorite" (click)="setSymbol('favorite','#d79297')"></mat-icon>
-            <mat-icon [style.color]="'#9ad5ec'" fontIcon="diamond" (click)="setSymbol('diamond','#9ad5ec')"></mat-icon>
-            <mat-icon [style.color]="'#e9ec54'" fontIcon="star" (click)="setSymbol('star','#e9ec54')"></mat-icon>
-            <mat-icon [style.color]="'#f5cee3'" fontIcon="hexagon" (click)="setSymbol('hexagon','#f5cee3')"></mat-icon>
-            <mat-icon [style.color]="'#d3d2d2'" fontIcon="add" (click)="setSymbol('add','#d3d2d2')"></mat-icon>
-            <mat-icon [style.color]="'#9ad5ec'" fontIcon="circle" (click)="setSymbol('circle','#9ad5ec')"></mat-icon>
-            <mat-icon [style.color]="'#b6cc87'" fontIcon="eco" (click)="setSymbol('eco','#b6cc87')"></mat-icon>
-            <mat-icon [style.color]="'#d0bbdb'" fontIcon="play_arrow" (click)="setSymbol('play_arrow','#d0bbdb')"></mat-icon>
-            <mat-icon [style.color]="'#8b7e64'" fontIcon="remove" (click)="setSymbol('remove','#8b7e64')"></mat-icon>
+            <mat-icon [style.color]="'#d79297'" fontIcon="favorite" (click)="canUseSymbol('favorite','#d79297') == 'enable' ? setSymbol('favorite','#d79297') : ''" [ngClass]="canUseSymbol('favorite','#d79297')"></mat-icon>
+            <mat-icon [style.color]="'#9ad5ec'" fontIcon="diamond" (click)="canUseSymbol('diamond','#9ad5ec') == 'enable' ? setSymbol('diamond','#9ad5ec') : ''" [ngClass]="canUseSymbol('diamond','#9ad5ec')"></mat-icon>
+            <mat-icon [style.color]="'#e9ec54'" fontIcon="star" (click)="canUseSymbol('star','#e9ec54') == 'enable' ? setSymbol('star','#e9ec54') : ''" [ngClass]="canUseSymbol('star','#e9ec54')"></mat-icon>
+            <mat-icon [style.color]="'#f5cee3'" fontIcon="hexagon" (click)="canUseSymbol('hexagon','#f5cee3') == 'enable' ? setSymbol('hexagon','#f5cee3') : ''" [ngClass]="canUseSymbol('hexagon','#f5cee3')"></mat-icon>
+            <mat-icon [style.color]="'#d3d2d2'" fontIcon="add" (click)="canUseSymbol('add','#d3d2d2') == 'enable' ? setSymbol('add','#d3d2d2') : ''" [ngClass]="canUseSymbol('add','#d3d2d2')"></mat-icon>
+            <mat-icon [style.color]="'#9ad5ec'" fontIcon="circle" (click)="canUseSymbol('circle','#9ad5ec') == 'enable' ? setSymbol('circle','#9ad5ec') : ''" [ngClass]="canUseSymbol('circle','#9ad5ec')"></mat-icon>
+            <mat-icon [style.color]="'#b6cc87'" fontIcon="eco" (click)="canUseSymbol('eco','#b6cc87') == 'enable' ? setSymbol('eco','#b6cc87') : ''" [ngClass]="canUseSymbol('eco','#b6cc87')"></mat-icon>
+            <mat-icon [style.color]="'#d0bbdb'" fontIcon="play_arrow" (click)="canUseSymbol('play_arrow','#d0bbdb') == 'enable' ? setSymbol('play_arrow','#d0bbdb') : ''" [ngClass]="canUseSymbol('play_arrow','#d0bbdb')"></mat-icon>
+            <mat-icon [style.color]="'#8b7e64'" fontIcon="remove" (click)="canUseSymbol('remove','#8b7e64') == 'enable' ? setSymbol('remove','#8b7e64') : ''" [ngClass]="canUseSymbol('remove','#8b7e64')"></mat-icon>
         </div>
         <div class="piece-symbolchoice-symbols">
-            <mat-icon [style.color]="'#d79297'" fontIcon="square" (click)="setSymbol('square','#d79297')"></mat-icon>
-            <mat-icon [style.color]="'#9ad5ec'" fontIcon="square" (click)="setSymbol('square','#9ad5ec')"></mat-icon>
-            <mat-icon [style.color]="'#e9ec54'" fontIcon="square" (click)="setSymbol('square','#e9ec54')"></mat-icon>
-            <mat-icon [style.color]="'#f5cee3'" fontIcon="square" (click)="setSymbol('square','#f5cee3')"></mat-icon>
-            <mat-icon [style.color]="'#d3d2d2'" fontIcon="square" (click)="setSymbol('square','#d3d2d2')"></mat-icon>
-            <mat-icon [style.color]="'#9ad5ec'" fontIcon="square" (click)="setSymbol('square','#9ad5ec')"></mat-icon>
-            <mat-icon [style.color]="'#b6cc87'" fontIcon="square" (click)="setSymbol('square','#b6cc87')"></mat-icon>
-            <mat-icon [style.color]="'#d0bbdb'" fontIcon="square" (click)="setSymbol('square','#d0bbdb')"></mat-icon>
-            <mat-icon [style.color]="'#8b7e64'" fontIcon="square" (click)="setSymbol('square','#8b7e64')"></mat-icon>
+            <mat-icon [style.color]="'#d79297'" fontIcon="square" (click)="canUseSymbol('square','#d79297') == 'enable' ? setSymbol('square','#d79297') : ''" [ngClass]="canUseSymbol('square','#d79297')"></mat-icon>
+            <mat-icon [style.color]="'#9ad5ec'" fontIcon="square" (click)="canUseSymbol('square','#9ad5ec') == 'enable' ? setSymbol('square','#9ad5ec') : ''" [ngClass]="canUseSymbol('square','#9ad5ec')"></mat-icon>
+            <mat-icon [style.color]="'#e9ec54'" fontIcon="square" (click)="canUseSymbol('square','#e9ec54') == 'enable' ? setSymbol('square','#e9ec54') : ''" [ngClass]="canUseSymbol('square','#e9ec54')"></mat-icon>
+            <mat-icon [style.color]="'#f5cee3'" fontIcon="square" (click)="canUseSymbol('square','#f5cee3') == 'enable' ? setSymbol('square','#f5cee3') : ''" [ngClass]="canUseSymbol('square','#f5cee3')"></mat-icon>
+            <mat-icon [style.color]="'#d3d2d2'" fontIcon="square" (click)="canUseSymbol('square','#d3d2d2') == 'enable' ? setSymbol('square','#d3d2d2') : ''" [ngClass]="canUseSymbol('square','#d3d2d2')"></mat-icon>
+            <mat-icon [style.color]="'#9ad5ec'" fontIcon="square" (click)="canUseSymbol('square','#9ad5ec') == 'enable' ? setSymbol('square','#9ad5ec') : ''" [ngClass]="canUseSymbol('square','#9ad5ec')"></mat-icon>
+            <mat-icon [style.color]="'#b6cc87'" fontIcon="square" (click)="canUseSymbol('square','#b6cc87') == 'enable' ? setSymbol('square','#b6cc87') : ''" [ngClass]="canUseSymbol('square','#b6cc87')"></mat-icon>
+            <mat-icon [style.color]="'#d0bbdb'" fontIcon="square" (click)="canUseSymbol('square','#d0bbdb') == 'enable' ? setSymbol('square','#d0bbdb') : ''" [ngClass]="canUseSymbol('square','#d0bbdb')"></mat-icon>
+            <mat-icon [style.color]="'#8b7e64'" fontIcon="square" (click)="canUseSymbol('square','#8b7e64') == 'enable' ? setSymbol('square','#8b7e64') : ''" [ngClass]="canUseSymbol('square','#8b7e64')"></mat-icon>
         </div>
     </div>
 
@@ -82,18 +82,17 @@
         <div class="piece-prerequires-prerequires">
             <label class="piece-prerequires-title">{{'task_prerequire_antecedents_title' | translate}}</label>
             <div class="piece-prerequires-form">
-                <div style="text-align: center;" *ngIf="j == 0">{{'task_prerequire_antecedents_err1' | translate}}</div>
                 <ng-container *ngIf="hasPossibleAntecedents()">
                     <ng-container *ngFor="let inlineTask of role.tasks">
                         <ng-container *ngFor="let element of inlineTask; let index = index">
-                            <div class="piece-prerequires-prerequires-element" *ngIf="element?.identifier && (task.identifier != element?.identifier) && index < j">
+                            <div class="piece-prerequires-prerequires-element" *ngIf="element?.identifier && (task.identifier != element?.identifier) && element?.type != 'annexe'">
                                 <input name="antecedent" type="checkbox" [checked]="isCheckedTask(element)" (change)="checkboxChangedTask($event, element)"/>
                                 <label for="antecedent">{{element?.identifier}}</label>
                             </div>
                         </ng-container>
                     </ng-container>
                 </ng-container>
-                <div style="text-align: center;" *ngIf="!hasPossibleAntecedents() && j != 0">{{'task_prerequire_antecedents_err2' | translate}}</div>
+                <div style="text-align: center;" *ngIf="!hasPossibleAntecedents()">{{'task_prerequire_antecedents_err2' | translate}}</div>
             </div>
         </div>
         <div class="piece-prerequires-ressources">

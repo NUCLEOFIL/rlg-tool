@@ -176,6 +176,16 @@ export class FinalTaskComponent implements OnInit {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete_common',this.missionIndex,this.roleIndex,'symbol','Final_task_['+this.i+';'+this.j+']', '#B28386'));
     }
   }
+  
+  canUseSymbol(symbol: string, symbolColor: string): string {
+    let res: string = 'enable';
+      this.role.tasks.forEach(inlineTasks => {
+        if (inlineTasks.some(task => task?.symbol.symbol == symbol && task?.symbol.color == symbolColor)) {
+          res = 'disable';
+        }
+      });
+    return res;
+  }
 
   changeDisplayPrerequires(): void {
     if(this.displayPrequires == 'show') {
@@ -330,7 +340,7 @@ export class FinalTaskComponent implements OnInit {
   hasPossibleAntecedents(): boolean {
     let res = false;
     this.role.tasks.forEach(inlineTask => {
-      for(let i = 0; i < this.j; i++) {
+      for(let i = 0; i < inlineTask.length; i++) {
         if (inlineTask[i]?.identifier && (this.task.identifier != inlineTask[i]?.identifier)) {
           res = true;
         }

@@ -25,7 +25,7 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
         <img src="./assets/background-images/role2_opacity0.png" draggable="false" *ngIf="i == 1"/>
         <div class="piece-form-intitule">
             <label for="intitule">{{'role_intitule_label' | translate}}</label>
-            <input name="intitule" type="text" [(ngModel)]="role.intitule" (change)="editTrace($event,'name')" [placeholder]="translate.instant('role_intitule_placeholder')"
+            <input name="intitule" type="text" [(ngModel)]="role.intitule" (change)="editTrace($event,'name'); validTutorialPhase4();" [placeholder]="translate.instant('role_intitule_placeholder')"
             [matTooltip]="translate.instant('role_intitule_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>

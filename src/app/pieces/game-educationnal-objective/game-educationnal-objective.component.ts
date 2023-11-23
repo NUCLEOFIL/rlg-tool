@@ -51,7 +51,11 @@ export class GameEducationnalObjectiveComponent implements OnInit {
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Obj_g', '#BAC5D8'));
     }
-    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 3) {
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 3
+      && this.scenario.educationnalObjective.objective
+      && this.scenario.context.univers && this.scenario.context.support && this.scenario.context.duration && this.scenario.context.intrigue && this.scenario.context.other
+      && this.scenario.missions[0].context.duration && this.scenario.missions[0].context.intrigue && this.scenario.missions[0].context.communication && this.scenario.missions[0].context.various
+      && this.scenario.missions[0].educationnalObjective.objective) {
       this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }

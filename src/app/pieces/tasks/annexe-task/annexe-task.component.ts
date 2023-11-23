@@ -53,8 +53,10 @@ export class AnnexeTaskComponent implements OnInit {
     this.minimapService.reset();
     if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 9) {
       this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
-      this._snackBar.openFromComponent(FinishTutorialComponent, { duration: 5000 });
       this.tutorialService.validPhase();
+      if (this.tutorialService.isDone()) {
+        this._snackBar.openFromComponent(FinishTutorialComponent, { duration: 5000 });
+      }
     }
   }
   
@@ -330,7 +332,7 @@ export class AnnexeTaskComponent implements OnInit {
   hasPossibleAntecedents(): boolean {
     let res = false;
     this.role.tasks.forEach(inlineTask => {
-      for(let i = 0; i < this.j; i++) {
+      for(let i = 0; i < inlineTask.length; i++) {
         if (inlineTask[i]?.identifier && (this.task.identifier != inlineTask[i]?.identifier)) {
           res = true;
         }
