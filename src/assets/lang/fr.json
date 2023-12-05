@@ -20,6 +20,7 @@
     "download_tooltip": "Télécharger une sauvegarde du scénario.",
     "upload_tooltip": "Importer une sauvegarde du scénario.",
     "manual_tooltip": "Télécharger le manuel d'utilisation",
+    "verify_tooltip": "Vérifier le scénario",
     "lang_tooltip": "Changer la langue.",
 
     "snackbar_identifier": "Attention, cet identifiant est déjà utilisé dans ce Rôle",
@@ -318,5 +319,18 @@
     "tutorial_optionnal_occurence": "Occurence du Rôle",
     "tutorial_optionnalPhase_occurence": "Ceci permet de définir lorsque le nombre de joueur est supérieur au nombre de rôles, la répartition des joueurs au sein des différents rôles. Pour définir cela, cliquez sur une tuile Rôle.",
     "tutorial_optionnal_comments": "Commentaires",
-    "tutorial_optionnalPhase_comments": "Ceci permet d'ajouter tout élément qui vous semble important de préciser sur n'importe quelle tuile. Pour ajouter un commentaire, cliquez sur une tuile et les commentaires seront présents dans la barre latérale."
+    "tutorial_optionnalPhase_comments": "Ceci permet d'ajouter tout élément qui vous semble important de préciser sur n'importe quelle tuile. Pour ajouter un commentaire, cliquez sur une tuile et les commentaires seront présents dans la barre latérale.",
+
+    "verify_title": "Voici les informations de vérification de faisabilité de votre scénario :",
+    "verify_error": "Attention, vous n'avez pas saisi les mêmes unités de temps sur toutes les tâches, il est donc impossible de vérifier le scénario",
+    "verify_info_title": "Votre scénario est réalisable et équilibré si :",
+    "verify_info_content_part1": "- Il est possible pour tous les rôles ayant la même tâche commune d'y accéder au même moment. Par exemple si pour le Rôle 1 il faut entre 3 et 5 UT pour y accéder, et qu'il faut entre 4 et 6 UT pour le Rôle 2, alors la tâche est réalisable.",
+    "verify_info_content_part2": "- Tous les Rôles peuvent terminer leur quête en même temps (même nombre d'UT).",
+    "verify_role_symbol_part1": "met entre",
+    "verify_role_symbol_part2": "et",
+    "verify_role_symbol_part3": "pour accéder à la tâche commune",
+    "verify_role_part1": "La quête de",
+    "verify_role_part2": "met entre",
+    "verify_role_part3": "et",
+    "verify_leave_button": "OK"
 }

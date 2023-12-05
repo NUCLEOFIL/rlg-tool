@@ -1,0 +1,32 @@
+h1, h2, h3 {
+    font-family: 'Glacial Indifference Bold', sans-serif;
+}
+
+button {
+    margin-top: 20px;
+}
+
+mat-dialog-content {
+    font-size: 16px;
+}
+
+.info {
+    padding-bottom: 20px;
+    border-bottom: solid 1px black;
+}
+
+.mission {
+    margin-bottom: 50px;
+
+    &-symbol {
+        mat-icon {
+            position: relative;
+            top: 50%;
+            transform: translateY(40%); 
+        }
+    }
+    
+    &-role {
+        margin-top: 20px;
+    }
+}

@@ -20,6 +20,7 @@
     "download_tooltip": "Download a backup of the scenario.",
     "upload_tooltip": "Import a backup of the scenario.",
     "manual_tooltip": "Download the user manual (FR).",
+    "verify_tooltip": "Verify the scenario",
     "lang_tooltip": "Change the language.",
 
     "snackbar_identifier": "Attention, this identifier is already used in this Role.",
@@ -318,5 +319,18 @@
     "tutorial_optionnal_occurence": "Role Occurrence",
     "tutorial_optionnalPhase_occurence": "This allows you to define, when the number of players is greater than the number of roles, the distribution of players among the different roles. To define this, click on a Role tile.",
     "tutorial_optionnal_comments": "Comments",
-    "tutorial_optionnalPhase_comments": "This allows you to add any information you deem important to specify on any tile. To add a comment, click on a tile, and the comments will be present in the sidebar."
+    "tutorial_optionnalPhase_comments": "This allows you to add any information you deem important to specify on any tile. To add a comment, click on a tile, and the comments will be present in the sidebar.",
+
+    "verify_title": "Here are the feasibility verification details for your scenario:",
+    "verify_error": "Warning, you have not entered the same time units for all tasks, so it is impossible to verify the scenario",
+    "verify_info_title": "Your scenario is feasible and balanced if:",
+    "verify_info_content_part1": "- It is possible for all roles with the same common task to access it at the same time. For example, if Role 1 requires between 3 and 5 TU to access it, and Role 2 requires between 4 and 6 TU, then the task is achievable.",
+    "verify_info_content_part2": "- All roles can finish their quest at the same time (same number of TU).",
+    "verify_role_symbol_part1": "needs between",
+    "verify_role_symbol_part2": "and",
+    "verify_role_symbol_part3": "to acceed to the common task",
+    "verify_role_part1": "The quest of",
+    "verify_role_part2": "needs between",
+    "verify_role_part3": "and",
+    "verify_leave_button": "OK"
 }

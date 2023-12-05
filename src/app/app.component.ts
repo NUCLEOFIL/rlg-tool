@@ -37,6 +37,8 @@ import Minimap from 'js-minimap';
 import { MinimapService } from './services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from './services/tutorial/tutorial.service';
+import { VerifyGameFailSnackbarComponent } from './components/snackbars/verify-game-fail-snackbar/verify-game-fail-snackbar.component';
+import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -431,4 +433,39 @@ export class AppComponent {
   resumeTutorialTrace() {
     this.scenario.traces.push(new Trace(this.scenario.traces.length, 'resume_tutorial', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
   }
+
+  verifyIfAllDurationUnitAreSame(): boolean {
+    let res = true;
+    let durationUnit: string;
+    this.scenario.missions.forEach(mission => {
+      mission.roles.forEach(role => {
+        for (let i = 0; i < role.tasks.length; i++) {
+          for (let j = 0; j < role.tasks[i].length; j++) {
+            let task: Task|null = role.tasks[i][j];
+            if (task instanceof Task) {
+              if (durationUnit) {
+                if (durationUnit != task.durationUnit) {
+                  res = false;
+                }
+              } else {
+                durationUnit = task.durationUnit;
+              }
+            }
+          }
+        }
+      });
+    });
+    return res;
+  }
+
+  verifyGame(): void {
+    if (this.verifyIfAllDurationUnitAreSame()) {
+      const dialogRef = this.dialog.open(VerifyDialogComponent, {
+        data: this.scenario
+      });
+    } else {
+      this._snackBar.openFromComponent(VerifyGameFailSnackbarComponent, { duration: 10000 });
+    }
+  }
+
 }

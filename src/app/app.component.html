@@ -165,6 +165,9 @@
                 <div>{{'language_en' | translate}}</div>
             </button>
         </mat-menu>
+        <button mat-mini-fab color="white" (click)="verifyGame()"
+        [matTooltip]="translate.instant('verify_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="verified"></mat-icon></button>
         <button mat-mini-fab color="white" (click)="downloadManual()"
         [matTooltip]="translate.instant('manual_tooltip')"
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="menu_book"></mat-icon></button>

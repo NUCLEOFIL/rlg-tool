@@ -154,6 +154,7 @@ export class Role {
         return res;
     }
 
+    /*
     getRealIndex(i: number, j: number): number {
         let realj: number = 0;
         let index: number = 0;
@@ -178,8 +179,30 @@ export class Role {
                 index++;
             }
         }
-        
-        console.log(realj);
+        return realj;
+    }
+    */
+
+    getRealIndex(i: number, j: number): number {
+        let realj: number = 0;
+
+        for(let k = 0; k < j; k++) {
+            let task: Task|null = this.tasks[i][k];
+            if (task instanceof Task) {
+                if (task.durationUnit == 'UT') {
+                    if (task.duration <= 10) {
+                        realj += task.duration;
+                    } else {
+                        realj =+ 10;
+                    }
+                } else {
+                    realj++;
+                }
+            } else {
+                realj++;
+            }
+        }
+
         return realj;
     }
 
