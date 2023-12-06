@@ -50,6 +50,7 @@ import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { FinishTutorialComponent } from './components/snackbars/finish-tutorial/finish-tutorial.component';
 import { VerifyGameFailSnackbarComponent } from './components/snackbars/verify-game-fail-snackbar/verify-game-fail-snackbar.component';
 import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify-dialog.component';
+import { RoleNameDuplicateComponent } from './components/snackbars/role-name-duplicate/role-name-duplicate.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -91,7 +92,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TutorialComponent,
     FinishTutorialComponent,
     VerifyGameFailSnackbarComponent,
-    VerifyDialogComponent
+    VerifyDialogComponent,
+    RoleNameDuplicateComponent
   ],
   imports: [
     BrowserModule,

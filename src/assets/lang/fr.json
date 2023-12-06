@@ -26,6 +26,7 @@
     "snackbar_identifier": "Attention, cet identifiant est déjà utilisé dans ce Rôle",
     "snackbar_loading_fail": "Chargement du fichier échoué",
     "snackbar_loading_success": "Chargement du fichier réussi",
+    "snackbar_roleName": "Attention, cet intitulé est déjà utilisé dans cette Mission",
 
     "siderTitle_game": "Jeu",
     "siderTitle_mission": "Mission",

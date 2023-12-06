@@ -26,6 +26,7 @@
     "snackbar_identifier": "Attention, this identifier is already used in this Role.",
     "snackbar_loading_fail": "File upload failed.",
     "snackbar_loading_success": "File upload successful.",
+    "snackbar_roleName": "Attention, this title is already used in this Mission",
 
     "siderTitle_game": "Game",
     "siderTitle_mission": "Mission",

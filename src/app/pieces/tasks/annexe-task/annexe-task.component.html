@@ -113,7 +113,7 @@
 
     <div class="piece-form">
         <div class="piece-form-top">
-            <input class="piece-form-top-identifier" name="identifier" type="text" [value]="task.identifier" (change)="changeIdentifier($event)" placeholder="A" min="1" maxlength="5"
+            <input class="piece-form-top-identifier" name="identifier" type="text" [(ngModel)]="task.identifier" (change)="changeIdentifier($event)" placeholder="A" min="1" maxlength="5"
             [matTooltip]="translate.instant('task_identifier_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
             <div class="piece-form-top-title">{{'annexeTask_title' | translate}}</div> 

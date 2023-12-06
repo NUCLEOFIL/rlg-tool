@@ -21,6 +21,8 @@ import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { RoleNameDuplicateComponent } from 'src/app/components/snackbars/role-name-duplicate/role-name-duplicate.component';
 
 @Component({
   selector: 'app-role',
@@ -35,7 +37,7 @@ export class RoleComponent implements OnInit {
   @Input() i: number = 0;
   @Input() missionIndex: number = 0;
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService, private _snackBar: MatSnackBar,) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -292,5 +294,15 @@ export class RoleComponent implements OnInit {
       this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }
+  }
+
+  changeIntitule(event: any): void {
+    this.mission.roles.forEach(role => {
+      if (role != this.role && role.intitule == this.role.intitule) {
+        this._snackBar.openFromComponent(RoleNameDuplicateComponent, { duration: 5000 });
+        this.role.intitule = '';
+      }
+    });
+    this.editTrace(event, 'name');
   }
 }
