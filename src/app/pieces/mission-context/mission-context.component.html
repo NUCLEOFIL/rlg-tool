@@ -19,7 +19,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
     </div>
 
     <div class="piece-form">
-        <div class="piece-form-title">{{'missionContext_title' | translate}} {{i+1}}</div>
+        <div class="piece-form-title">{{'missionContext_title_part1' | translate}} {{i+1}}{{'missionContext_title_part2' | translate}}</div>
         <div class="piece-form-duration">
             <label for="duration">{{'missionContext_duration_label' | translate}}</label>
             <input name="duration" type="text" [(ngModel)]="missionContext.duration" (change)="editTrace($event, 'Duration_m')" [placeholder]="translate.instant('missionContext_duration_placeholder')"

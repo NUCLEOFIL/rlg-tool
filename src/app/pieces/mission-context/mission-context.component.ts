@@ -50,7 +50,7 @@ export class MissionContextComponent implements OnInit {
   }
 
   onClickErase(): void {
-    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('missionContext_clean')+' '+(this.i+1) });
+    const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('missionContext_clean_part1')+' '+(this.i+1)+this.translate.instant('missionContext_clean_part2') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.missionContext.duration = '';
