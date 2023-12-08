@@ -23,6 +23,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RoleNameDuplicateComponent } from 'src/app/components/snackbars/role-name-duplicate/role-name-duplicate.component';
+import { CopyRoleService } from 'src/app/services/copyRole/copy-role.service';
+import { Task } from 'src/app/class/task/task';
+import { CopyRoleSuccessComponent } from 'src/app/components/snackbars/copy-role-success/copy-role-success.component';
 
 @Component({
   selector: 'app-role',
@@ -37,7 +40,7 @@ export class RoleComponent implements OnInit {
   @Input() i: number = 0;
   @Input() missionIndex: number = 0;
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService, private _snackBar: MatSnackBar,) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService, private _snackBar: MatSnackBar, protected copyRoleService: CopyRoleService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -62,6 +65,28 @@ export class RoleComponent implements OnInit {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,this.i,'all','Role_['+(this.mission.roles.length-1)+']','#9AD5EC'));
       }
     });
+  }
+
+  onClickCopy(): void {
+    this.copyRoleService.role = Object.assign({}, this.role);
+    this.copyRoleService.role.questName = '';
+    this.copyRoleService.role.description = '';
+    this.copyRoleService.role.educationnalObjectives = [];
+    this.copyRoleService.role.rewards = [];
+    this.copyRoleService.role.ressources = this.role.ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
+    this.copyRoleService.role.supplementaryRoles = this.role.supplementaryRoles.map((supplementaryRoleData: any) => Object.assign(new SupplementaryRole(), supplementaryRoleData));
+    this.copyRoleService.role.tasks = [[new Task('normal')], []];
+    this.copyRoleService.role.chronologie = [];
+    this.copyRoleService.mission = this.mission;
+    this._snackBar.openFromComponent(CopyRoleSuccessComponent, { duration: 5000 });
+  }
+
+  onClickPaste(): void {
+    this.role = Object.assign({}, this.copyRoleService.role);
+    this.role.ressources = (this.copyRoleService.role as Role).ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
+    this.role.supplementaryRoles = (this.copyRoleService.role as Role).supplementaryRoles.map((supplementaryRoleData: any) => Object.assign(new SupplementaryRole(), supplementaryRoleData));
+    this.role.tasks = [[new Task('normal')], []];
+    this.intituleIsAlreadyUsed();
   }
 
   onClickErase(): void {
@@ -296,13 +321,12 @@ export class RoleComponent implements OnInit {
     }
   }
 
-  changeIntitule(event: any): void {
+  intituleIsAlreadyUsed(): void {
     this.mission.roles.forEach(role => {
       if (role != this.role && role.intitule == this.role.intitule) {
         this._snackBar.openFromComponent(RoleNameDuplicateComponent, { duration: 5000 });
         this.role.intitule = '';
       }
     });
-    this.editTrace(event, 'name');
   }
 }

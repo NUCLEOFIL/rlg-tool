@@ -153,6 +153,9 @@
     "role_supplementaryRole_rule_label": "Rules",
     "role_supplementaryRole_rule_tooltip": "Rules specific to this role (does it have any constraints or additional rights or access?)",
     "role_supplementaryRole_delete": "this Additional role",
+    "role_copy_tooltip": "Copy the content",
+    "role_copy_snackbar": "Role copied, go to another mission to paste it.",
+    "role_paste_tooltip": "Paste the content",
 
     "steps_mission": "Chronology of the mission",
     "steps_role": "Chronology of the role",
