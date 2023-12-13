@@ -63,7 +63,7 @@ export class Role {
             this.tasks[i][j + 1] = tmp;
         } else if (direction == 'top') {
             if (!(this.tasks[i - 1].some(element => element instanceof Task))) {
-                this.tasks[i - 1][j] = tmp;
+                this.tasks[i - 1][this.getRealIndex(i,j)] = tmp;
                 this.tasks[i][j] = null;
             } else if (this.tasks[i - 1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
                 if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
@@ -101,7 +101,7 @@ export class Role {
                 this.tasks[i + 2] = [];
             }
             if (!(this.tasks[i + 1].some(element => element instanceof Task))) {
-                this.tasks[i + 1][j] = tmp;
+                this.tasks[i + 1][this.getRealIndex(i,j)] = tmp;
                 this.tasks[i][j] = null;
             } else if (this.tasks[i + 1].some(element => element?.type == 'final' || element?.type == 'repeat')) {
                 if (this.tasks[i][j]?.type == 'final' || this.tasks[i][j]?.type == 'repeat') {
@@ -154,38 +154,8 @@ export class Role {
         return res;
     }
 
-    /*
     getRealIndex(i: number, j: number): number {
         let realj: number = 0;
-        let index: number = 0;
-        
-        while (index < j) {
-            let task: Task|null = this.tasks[i][index];
-            if (task instanceof Task) {
-                if (task.durationUnit == 'UT') {
-                    if (task.duration <= 10) {
-                        index = index+task.duration;
-                        realj++;
-                    } else {
-                        index = index + 10;
-                        realj++;
-                    }
-                } else {
-                    realj++;
-                    index++;
-                }
-            } else {
-                realj++;
-                index++;
-            }
-        }
-        return realj;
-    }
-    */
-
-    getRealIndex(i: number, j: number): number {
-        let realj: number = 0;
-
         for(let k = 0; k < j; k++) {
             let task: Task|null = this.tasks[i][k];
             if (task instanceof Task) {
@@ -202,7 +172,6 @@ export class Role {
                 realj++;
             }
         }
-
         return realj;
     }
 
