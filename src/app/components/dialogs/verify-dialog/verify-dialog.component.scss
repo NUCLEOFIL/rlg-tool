@@ -24,6 +24,10 @@ mat-dialog-content {
             top: 50%;
             transform: translateY(40%); 
         }
+
+        &-error {
+            color: rgb(202, 0, 0)
+        }
     }
     
     &-role {

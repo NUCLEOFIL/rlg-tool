@@ -180,4 +180,48 @@ export class VerifyDialogComponent implements OnInit {
     }
     return durationUnit;
   }
+
+  getSymbolMaxOfMin(mission: Mission,symbol: Symbol): number {
+    let time: number = 0;
+
+    mission.roles.forEach((role, roleIndex) => {
+      this.getRoleSymbolsAndIndex(mission).forEach(symbol2 => {
+        if(this.getAsSymbol(symbol2[0]).symbol == symbol.symbol && this.getAsSymbol(symbol2[0]).color == symbol.color && this.verifyRoleSymbolsMax(role,roleIndex,symbol2)) {
+          let tmp: number = this.verifyRoleSymbolsMin(role,roleIndex,symbol2);
+          if (time == 0 || time < tmp) {
+            time = tmp;
+          }
+        }  
+      });
+    });
+    return time;
+  }
+
+  getSymbolMinOfMax(mission: Mission, symbol: Symbol): number {
+    let time: number = 0;
+
+    mission.roles.forEach((role, roleIndex) => {
+      this.getRoleSymbolsAndIndex(mission).forEach(symbol2 => {
+        if(this.getAsSymbol(symbol2[0]).symbol == symbol.symbol && this.getAsSymbol(symbol2[0]).color == symbol.color && this.verifyRoleSymbolsMax(role,roleIndex,symbol2)) {
+          let tmp: number = this.verifyRoleSymbolsMax(role,roleIndex,symbol2);
+          if (time == 0 || time > tmp) {
+            time = tmp;
+          }
+        }  
+      });
+    });
+    return time; 
+  }
+
+  getNumberOfSymbol(mission: Mission, symbol: Symbol): number {
+    let number: number = 0;
+    mission.roles.forEach((role, roleIndex) => {
+      this.getRoleSymbolsAndIndex(mission).forEach(symbol2 => {
+        if (this.getAsSymbol(symbol2[0]).symbol == symbol.symbol && this.getAsSymbol(symbol2[0]).color == symbol.color && this.verifyRoleSymbolsMax(role,roleIndex,symbol2)) {
+          number = number + 1;
+        }
+      });
+    });
+    return number;
+  }
 }

@@ -86,7 +86,9 @@ export class RoleComponent implements OnInit {
     this.role.ressources = (this.copyRoleService.role as Role).ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
     this.role.supplementaryRoles = (this.copyRoleService.role as Role).supplementaryRoles.map((supplementaryRoleData: any) => Object.assign(new SupplementaryRole(), supplementaryRoleData));
     this.role.tasks = [[new Task('normal')], []];
+    this.role.educationnalObjectives = [new RoleEducationnalObjective()];
     this.intituleIsAlreadyUsed();
+    this.minimapService.reset();
   }
 
   onClickErase(): void {

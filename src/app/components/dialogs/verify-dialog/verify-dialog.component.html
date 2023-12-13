@@ -1,28 +1,3 @@
-<!--
-<h2 mat-dialog-title>{{'dialog_clear_title' | translate}}</h2>
-<mat-dialog-content>{{'dialog_clear_content' | translate}}  ?</mat-dialog-content>
-<mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>{{'dialog_button_no' | translate}}</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'dialog_button_yes' | translate}}</button>
-</mat-dialog-actions>
--->
-<!--
-<mat-dialog-content>
-    <div *ngFor="let mission of scenario.missions, let missionIndex = index">
-        <div *ngFor="let symbol of getMissionSymbols(mission), let symbolIndex = index">
-            <div *ngFor="let role of mission.roles, let roleIndex = index">
-                <div *ngIf="verifyRoleSymbolsMax(role,roleIndex,symbol) > 0">
-                    min{{verifyRoleSymbolsMin(role,roleIndex,symbol)}} max{{verifyRoleSymbolsMax(role,roleIndex,symbol)}}
-                    <mat-icon [fontIcon]="getAsSymbol(symbol[0]).symbol" [style.color]="getAsSymbol(symbol[0]).color"></mat-icon>
-                </div>
-            </div>
-        </div>
-        <div *ngFor="let role of mission.roles, let roleIndex = index">
-            min{{verifyRolesMin(role)}} max{{verifyRoleMax(role)}}
-        </div>
-    </div>    
-</mat-dialog-content>
--->
 <h1 mat-dialog-title>{{'verify_title' | translate}}</h1>
 <mat-dialog-content>
     <div class="info">
@@ -35,15 +10,18 @@
             <div *ngFor="let role of mission.roles, let roleIndex = index">
                 <div *ngFor="let symbol2 of getRoleSymbolsAndIndex(mission)">
                     <p *ngIf="getAsSymbol(symbol2[0]).symbol == symbol.symbol && getAsSymbol(symbol2[0]).color == symbol.color && verifyRoleSymbolsMax(role,roleIndex,symbol2)">
-                        [{{getRoleName(missionIndex,roleIndex)}}] {{'verify_role_symbol_part1' | translate}} [{{verifyRoleSymbolsMin(role,roleIndex,symbol2)}} {{getDurationUnit()}}] {{'verify_role_symbol_part2' | translate}} [{{verifyRoleSymbolsMax(role,roleIndex,symbol2)}} {{getDurationUnit()}}]
-                        {{'verify_role_symbol_part3' | translate}} [<mat-icon [fontIcon]="getAsSymbol(symbol2[0]).symbol" [style.color]="getAsSymbol(symbol2[0]).color"></mat-icon>]
+                        {{getRoleName(missionIndex,roleIndex)}} {{'verify_role_symbol_part1' | translate}} {{verifyRoleSymbolsMin(role,roleIndex,symbol2)}} {{getDurationUnit()}} {{'verify_role_symbol_part2' | translate}} {{verifyRoleSymbolsMax(role,roleIndex,symbol2)}} {{getDurationUnit()}}
+                        {{'verify_role_symbol_part3' | translate}} <mat-icon [fontIcon]="getAsSymbol(symbol2[0]).symbol" [style.color]="getAsSymbol(symbol2[0]).color"></mat-icon>
                     </p>
                 </div>
             </div>
+            <p *ngIf="getSymbolMaxOfMin(mission,symbol) <= getSymbolMinOfMax(mission,symbol) && getNumberOfSymbol(mission,symbol) != 1">{{'verify_role_symbol_recap_part1' | translate}} <mat-icon [fontIcon]="symbol.symbol" [style.color]="symbol.color"></mat-icon> {{'verify_role_symbol_recap_part2' | translate}} {{getSymbolMaxOfMin(mission,symbol)}} {{'verify_role_symbol_recap_part3' | translate}} {{getSymbolMinOfMax(mission,symbol)}} {{getDurationUnit()}}</p>
+            <p class="mission-symbol-error" *ngIf="getSymbolMaxOfMin(mission,symbol) > getSymbolMinOfMax(mission,symbol) && getNumberOfSymbol(mission,symbol) != 1">{{'verify_role_symbol_recap_error1_part1' | translate}} <mat-icon [fontIcon]="symbol.symbol" [style.color]="symbol.color"></mat-icon> {{'verify_role_symbol_recap_error1_part2' | translate}}</p>
+            <p class="mission-symbol-error" *ngIf="getNumberOfSymbol(mission,symbol) == 1">{{'verify_role_symbol_recap_error2' | translate}} <mat-icon [fontIcon]="symbol.symbol" [style.color]="symbol.color"></mat-icon></p>
         </div>
         <div class="mission-role">
             <p *ngFor="let role of mission.roles, let roleIndex = index">
-                {{'verify_role_part1' | translate}} [{{getRoleName(missionIndex,roleIndex)}}] {{'verify_role_part2' | translate}} [{{verifyRolesMin(role)}} {{getDurationUnit()}}] {{'verify_role_part3' | translate}} [{{verifyRoleMax(role)}} {{getDurationUnit()}}]
+                {{'verify_role_part1' | translate}} {{getRoleName(missionIndex,roleIndex)}} {{'verify_role_part2' | translate}} {{verifyRolesMin(role)}} {{getDurationUnit()}} {{'verify_role_part3' | translate}} {{verifyRoleMax(role)}} {{getDurationUnit()}}
             </p>            
         </div>
 
