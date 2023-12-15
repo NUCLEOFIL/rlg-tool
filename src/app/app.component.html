@@ -129,49 +129,69 @@
         
     </div>
 
-    <div class="container-settings">
-        <div class="container-settings-mode"
-        [matTooltip]="translate.instant('unity_tooltip')"
-        matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedTooltips"
-        [style.background-color]="'lightgray'">
-            <input name="unity" type="checkbox" disabled/>
-            <label for="unity">{{'unity_label' | translate}}</label>
-        </div>
-        <div class="container-settings-mode"
-        [matTooltip]="translate.instant('enableHelp_tooltip')"
-        matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-            <input name="tooltip" type="checkbox" [(ngModel)]="tooltipService.activatedTooltips" (change)="tooltipsTrace($event)"/>
-            <label for="tooltip">{{'enableHelp_label' | translate}}</label>
-        </div>
-        <button mat-mini-fab color="white" (click)="downloadFile()"
-        [matTooltip]="translate.instant('download_tooltip')"
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="download_file"></mat-icon></button>
-        <button mat-mini-fab color="white" (click)="selectFile()"
-        [matTooltip]="translate.instant('upload_tooltip')"
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="upload-file"></mat-icon></button>
-        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)"> 
-    </div>
-    <div class="container-settings container-settings-secondline">
-        <button mat-mini-fab color="white" style="font-size: 20px;" [matMenuTriggerFor]="changeLanguageMenu"
-        [matTooltip]="translate.instant('lang_tooltip')"
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><img class="langIcon" [src]="'./assets/lang/icons/'+selectedLang+'.png'"></button>
-        <mat-menu #changeLanguageMenu="matMenu">
-            <button mat-menu-item class="buttonLang" (click)="changeLanguage('fr')">
-                <img class="langIcon" src="./assets/lang/icons/fr.png"/>
-                <div>{{'language_fr' | translate}}</div>
+    <div class="container-settings-button">
+        <button mat-mini-fab color="white" [matMenuTriggerFor]="settingsMenu"            
+        [matTooltip]="translate.instant('settingsMenu_tooltip')"
+        matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            <mat-icon fontIcon="menu"></mat-icon>
+        </button>
+        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)">
+        <mat-menu class="container-settings" #settingsMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="downloadFile()"
+            [matTooltip]="translate.instant('download_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="download_file"></mat-icon>
+                <span>{{'download_label' | translate}}</span>
             </button>
-            <button mat-menu-item class="buttonLang" (click)="changeLanguage('en')">
-                <img class="langIcon langIcon-icon" src="./assets/lang/icons/en.png"/>
-                <div>{{'language_en' | translate}}</div>
+            <button mat-menu-item (click)="selectFile()"
+            [matTooltip]="translate.instant('upload_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="upload-file"></mat-icon>
+                <span>{{'upload_label' | translate}}</span>
+            </button>
+            <span mat-menu-item (click)="tooltipService.activatedTooltips = !tooltipService.activatedTooltips; tooltipsTrace($event)"
+            [matTooltip]="translate.instant('enableHelp_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <input name="tooltip" type="checkbox" [(ngModel)]="tooltipService.activatedTooltips"/>
+                <label for="tooltip">{{'enableHelp_label' | translate}}</label>
+            </span>
+            <button mat-menu-item (click)="verifyGame()"
+            [matTooltip]="translate.instant('verify_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="verified"></mat-icon>
+                <span>{{'verify_label' | translate}}</span>
+            </button>
+            <button mat-menu-item (click)="downloadManual()"
+            [matTooltip]="translate.instant('manual_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="menu_book"></mat-icon>
+                <span>{{'manual_label' | translate}}</span>
+            </button>
+            <button mat-menu-item [matMenuTriggerFor]="changeLanguageMenu"
+            [matTooltip]="translate.instant('lang_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <img class="langIcon" [src]="'./assets/lang/icons/'+selectedLang+'.png'"/>
+                <span>{{'lang_label' | translate}}</span>
+            </button>
+            <span mat-menu-item disabled
+            [matTooltip]="translate.instant('unity_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <input name="unity" type="checkbox"/>
+                <label for="unity">{{'unity_label' | translate}}</label>
+            </span>
+        </mat-menu>
+        <mat-menu #changeLanguageMenu="matMenu">
+            <button mat-menu-item (click)="changeLanguage('fr')">
+                <img class="langIcon" src="./assets/lang/icons/fr.png"/>
+                <span>{{'language_fr' | translate}}</span>
+            </button>
+            <button mat-menu-item (click)="changeLanguage('en')">
+                <img class="langIcon" src="./assets/lang/icons/en.png"/>
+                <span>{{'language_en' | translate}}</span>
             </button>
         </mat-menu>
-        <button mat-mini-fab color="white" (click)="verifyGame()"
-        [matTooltip]="translate.instant('verify_tooltip')"
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="verified"></mat-icon></button>
-        <button mat-mini-fab color="white" (click)="downloadManual()"
-        [matTooltip]="translate.instant('manual_tooltip')"
-        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="menu_book"></mat-icon></button>
     </div>
+
     <div class="container-minimap"></div>
     <div class="container-zoom">
         <button mat-mini-fab color="white" (click)="zoomIn()"
