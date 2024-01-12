@@ -135,7 +135,7 @@ export class AppComponent {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'GuideMaker_v2.2.pdf';
+      a.download = 'GuideMaker_v2.3.pdf';
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
