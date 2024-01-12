@@ -28,6 +28,8 @@
     "verify_tooltip": "Verify the scenario",
     "lang_label": "Change the language",
     "lang_tooltip": "Change the language.",
+    "legal_label": "Credits & Legal notices",
+    "legal_tooltip": "Consult credits and legal notices",
 
     "snackbar_identifier": "Attention, this identifier is already used in this Role.",
     "snackbar_loading_fail": "File upload failed.",
@@ -350,5 +352,22 @@
     "verify_role_part1": "The quest of",
     "verify_role_part2": "needs between",
     "verify_role_part3": "and",
-    "verify_leave_button": "OK"
+    "verify_leave_button": "OK",
+
+    "legals_close": "Close",
+    "legals_publicationDirector_title": "Publication Director",
+    "legals_publicationDirector_content": "Alain Schmitt",
+    "legals_webManager_title": "Web Manager",
+    "legals_webManager_content": "Gaëlle Guigon",
+    "legals_editor_title": "Editor",
+    "legals_editor_content": "Engineering and Educational Resources Department\nEmail: innovation-pedagogique@imt-nord-europe.fr",
+    "legals_host_title": "Host",
+    "legals_host_content": "This site is hosted by IMT Nord Europe",
+    "legals_dysfunction_title": "Dysfunction and viruses.",
+    "legals_dysfunction_content": "IMT Nord Europe cannot be held responsible for direct or indirect damages, losses, or expenses resulting from the use of this website, or the inability of a third party to use it, or from a malfunction, interruption, virus, or a problem with the line or system.",
+    "legals_credits_title": "Credits",
+    "legals_credits_content1": "The texts on this site are licensed under CC-BY-NC-SA (Creative Commons with permission for use under the conditions of attribution, non-commercial use, and sharing under the same initial terms).\n\nIcons created by max.icons and Freepik, sourced from: www.flaticon.com and are licensed under CC-BY 3.0.\n\nDevelopment: Romain Deleau\n\nWeb design: Gaëlle Guigon\n\nThese works are part of the Nucléofil project, funded by the government as part of the recovery plan.",
+    "legals_credits_content2": "Additionally, they are the subject of a doctoral thesis at Sorbonne Université (at LIP6 in the team MOCAH), in collaboration with IMT Nord Europe.",
+    "legals_cookies_title": "Cookies",
+    "legals_cookies_content": "We do not record any cookies and do not save any personal data!"
 }

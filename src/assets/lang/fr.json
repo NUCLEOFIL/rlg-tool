@@ -28,6 +28,8 @@
     "verify_tooltip": "Vérifier le scénario",
     "lang_label": "Changer la langue",
     "lang_tooltip": "Changer la langue.",
+    "legal_label": "Crédits & Mentions légales",
+    "legal_tooltip": "Consulter les crédits et mentions légales",
 
     "snackbar_identifier": "Attention, cet identifiant est déjà utilisé dans ce Rôle",
     "snackbar_loading_fail": "Chargement du fichier échoué",
@@ -350,5 +352,22 @@
     "verify_role_part1": "La quête de",
     "verify_role_part2": "met entre",
     "verify_role_part3": "et",
-    "verify_leave_button": "OK"
+    "verify_leave_button": "OK",
+
+    "legals_close": "Fermer",
+    "legals_publicationDirector_title": "Directeur de publication",
+    "legals_publicationDirector_content": "Alain Schmitt",
+    "legals_webManager_title": "Responsable Web",
+    "legals_webManager_content": "Gaëlle Guigon",
+    "legals_editor_title": "Éditeur",
+    "legals_editor_content": "Pôle Ingénierie et Ressources Pédagogiques d'IMT Nord Europe\nEmail : innovation-pedagogique@imt-nord-europe.fr",
+    "legals_host_title": "Hébergeur",
+    "legals_host_content": "Ce site est hébergé par IMT Nord Europe.",
+    "legals_dysfunction_title": "Dysfonctionnement et virus",
+    "legals_dysfunction_content": "IMT Nord Europe ne peut être tenue pour responsable de dommages directs ou indirects, pertes ou frais, résultant de l'utilisation de ce site web, ou de l'impossibilité pour un tiers de l'utiliser, ou d'un mauvais fonctionnement, d'une interruption, d'un virus, ou encore d'un problème de ligne ou de système.",
+    "legals_credits_title": "Crédits",
+    "legals_credits_content1": "Les textes de ce site sont sous licence CC-BY-NC-SA (Creative Commons avec autorisation d'utilisation sous condition d'attribution de paternité, d'usage non commercial, et de conditions de partage identiques aux initiales).\n\nIcônes réalisées par max.icons et Freepik, provenant de : www.flaticon.com et sont sous la licence CC-BY 3.0.\n\nDéveloppement : Romain Deleau\n\nWebdesign : Gaëlle Guigon\n\nCes travaux s'inscrivent dans le projet Nucléofil, financé par le gouvernement dans le cadre du plan de relance.",
+    "legals_credits_content2": "De plus, ils font l'objet d'un travail de doctorat à Sorbonne Université (au LIP6 dans l'équipe MOCAH), en collaboration avec IMT Nord Europe.",
+    "legals_cookies_title": "Cookies",
+    "legals_cookies_content": "Nous n'enregistrons aucun cookie et ne sauvegardons aucune donnée personnelle !"
 }

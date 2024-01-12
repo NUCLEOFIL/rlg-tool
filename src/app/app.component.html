@@ -173,12 +173,18 @@
                 <img class="langIcon" [src]="'./assets/lang/icons/'+selectedLang+'.png'"/>
                 <span>{{'lang_label' | translate}}</span>
             </button>
-            <span mat-menu-item disabled
+            <button mat-menu-item disabled
             [matTooltip]="translate.instant('unity_tooltip')"
             matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <input name="unity" type="checkbox"/>
                 <label for="unity">{{'unity_label' | translate}}</label>
-            </span>
+            </button>
+            <button mat-menu-item (click)="consultLegals()"
+            [matTooltip]="translate.instant('legal_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="attribution"></mat-icon>
+                <span>{{'legal_label' | translate}}</span>
+            </button>
         </mat-menu>
         <mat-menu #changeLanguageMenu="matMenu">
             <button mat-menu-item (click)="changeLanguage('fr')">

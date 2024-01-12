@@ -52,6 +52,7 @@ import { VerifyGameFailSnackbarComponent } from './components/snackbars/verify-g
 import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify-dialog.component';
 import { RoleNameDuplicateComponent } from './components/snackbars/role-name-duplicate/role-name-duplicate.component';
 import { CopyRoleSuccessComponent } from './components/snackbars/copy-role-success/copy-role-success.component';
+import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -95,7 +96,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     VerifyGameFailSnackbarComponent,
     VerifyDialogComponent,
     RoleNameDuplicateComponent,
-    CopyRoleSuccessComponent
+    CopyRoleSuccessComponent,
+    LegalDialogComponent
   ],
   imports: [
     BrowserModule,

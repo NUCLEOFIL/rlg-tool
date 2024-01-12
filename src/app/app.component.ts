@@ -39,6 +39,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from './services/tutorial/tutorial.service';
 import { VerifyGameFailSnackbarComponent } from './components/snackbars/verify-game-fail-snackbar/verify-game-fail-snackbar.component';
 import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify-dialog.component';
+import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -468,4 +469,9 @@ export class AppComponent {
     }
   }
 
+  consultLegals(): void {
+    const dialogRef = this.dialog.open(LegalDialogComponent, {
+      maxWidth: '50vw',
+    });
+  }
 }
