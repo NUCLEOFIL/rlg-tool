@@ -46,6 +46,10 @@ export class GameCharactersComponent implements OnInit {
               inlineTasks.forEach(task => {
                 if (task instanceof Task) {
                   task.characters = [];
+                  if (task.rewardType == 'character') {
+                    task.resetReward();
+                    task.rewardType = 'none';
+                  }
                 }
               });
             });
@@ -79,6 +83,10 @@ export class GameCharactersComponent implements OnInit {
                   let i: number | undefined = task?.characters.findIndex(character => character == this.scenario.characters[index]);
                   if (typeof i !== 'undefined' && i !== -1) {
                     task?.characters.splice(i, 1);
+                  }
+                  if (task?.rewardType == 'character') {
+                    task.resetReward();
+                    task.rewardType = 'none';
                   }
                 });
               });

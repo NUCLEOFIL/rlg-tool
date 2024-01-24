@@ -1,0 +1,65 @@
+.piece {
+    --piece-background-color: #cfe3b9;
+
+    width: 300px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    border: solid #707070 1px;
+    border-radius: 6px;
+
+    &-form {
+        margin: 10px 5px 10px 5px;
+        display: flex;
+        flex-direction: column;
+
+        &-title {
+            font-family: "Glacial Indifference Bold";
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 25px;
+            border: none;
+            border-radius: 10px;
+            padding: 5px 5px 5px 5px;
+        }
+        
+        select {
+            border-radius: 10px;
+            border: none;
+            background-color: white;
+            margin-left: 10px;
+            width: 230px;
+            padding: 5px 5px 5px 5px;
+        }
+
+        &-content {
+
+            &-type, &-name, &-object, &-character, &-skill {
+                margin-bottom: 5px;
+            }
+            
+            &-type, &-name, &-object {
+                display: flex;
+                justify-content: space-between;
+            }
+            
+            &-name {
+                input {
+                    width: 220px;
+                }
+            }
+
+            &-object, &-skill {
+                input {
+                    width: 40px;
+                }
+            }
+
+            &-character, &-skill {
+                display: flex;
+                justify-content: right;
+            }
+        }
+    }
+}

@@ -369,5 +369,17 @@
     "legals_credits_content1": "Les textes de ce site sont sous licence CC-BY-NC-SA (Creative Commons avec autorisation d'utilisation sous condition d'attribution de paternité, d'usage non commercial, et de conditions de partage identiques aux initiales).\n\nIcônes réalisées par max.icons et Freepik, provenant de : www.flaticon.com et sont sous la licence CC-BY 3.0.\n\nDéveloppement : Romain Deleau\n\nWebdesign : Gaëlle Guigon\n\nCes travaux s'inscrivent dans le projet Nucléofil, financé par le gouvernement dans le cadre du plan de relance.",
     "legals_credits_content2": "De plus, ils font l'objet d'un travail de doctorat à Sorbonne Université (au LIP6 dans l'équipe MOCAH), en collaboration avec IMT Nord Europe.",
     "legals_cookies_title": "Cookies",
-    "legals_cookies_content": "Nous n'enregistrons aucun cookie et ne sauvegardons aucune donnée personnelle !"
+    "legals_cookies_content": "Nous n'enregistrons aucun cookie et ne sauvegardons aucune donnée personnelle !",
+
+    "rewards_tooltip": "",
+    "rewards_title": "Résultat / Récompense",
+    "rewards_type_label": "Type",
+    "rewards_type_none": "Aucune",
+    "rewards_type_object": "Objet",
+    "rewards_type_character": "Contact du personnage",
+    "rewards_type_skill": "Compétence",
+    "rewards_name_label": "Nom",
+    "rewards_object_placeholder": "Nom de l'objet",
+    "rewards_character_placeholder": "Personnage",
+    "rewards_skill_placeholder": "Compétence"
 }

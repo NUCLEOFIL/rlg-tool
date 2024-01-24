@@ -313,6 +313,18 @@ export class AppComponent {
                         prerequire.ressource = role.ressources[i];
                       }
                     })
+                    if (task.rewardType == 'object' || task.rewardType == 'skill') {
+                      if (scenario.ressources.some(element => element.name == (task.reward as Ressource).name && element.type == (task.reward as Ressource).type && element.number == (task.reward as Ressource).number)) {
+                        let i: number = scenario.ressources.findIndex(element => element.name == (task.reward as Ressource).name && element.type == (task.reward as Ressource).type && element.number == (task.reward as Ressource).number);
+                        task.reward = scenario.ressources[i];
+                      } else {
+                        let i: number = role.ressources.findIndex(element => element.name == (task.reward as Ressource).name && element.type == (task.reward as Ressource).type && element.number == (task.reward as Ressource).number);
+                        task.reward = role.ressources[i];
+                      }
+                    } else if (task.rewardType == 'character') {
+                      let i: number = scenario.characters.findIndex(element => element.name == (task.reward as Character).name && element.description == (task.reward as Character).description && element.color == (task.reward as Character).color);
+                      task.reward = scenario.characters[i];
+                    }
                   }
                 });
               });

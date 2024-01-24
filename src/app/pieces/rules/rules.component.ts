@@ -49,6 +49,10 @@ export class RulesComponent implements OnInit {
                         task.prerequireRessources.splice(j, 1);
                       }
                     });
+                    if (task.rewardType == 'object' && ressource == task.reward) {
+                      task.resetReward();
+                      task.rewardType = 'none';
+                    }
                   }
                 });
               });
@@ -83,6 +87,10 @@ export class RulesComponent implements OnInit {
                     task.prerequireRessources.splice(j, 1);
                   }
                 });
+                if (task?.rewardType == 'object' && this.scenario.ressources[index] == task.reward) {
+                  task.resetReward();
+                  task.rewardType = 'none';
+                }
               });
             });
           });

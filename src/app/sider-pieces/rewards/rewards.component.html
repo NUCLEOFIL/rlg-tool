@@ -1,0 +1,53 @@
+<div class="piece"
+[matTooltip]="translate.instant('rewards_tooltip')"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+    <div class="piece-form">
+        <div class="piece-form-title">{{'rewards_title' | translate}}</div>
+        <div class="piece-form-content">
+            <div class="piece-form-content-type">
+                <label for="type">{{'rewards_type_label'| translate}}</label>
+                <select name="type" [(ngModel)]="task.rewardType" (change)="resetReward()">
+                    <option value="none" selected>{{'rewards_type_none' | translate}}</option>
+                    <option value="object">{{'rewards_type_object' | translate}}</option>
+                    <option value="character">{{'rewards_type_character' | translate}}</option>
+                    <option value="skill">{{'rewards_type_skill' | translate}}</option>
+                </select>
+            </div>
+            <div *ngIf="task.rewardType != 'none'">
+                <!--
+                <div class="piece-form-content-name">
+                    <label for="name">{{'rewards_name_label' | translate}}</label>
+                    <input type="text" name="name" [(ngModel)]="task.rewardName">
+                </div>
+                -->
+                <div class="piece-form-content-object" *ngIf="task.rewardType == 'object'">
+                    <input type="number" name="quantity" [(ngModel)]="task.rewardQuantity"/>
+                    <select name="object_name" [(ngModel)]="task.reward">
+                        <option value="null" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                        <ng-container *ngFor="let ressource of scenario.ressources">
+                            <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                        </ng-container>
+                        <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
+                            <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <div class="piece-form-content-character" *ngIf="task.rewardType == 'character'">
+                    <select name="character" [(ngModel)]="task.reward">
+                        <option value="null" selected disabled>{{'rewards_character_placeholder' | translate}}</option>
+                        <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
+                    </select>
+                </div>
+                <div class="piece-form-content-skill" *ngIf="task.rewardType == 'skill'">
+                    <input type="number" name="quantity" [(ngModel)]="task.rewardQuantity"/>
+                    <select name="skill" [(ngModel)]="task.reward">
+                        <option value="null" selected disabled>{{'rewards_skill_placeholder' | translate}}</option>
+                        <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
+                            <option *ngIf="ressource.type == 'attribut'" [ngValue]="ressource">{{ressource.name}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

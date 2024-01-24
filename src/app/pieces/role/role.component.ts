@@ -109,6 +109,10 @@ export class RoleComponent implements OnInit {
                 let index: number = task.prerequireRessources.findIndex(element => element.ressource == ressource);
                 task.prerequireRessources.splice(index, 1);
               }
+              if ((task?.rewardType == 'object' || task?.rewardType == 'attribut') && task.reward == ressource) {
+                task.resetReward();
+                task.rewardType = 'none';
+              }
             });
           });
         });
@@ -179,6 +183,10 @@ export class RoleComponent implements OnInit {
                 task.prerequireRessources.splice(j, 1);
               }
             });
+            if ((task?.rewardType == 'object' || task?.rewardType == 'skill') && task.reward == this.role.ressources[index]) {
+              task.resetReward();
+              task.rewardType = 'none';
+            }
           });
         });
         this.role.ressources.splice(index, 1);

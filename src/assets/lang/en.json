@@ -369,5 +369,17 @@
     "legals_credits_content1": "The texts on this site are licensed under CC-BY-NC-SA (Creative Commons with permission for use under the conditions of attribution, non-commercial use, and sharing under the same initial terms).\n\nIcons created by max.icons and Freepik, sourced from: www.flaticon.com and are licensed under CC-BY 3.0.\n\nDevelopment: Romain Deleau\n\nWeb design: Gaëlle Guigon\n\nThese works are part of the Nucléofil project, funded by the government as part of the recovery plan.",
     "legals_credits_content2": "Additionally, they are the subject of a doctoral thesis at Sorbonne Université (at LIP6 in the team MOCAH), in collaboration with IMT Nord Europe.",
     "legals_cookies_title": "Cookies",
-    "legals_cookies_content": "We do not record any cookies and do not save any personal data!"
+    "legals_cookies_content": "We do not record any cookies and do not save any personal data!",
+
+    "rewards_tooltip": "",
+    "rewards_title": "Result / Reward",
+    "rewards_type_label": "Type",
+    "rewards_type_none": "None",
+    "rewards_type_object": "Object",
+    "rewards_type_character": "Character contact",
+    "rewards_type_skill": "Skill",
+    "rewards_name_label": "Name",
+    "rewards_object_placeholder": "Name of the object",
+    "rewards_character_placeholder": "Character",
+    "rewards_skill_placeholder": "Skill"
 }

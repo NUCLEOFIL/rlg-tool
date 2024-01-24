@@ -53,6 +53,7 @@ import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify
 import { RoleNameDuplicateComponent } from './components/snackbars/role-name-duplicate/role-name-duplicate.component';
 import { CopyRoleSuccessComponent } from './components/snackbars/copy-role-success/copy-role-success.component';
 import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-dialog.component';
+import { RewardsComponent } from './sider-pieces/rewards/rewards.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -97,7 +98,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     VerifyDialogComponent,
     RoleNameDuplicateComponent,
     CopyRoleSuccessComponent,
-    LegalDialogComponent
+    LegalDialogComponent,
+    RewardsComponent
   ],
   imports: [
     BrowserModule,
