@@ -298,11 +298,13 @@ export class AppComponent {
                         task.characters[index] = scenario.characters[i];
                       }
                     });
-                    task.supplementaryRole = Object.assign(new SupplementaryRole, task.supplementaryRole);
-                    let supplementaryRoleIndex: number | undefined = role.supplementaryRoles.findIndex(element =>
-                      element.name == task.supplementaryRole.name && element.color == task.supplementaryRole.color
-                    );
-                    task.supplementaryRole = role.supplementaryRoles[supplementaryRoleIndex];
+                    if (task.supplementaryRole) {
+                      task.supplementaryRole = Object.assign(new SupplementaryRole, task.supplementaryRole);
+                      let supplementaryRoleIndex: number | undefined = role.supplementaryRoles.findIndex(element =>
+                        element.name == task.supplementaryRole.name && element.color == task.supplementaryRole.color
+                      );
+                      task.supplementaryRole = role.supplementaryRoles[supplementaryRoleIndex];
+                    }
                     task.prerequireRessources = task.prerequireRessources.map((prerequireData: any) => Object.assign(new PrerequireRessource(), prerequireData));
                     task.prerequireRessources.forEach((prerequire, index) => {
                       if (scenario.ressources.some(element => element.name == prerequire.ressource.name && element.number == prerequire.ressource.number)) {
