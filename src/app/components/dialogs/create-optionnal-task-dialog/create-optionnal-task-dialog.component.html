@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>{{'dialog_createOptTask_title' | translate}}</h2>
+<mat-dialog-content>
+  <label for="quantity">{{'dialog_createOptTask_label' | translate}}</label>
+  <input name="quantity" type="number" [min]="data.minquantity" max="10" [(ngModel)]="data.quantity"/>
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{'dialog_button_cancel' | translate}}</button>
+  <button mat-button [mat-dialog-close]="data" (click)="data.result = true" cdkFocusInitial>{{'dialog_button_validate' | translate}}</button>
+</div>

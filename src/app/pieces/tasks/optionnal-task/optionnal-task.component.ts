@@ -16,6 +16,7 @@ import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identi
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
+import { MoveOptionnalTasksComponent } from 'src/app/components/snackbars/move-optionnal-tasks/move-optionnal-tasks.component';
 
 @Component({
   selector: 'app-optionnal-task',
@@ -218,6 +219,7 @@ export class OptionnalTaskComponent implements OnInit {
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
+      this._snackBar.openFromComponent(MoveOptionnalTasksComponent, { duration: 5000 });
     } else if (direction == 'top' && this.canMoveTo('top')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
@@ -230,6 +232,7 @@ export class OptionnalTaskComponent implements OnInit {
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
+      this._snackBar.openFromComponent(MoveOptionnalTasksComponent, { duration: 5000 });
     } else if (direction == 'bottom') {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';

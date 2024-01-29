@@ -35,6 +35,7 @@
     "snackbar_loading_fail": "File upload failed.",
     "snackbar_loading_success": "File upload successful.",
     "snackbar_roleName": "Attention, this title is already used in this Mission",
+    "snackbar_moveOptionnalTask": "Make sure to keep alternative tasks grouped in the same column",
 
     "siderTitle_game": "Game",
     "siderTitle_mission": "Mission",
@@ -52,10 +53,13 @@
     "dialog_save_title": "Download the scenario",
     "dialog_save_content": "Project name :",
     "dialog_save_placeholder": "My Scenario",
+    "dialog_createOptTask_title": "Creation of Alternative Task(s)",
+    "dialog_createOptTask_label": "Quantity of Alternative Tasks to create in the column:",
     "dialog_button_yes": "Yes",
     "dialog_button_no": "No",
     "dialog_button_save": "Download",
     "dialog_button_cancel": "Cancel",
+    "dialog_button_validate": "Validate",
 
     "game_tooltip": "The game includes one or more Missions. Each Mission comprises at least 2 Roles. The Roles can be different within the various Missions of the game.",
     "gameEducationnalObjective_title": "Educationnal objective",

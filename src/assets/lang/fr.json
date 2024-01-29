@@ -35,6 +35,7 @@
     "snackbar_loading_fail": "Chargement du fichier échoué",
     "snackbar_loading_success": "Chargement du fichier réussi",
     "snackbar_roleName": "Attention, cet intitulé est déjà utilisé dans cette Mission",
+    "snackbar_moveOptionnalTask": "Veillez à garder les tâches alternatives groupées dans la même colonne",
 
     "siderTitle_game": "Jeu",
     "siderTitle_mission": "Mission",
@@ -52,10 +53,13 @@
     "dialog_save_title": "Télécharger le scénario",
     "dialog_save_content": "Nom du projet :",
     "dialog_save_placeholder": "Mon Scénario",
+    "dialog_createOptTask_title": "Création de Tâche(s) Alternative(s)",
+    "dialog_createOptTask_label": "Quantié de Tâches Alternatives à créer dans la colonne :",
     "dialog_button_yes": "Oui",
     "dialog_button_no": "Non",
     "dialog_button_save": "Télécharger",
     "dialog_button_cancel": "Annuler",
+    "dialog_button_validate": "Valider",
 
     "game_tooltip": "Le jeu comprend une ou plusieurs Missions. Chaque mission comprend au moins 2 Rôles. Les Rôles peuvent être différents au sein des différentes Missions du jeu.",
     "gameEducationnalObjective_title": "Objectif(s) pédagogique",

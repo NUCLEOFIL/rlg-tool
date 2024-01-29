@@ -54,6 +54,8 @@ import { RoleNameDuplicateComponent } from './components/snackbars/role-name-dup
 import { CopyRoleSuccessComponent } from './components/snackbars/copy-role-success/copy-role-success.component';
 import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-dialog.component';
 import { RewardsComponent } from './sider-pieces/rewards/rewards.component';
+import { MoveOptionnalTasksComponent } from './components/snackbars/move-optionnal-tasks/move-optionnal-tasks.component';
+import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-optionnal-task-dialog/create-optionnal-task-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -99,7 +101,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     RoleNameDuplicateComponent,
     CopyRoleSuccessComponent,
     LegalDialogComponent,
-    RewardsComponent
+    RewardsComponent,
+    MoveOptionnalTasksComponent,
+    CreateOptionnalTaskDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -40,6 +40,7 @@ import { TutorialService } from './services/tutorial/tutorial.service';
 import { VerifyGameFailSnackbarComponent } from './components/snackbars/verify-game-fail-snackbar/verify-game-fail-snackbar.component';
 import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify-dialog.component';
 import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-dialog.component';
+import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-optionnal-task-dialog/create-optionnal-task-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -388,7 +389,28 @@ export class AppComponent {
   }
 
   addTask(mission: Mission, role: Role, missionIndex: number, roleIndex: number, i: number, j: number, type: string) {
-    role.addTask(i, j, type);
+    if (type == 'optionnal') {
+      let quantity: number;
+      let minquantity: number;
+      if (role.countOptionnalTasksInClolumn(role.getRealIndex(i,j)) > 1) {
+        minquantity = 1;
+        quantity = 1;
+      } else {
+        minquantity = 2;
+        quantity = 2;
+      }
+      const dialogRef = this.dialog.open(CreateOptionnalTaskDialogComponent, {
+        data: { minquantity: minquantity, quantity: quantity, result: false },
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        quantity = (result as CreateOptionnalTaskDialogData).quantity;
+        if ((result as CreateOptionnalTaskDialogData).result == true) {
+          role.addOptionnalTask(i, j, type, quantity);
+        }
+      });
+    } else {
+      role.addTask(i, j, type);
+    }
     switch(type) {
       case 'normal': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#B9DFE3')); break;
       case 'annexe': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Side_task_['+i+';'+j+']', '#BCCECC')); break;
@@ -488,4 +510,10 @@ export class AppComponent {
       maxWidth: '50vw',
     });
   }
+}
+
+export interface CreateOptionnalTaskDialogData {
+  quantity: number;
+  minquantity: number;
+  result: boolean;
 }

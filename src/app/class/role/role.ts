@@ -34,6 +34,34 @@ export class Role {
         }
     }
 
+    public addOptionnalTask(i: number, j: number, type: string, quantity: number): void {
+        this.tasks[i][j] = new Task(type);
+        if (this.tasks[i + 1] == null) {
+            this.tasks[i + 1] = [];
+        } 
+        if (quantity >= 1) {
+            this.tasks[i][j] = new Task(type);
+            if (this.tasks[i + 1] == null) {
+                this.tasks[i + 1] = [];
+            }
+            let visualStartJ: number = this.getRealIndex(i, j);
+            for (let k = 1; k < quantity; k++) {
+                let secondi: number = i + 1;
+                let realDestJ: number = this.getDestinationIndexFromRealIndex(visualStartJ, secondi);
+                let visualDestJ: number = this.getRealIndex(secondi, realDestJ);
+                while (this.tasks[secondi][realDestJ] instanceof Task || visualStartJ != visualDestJ) {
+                    secondi++;
+                    realDestJ = this.getDestinationIndexFromRealIndex(visualStartJ, secondi);
+                    visualDestJ = this.getRealIndex(secondi, realDestJ);
+                }
+                this.tasks[secondi][this.getDestinationIndexFromRealIndex(this.getRealIndex(i, j), secondi)] = new Task(type);
+                if (this.tasks[secondi + 1] == null) {
+                    this.tasks[secondi + 1] = [];
+                }
+            }
+        }
+    }
+
     public addTask(i: number, j: number, type: string) {
         this.tasks[i][j] = new Task(type);
         if (this.tasks[i + 1] == null) {
@@ -221,5 +249,21 @@ export class Role {
             res = true;
         }
         return res;
+    }
+
+    public countOptionnalTasksInClolumn(realColumn: number): number {
+        let cpt: number = 0;
+        
+        this.tasks.forEach((inlineTasks, i) => {
+            let j: number = 0; 
+            while (this.getRealIndex(i,j) < realColumn) {
+                j++;
+            }
+            if (inlineTasks[j]?.type == 'optionnal') {
+                cpt++;
+            }
+        });
+        
+        return cpt;
     }
 }
