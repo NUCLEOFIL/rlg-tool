@@ -17,6 +17,11 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
         user-select: none;
+        transition: width 0.5s ease;
+    }
+
+    &-appDragScroll.siderFolded {
+        width: 100%;
     }
 
     &-appDragScroll::-webkit-scrollbar {
@@ -136,6 +141,10 @@
         }
     }
 
+    &-sider.siderFolded {
+        right: -321px;
+    }
+
     &-sider {
         height: 100%;
         width: 340px;
@@ -145,9 +154,33 @@
         top: 0;
         z-index: 5;
         box-shadow: -6px 0px 16px rgba(0, 0, 0, 0.3);
+        transition: right 0.5s ease;
+
+        &-deploy {
+            position: absolute;
+            z-index: 10;
+            width: 45px;
+            height: 45px;
+            left: -20px;
+            display: flex;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #e3e3e3;
+            box-shadow: -13px 4px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+
+            mat-icon {
+                margin-top: 10px;
+                transition: transform 0.5s ease;
+            }
+
+            mat-icon.siderFolded {
+                transform: rotateZ(180deg);
+            }
+        }
 
         &-title {
-            height: 5%;
+            height: 45px;
             border-bottom: solid #8f8f8f 0.5px;
             font-size: 20px;
             width: 340px;
@@ -177,15 +210,22 @@
     }
 
     &-settings {
+
         &-button {
             position: fixed;
-            right: 360px;
+            right: 375px;
+            top: 0;
             z-index: 5;
+            transition: right 0.5s ease;
 
             button {
-                width: 50px;
-                height: 50px;
+                width: 45px;
+                height: 45px;
             }
+        }
+
+        &-button.siderFolded {
+            right: 55px;
         }
     }
 
@@ -198,15 +238,20 @@
         flex-direction: column;
         justify-content: space-between;
         z-index: 5;
+        transition: right 0.5s ease;
 
         button {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
 
             mat-icon {
                 transform: scale(1.2);
             }
         }
+    }
+
+    &-zoom.siderFolded {
+        right: 260px;
     }
 
     &-minimap {
@@ -221,6 +266,11 @@
         bottom: 25px;
         right: 360px;
         overflow: scroll;
+        transition: right 0.5s ease;
+    }
+
+    &-minimap.siderFolded {
+        right: 40px;
     }
 
     &-tutorial {

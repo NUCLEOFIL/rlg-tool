@@ -30,6 +30,8 @@
     "lang_tooltip": "Change the language.",
     "legal_label": "Credits & Legal notices",
     "legal_tooltip": "Consult credits and legal notices",
+    "siderFold_tooltip": "Fold sidebar",
+    "siderDeploy_tooltip": "Deploy sidebar",
 
     "snackbar_identifier": "Attention, this identifier is already used in this Role.",
     "snackbar_loading_fail": "File upload failed.",

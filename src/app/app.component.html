@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="container-appDragScroll" appDragScroll appMouseWheelZoom [scenario]="scenario">
+    <div class="container-appDragScroll" [ngClass]="siderFolded ? 'siderFolded' : ''" appDragScroll appMouseWheelZoom [scenario]="scenario">
         <div class="container-appMouseWheelZoom">
 
             <div class="container-scenario-main">
@@ -116,7 +116,12 @@
         </div>
     </div>
 
-    <div class="container-sider">
+    <div class="container-sider" [ngClass]="siderFolded ? 'siderFolded' : ''">
+        <div class="container-sider-deploy" (click)="siderFolded = !siderFolded; minimapService.reset()"
+        [matTooltip]="siderFolded ? translate.instant('siderDeploy_tooltip') : translate.instant('siderFold_tooltip')"
+        matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            <mat-icon fontIcon="arrow_forward" [ngClass]="siderFolded ? 'siderFolded' : ''"></mat-icon>
+        </div>
         <div class="container-sider-title">{{getSiderTitle()}}</div>
         <div class="container-sider-elements">
             <app-rewards class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" [role]="pieceDetailsService.parentAsRole()" *ngIf="pieceDetailsService.pieceIsTask()" [scenario]="scenario"></app-rewards>
@@ -130,7 +135,7 @@
         
     </div>
 
-    <div class="container-settings-button">
+    <div class="container-settings-button" [ngClass]="siderFolded ? 'siderFolded' : ''">
         <button mat-mini-fab color="white" [matMenuTriggerFor]="settingsMenu"            
         [matTooltip]="translate.instant('settingsMenu_tooltip')"
         matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
@@ -199,8 +204,8 @@
         </mat-menu>
     </div>
 
-    <div class="container-minimap"></div>
-    <div class="container-zoom">
+    <div class="container-minimap" [ngClass]="siderFolded ? 'siderFolded' : ''"></div>
+    <div class="container-zoom" [ngClass]="siderFolded ? 'siderFolded' : ''">
         <button mat-mini-fab color="white" (click)="zoomIn()"
         [matTooltip]="translate.instant('zoomIn_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_in"></mat-icon></button>

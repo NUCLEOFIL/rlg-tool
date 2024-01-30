@@ -30,6 +30,8 @@
     "lang_tooltip": "Changer la langue.",
     "legal_label": "Crédits & Mentions légales",
     "legal_tooltip": "Consulter les crédits et mentions légales",
+    "siderFold_tooltip": "Replier la barre latérale",
+    "siderDeploy_tooltip": "Déplier la barre latérale",
 
     "snackbar_identifier": "Attention, cet identifiant est déjà utilisé dans ce Rôle",
     "snackbar_loading_fail": "Chargement du fichier échoué",

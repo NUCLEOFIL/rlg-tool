@@ -53,6 +53,7 @@ export class AppComponent {
   scenario: Scenario = new Scenario();
   @ViewChild('fileInput') fileInput: any;
   selectedLang: string = 'en';
+  siderFolded: boolean = false;
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
     private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
