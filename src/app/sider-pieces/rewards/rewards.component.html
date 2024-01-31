@@ -6,7 +6,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
         <div class="piece-form-content">
             <div class="piece-form-content-type">
                 <label for="type">{{'rewards_type_label'| translate}}</label>
-                <select name="type" [(ngModel)]="task.rewardType" (change)="resetReward()">
+                <select name="type" [(ngModel)]="task.rewardType" (change)="resetReward($event)">
                     <option value="none" selected>{{'rewards_type_none' | translate}}</option>
                     <option value="object">{{'rewards_type_object' | translate}}</option>
                     <option value="character">{{'rewards_type_character' | translate}}</option>
@@ -22,7 +22,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                 -->
                 <div class="piece-form-content-object" *ngIf="task.rewardType == 'object'">
                     <input type="number" name="quantity" [(ngModel)]="task.rewardQuantity"/>
-                    <select name="object_name" [(ngModel)]="task.reward">
+                    <select name="object_name" [(ngModel)]="task.reward" (change)="editTrace($event,'task_reward')">
                         <option value="null" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
                         <ng-container *ngFor="let ressource of scenario.ressources">
                             <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
@@ -33,14 +33,14 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                     </select>
                 </div>
                 <div class="piece-form-content-character" *ngIf="task.rewardType == 'character'">
-                    <select name="character" [(ngModel)]="task.reward">
+                    <select name="character" [(ngModel)]="task.reward" (change)="editTrace($event,'task_reward')">
                         <option value="null" selected disabled>{{'rewards_character_placeholder' | translate}}</option>
                         <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
                     </select>
                 </div>
                 <div class="piece-form-content-skill" *ngIf="task.rewardType == 'skill'">
                     <input type="number" name="quantity" [(ngModel)]="task.rewardQuantity"/>
-                    <select name="skill" [(ngModel)]="task.reward">
+                    <select name="skill" [(ngModel)]="task.reward" (change)="editTrace($event,'task_reward')">
                         <option value="null" selected disabled>{{'rewards_skill_placeholder' | translate}}</option>
                         <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
                             <option *ngIf="ressource.type == 'attribut'" [ngValue]="ressource">{{ressource.name}}</option>

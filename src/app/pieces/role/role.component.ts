@@ -200,7 +200,7 @@ export class RoleComponent implements OnInit {
   
   addSupplementaryRole(): void {
     this.role.supplementaryRoles.push(new SupplementaryRole());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Secondary_role_['+this.role.supplementaryRoles.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Secondary_role_['+(this.role.supplementaryRoles.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
   }
 
