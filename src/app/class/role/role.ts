@@ -251,7 +251,7 @@ export class Role {
         return res;
     }
 
-    public countOptionnalTasksInClolumn(realColumn: number): number {
+    public countOptionnalTasksInColumn(realColumn: number): number {
         let cpt: number = 0;
         
         this.tasks.forEach((inlineTasks, i) => {

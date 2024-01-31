@@ -56,6 +56,7 @@ import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-di
 import { RewardsComponent } from './sider-pieces/rewards/rewards.component';
 import { MoveOptionnalTasksComponent } from './components/snackbars/move-optionnal-tasks/move-optionnal-tasks.component';
 import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-optionnal-task-dialog/create-optionnal-task-dialog.component';
+import { DeleteOptionnalTasksComponent } from './components/snackbars/delete-optionnal-tasks/delete-optionnal-tasks.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -103,7 +104,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     LegalDialogComponent,
     RewardsComponent,
     MoveOptionnalTasksComponent,
-    CreateOptionnalTaskDialogComponent
+    CreateOptionnalTaskDialogComponent,
+    DeleteOptionnalTasksComponent
   ],
   imports: [
     BrowserModule,

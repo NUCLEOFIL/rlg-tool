@@ -17,6 +17,7 @@ import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MoveOptionnalTasksComponent } from 'src/app/components/snackbars/move-optionnal-tasks/move-optionnal-tasks.component';
+import { DeleteOptionnalTasksComponent } from 'src/app/components/snackbars/delete-optionnal-tasks/delete-optionnal-tasks.component';
 
 @Component({
   selector: 'app-optionnal-task',
@@ -133,6 +134,9 @@ export class OptionnalTaskComponent implements OnInit {
       this.task.symbol.symbol = '';
     }
     this.task.changeType(type);
+    if (this.role.countOptionnalTasksInColumn(this.role.getRealIndex(this.i,this.j)) < 2) {
+      this._snackBar.openFromComponent(DeleteOptionnalTasksComponent, { duration: 5000 });
+    }
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform_into_['+type+']',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
   }
 
@@ -151,6 +155,9 @@ export class OptionnalTaskComponent implements OnInit {
         });
         this.role.removeTask(this.i, this.j);
         this.mission.equalizeLengths();
+        if (this.role.countOptionnalTasksInColumn(this.role.getRealIndex(this.i,this.j)) < 2) {
+          this._snackBar.openFromComponent(DeleteOptionnalTasksComponent, { duration: 5000 });
+        }
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
       } else {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));

@@ -38,6 +38,7 @@
     "snackbar_loading_success": "Chargement du fichier réussi",
     "snackbar_roleName": "Attention, cet intitulé est déjà utilisé dans cette Mission",
     "snackbar_moveOptionnalTask": "Veillez à garder les tâches alternatives groupées dans la même colonne",
+    "snackbar_deleteOptionnalTask": "Attention, les tâches alternatives vont au minimum par deux, veillez à ce que l'utilisateur ait toujours le choix entre plusieurs de ces tâches",
 
     "siderTitle_game": "Jeu",
     "siderTitle_mission": "Mission",

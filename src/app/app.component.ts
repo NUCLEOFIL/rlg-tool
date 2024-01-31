@@ -393,7 +393,7 @@ export class AppComponent {
     if (type == 'optionnal') {
       let quantity: number;
       let minquantity: number;
-      if (role.countOptionnalTasksInClolumn(role.getRealIndex(i,j)) > 1) {
+      if (role.countOptionnalTasksInColumn(role.getRealIndex(i,j)) > 1) {
         minquantity = 1;
         quantity = 1;
       } else {
@@ -407,6 +407,7 @@ export class AppComponent {
         quantity = (result as CreateOptionnalTaskDialogData).quantity;
         if ((result as CreateOptionnalTaskDialogData).result == true) {
           role.addOptionnalTask(i, j, type, quantity);
+          this.cdr.detectChanges();
         }
       });
     } else {

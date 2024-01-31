@@ -38,6 +38,7 @@
     "snackbar_loading_success": "File upload successful.",
     "snackbar_roleName": "Attention, this title is already used in this Mission",
     "snackbar_moveOptionnalTask": "Make sure to keep alternative tasks grouped in the same column",
+    "snackbar_deleteOptionnalTask": "Attention, alternative tasks go in pairs at minimum, ensure that the user always has a choice between several of these tasks",
 
     "siderTitle_game": "Game",
     "siderTitle_mission": "Mission",
