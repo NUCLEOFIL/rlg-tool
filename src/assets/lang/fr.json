@@ -17,7 +17,7 @@
     "enableHelp_label": "Activer les aides",
     "enableHelp_tooltip": "Descriptif de chaque élément du RLG Maker.",
     "unity_label": "Intégrer le jeu sous Unity",
-    "unity_tooltip": "Utilisation dans un template de jeu précis. Contacter gaelle.guigon@imt-nord-europe.fr pour plus d'informations. Non disponible dans cette version.",
+    "unity_tooltip": "Utilisation dans un template de jeu précis. Contacter gaelle.guigon@imt-nord-europe.fr pour plus d'informations.",
     "download_label": "Télécharger ce scénario",
     "download_tooltip": "Télécharger une sauvegarde du scénario.",
     "upload_label": "Importer un scénario",

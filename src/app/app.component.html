@@ -179,12 +179,12 @@
                 <img class="langIcon" [src]="'./assets/lang/icons/'+selectedLang+'.png'"/>
                 <span>{{'lang_label' | translate}}</span>
             </button>
-            <button mat-menu-item disabled
+            <span mat-menu-item (click)="unityService.unity_isActive = !unityService.unity_isActive"
             [matTooltip]="translate.instant('unity_tooltip')"
             matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-                <input name="unity" type="checkbox"/>
+                <input name="unity" type="checkbox" [(ngModel)]="unityService.unity_isActive"/>
                 <label for="unity">{{'unity_label' | translate}}</label>
-            </button>
+            </span>
             <button mat-menu-item (click)="consultLegals()"
             [matTooltip]="translate.instant('legal_tooltip')"
             matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">

@@ -41,6 +41,7 @@ import { VerifyGameFailSnackbarComponent } from './components/snackbars/verify-g
 import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify-dialog.component';
 import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-dialog.component';
 import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-optionnal-task-dialog/create-optionnal-task-dialog.component';
+import { UnityService } from './services/unity/unity.service';
 
 @Component({
   selector: 'app-root',
@@ -57,7 +58,8 @@ export class AppComponent {
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
     private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
-    private _snackBar: MatSnackBar, protected minimapService: MinimapService, protected translate: TranslateService, protected tutorialService: TutorialService) {
+    private _snackBar: MatSnackBar, protected minimapService: MinimapService, protected translate: TranslateService, protected tutorialService: TutorialService,
+    protected unityService: UnityService) {
 
     translate.setTranslation('en', require('../assets/lang/en.json'));
     translate.setTranslation('fr', require('../assets/lang/fr.json'));  
@@ -108,6 +110,7 @@ export class AppComponent {
         this.titleService.setTitle('RLG Maker - '+this.scenario.projectName);
       }
       this.scenario.tooltips = this.tooltipService.activatedTooltips;
+      this.scenario.unity_isActive = this.unityService.unity_isActive;
       this.scenario.traces.push(new Trace(this.scenario.traces.length, 'quick_save', undefined, undefined, 'all', 'Scenario'));
       const jsonString = JSON.stringify(this.scenario,undefined,2);
       const blob = new Blob([jsonString], { type: 'application/json' });
@@ -163,6 +166,7 @@ export class AppComponent {
           this.titleService.setTitle('RLG Maker - '+this.scenario.projectName);
         }
         this.scenario.tooltips = this.tooltipService.activatedTooltips;
+        this.scenario.unity_isActive = this.unityService.unity_isActive;
         this.scenario.tutorial_isActive = this.tutorialService.isActive;
         this.scenario.tutorial_phase = this.tutorialService.phase;
         this.scenario.tutorial_optionnalPhase = this.tutorialService.optionnalPhase;
@@ -197,6 +201,7 @@ export class AppComponent {
           const jsonData: any = JSON.parse(fileContent);
           const scenario: Scenario = Object.assign(new Scenario(), jsonData);
           this.tooltipService.activatedTooltips = scenario.tooltips;
+          this.unityService.unity_isActive = scenario.unity_isActive;
           this.tutorialService.isActive = scenario.tutorial_isActive;
           this.tutorialService.phase = scenario.tutorial_phase;
           this.tutorialService.optionnalPhase = scenario.tutorial_optionnalPhase;

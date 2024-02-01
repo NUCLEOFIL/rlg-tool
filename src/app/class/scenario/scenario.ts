@@ -17,6 +17,7 @@ export class Scenario {
     comments: Comment[] = [];
     projectName: string = '';
     tooltips: boolean = true;
+    unity_isActive: boolean = false;
     tutorial_isActive: boolean = true;
     tutorial_phase: number = 1;
     tutorial_optionnalPhase: string = '';
