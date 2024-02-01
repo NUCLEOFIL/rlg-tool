@@ -7,6 +7,7 @@ import { Task } from 'src/app/class/task/task';
 import { Trace } from 'src/app/class/trace/trace';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-characters',
@@ -21,7 +22,8 @@ export class CharactersComponent implements OnInit {
   selectedAssignCharacter!: Character | undefined;
   selectedDeleteCharacterIndex!: number;
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService,
+    protected unityService: UnityService) { }
 
   ngOnInit(): void {
   }

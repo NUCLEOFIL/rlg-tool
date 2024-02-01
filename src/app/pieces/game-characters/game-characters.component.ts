@@ -10,6 +10,7 @@ import { Task } from 'src/app/class/task/task';
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-game-characters',
@@ -22,7 +23,8 @@ export class GameCharactersComponent implements OnInit {
   @Input() scenario = new Scenario()
   newCharacter: Character = new Character();
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService,
+    protected unityService: UnityService) { }
 
   ngOnInit(): void {
   }

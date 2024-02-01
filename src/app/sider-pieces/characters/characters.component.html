@@ -32,6 +32,10 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                         <label for="description">{{'char_description_label' | translate}}</label>
                         <textarea name="description" [(ngModel)]="character.description" disabled></textarea>
                     </div>
+                    <div class="piece-form-character-create-infos-phone" *ngIf="unityService.unity_isActive">
+                        <label for="tel">{{'char_phone_label' | translate}}</label>
+                        <input name="tel" type="tel" [(ngModel)]="newCharacter.tel" disabled=""/>
+                    </div>
                     <div class="piece-form-character-infos-color">
                         <label for="color">{{'char_color_label' | translate}}</label>
                         <input name="color" type="color" [(ngModel)]="character.color" disabled/>

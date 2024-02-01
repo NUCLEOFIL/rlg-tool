@@ -236,6 +236,7 @@
     "char_create_tooltip": "Si des personnages non joueurs (PNJ) doivent intervenir dans le scénario, ils doivent être décrits avec cette tuile. Chaque personnage a sa propre couleur et sont visibles sur les tâches où ils interviennent. L'enseignant peut être considéré comme un personnage s'il n'a pas un Rôle à part entière.",
     "char_name_label": "Nom",
     "char_description_label": "Description",
+    "char_phone_label": "N° tél :",
     "char_color_label": "Couleur",
     "chars_title": "Personnages non joueur",
     "char_tooltip": "Pour faire intervenir ce personnage sur une Tâche ou Événement aléatoire, cliquez sur la tuile en question et sélectionnez ce personnage dans la barre latérale.", 

@@ -236,6 +236,7 @@
     "char_create_tooltip": "If non-playabe characters (NPCs) are to be involved in the scenario, they must be described with this tile. Each character has its own color and is visible on the tasks in which it is involved. The teacher can be considered a character if he/she doesn't have a full Role.",
     "char_name_label": "Name",
     "char_description_label": "Description",
+    "char_phone_label": "Tel no:",
     "char_color_label": "Color",
     "chars_title": "Non player characters",
     "char_tooltip": "To involve this character in a Task or Random Event, click on the respective tile and select this character from the sidebar.",
