@@ -474,6 +474,14 @@ export class AppComponent {
     }
   }
 
+  unityTrace(event: any) {
+    if(event.target.checked) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'enable_unity',undefined, undefined,'unity','Scenario'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'disable_unity',undefined, undefined,'unity','Scenario'));
+    }
+  }
+
   resumeTutorialTrace() {
     this.scenario.traces.push(new Trace(this.scenario.traces.length, 'resume_tutorial', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
   }
