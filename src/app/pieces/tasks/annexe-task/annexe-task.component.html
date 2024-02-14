@@ -121,9 +121,173 @@
             <mat-icon class="piece-form-top-repeat" fontIcon="refresh" *ngIf="task.repeat.iteration > 0 || task.repeat.while != ''"></mat-icon>
         </div>
         <textarea class="piece-form-content" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action')" [style.background-image]="(i == findFirstIndexOfTaskType('annexe')[0] && j == findFirstIndexOfTaskType('annexe')[1]) ? urlIcon : ''"
+            *ngIf="!unityService.unity_isActive"    
             [placeholder]="translate.instant('annexeTask_action_placeholder')"
             [matTooltip]="translate.instant('task_action_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
+
+        <div class="piece-form-content piece-form-content-unity" *ngIf="unityService.unity_isActive">
+            <div class="piece-form-content-unity-type">
+                <label for="type">{{'task_unity_type_label' | translate}}</label>
+                <select name="type" [(ngModel)]="task.typeUnity" (change)="task.resetUnityContent()">
+                    <option value="getObject">{{'task_unity_type_getObject' | translate}}</option>
+                    <option value="character">{{'task_unity_type_character' | translate}}</option>
+                    <option value="combineObjects">{{'task_unity_type_combineObjects' | translate}}</option>
+                    <option value="talkWithRole">{{'task_unity_type_talkWithRole' | translate}}</option>
+                    <option value="exchangeObjects">{{'task_unity_type_exchangeObjects' | translate}}</option>
+                    <option value="depositObject">{{'task_unity_type_depositObject' | translate}}</option>
+                    <option value="askToSeeRole">{{'task_unity_type_askToSeeRole' | translate}}</option>
+                    <option value="interactObject">{{'task_unity_type_interactObject' | translate}}</option>
+                    <option value="other">{{'task_unity_type_other' | translate}}</option>
+                </select>
+            </div>
+            <div class="piece-form-content-unity-typeContent">
+                    
+                <div class="piece-form-content-unity-typeContent-getObject" *ngIf="task.typeUnity == 'getObject'">
+                    <input type="number" [(ngModel)]="task.objectQuantity"/>
+                    <select [(ngModel)]="task.object">
+                        <option [ngValue]="null" selected disabled>{{'task_unity_objectName_label' | translate}}</option>
+                        <ng-container *ngFor="let ressource of scenario.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                        <ng-container *ngFor="let role2 of mission.roles">
+                            <ng-container *ngIf="role2 != role">
+                                <ng-container *ngFor="let ressource of role2.ressources">
+                                    <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </select>                    
+                </div>
+
+                <div class="piece-form-content-unity-typeContent-character" *ngIf="task.typeUnity == 'character'">
+                    <select [(ngModel)]="task.character">
+                        <option [ngValue]="null" selected disabled>{{'task_unity_characterName_label' | translate}}</option>
+                        <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
+                    </select>
+                </div>
+    
+                <div class="piece-form-content-unity-typeContent-combineObjects" *ngIf="task.typeUnity == 'combineObjects'">
+                    <div class="piece-form-content-unity-typeContent-combineObjects-element" *ngFor="let element of task.combineObjects, let elementIndex = index">
+                        <button mat-button class="piece-form-content-unity-typeContent-button" (click)="removeCombineObject(elementIndex)" *ngIf="task.combineObjects.length > 2"><mat-icon fontIcon="remove"></mat-icon></button>
+                        <div class="piece-form-content-unity-typeContent-combineObjects-element-object">
+                            <input type="number" [(ngModel)]="element[1]"/>
+                            <select [(ngModel)]="element[0]">
+                                <option [ngValue]="null" selected disabled>{{'task_unity_objectName_label' | translate}}</option>
+                                <ng-container *ngFor="let ressource of role.ressources">
+                                    <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                </ng-container>
+                            </select>                        
+                        </div>
+                    </div>
+                    <button mat-button class="piece-form-content-unity-typeContent-button piece-form-content-unity-typeContent-button-add" (click)="addCombineObject()"><mat-icon fontIcon="add"></mat-icon></button>
+                </div>
+    
+                <div class="piece-form-content-unity-typeContent-talkWithRole" *ngIf="task.typeUnity == 'talkWithRole'">
+                    <select [(ngModel)]="task.role">
+                        <option [ngValue]="''" selected disabled>{{'task_unity_roleName_label' | translate}}</option>
+                        <ng-container *ngFor="let selectableRole of mission.roles">
+                            <option *ngIf="selectableRole != role && selectableRole.intitule != ''">{{selectableRole.intitule}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+    
+                <div class="piece-form-content-unity-typeContent-exchangeObjects" *ngIf="task.typeUnity == 'exchangeObjects'">
+                    <div class="piece-form-content-unity-typeContent-exchangeObjects-give">
+                        <label>{{'task_unity_exchangeObjects_give_label' | translate}}</label>
+                        <div class="piece-form-content-unity-typeContent-exchangeObjects-element" *ngFor="let element of task.giveObjects, let elementIndex = index">
+                            <button mat-button class="piece-form-content-unity-typeContent-button" (click)="removeExchangeGiveObject(elementIndex)" *ngIf="task.giveObjects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                            <div class="piece-form-content-unity-typeContent-exchangeObjects-element-object">
+                                <input type="number" [(ngModel)]="element[1]"/>
+                                <select [(ngModel)]="element[0]">
+                                    <option [ngValue]="null" selected disabled>{{'task_unity_objectName_label' | translate}}</option>
+                                    <ng-container *ngFor="let ressource of role.ressources">
+                                        <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                    </ng-container>
+                                </select>                        
+                            </div>
+                        </div>
+                        <button mat-button class="piece-form-content-unity-typeContent-button piece-form-content-unity-typeContent-button-add" (click)="addExchangeGiveObject()"><mat-icon fontIcon="add"></mat-icon></button>
+                    </div>
+    
+                    <div class="piece-form-content-unity-typeContent-exchangeObjects-receive">
+                        <select [(ngModel)]="task.character">
+                            <option [ngValue]="null" selected disabled>{{'task_unity_characterName_label' | translate}}</option>
+                            <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
+                        </select>
+                        <label>{{'task_unity_exchangeObjects_receive_label' | translate}}</label>
+                        <div class="piece-form-content-unity-typeContent-exchangeObjects-element" *ngFor="let element of task.receiveObjects, let elementIndex = index">
+                            <button mat-button class="piece-form-content-unity-typeContent-button" (click)="removeExchangeReceiveObject(elementIndex)" *ngIf="task.receiveObjects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                            <div class="piece-form-content-unity-typeContent-exchangeObjects-element-object">
+                                <input type="number" [(ngModel)]="element[1]"/>
+                                <select [(ngModel)]="element[0]">
+                                    <option [ngValue]="null" selected disabled>{{'task_unity_objectName_label' | translate}}</option>
+                                    <ng-container *ngFor="let ressource of scenario.ressources">
+                                        <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                    </ng-container>
+                                </select>                        
+                            </div>
+                        </div>
+                        <button mat-button class="piece-form-content-unity-typeContent-button piece-form-content-unity-typeContent-button-add" (click)="addExchangeReceiveObject()"><mat-icon fontIcon="add"></mat-icon></button>
+                    </div>
+                </div>
+    
+                <div class="piece-form-content-unity-typeContent-depositObject" *ngIf="task.typeUnity == 'depositObject'">
+                    <input type="number" [(ngModel)]="task.objectQuantity"/>
+                    <select [(ngModel)]="task.object">
+                        <option [ngValue]="null" selected disabled>{{'task_unity_objectName_label' | translate}}</option>
+                        <ng-container *ngFor="let ressource of role.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                    </select>  
+                </div>
+    
+                <div class="piece-form-content-unity-typeContent-askToSeeRole" *ngIf="task.typeUnity == 'askToSeeRole'">
+                    <select [(ngModel)]="task.role">
+                        <option [ngValue]="''" selected disabled>{{'task_unity_roleName_label' | translate}}</option>
+                        <ng-container *ngFor="let selectableRole of mission.roles">
+                            <option *ngIf="selectableRole != role && selectableRole.intitule != ''">{{selectableRole.intitule}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+    
+                <div class="piece-form-content-unity-typeContent-interactObject" *ngIf="task.typeUnity == 'interactObject'">
+                    <div class="piece-form-content-unity-typeContent-interactObject-select">
+                        <select [(ngModel)]="task.object">
+                            <option [ngValue]="null" selected disabled>{{'task_unity_objectName_label' | translate}}</option>
+                            <ng-container *ngFor="let ressource of scenario.ressources">
+                                <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                            </ng-container>
+                            <ng-container *ngFor="let role2 of mission.roles">
+                                <ng-container *ngFor="let ressource of role2.ressources">
+                                    <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                </ng-container>
+                            </ng-container>
+                        </select>                         
+                    </div>
+     
+                    <div class="piece-form-content-unity-typeContent-interactObject-name">
+                        <input name="interactionName" type="text" [(ngModel)]="task.interactionName" [placeholder]="translate.instant('task_unity_interactName_placeholder')"/>
+                    </div>
+                </div>
+    
+                <div class="piece-form-content-unity-typeContent-other" *ngIf="task.typeUnity == 'other'">
+                    <textarea [(ngModel)]="task.other"></textarea>
+                </div>
+            </div>
+            
+            <div class="piece-form-content-unity-infos">
+                <div class="piece-form-content-unity-infos-name">
+                    <label for="name">{{'task_unity_name_label' | translate}}</label>
+                    <input name="name" type="text" [(ngModel)]="task.name"/>
+                </div>
+                <div class="piece-form-content-unity-infos-desc">
+                    <label for="description">{{'task_unity_desc_label' | translate}}</label>
+                    <textarea name="description" [(ngModel)]="task.objective"></textarea>
+                </div>  
+            </div>
+        </div>
+
         <div class="piece-form-bottom">
             <div class="piece-form-bottom-duration"
             [matTooltip]="translate.instant('task_duration_tooltip')"

@@ -333,9 +333,134 @@
         }
 
         &-content {
-            margin-top: 10px;
             height: 100%;
             margin-bottom: 10px;
+
+            &-unity {
+                display: flex;
+                flex-direction: column;
+                max-width: 355px;
+
+                select {
+                    width: 80%;
+                    height: 35px;
+                }
+
+                input {
+                    width: 74%;
+                    height: 25px;
+                }
+
+                textarea {
+                    flex-grow: 0;
+                    width: 74%;
+                    border-radius: 10px;
+                    height: 40px;
+                }
+
+                &-type, &-typeContent {
+                    display: flex;
+                    justify-content: space-between;
+
+                }
+
+                &-typeContent {
+                    height: 109px;
+                    margin-top: 2px;
+                    margin-bottom: 5px;
+                    overflow-y: auto;
+                    justify-content: right;
+
+                    &-button {
+                        background-color: white;
+                        width: 64px;
+                        height: 35px;
+                        margin-right: 5px;
+                        border-radius: 10px;
+
+                        &-add {
+                            position: relative;
+                            left: 100%;
+                            transform: translateX(-100%);
+                        }
+                    }
+
+                    &-getObject, &-depositObject, &-combineObjects-element-object, &-exchangeObjects-element-object {
+                        width: 80%;
+                        display: flex;
+                        justify-content: space-between;
+
+                        input {
+                            width: 10%;
+                        }
+                    }
+
+                    &-character, &-talkWithRole, &-askToSeeRole, &-other {
+                        display:  flex;
+                        justify-content: right;
+                        width: 100%;
+                    }
+
+                    &-combineObjects, &-exchangeObjects {
+                        display: flex;
+                        flex-direction: column;
+
+
+                        &-element {
+                            display: flex;
+                            justify-content: right;
+
+                        }
+                    }
+
+                    &-exchangeObjects {
+
+                        &-give {
+                            padding-bottom: 2px;
+                            border-bottom: solid 1px black;
+                        }
+
+                        &-receive {
+                            padding-top: 2px;
+                            display: flex;
+                            flex-direction: column;
+                        }
+                    }
+
+                    &-interactObject {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: right;
+                        width: 100%;
+
+                        &-select {
+                            display: flex;
+                            justify-content: right;
+                            margin-bottom: 2px;
+                        }
+
+                        &-name {
+                            display: flex;
+                            justify-content: right;
+                        }
+                    }
+                }
+
+                &-infos {
+                    display: flex;
+                    flex-direction: column;
+
+                    &-name, &-desc {
+                        display: flex;
+                        justify-content: space-between;
+                        width: 100%;
+                    }
+
+                    &-name {
+                        margin-bottom: 2px;
+                    }
+                }
+            }
         }
 
         &-bottom {

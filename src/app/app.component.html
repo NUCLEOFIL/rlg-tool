@@ -179,7 +179,7 @@
                 <img class="langIcon" [src]="'./assets/lang/icons/'+selectedLang+'.png'"/>
                 <span>{{'lang_label' | translate}}</span>
             </button>
-            <span mat-menu-item (click)="unityService.unity_isActive = !unityService.unity_isActive; unityTrace($event)"
+            <span mat-menu-item (click)="unityService.unity_isActive = !unityService.unity_isActive; unityTrace($event); minimapService.reset()"
             [matTooltip]="translate.instant('unity_tooltip')"
             matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <input name="unity" type="checkbox" [(ngModel)]="unityService.unity_isActive"/>

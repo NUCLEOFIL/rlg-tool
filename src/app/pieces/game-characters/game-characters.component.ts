@@ -52,6 +52,9 @@ export class GameCharactersComponent implements OnInit {
                     task.resetReward();
                     task.rewardType = 'none';
                   }
+                  if (task?.typeUnity == 'character' || task?.typeUnity == 'exchangeObjects') {
+                    task.character = null;
+                  }
                 }
               });
             });
@@ -86,9 +89,12 @@ export class GameCharactersComponent implements OnInit {
                   if (typeof i !== 'undefined' && i !== -1) {
                     task?.characters.splice(i, 1);
                   }
-                  if (task?.rewardType == 'character') {
+                  if (task?.rewardType == 'character' && task.reward == this.scenario.characters[index]) {
                     task.resetReward();
                     task.rewardType = 'none';
+                  }
+                  if ((task?.typeUnity == 'character' || task?.typeUnity == 'exchangeObjects') && task.character == this.scenario.characters[index]) {
+                    task.character = null;
                   }
                 });
               });

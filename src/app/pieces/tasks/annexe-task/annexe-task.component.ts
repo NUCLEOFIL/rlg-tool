@@ -18,6 +18,7 @@ import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 import { FinishTutorialComponent } from 'src/app/components/snackbars/finish-tutorial/finish-tutorial.component';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-annexe-task',
@@ -45,7 +46,7 @@ export class AnnexeTaskComponent implements OnInit {
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService) { }
+    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService, protected unityService: UnityService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -350,5 +351,29 @@ export class AnnexeTaskComponent implements OnInit {
 
   editMoveTrace(event: any, source: string): void {
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+  }
+
+  addCombineObject(): void {
+    this.task.combineObjects.push([null,1]);
+  }
+
+  removeCombineObject(index: number): void {
+    this.task.combineObjects.splice(index,1);
+  }
+
+  addExchangeGiveObject(): void {
+    this.task.giveObjects.push([null,1]);
+  }
+
+  removeExchangeGiveObject(index: number): void {
+    this.task.giveObjects.splice(index,1);
+  }
+
+  addExchangeReceiveObject(): void {
+    this.task.receiveObjects.push([null,1]);
+  }
+
+  removeExchangeReceiveObject(index: number): void {
+    this.task.receiveObjects.splice(index,1);
   }
 }

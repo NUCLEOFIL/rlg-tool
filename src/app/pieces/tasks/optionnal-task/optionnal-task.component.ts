@@ -18,6 +18,7 @@ import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MoveOptionnalTasksComponent } from 'src/app/components/snackbars/move-optionnal-tasks/move-optionnal-tasks.component';
 import { DeleteOptionnalTasksComponent } from 'src/app/components/snackbars/delete-optionnal-tasks/delete-optionnal-tasks.component';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-optionnal-task',
@@ -45,7 +46,7 @@ export class OptionnalTaskComponent implements OnInit {
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService) { }
+    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -385,5 +386,29 @@ export class OptionnalTaskComponent implements OnInit {
 
   editMoveTrace(event: any, source: string): void {
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
+  }
+
+  addCombineObject(): void {
+    this.task.combineObjects.push([null,1]);
+  }
+
+  removeCombineObject(index: number): void {
+    this.task.combineObjects.splice(index,1);
+  }
+
+  addExchangeGiveObject(): void {
+    this.task.giveObjects.push([null,1]);
+  }
+
+  removeExchangeGiveObject(index: number): void {
+    this.task.giveObjects.splice(index,1);
+  }
+
+  addExchangeReceiveObject(): void {
+    this.task.receiveObjects.push([null,1]);
+  }
+
+  removeExchangeReceiveObject(index: number): void {
+    this.task.receiveObjects.splice(index,1);
   }
 }

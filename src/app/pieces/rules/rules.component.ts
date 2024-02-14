@@ -53,6 +53,26 @@ export class RulesComponent implements OnInit {
                       task.resetReward();
                       task.rewardType = 'none';
                     }
+                    if (task?.typeUnity == 'getObject' || task?.typeUnity == 'combineObjects' || task?.typeUnity == 'exchangeObjects' || task?.typeUnity == 'depositObject' || task?.typeUnity == 'interactObject') {
+                      if (task.object == ressource) {
+                        task.object = null;
+                      }
+                      task.combineObjects.forEach((object, i) => {
+                        if (object[0] == ressource) {
+                          task.combineObjects[i][0] = null;
+                        }
+                      });
+                      task.giveObjects.forEach((object, i) => {
+                        if (object[0] == ressource) {
+                          task.giveObjects[i][0] = null;
+                        }
+                      });
+                      task.receiveObjects.forEach((object, i) => {
+                        if (object[0] == ressource) {
+                          task.receiveObjects[i][0] = null;
+                        }
+                      });
+                    }
                   }
                 });
               });
@@ -90,6 +110,26 @@ export class RulesComponent implements OnInit {
                 if (task?.rewardType == 'object' && this.scenario.ressources[index] == task.reward) {
                   task.resetReward();
                   task.rewardType = 'none';
+                }
+                if (task?.typeUnity == 'getObject' || task?.typeUnity == 'combineObjects' || task?.typeUnity == 'exchangeObjects' || task?.typeUnity == 'depositObject' || task?.typeUnity == 'interactObject') {
+                  if (task.object == this.scenario.ressources[index]) {
+                    task.object = null;
+                  }
+                  task.combineObjects.forEach((object, i) => {
+                    if (object[0] == this.scenario.ressources[index]) {
+                      task.combineObjects[i][0] = null;
+                    }
+                  });
+                  task.giveObjects.forEach((object, i) => {
+                    if (object[0] == this.scenario.ressources[index]) {
+                      task.giveObjects[i][0] = null;
+                    }
+                  });
+                  task.receiveObjects.forEach((object, i) => {
+                    if (object[0] == this.scenario.ressources[index]) {
+                      task.receiveObjects[i][0] = null;
+                    }
+                  });
                 }
               });
             });

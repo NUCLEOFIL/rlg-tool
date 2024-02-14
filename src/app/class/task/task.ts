@@ -21,6 +21,18 @@ export class Task {
     characters: Character[] = [];
     repeat: Repeat = new Repeat();
 
+    name: string = '';
+    typeUnity: string = 'getObject';
+    objectQuantity: number = 1;
+    object: Ressource | null = null;
+    interactionName: string = '';
+    character: Character | null = null;
+    combineObjects: (Ressource | number | null)[][] = [[null,1],[null,1]]; // [0] = Ressource & [1] = quantity
+    giveObjects: (Ressource | number | null)[][] = [[null,1]];
+    receiveObjects: (Ressource | number | null)[][] = [[null,1]];
+    other: string = '';
+    role: string = ''; //role.intitule
+
     supplementaryRole!: SupplementaryRole;
     interrupt: string = '';
 
@@ -46,5 +58,17 @@ export class Task {
     public resetReward(): void {
         this.reward = null;
         this.rewardQuantity = 1;
+    }
+
+    public resetUnityContent(): void {
+        this.object = null;
+        this.objectQuantity = 1;
+        this.character = null;
+        this.combineObjects = [[null,1],[null,1]];
+        this.giveObjects = [[null,1]];
+        this.receiveObjects = [[null,1]];
+        this.other = '';
+        this.role = '';
+        this.interactionName = '';
     }
 }

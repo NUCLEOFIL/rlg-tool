@@ -113,6 +113,26 @@ export class RoleComponent implements OnInit {
                 task.resetReward();
                 task.rewardType = 'none';
               }
+              if (task?.typeUnity == 'getObject' || task?.typeUnity == 'combineObjects' || task?.typeUnity == 'exchangeObjects' || task?.typeUnity == 'depositObject' || task?.typeUnity == 'interactObject') {
+                if (task.object == ressource) {
+                  task.object = null;
+                }
+                task.combineObjects.forEach((object, i) => {
+                  if (object[0] == ressource) {
+                    task.combineObjects[i][0] = null;
+                  }
+                });
+                task.giveObjects.forEach((object, i) => {
+                  if (object[0] == ressource) {
+                    task.giveObjects[i][0] = null;
+                  }
+                });
+                task.receiveObjects.forEach((object, i) => {
+                  if (object[0] == ressource) {
+                    task.receiveObjects[i][0] = null;
+                  }
+                });
+              }
             });
           });
         });
@@ -130,6 +150,19 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       let missionIndex: number = this.scenario.missions.findIndex(mission => mission == this.mission);
       if (result == true) {
+        this.mission.roles.forEach(role => {
+          role.tasks.forEach(inlineTask => {
+            inlineTask.forEach(task => {
+              if (task instanceof Task) {
+                if (task.typeUnity == 'talkWithRole' || task.typeUnity == 'askToSeeRole') {
+                  if (task.role == role.intitule) {
+                    task.role = '';
+                  }
+                }              
+              }
+            });
+          });
+        });
         this.mission.roles.splice(this.i, 1);
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
         this.minimapService.reset();  
@@ -186,6 +219,26 @@ export class RoleComponent implements OnInit {
             if ((task?.rewardType == 'object' || task?.rewardType == 'skill') && task.reward == this.role.ressources[index]) {
               task.resetReward();
               task.rewardType = 'none';
+            }
+            if (task?.typeUnity == 'getObject' || task?.typeUnity == 'combineObjects' || task?.typeUnity == 'exchangeObjects' || task?.typeUnity == 'depositObject' || task?.typeUnity == 'interactObject') {
+              if (task.object == this.role.ressources[index]) {
+                task.object = null;
+              }
+              task.combineObjects.forEach((object, i) => {
+                if (object[0] == this.role.ressources[index]) {
+                  task.combineObjects[i][0] = null;
+                }
+              });
+              task.giveObjects.forEach((object, i) => {
+                if (object[0] == this.role.ressources[index]) {
+                  task.giveObjects[i][0] = null;
+                }
+              });
+              task.receiveObjects.forEach((object, i) => {
+                if (object[0] == this.role.ressources[index]) {
+                  task.receiveObjects[i][0] = null;
+                }
+              });
             }
           });
         });

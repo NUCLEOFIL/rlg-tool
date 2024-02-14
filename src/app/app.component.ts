@@ -334,6 +334,68 @@ export class AppComponent {
                       let i: number = scenario.characters.findIndex(element => element.name == (task.reward as Character).name && element.description == (task.reward as Character).description && element.color == (task.reward as Character).color);
                       task.reward = scenario.characters[i];
                     }
+
+
+                    if ((task.typeUnity == 'getObject' || task.typeUnity == 'depositObject' || task.typeUnity == 'interactObject') && task.object) {
+                      if (scenario.ressources.some(element => element.name == (task.object as Ressource).name && element.number == (task.object as Ressource).number && element.type == (task.object as Ressource).type)) {
+                        let i: number = scenario.ressources.findIndex(element => element.name == (task.object as Ressource).name && element.number == (task.object as Ressource).number && element.type == (task.object as Ressource).type);
+                        task.object = scenario.ressources[i];
+                      } else {
+                        let i: number = role.ressources.findIndex(element => element.name == (task.object as Ressource).name && element.number == (task.object as Ressource).number && element.type == (task.object as Ressource).type);
+                        task.object = role.ressources[i];
+                      }
+                    }
+                    if ((task.typeUnity == 'askTooSeeRole' || task.typeUnity == 'talkWithRole') && task.role) {
+                      mission.roles.forEach(role => {
+                        if (role.intitule == task.role) {
+                          task.role == role.intitule;
+                        } 
+                      });
+                    }
+                    if ((task.typeUnity == 'character' || task.typeUnity == 'exchangeObjects') && task.character) {
+                      scenario.characters.forEach(character => {
+                        if (character.color == task.character?.color && character.description == task.character.description && character.name == task.character.name && character.tel == task.character.tel) {
+                          task.character = character;
+                        }
+                      });
+                    }
+                    if ((task.typeUnity == 'combineObjects')) {
+                      task.combineObjects.forEach((combineObject, index) => {
+                        if (combineObject[0] != null) {
+                          if (scenario.ressources.some(element => element.name == (combineObject[0] as Ressource).name && element.number == (combineObject[0] as Ressource).number && element.type == (combineObject[0] as Ressource).type)) {
+                            let i: number = scenario.ressources.findIndex(element => element.name == (combineObject[0] as Ressource).name && element.number == (combineObject[0] as Ressource).number && element.type == (combineObject[0] as Ressource).type);
+                            task.combineObjects[index][0] = scenario.ressources[i];
+                          } else {
+                            let i: number = role.ressources.findIndex(element => element.name == (combineObject[0] as Ressource).name && element.number == (combineObject[0] as Ressource).number && element.type == (combineObject[0] as Ressource).type);
+                            task.combineObjects[index][0] = role.ressources[i];
+                          }
+                        }
+                      });
+                    }
+                    if ((task.typeUnity == 'exchangeObjects')) {
+                      task.giveObjects.forEach((giveObject, index) => {
+                        if (giveObject[0] != null) {
+                          if (scenario.ressources.some(element => element.name == (giveObject[0] as Ressource).name && element.number == (giveObject[0] as Ressource).number && element.type == (giveObject[0] as Ressource).type)) {
+                            let i: number = scenario.ressources.findIndex(element => element.name == (giveObject[0] as Ressource).name && element.number == (giveObject[0] as Ressource).number && element.type == (giveObject[0] as Ressource).type);
+                            task.giveObjects[index][0] = scenario.ressources[i];
+                          } else {
+                            let i: number = role.ressources.findIndex(element => element.name == (giveObject[0] as Ressource).name && element.number == (giveObject[0] as Ressource).number && element.type == (giveObject[0] as Ressource).type);
+                            task.giveObjects[index][0] = role.ressources[i];
+                          }
+                        }
+                      })
+                      task.receiveObjects.forEach((receiveObject, index) => {
+                        if (receiveObject[0] != null) {
+                          if (scenario.ressources.some(element => element.name == (receiveObject[0] as Ressource).name && element.number == (receiveObject[0] as Ressource).number && element.type == (receiveObject[0] as Ressource).type)) {
+                            let i: number = scenario.ressources.findIndex(element => element.name == (receiveObject[0] as Ressource).name && element.number == (receiveObject[0] as Ressource).number && element.type == (receiveObject[0] as Ressource).type);
+                            task.receiveObjects[index][0] = scenario.ressources[i];
+                          } else {
+                            let i: number = role.ressources.findIndex(element => element.name == (receiveObject[0] as Ressource).name && element.number == (receiveObject[0] as Ressource).number && element.type == (receiveObject[0] as Ressource).type);
+                            task.receiveObjects[index][0] = role.ressources[i];
+                          }
+                        }
+                      })
+                    }
                   }
                 });
               });
