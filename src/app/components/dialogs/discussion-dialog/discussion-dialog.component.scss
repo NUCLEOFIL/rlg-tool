@@ -1,0 +1,117 @@
+h1, h2, h3, mat-panel-title {
+    font-family: 'Glacial Indifference Bold', sans-serif;
+}
+
+button {
+    background-color: #e0d5e9;
+}
+
+label {
+    font-size: 17px;
+}
+
+mat-dialog-content {
+    font-size: 16px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+mat-expansion-panel-content {
+    font-family: 'Glacial Indifference', sans-serif;
+}
+
+.mat-expansion-panel-header-description {
+    justify-content: space-between;
+
+    p {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+                line-clamp: 1; 
+        -webkit-box-orient: vertical;
+        width: fit-content;
+    }
+}
+
+mat-dialog-actions {
+    margin-top: 20px;
+}
+
+.form {
+
+    &-intitule {
+        margin-bottom: 15px;
+
+        label {
+            margin-right: 10px;
+        }
+
+        input {
+            width: 25%;
+        }
+    }
+
+    &-firstDiscussion {
+        margin-bottom: 25px;
+
+        label {
+            margin-left: 10px;
+        }
+    }
+
+    &-result {
+        margin-top: 20px;
+    }
+
+    &-result, &-nextSentence {
+        width: 40%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+
+        select {
+            width: 250px;
+        }
+    }
+
+    &-addSentence {
+        margin-top: 15px;
+        margin-bottom: 15px;
+
+        button {
+            margin-right: 10px;
+        }
+    }
+
+    &-sentence {
+
+        &-sentence {
+            display: flex;
+            flex-direction: column;
+
+            textarea {
+                width: 100%;
+                resize: vertical;
+                min-height: 100px;
+                max-height: 200px;
+            }
+        }
+
+        &-firstSentence {
+            margin-top: 5px;
+
+            label {
+                margin-left: 10px;
+            }
+        }
+
+        &-delete {
+            margin-top: 15px;
+        }
+
+        &-addResponse {
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+    }
+}

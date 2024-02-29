@@ -10,6 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatExpansionModule } from '@angular/material/expansion'; 
 
 import { AppComponent } from './app.component';
 import { EducationalObjectiveComponent } from './pieces/educational-objective/educational-objective.component';
@@ -57,6 +58,8 @@ import { RewardsComponent } from './sider-pieces/rewards/rewards.component';
 import { MoveOptionnalTasksComponent } from './components/snackbars/move-optionnal-tasks/move-optionnal-tasks.component';
 import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-optionnal-task-dialog/create-optionnal-task-dialog.component';
 import { DeleteOptionnalTasksComponent } from './components/snackbars/delete-optionnal-tasks/delete-optionnal-tasks.component';
+import { DiscussionsComponent } from './sider-pieces/discussions/discussions.component';
+import { DiscussionDialogComponent } from './components/dialogs/discussion-dialog/discussion-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -105,7 +108,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     RewardsComponent,
     MoveOptionnalTasksComponent,
     CreateOptionnalTaskDialogComponent,
-    DeleteOptionnalTasksComponent
+    DeleteOptionnalTasksComponent,
+    DiscussionsComponent,
+    DiscussionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -126,7 +131,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    DragDropModule
+    DragDropModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

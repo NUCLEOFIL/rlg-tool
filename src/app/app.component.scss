@@ -344,3 +344,8 @@
         color: black;
     }
 }
+
+::ng-deep .mat-expansion-panel-content {
+    font-family: 'Glacial Indifference', sans-serif;
+    font-size: 16px;
+}

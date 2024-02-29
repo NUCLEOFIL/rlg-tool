@@ -42,6 +42,11 @@ import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify
 import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-dialog.component';
 import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-optionnal-task-dialog/create-optionnal-task-dialog.component';
 import { UnityService } from './services/unity/unity.service';
+import { Discussion } from './class/discussion/discussion';
+import { Response } from './class/response/response';
+import { Sentence } from './class/sentence/sentence';
+import { InterrogativeSentence } from './class/sentence/interrogativeSentence/interrogative-sentence';
+import { DeclarativeSentence } from './class/sentence/declarativeSentence/declarative-sentence';
 
 @Component({
   selector: 'app-root',
@@ -286,6 +291,28 @@ export class AppComponent {
                 }
 
               });
+              role.discussions = role.discussions.map((discussionData: any) => {
+                let character: Character | undefined = scenario.characters.find(char => char.color == discussionData.character.color 
+                  && char.description == discussionData.character.description && char.name == discussionData.character.name && char.tel == discussionData.character.tel);
+                let discussion: Discussion = Object.assign(
+                  new Discussion(
+                    discussionData.ID,
+                    character as Character,
+                    discussionData.name
+                  ),
+                  discussionData
+                );
+                discussion.character = character as Character;
+                return discussion;
+              });
+              role.sentences = role.sentences.map((sentenceData: any) => {
+                if (sentenceData.responses) {
+                  return Object.assign(new InterrogativeSentence(sentenceData.ID), sentenceData);
+                } else {
+                  return Object.assign(new DeclarativeSentence(sentenceData.ID), sentenceData);
+                }
+              });
+              role.responses = role.responses.map((responseData: any) => Object.assign(new Response(responseData.ID), responseData));
               role.tasks.forEach((inlineTasks: any[], index: number) => {
                 role.tasks[index] = inlineTasks.map((taskData: any) => {
                   if (taskData !== null) {

@@ -6,6 +6,9 @@ import { Reward } from "../rewards/reward";
 import { RoleOccurrence } from "../role-occurrence/role-occurrence";
 import { RoleEducationnalObjective } from "../role-educationnal-objective/role-educationnal-objective";
 import { Comment } from "../comment/comment";
+import { Discussion } from "../discussion/discussion";
+import { Sentence } from "../sentence/sentence";
+import { Response } from "../response/response";
 
 export class Role {
 
@@ -21,6 +24,12 @@ export class Role {
     occurences: RoleOccurrence[] = [new RoleOccurrence()];
     tasks: (Task | null)[][] = [[new Task('normal')], []];
     chronologie: (Step | null)[] = [];
+    discussions: Discussion[] = [];
+    actualDiscussionID: number = 0;
+    sentences: Sentence[] = [];
+    actualSentenceID: number = 0;
+    responses: Response[] = [];
+    actualResponseID: number = 0;
 
     public addChronologieStep(index: number) {
         this.chronologie[index] = new Step();

@@ -1,0 +1,151 @@
+<h1 mat-dialog-title>{{'discussion_title' | translate}}</h1>
+<mat-dialog-content>
+    <div class="form-intitule">
+        <label for="intitule">{{'discussion_name_label' | translate}}</label>
+        <input name="intitule" type="text" [(ngModel)]="discussion.name"/>
+    </div>
+    <div class="form-firstDiscussion"
+    [matTooltip]="translate.instant('discussion_firstDiscussion_tooltip')"
+    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || isSelectableAsFirstDiscussion()">
+        <input name="firstDiscussion" type="checkbox" [(ngModel)]="discussion.isFirstDiscussion"
+            [disabled]="!isSelectableAsFirstDiscussion()"/>
+        <label for="firstDiscussion">{{'discussion_firstDiscussion_label' | translate}}</label>
+    </div>
+    <div class="form-result">
+        <label for="result">{{'discussion_result_label' | translate}}</label>
+        <select name="result">
+            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
+        </select>
+    </div>
+    <div class="form-addSentence">
+        <button mat-button (click)="addDeclarativeSentence()">{{'discussion_buttons_newDeclarativeSentence' | translate}}</button>
+        <button mat-button (click)="addInterrogativeSentence()">{{'discussion_buttons_newInterrogativeSentence' | translate}}</button>
+    </div>
+
+    <mat-accordion>
+        <ng-container *ngFor="let sentence of role.sentences">
+            <mat-expansion-panel *ngIf="sentence.idDiscussion == discussion.ID && isDeclarativeSentence(sentence)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>{{'discussion_declarativeSentence' | translate}} (ID: {{sentence.ID}})</mat-panel-title>
+                    <mat-panel-description>
+                        <p>{{sentence.value}}</p>
+                        <mat-icon fontIcon="looks_one" *ngIf="sentence.ID == discussion.firstSentenceID"
+                        [matTooltip]="translate.instant('discussion_firstSentence_label')"
+                        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="form-sentence">
+                    <div class="form-sentence-sentence">
+                        <label for="sentence">{{'discussion_declarativeSentence' | translate}}</label>
+                        <textarea name="sentence" [(ngModel)]="sentence.value"></textarea>
+                    </div>
+                    <div class="form-sentence-firstSentence"
+                    [matTooltip]="translate.instant('discussion_firstSentence_tooltip')"
+                    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || discussion.firstSentenceID == -1 || discussion.firstSentenceID == sentence.ID">
+                        <input name="firstSentence" type="checkbox" (click)="onCheckFirstSentence($event, sentence.ID)"
+                            [checked]="discussion.firstSentenceID == sentence.ID ? true : false"
+                            [disabled]="discussion.firstSentenceID != -1 && discussion.firstSentenceID != sentence.ID"/>
+                        <label for="firstSentence">{{'discussion_firstSentence_label' | translate}}</label>
+                    </div>
+                    <div class="form-result">
+                        <label for="result">{{'discussion_result_label' | translate}}</label>
+                        <select name="result">
+                            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="form-nextSentence">
+                        <label for="nextSentence">{{'discussion_nextSentence_label' | translate}}</label>
+                        <select name="nextSentence" [(ngModel)]="getSentenceAsDeclarativeSentence(sentence).nextSentence">
+                            <option [ngValue]="-1" disabled selected>{{'discussion_nextSentence_placeholder' | translate}}</option>
+                            <ng-container *ngFor="let nextSentence of role.sentences">
+                                <option [ngValue]="nextSentence.ID" *ngIf="sentence.ID != nextSentence.ID && sentence.idDiscussion == nextSentence.idDiscussion">ID: {{nextSentence.ID}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                    <button mat-button class="form-sentence-delete" (click)="deleteDeclarativeSentence(sentence.ID)">{{'discussion_buttons_deleteDeclarativeSentence' | translate}}</button>
+                </div>
+            </mat-expansion-panel>
+
+
+            <mat-expansion-panel *ngIf="sentence.idDiscussion == discussion.ID && isInterrogativeSentence(sentence)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>{{'discussion_interrogativeSentence' | translate}} (ID: {{sentence.ID}})</mat-panel-title>
+                    <mat-panel-description>
+                        <p>{{sentence.value}}</p>
+                        <mat-icon fontIcon="looks_one" *ngIf="sentence.ID == discussion.firstSentenceID"
+                        [matTooltip]="translate.instant('discussion_firstSentence_label')"
+                        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="form-sentence">
+                    <div class="form-sentence-sentence">
+                        <label for="sentence">{{'discussion_interrogativeSentence' | translate}}</label>
+                        <textarea name="sentence" [(ngModel)]="sentence.value"></textarea>
+                    </div>
+                    <div class="form-sentence-firstSentence"
+                    [matTooltip]="translate.instant('discussion_firstSentence_tooltip')"
+                    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || discussion.firstSentenceID == -1 || discussion.firstSentenceID == sentence.ID">
+                        <input name="firstSentence" type="checkbox" (click)="onCheckFirstSentence($event, sentence.ID)"
+                            [checked]="discussion.firstSentenceID == sentence.ID ? true : false"
+                            [disabled]="discussion.firstSentenceID != -1 && discussion.firstSentenceID != sentence.ID"/>
+                        <label for="firstSentence">{{'discussion_firstSentence_label' | translate}}</label>
+                    </div>
+                    <div class="form-result">
+                        <label for="result">{{'discussion_result_label' | translate}}</label>
+                        <select name="result">
+                            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
+                        </select>
+                    </div>
+                    <button mat-button class="form-sentence-addResponse" (click)="addResponse(getSentenceAsInterrogativeSentence(sentence))">{{'discussion_buttons_newResponse' | translate}}</button>
+
+
+                    <mat-accordion>
+                        <ng-container *ngFor="let response of role.responses">
+                            <mat-expansion-panel *ngIf="response.idInterrogativeSentence == sentence.ID">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>{{'discussion_response' | translate}} (ID: {{response.ID}})</mat-panel-title>
+                                    <mat-panel-description>
+                                        <p>{{response.value}}</p>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="form-sentence">
+                                    <div class="form-sentence-sentence">
+                                        <label for="sentence">{{'discussion_response' | translate}}</label>
+                                        <textarea name="sentence" [(ngModel)]="response.value"></textarea>
+                                    </div>
+                                    <div class="form-result">
+                                        <label for="result">{{'discussion_result_label' | translate}}</label>
+                                        <select name="result">
+                                            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-nextSentence">
+                                        <label for="nextSentence">{{'discussion_nextSentence_label' | translate}}</label>
+                                        <select name="nextSentence" [(ngModel)]="response.nextSentence">
+                                            <option [ngValue]="-1" disabled selected>{{'discussion_nextSentence_placeholder' | translate}}</option>
+                                            <ng-container *ngFor="let nextSentence of role.sentences">
+                                                <option [ngValue]="nextSentence.ID" *ngIf="sentence.ID != nextSentence.ID && sentence.idDiscussion == nextSentence.idDiscussion">ID: {{nextSentence.ID}}</option>
+                                            </ng-container>
+                                        </select>
+                                    </div>
+                                    <button mat-button class="form-sentence-delete" (click)="deleteResponse(getSentenceAsInterrogativeSentence(sentence), response.ID)" *ngIf="countResponses(sentence.ID) > 1">{{'discussion_buttons_deleteResponse' | translate}}</button>
+                                </div>
+                            </mat-expansion-panel>
+                        </ng-container>
+
+
+                    </mat-accordion>
+
+
+                    <button mat-button class="form-sentence-delete" (click)="deleteInterrogativeSentence(sentence.ID)">{{'discussion_buttons_deleteInterrogativeSentence' | translate}}</button>
+                </div>
+            </mat-expansion-panel>
+    </ng-container>
+
+    </mat-accordion>
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>{{'discussion_buttons_close' | translate}}</button>
+</mat-dialog-actions>

@@ -1,0 +1,88 @@
+.piece {
+    --piece-background-color: #d5d5ff;
+
+    width: 300px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    border: solid #707070 1px;
+    border-radius: 6px;
+
+    button {
+        border-radius: 10px;
+        background-color: white;
+        margin-top: 5px;
+    }
+
+    label {
+        margin-right: 10px;
+    }
+
+    input {
+        border: none;
+        border-radius: 10px;
+        height: 20px;
+        padding: 5px 5px 5px 5px;
+    }
+
+    select {
+        border-radius: 10px;
+        background-color: white;
+        border: none;
+        padding: 5px 10px 5px 10px;
+    }
+
+    &-form {
+        margin: 10px 5px 10px 5px;
+        display: flex;
+        flex-direction: column;
+
+        &-title {
+            font-family: "Glacial Indifference Bold";
+            margin-bottom: 10px;
+        }
+
+        &-element {
+            margin-top: 10px;
+        }
+        
+        &-name, &-newDiscussion {
+            display: flex;
+            justify-content: space-between;
+
+            select {
+                width: 75%;
+            }
+
+            input {
+                width: 71%;
+            }
+        }
+
+        &-discussions {
+            display: flex;
+            flex-direction: column;
+
+            &-element {
+                width: 100%;
+                display: flex;
+                margin-left: auto;
+                margin-right: auto;
+                justify-content: center;
+
+                &-discussion {
+                    width: 70%;
+                    margin-right: 5px;
+                }
+
+            }
+        }
+
+        &-button {
+            &-create {
+                position: relative;
+                left: 100%;
+                transform: translateX(-100%);
+            }
+        }
+    }
+}
