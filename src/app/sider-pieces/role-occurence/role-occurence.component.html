@@ -12,7 +12,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                 <input type="number" [(ngModel)]="occurence.max" (change)="editTrace($event,'Occurrence_['+i+']_playersMax')"/>
                 <label> {{'occurence_player' | translate}}</label>  
             </div>
-            <button mat-button (click)="removeOccurrence(i)"><mat-icon fontIcon="remove"></mat-icon></button>
+            <button mat-button (click)="removeOccurrence(i)" *ngIf="role.occurences.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
         </div>
         <button mat-button class="piece-form-add" (click)="addOccurrence()"><mat-icon fontIcon="add"></mat-icon></button>
     </div>
