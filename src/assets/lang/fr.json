@@ -116,7 +116,7 @@
 
     "role_add_tooltip": "Ajouter un rôle.",
     "role_delete_tooltip": "Supprimer le rôle",
-    "role_tooltip": "Premier Rôle incarné par un joueur. Le deuxième se trouve un plus bas dans la page.",
+    "role_tooltip": "Premier Rôle incarné par un joueur. Le deuxième se trouve un peu plus bas dans la page.",
     "role_new": "un nouveau Rôle pour la Mission",
     "role_delete": "ce Rôle",
     "role_clean": "Rôle",
@@ -397,7 +397,7 @@
     "legals_cookies_title": "Cookies",
     "legals_cookies_content": "Nous n'enregistrons aucun cookie et ne sauvegardons aucune donnée personnelle !",
 
-    "rewards_tooltip": "",
+    "rewards_tooltip": "Indiquer le résultat obtenu",
     "rewards_title": "Résultat / Récompense",
     "rewards_type_label": "Type",
     "rewards_type_none": "Aucune",
