@@ -410,7 +410,7 @@
     "rewards_skill_placeholder": "Skill",
 
     "discussions_title": "Discussions",
-    "discussions_tooltip": "Allows managing discussions between the role and characters",
+    "discussions_tooltip": "Allows managing discussions between the role and non player characters",
     "discussions_selectCharacter_title": "Select the character",
     "discussions_selectCharacter_label": "Name",
     "discussions_selectCharacter_placeholder": "Character name",

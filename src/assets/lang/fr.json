@@ -410,7 +410,7 @@
     "rewards_skill_placeholder": "Compétence",
 
     "discussions_title": "Discussions",
-    "discussions_tooltip": "Permet de gérer les discussions entre le rôle et les personnages",
+    "discussions_tooltip": "Permet de gérer les discussions entre le rôle et les personnages non joueurs",
     "discussions_selectCharacter_title": "Sélectionner le personnage",
     "discussions_selectCharacter_label": "Nom",
     "discussions_selectCharacter_placeholder": "Nom du personnage",
