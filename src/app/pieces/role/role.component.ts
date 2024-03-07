@@ -26,6 +26,7 @@ import { RoleNameDuplicateComponent } from 'src/app/components/snackbars/role-na
 import { CopyRoleService } from 'src/app/services/copyRole/copy-role.service';
 import { Task } from 'src/app/class/task/task';
 import { CopyRoleSuccessComponent } from 'src/app/components/snackbars/copy-role-success/copy-role-success.component';
+import { RoleOccurrence } from 'src/app/class/role-occurrence/role-occurrence';
 
 @Component({
   selector: 'app-role',
@@ -68,25 +69,116 @@ export class RoleComponent implements OnInit {
   }
 
   onClickCopy(): void {
-    this.copyRoleService.role = Object.assign({}, this.role);
-    this.copyRoleService.role.questName = '';
-    this.copyRoleService.role.description = '';
-    this.copyRoleService.role.educationnalObjectives = [];
-    this.copyRoleService.role.rewards = [];
+    this.copyRoleService.role = Object.assign(new Role(), this.role);
+    this.copyRoleService.role.educationnalObjectives = this.role.educationnalObjectives.map((educationnalObjectiveData) => Object.assign(new RoleEducationnalObjective(), educationnalObjectiveData));
     this.copyRoleService.role.ressources = this.role.ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
     this.copyRoleService.role.supplementaryRoles = this.role.supplementaryRoles.map((supplementaryRoleData: any) => Object.assign(new SupplementaryRole(), supplementaryRoleData));
     this.copyRoleService.role.tasks = [[new Task('normal')], []];
     this.copyRoleService.role.chronologie = [];
+    this.copyRoleService.role.occurences = this.role.occurences.map((occurenceData: any) => Object.assign(new RoleOccurrence(), occurenceData));
+    this.copyRoleService.role.comments = [];
+    this.copyRoleService.role.discussions = [];
+    this.copyRoleService.role.sentences = [];
+    this.copyRoleService.role.responses = [];
+    this.copyRoleService.role.rewards = [];
+    this.role.rewards.forEach(reward => {
+      if (reward.type == 'skill') {
+        let newReward: SkillReward = new SkillReward();
+        newReward.type = reward.type;
+        newReward.quantity = (reward as SkillReward).quantity;
+        this.copyRoleService.role?.ressources.forEach(ressource => {
+          if (ressource.name == (reward as SkillReward).skill.name && ressource.number == (reward as SkillReward).skill.number && ressource.type == (reward as SkillReward).skill.type) {
+            newReward.skill = ressource;
+          }
+        });
+        this.copyRoleService.role?.rewards.push(newReward);
+      }
+      if (reward.type == 'objective') {
+        let newReward: ObjectiveReward = new ObjectiveReward();
+        newReward.type = reward.type;
+        this.copyRoleService.role?.educationnalObjectives.forEach(objective => {
+          if (objective.objective == (reward as ObjectiveReward).objective.objective) {
+            newReward.objective = objective;
+          }
+        });
+        this.copyRoleService.role?.rewards.push(newReward);
+      }
+      if (reward.type == 'character') {
+        let newReward: CharacterReward = new CharacterReward();
+        newReward.type = reward.type;
+        newReward.character = (reward as CharacterReward).character;
+        this.copyRoleService.role?.rewards.push(newReward);        
+      }
+      if (reward.type == 'other') {
+        let newReward: OtherReward = new OtherReward();
+        newReward.type = reward.type;
+        newReward.text = (reward as OtherReward).text;
+        this.copyRoleService.role?.rewards.push(newReward);
+      }
+      if (reward.type == 'objects') {
+        let newReward: ObjectsReward = new ObjectsReward();
+        newReward.type = reward.type;
+        newReward.objects = (reward as ObjectsReward).objects.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
+        this.copyRoleService.role?.rewards.push(newReward);
+      }
+    });
     this.copyRoleService.mission = this.mission;
     this._snackBar.openFromComponent(CopyRoleSuccessComponent, { duration: 5000 });
   }
 
   onClickPaste(): void {
-    this.role = Object.assign({}, this.copyRoleService.role);
+    this.role = Object.assign(new Role(), this.copyRoleService.role);
     this.role.ressources = (this.copyRoleService.role as Role).ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
+    this.role.educationnalObjectives = (this.copyRoleService.role as Role).educationnalObjectives.map((educationnalObjectiveData: any) => Object.assign(new RoleEducationnalObjective(), educationnalObjectiveData));
     this.role.supplementaryRoles = (this.copyRoleService.role as Role).supplementaryRoles.map((supplementaryRoleData: any) => Object.assign(new SupplementaryRole(), supplementaryRoleData));
     this.role.tasks = [[new Task('normal')], []];
-    this.role.educationnalObjectives = [new RoleEducationnalObjective()];
+    this.role.occurences = (this.copyRoleService.role as Role).occurences.map((occurenceData: any) => Object.assign(new RoleOccurrence(), occurenceData));
+    this.role.comments = [];
+    this.role.discussions = [];
+    this.role.sentences = [];
+    this.role.responses = [];
+    this.role.rewards = [];
+    this.copyRoleService.role?.rewards.forEach(reward => {
+      if (reward.type == 'skill') {
+        let newReward: SkillReward = new SkillReward();
+        newReward.type = reward.type;
+        newReward.quantity = (reward as SkillReward).quantity;
+        this.role.ressources.forEach(ressource => {
+          if (ressource.name == (reward as SkillReward).skill.name && ressource.number == (reward as SkillReward).skill.number && ressource.type == (reward as SkillReward).skill.type) {
+            newReward.skill = ressource;
+          }
+        });
+        this.role.rewards.push(newReward);
+      }
+      if (reward.type == 'objective') {
+        let newReward: ObjectiveReward = new ObjectiveReward();
+        newReward.type = reward.type;
+        this.role?.educationnalObjectives.forEach(objective => {
+          if (objective.objective == (reward as ObjectiveReward).objective.objective) {
+            newReward.objective = objective;
+          }
+        });
+        this.role.rewards.push(newReward);
+      }
+      if (reward.type == 'character') {
+        let newReward: CharacterReward = new CharacterReward();
+        newReward.type = reward.type;
+        newReward.character = (reward as CharacterReward).character;
+        this.role.rewards.push(newReward);        
+      }
+      if (reward.type == 'other') {
+        let newReward: OtherReward = new OtherReward();
+        newReward.type = reward.type;
+        newReward.text = (reward as OtherReward).text;
+        this.role.rewards.push(newReward);
+      }
+      if (reward.type == 'objects') {
+        let newReward: ObjectsReward = new ObjectsReward();
+        newReward.type = reward.type;
+        newReward.objects = (reward as ObjectsReward).objects.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
+        this.role.rewards.push(newReward);
+      }
+    });
     this.intituleIsAlreadyUsed();
     this.minimapService.reset();
   }
