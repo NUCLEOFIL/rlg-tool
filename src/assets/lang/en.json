@@ -140,6 +140,8 @@
     "role_reward_type_newQuest_tooltip": "Choose a quest from another mission with the same Role name",
     "role_reward_type_skill": "Develop a field of expertise",
     "role_reward_type_skill_tooltip": "Choose a skill created below",
+    "role_reward_type_character": "Retrieve the contact of an NPC",
+    "role_reward_type_character_tooltip": "",
     "role_reward_type_objective": "Achieve an educational objective",
     "role_reward_type_objective_tooltip": "Choose an educational objective created above",
     "role_reward_type_object": "Retrieve an item",

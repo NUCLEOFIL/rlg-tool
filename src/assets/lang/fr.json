@@ -140,6 +140,8 @@
     "role_reward_type_newQuest_tooltip": "Choisir une quête d'une autre mission avec le même nom de Rôle",
     "role_reward_type_skill": "Travailler un champ de compétence",
     "role_reward_type_skill_tooltip": "Choisir une compétence créée ci-dessous",
+    "role_reward_type_character": "Récupérer le contact d'un PNJ",
+    "role_reward_type_character_tooltip": "",
     "role_reward_type_objective": "Atteindre un objectif pédagogique",
     "role_reward_type_objective_tooltip": "Choisir un objectif pédagogique créé ci-dessus",
     "role_reward_type_object": "Récupérer un objet",
