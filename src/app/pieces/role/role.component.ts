@@ -27,6 +27,7 @@ import { CopyRoleService } from 'src/app/services/copyRole/copy-role.service';
 import { Task } from 'src/app/class/task/task';
 import { CopyRoleSuccessComponent } from 'src/app/components/snackbars/copy-role-success/copy-role-success.component';
 import { RoleOccurrence } from 'src/app/class/role-occurrence/role-occurrence';
+import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 
 @Component({
   selector: 'app-role',
@@ -197,34 +198,47 @@ export class RoleComponent implements OnInit {
         this.role.tasks.forEach(inlineTasks => {
           inlineTasks.forEach(task => {
             this.role.ressources.forEach(ressource => {
-              if (task?.prerequireRessources.some(element => element.ressource == ressource)) {
-                let index: number = task.prerequireRessources.findIndex(element => element.ressource == ressource);
-                task.prerequireRessources.splice(index, 1);
-              }
-              if ((task?.rewardType == 'object' || task?.rewardType == 'attribut') && task.reward == ressource) {
-                task.resetReward();
-                task.rewardType = 'none';
-              }
-              if (task?.typeUnity == 'getObject' || task?.typeUnity == 'combineObjects' || task?.typeUnity == 'exchangeObjects' || task?.typeUnity == 'depositObject' || task?.typeUnity == 'interactObject') {
-                if (task.object == ressource) {
-                  task.object = null;
+              if (task instanceof Task) {
+                if (task?.prerequireRessources.some(element => element.ressource == ressource)) {
+                  let index: number = task.prerequireRessources.findIndex(element => element.ressource == ressource);
+                  task.prerequireRessources.splice(index, 1);
                 }
-                task.combineObjects.forEach((object, i) => {
-                  if (object[0] == ressource) {
-                    task.combineObjects[i][0] = null;
+                for (let i = 0; i < task?.rewards.length; i++) {
+                  let reward = task.rewards[i];
+                  if (reward.type == 'object') {
+                    if ((reward as ObjectReward).object == ressource) {
+                      task.rewards.splice(i,1);
+                      i--;
+                    }
                   }
-                });
-                task.giveObjects.forEach((object, i) => {
-                  if (object[0] == ressource) {
-                    task.giveObjects[i][0] = null;
+                  if (reward.type == 'skill') {
+                    if ((reward as SkillReward).skill == ressource) {
+                      task.rewards.splice(i,1);
+                      i--;
+                    }
                   }
-                });
-                task.receiveObjects.forEach((object, i) => {
-                  if (object[0] == ressource) {
-                    task.receiveObjects[i][0] = null;
+                }
+                if (task?.typeUnity == 'getObject' || task?.typeUnity == 'combineObjects' || task?.typeUnity == 'exchangeObjects' || task?.typeUnity == 'depositObject' || task?.typeUnity == 'interactObject') {
+                  if (task.object == ressource) {
+                    task.object = null;
                   }
-                });
-              }
+                  task.combineObjects.forEach((object, i) => {
+                    if (object[0] == ressource) {
+                      task.combineObjects[i][0] = null;
+                    }
+                  });
+                  task.giveObjects.forEach((object, i) => {
+                    if (object[0] == ressource) {
+                      task.giveObjects[i][0] = null;
+                    }
+                  });
+                  task.receiveObjects.forEach((object, i) => {
+                    if (object[0] == ressource) {
+                      task.receiveObjects[i][0] = null;
+                    }
+                  });
+                }
+              }      
             });
           });
         });
@@ -303,35 +317,48 @@ export class RoleComponent implements OnInit {
       if (result == true) {
         this.role.tasks.forEach(inlineTasks => {
           inlineTasks.forEach(task => {
-            task?.prerequireRessources.forEach((prerequire, j) => {
-              if (prerequire.ressource == this.role.ressources[index]) {
-                task.prerequireRessources.splice(j, 1);
+            if (task instanceof Task) {
+              task?.prerequireRessources.forEach((prerequire, j) => {
+                if (prerequire.ressource == this.role.ressources[index]) {
+                  task.prerequireRessources.splice(j, 1);
+                }
+              });
+              for (let i = 0; i < task?.rewards.length; i++) {
+                let reward = task.rewards[i];
+                if (reward.type == 'object') {
+                  if ((reward as ObjectReward).object == this.role.ressources[index]) {
+                    task.rewards.splice(i,1);
+                    i--;
+                  }
+                }
+                if (reward.type == 'skill') {
+                  if ((reward as SkillReward).skill == this.role.ressources[index]) {
+                    task.rewards.splice(i,1);
+                    i--;
+                  }
+                }
               }
-            });
-            if ((task?.rewardType == 'object' || task?.rewardType == 'skill') && task.reward == this.role.ressources[index]) {
-              task.resetReward();
-              task.rewardType = 'none';
-            }
-            if (task?.typeUnity == 'getObject' || task?.typeUnity == 'combineObjects' || task?.typeUnity == 'exchangeObjects' || task?.typeUnity == 'depositObject' || task?.typeUnity == 'interactObject') {
-              if (task.object == this.role.ressources[index]) {
-                task.object = null;
-              }
-              task.combineObjects.forEach((object, i) => {
-                if (object[0] == this.role.ressources[index]) {
-                  task.combineObjects[i][0] = null;
+              if (task?.typeUnity == 'getObject' || task?.typeUnity == 'combineObjects' || task?.typeUnity == 'exchangeObjects' || task?.typeUnity == 'depositObject' || task?.typeUnity == 'interactObject') {
+                if (task.object == this.role.ressources[index]) {
+                  task.object = null;
                 }
-              });
-              task.giveObjects.forEach((object, i) => {
-                if (object[0] == this.role.ressources[index]) {
-                  task.giveObjects[i][0] = null;
-                }
-              });
-              task.receiveObjects.forEach((object, i) => {
-                if (object[0] == this.role.ressources[index]) {
-                  task.receiveObjects[i][0] = null;
-                }
-              });
-            }
+                task.combineObjects.forEach((object, i) => {
+                  if (object[0] == this.role.ressources[index]) {
+                    task.combineObjects[i][0] = null;
+                  }
+                });
+                task.giveObjects.forEach((object, i) => {
+                  if (object[0] == this.role.ressources[index]) {
+                    task.giveObjects[i][0] = null;
+                  }
+                });
+                task.receiveObjects.forEach((object, i) => {
+                  if (object[0] == this.role.ressources[index]) {
+                    task.receiveObjects[i][0] = null;
+                  }
+                });
+              }    
+            }       
           });
         });
         this.role.ressources.splice(index, 1);

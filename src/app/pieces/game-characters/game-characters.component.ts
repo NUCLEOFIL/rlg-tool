@@ -11,6 +11,7 @@ import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UnityService } from 'src/app/services/unity/unity.service';
+import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
 
 @Component({
   selector: 'app-game-characters',
@@ -47,14 +48,16 @@ export class GameCharactersComponent implements OnInit {
             role.tasks.forEach(inlineTasks => {
               inlineTasks.forEach(task => {
                 if (task instanceof Task) {
-                  task.characters = [];
-                  if (task.rewardType == 'character') {
-                    task.resetReward();
-                    task.rewardType = 'none';
-                  }
+                  for (let i = 0; i < task.rewards.length; i++) {
+                    let reward = task.rewards[i];
+                    if (reward.type == 'character') {
+                      task.rewards.splice(i,1);
+                      i--;
+                    }
+                  }    
                   if (task?.typeUnity == 'character' || task?.typeUnity == 'exchangeObjects') {
                     task.character = null;
-                  }
+                  }                                
                 }
               });
             });
@@ -85,16 +88,22 @@ export class GameCharactersComponent implements OnInit {
             mission.roles.forEach(role => {
               role.tasks.forEach(inlineTask => {
                 inlineTask.forEach(task => {
-                  let i: number | undefined = task?.characters.findIndex(character => character == this.scenario.characters[index]);
-                  if (typeof i !== 'undefined' && i !== -1) {
-                    task?.characters.splice(i, 1);
-                  }
-                  if (task?.rewardType == 'character' && task.reward == this.scenario.characters[index]) {
-                    task.resetReward();
-                    task.rewardType = 'none';
-                  }
-                  if ((task?.typeUnity == 'character' || task?.typeUnity == 'exchangeObjects') && task.character == this.scenario.characters[index]) {
-                    task.character = null;
+                  if (task instanceof Task) {
+                    let i: number | undefined = task?.characters.findIndex(character => character == this.scenario.characters[index]);
+                    if (typeof i !== 'undefined' && i !== -1) {
+                      task?.characters.splice(i, 1);
+                    }
+                    for (let rewardIndex = 0; rewardIndex < task.rewards.length; rewardIndex++) {
+                      let reward = task.rewards[rewardIndex];
+                      if (reward.type == 'character') {
+                        if ((reward as CharacterReward).character == this.scenario.characters[index])
+                        task.rewards.splice(rewardIndex,1);
+                        rewardIndex--;
+                      }
+                    }    
+                    if ((task?.typeUnity == 'character' || task?.typeUnity == 'exchangeObjects') && task.character == this.scenario.characters[index]) {
+                      task.character = null;
+                    }                    
                   }
                 });
               });

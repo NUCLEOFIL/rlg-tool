@@ -399,8 +399,8 @@
     "legals_cookies_title": "Cookies",
     "legals_cookies_content": "We do not record any cookies and do not save any personal data!",
 
-    "rewards_tooltip": "Indicate the result obtained",
-    "rewards_title": "Result / Reward",
+    "rewards_tooltip": "Indicate the rewards obtained",
+    "rewards_title": "Results / Rewards",
     "rewards_type_label": "Type",
     "rewards_type_none": "None",
     "rewards_type_object": "Object",

@@ -33,7 +33,28 @@
             padding: 5px 5px 5px 5px;
         }
 
+        button {
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        &-buttons {
+
+            &-add {
+                margin-top: 10px;
+            }
+
+            &-remove {
+                position: relative;
+                left: 100%;
+                transform: translateX(-100%);
+            }
+        }
+
         &-content {
+            margin-top: 5px;
+            padding-bottom: 5px;
+            border-bottom: solid black 1px;
 
             &-type, &-name, &-object, &-character, &-skill {
                 margin-bottom: 5px;

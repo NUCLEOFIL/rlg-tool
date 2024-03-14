@@ -47,6 +47,7 @@ import { Response } from './class/response/response';
 import { Sentence } from './class/sentence/sentence';
 import { InterrogativeSentence } from './class/sentence/interrogativeSentence/interrogative-sentence';
 import { DeclarativeSentence } from './class/sentence/declarativeSentence/declarative-sentence';
+import { ObjectReward } from './class/rewards/object-reward/object-reward';
 
 @Component({
   selector: 'app-root',
@@ -349,20 +350,45 @@ export class AppComponent {
                         prerequire.ressource = role.ressources[i];
                       }
                     })
-                    if (task.rewardType == 'object' || task.rewardType == 'skill') {
-                      if (scenario.ressources.some(element => element.name == (task.reward as Ressource).name && element.type == (task.reward as Ressource).type && element.number == (task.reward as Ressource).number)) {
-                        let i: number = scenario.ressources.findIndex(element => element.name == (task.reward as Ressource).name && element.type == (task.reward as Ressource).type && element.number == (task.reward as Ressource).number);
-                        task.reward = scenario.ressources[i];
-                      } else {
-                        let i: number = role.ressources.findIndex(element => element.name == (task.reward as Ressource).name && element.type == (task.reward as Ressource).type && element.number == (task.reward as Ressource).number);
-                        task.reward = role.ressources[i];
+
+                    task.rewards.forEach((reward, rewardIndex) => {
+                      if (reward.type == 'object') {
+                        if (scenario.ressources.some(element => element.name == (reward as ObjectReward).object.name && element.type == (reward as ObjectReward).object.type && element.number == (reward as ObjectReward).object.number)) {
+                          let i: number = scenario.ressources.findIndex(element => element.name == (reward as ObjectReward).object.name && element.type == (reward as ObjectReward).object.type && element.number == (reward as ObjectReward).object.number);
+                          let newReward: ObjectReward = new ObjectReward();
+                          newReward.object = scenario.ressources[i];
+                          newReward.quantity = (reward as ObjectReward).quantity;
+                          task.rewards[rewardIndex] = newReward;
+                        } else {
+                          let i: number = role.ressources.findIndex(element => element.name == (reward as ObjectReward).object.name && element.type == (reward as ObjectReward).object.type && element.number == (reward as ObjectReward).object.number);
+                          let newReward: ObjectReward = new ObjectReward();
+                          newReward.object = role.ressources[i];
+                          newReward.quantity = (reward as ObjectReward).quantity;
+                          task.rewards[rewardIndex] = newReward;
+                        }
                       }
-                    } else if (task.rewardType == 'character') {
-                      let i: number = scenario.characters.findIndex(element => element.name == (task.reward as Character).name && element.description == (task.reward as Character).description && element.color == (task.reward as Character).color);
-                      task.reward = scenario.characters[i];
-                    }
-
-
+                      if (reward.type == 'skill') {
+                        if (scenario.ressources.some(element => element.name == (reward as SkillReward).skill.name && element.type == (reward as SkillReward).skill.type && element.number == (reward as SkillReward).skill.number)) {
+                          let i: number = scenario.ressources.findIndex(element => element.name == (reward as SkillReward).skill.name && element.type == (reward as SkillReward).skill.type && element.number == (reward as SkillReward).skill.number);
+                          let newReward: SkillReward = new SkillReward();
+                          newReward.skill = scenario.ressources[i];
+                          newReward.quantity = (reward as SkillReward).quantity;
+                          task.rewards[rewardIndex] = newReward;
+                        } else {
+                          let i: number = role.ressources.findIndex(element => element.name == (reward as SkillReward).skill.name && element.type == (reward as SkillReward).skill.type && element.number == (reward as SkillReward).skill.number);
+                          let newReward: SkillReward = new SkillReward();
+                          newReward.skill = role.ressources[i];
+                          newReward.quantity = (reward as SkillReward).quantity;
+                          task.rewards[rewardIndex] = newReward;
+                        }
+                      }
+                      if (reward.type == 'character') {
+                        let i: number = scenario.characters.findIndex(element => element.name == (reward as CharacterReward).character.name && element.description == (reward as CharacterReward).character.description && element.color == (reward as CharacterReward).character.color);
+                        let newReward: CharacterReward = new CharacterReward();
+                        newReward.character = scenario.characters[i];
+                        task.rewards[rewardIndex] = newReward;
+                      }
+                    });
                     if ((task.typeUnity == 'getObject' || task.typeUnity == 'depositObject' || task.typeUnity == 'interactObject') && task.object) {
                       if (scenario.ressources.some(element => element.name == (task.object as Ressource).name && element.number == (task.object as Ressource).number && element.type == (task.object as Ressource).type)) {
                         let i: number = scenario.ressources.findIndex(element => element.name == (task.object as Ressource).name && element.number == (task.object as Ressource).number && element.type == (task.object as Ressource).type);

@@ -4,6 +4,7 @@ import { PrerequireRessource } from "../prerequires/prerequire-ressource/prerequ
 import { PrerequireTask } from "../prerequires/prerequire-task/prerequire-task";
 import { Repeat } from "../repeat/repeat";
 import { Ressource } from "../ressource/ressource";
+import { Reward } from "../rewards/reward";
 import { SupplementaryRole } from "../supplementary-role/supplementary-role";
 import { Symbol } from "../symbol/symbol";
 
@@ -36,10 +37,7 @@ export class Task {
     supplementaryRole!: SupplementaryRole;
     interrupt: string = '';
 
-    rewardType: string = 'none'; //none / object / character / skill
-    //rewardName: string = '';
-    rewardQuantity: number = 1;
-    reward: (Character | Ressource | null) = null;
+    rewards: Reward[] = [];
 
     constructor(type: string) {
         this.type = type;
@@ -54,12 +52,7 @@ export class Task {
             this.type = type;
         }
     }
-
-    public resetReward(): void {
-        this.reward = null;
-        this.rewardQuantity = 1;
-    }
-
+ 
     public resetUnityContent(): void {
         this.object = null;
         this.objectQuantity = 1;
