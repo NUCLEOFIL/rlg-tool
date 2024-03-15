@@ -276,6 +276,9 @@ export class AppComponent {
                 if (rewardData.type == 'other') {
                   return Object.assign(new OtherReward(), rewardData);
                 }
+                if (rewardData.type == 'object') {
+                  return Object.assign(new ObjectReward(), rewardData);
+                }
               });
               role.rewards.forEach((reward: Reward, index: number) => {
                 if (reward instanceof SkillReward) {
@@ -290,7 +293,15 @@ export class AppComponent {
                   let i: number = role.educationnalObjectives.findIndex(element => element.objective == reward.objective.objective);
                   reward.objective = role.educationnalObjectives[i];
                 }
-
+                if (reward instanceof ObjectReward) {
+                  if (scenario.ressources.some(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number)) {
+                    let i: number = scenario.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                    reward.object = scenario.ressources[i];
+                  } else {
+                    let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                    reward.object = role.ressources[i];
+                  }
+                }
               });
               role.discussions = role.discussions.map((discussionData: any) => {
                 let character: Character | undefined = scenario.characters.find(char => char.color == discussionData.character.color 

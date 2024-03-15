@@ -12,6 +12,7 @@ import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
+import { Reward } from 'src/app/class/rewards/reward';
 
 @Component({
   selector: 'app-game-characters',
@@ -45,6 +46,13 @@ export class GameCharactersComponent implements OnInit {
         this.scenario.characters = [];
         this.scenario.missions.forEach(mission => {
           mission.roles.forEach(role => {
+            for (let i = 0; i < role.rewards.length; i++) {
+              let reward: Reward = role.rewards[i];
+              if (reward.type == 'character') {
+                role.rewards.splice(i,1);
+                i--;
+              }
+            }
             role.tasks.forEach(inlineTasks => {
               inlineTasks.forEach(task => {
                 if (task instanceof Task) {
@@ -86,6 +94,15 @@ export class GameCharactersComponent implements OnInit {
         if (result == true) {
           this.scenario.missions.forEach(mission => {
             mission.roles.forEach(role => {
+              for (let i = 0; i < role.rewards.length; i++) {
+                let reward: Reward = role.rewards[i];
+                if (reward.type == 'character') {
+                  if ((reward as CharacterReward).character == this.scenario.characters[index]) {
+                    role.rewards.splice(i,1);
+                    i--;
+                  }
+                }
+              }
               role.tasks.forEach(inlineTask => {
                 inlineTask.forEach(task => {
                   if (task instanceof Task) {

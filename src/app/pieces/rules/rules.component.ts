@@ -11,6 +11,7 @@ import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
+import { Reward } from 'src/app/class/rewards/reward';
 
 @Component({
   selector: 'app-rules',
@@ -39,9 +40,18 @@ export class RulesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.scenario.gameRules = '';
-        this.scenario.ressources.forEach((ressource, i) => {
+        this.scenario.ressources.forEach((ressource) => {
           this.scenario.missions.forEach(mission => {
             mission.roles.forEach(role => {
+              for (let i = 0; i < role.rewards.length; i++) {
+                let reward: Reward = role.rewards[i];
+                if (reward.type == 'object') {
+                  if (ressource == (reward as ObjectReward).object) {
+                    role.rewards.splice(i,1);
+                    i--;
+                  }
+                }
+              }
               role.tasks.forEach(inlineTasks => {
                 inlineTasks.forEach(task => {
                   if (task instanceof Task) {
@@ -106,6 +116,15 @@ export class RulesComponent implements OnInit {
       if (result == true) {
         this.scenario.missions.forEach(mission => {
           mission.roles.forEach(role => {
+            for (let i = 0; i < role.rewards.length; i++) {
+              let reward: Reward = role.rewards[i];
+              if (reward.type == 'object') {
+                if (this.scenario.ressources[index] == (reward as ObjectReward).object) {
+                  role.rewards.splice(i,1);
+                  i--;
+                }
+              }
+            }
             role.tasks.forEach(inlineTasks => {
               inlineTasks.forEach(task => {
                 if (task instanceof Task) {

@@ -28,6 +28,7 @@ import { Task } from 'src/app/class/task/task';
 import { CopyRoleSuccessComponent } from 'src/app/components/snackbars/copy-role-success/copy-role-success.component';
 import { RoleOccurrence } from 'src/app/class/role-occurrence/role-occurrence';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
+import { Reward } from 'src/app/class/rewards/reward';
 
 @Component({
   selector: 'app-role',
@@ -110,6 +111,19 @@ export class RoleComponent implements OnInit {
         newReward.character = (reward as CharacterReward).character;
         this.copyRoleService.role?.rewards.push(newReward);        
       }
+      if (reward.type == 'object') {
+        let newReward: ObjectReward = new ObjectReward();
+        newReward.type = reward.type;
+        newReward.quantity = (reward as ObjectReward).quantity;
+        if (this.scenario.ressources.some(ressource => ressource.name == (reward as ObjectReward).object.name && ressource.number == (reward as ObjectReward).object.number && ressource.type == (reward as ObjectReward).object.type)) {
+          let i: number = this.scenario.ressources.findIndex(ressource => ressource.name == (reward as ObjectReward).object.name && ressource.number == (reward as ObjectReward).object.number && ressource.type == (reward as ObjectReward).object.type);
+          newReward.object = this.scenario.ressources[i];
+        } else {
+          let i: number = this.role.ressources.findIndex(ressource => ressource.name == (reward as ObjectReward).object.name && ressource.number == (reward as ObjectReward).object.number && ressource.type == (reward as ObjectReward).object.type);
+          newReward.object = this.role.ressources[i];
+        }
+        this.copyRoleService.role?.rewards.push(newReward);
+      }
       if (reward.type == 'other') {
         let newReward: OtherReward = new OtherReward();
         newReward.type = reward.type;
@@ -128,7 +142,11 @@ export class RoleComponent implements OnInit {
   }
 
   onClickPaste(): void {
-    this.role = Object.assign(new Role(), this.copyRoleService.role);
+    //this.role = Object.assign(new Role(), this.copyRoleService.role);
+    this.role.intitule = (this.copyRoleService.role as Role).intitule;
+    this.role.questName = (this.copyRoleService.role as Role).questName;
+    this.role.description = (this.copyRoleService.role as Role).description;
+    this.role.stuff = (this.copyRoleService.role as Role).stuff;
     this.role.ressources = (this.copyRoleService.role as Role).ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
     this.role.educationnalObjectives = (this.copyRoleService.role as Role).educationnalObjectives.map((educationnalObjectiveData: any) => Object.assign(new RoleEducationnalObjective(), educationnalObjectiveData));
     this.role.supplementaryRoles = (this.copyRoleService.role as Role).supplementaryRoles.map((supplementaryRoleData: any) => Object.assign(new SupplementaryRole(), supplementaryRoleData));
@@ -166,6 +184,19 @@ export class RoleComponent implements OnInit {
         newReward.type = reward.type;
         newReward.character = (reward as CharacterReward).character;
         this.role.rewards.push(newReward);        
+      }
+      if (reward.type == 'object') {
+        let newReward: ObjectReward = new ObjectReward();
+        newReward.type = reward.type;
+        newReward.quantity = (reward as ObjectReward).quantity;
+        if (this.scenario.ressources.some(ressource => ressource.name == (reward as ObjectReward).object.name && ressource.number == (reward as ObjectReward).object.number && ressource.type == (reward as ObjectReward).object.type)) {
+          let i: number = this.scenario.ressources.findIndex(ressource => ressource.name == (reward as ObjectReward).object.name && ressource.number == (reward as ObjectReward).object.number && ressource.type == (reward as ObjectReward).object.type);
+          newReward.object = this.scenario.ressources[i];
+        } else {
+          let i: number = this.role.ressources.findIndex(ressource => ressource.name == (reward as ObjectReward).object.name && ressource.number == (reward as ObjectReward).object.number && ressource.type == (reward as ObjectReward).object.type);
+          newReward.object = this.role.ressources[i];
+        }
+        this.role.rewards.push(newReward);
       }
       if (reward.type == 'other') {
         let newReward: OtherReward = new OtherReward();
@@ -315,6 +346,21 @@ export class RoleComponent implements OnInit {
     const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('role_ressource_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
+        for (let i = 0; i < this.role.rewards.length; i++) {
+          let reward: Reward = this.role.rewards[i];
+          if (reward.type = 'object') {
+            if (this.role.ressources[index] == (reward as ObjectReward).object) {
+              this.role.rewards.splice(i,1);
+              i--;
+            }
+          }
+          if (reward.type = 'skill') {
+            if (this.role.ressources[index] == (reward as SkillReward).skill) {
+              this.role.rewards.splice(i,1);
+              i--;
+            }
+          }
+        }
         this.role.tasks.forEach(inlineTasks => {
           inlineTasks.forEach(task => {
             if (task instanceof Task) {
@@ -399,17 +445,26 @@ export class RoleComponent implements OnInit {
   changeRewardType(index: number, type: string): void {
     switch(type) {
       case 'objects': this.role.rewards[index] = new ObjectsReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectsReward]', 'Role_['+this.i+']', '#9AD5EC', '*')); break;
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectsReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        break;
       case 'quest': this.role.rewards[index] = new QuestReward(); 
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[QuestReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));break;
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[QuestReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        break;
       case 'skill': this.role.rewards[index] = new SkillReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[SkillReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));break;
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[SkillReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        break;
       case 'objective': this.role.rewards[index] = new ObjectiveReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectiveReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));break;
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectiveReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        break;
       case 'character': this.role.rewards[index] = new CharacterReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[CharacterReward]', 'Role_['+this.i+']', '#9AD5EC', '*')); break;
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[CharacterReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        break;
       case 'other': this.role.rewards[index] = new OtherReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[OtherReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));break;
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[OtherReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        break;
+      case 'object': this.role.rewards[index] = new ObjectReward();
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        break;
     }
   }
 
@@ -440,6 +495,10 @@ export class RoleComponent implements OnInit {
 
   getSkillReward(index: number): SkillReward {
     return this.role.rewards[index] as SkillReward;
+  }
+
+  getObjectReward(index: number): ObjectReward {
+    return this.role.rewards[index] as ObjectReward;
   }
 
   getOtherReward(index: number): OtherReward {

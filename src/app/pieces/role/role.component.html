@@ -69,7 +69,8 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                         <option value="character">{{'role_reward_type_character' | translate}}</option>
                         <option value="objective">{{'role_reward_type_objective' | translate}}</option>
-                        <option value="objects">{{'role_reward_type_object' | translate}}</option>
+                        <option value="objects" hidden>{{'role_reward_type_object' | translate}}</option>
+                        <option value="object">{{'role_reward_type_object' | translate}}</option>
                         <!--<option value="discuss">Changer de discussion</option>-->
                         <option value="other">{{'role_reward_type_other' | translate}}</option>
                     </select>                    
@@ -99,6 +100,22 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
                     <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
                 -->
+
+                <div class="piece-form-rewards-reward-object" *ngIf="reward.type == 'object'">
+                    <input type="number" [(ngModel)]="getObjectReward(i).quantity" (change)="editTrace($event, 'Reward_['+i+']_quantity')"/>
+                    <select [(ngModel)]="getObjectReward(i).object" (change)="editTrace($event, 'Reward_['+i+']_object')"
+                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <ng-container *ngFor="let ressource of scenario.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                        <ng-container *ngFor="let ressource of role.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                    </select>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
+                </div>
+
                 <div class="piece-form-rewards-reward-skill" *ngIf="reward.type == 'skill'">
                     <input type="number" [(ngModel)]="getSkillReward(i).quantity" (change)="editTrace($event, 'Reward_['+i+']_quantity')"/>
                     <select [(ngModel)]="getSkillReward(i).skill" (change)="editTrace($event, 'Reward_['+i+']_skill')"
