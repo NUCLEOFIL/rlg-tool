@@ -131,6 +131,7 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
                     <select (change)="changeQuestReward(i, $event)"
                     [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
                         <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
                             <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
                                 <option [ngValue]="quest.questName" [selected]="getQuestReward(i).intitule == quest.intitule && getQuestReward(i).questName == quest.questName"

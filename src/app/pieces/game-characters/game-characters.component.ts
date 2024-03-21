@@ -53,6 +53,33 @@ export class GameCharactersComponent implements OnInit {
                 i--;
               }
             }
+            role.discussions.forEach(discussion => {
+              for (let i = 0; i < discussion.rewards.length; i++) {
+                let reward: Reward = discussion.rewards[i];
+                if (reward.type == 'character') {
+                  discussion.rewards.splice(i,1);
+                  i--;
+                }
+              }
+            });
+            role.sentences.forEach(sentence => {
+              for (let i = 0; i < sentence.rewards.length; i++) {
+                let reward: Reward = sentence.rewards[i];
+                if (reward.type == 'character') {
+                  sentence.rewards.splice(i,1);
+                  i--;
+                }
+              }
+            });
+            role.responses.forEach(response => {
+              for (let i = 0; i < response.rewards.length; i++) {
+                let reward: Reward = response.rewards[i];
+                if (reward.type == 'character') {
+                  response.rewards.splice(i,1);
+                  i--;
+                }
+              }
+            });
             role.tasks.forEach(inlineTasks => {
               inlineTasks.forEach(task => {
                 if (task instanceof Task) {
@@ -103,6 +130,39 @@ export class GameCharactersComponent implements OnInit {
                   }
                 }
               }
+              role.discussions.forEach(discussion => {
+                for (let i = 0; i < discussion.rewards.length; i++) {
+                  let reward: Reward = discussion.rewards[i];
+                  if (reward.type == 'character') {
+                    if ((reward as CharacterReward).character == this.scenario.characters[index]) {
+                      discussion.rewards.splice(i,1);
+                      i--;
+                    }
+                  }
+                }
+              });
+              role.sentences.forEach(sentence => {
+                for (let i = 0; i < sentence.rewards.length; i++) {
+                  let reward: Reward = sentence.rewards[i];
+                  if (reward.type == 'character') {
+                    if ((reward as CharacterReward).character == this.scenario.characters[index]) {
+                      sentence.rewards.splice(i,1);
+                      i--;
+                    }
+                  }
+                }
+              });
+              role.responses.forEach(response => {
+                for (let i = 0; i < response.rewards.length; i++) {
+                  let reward: Reward = response.rewards[i];
+                  if (reward.type == 'character') {
+                    if ((reward as CharacterReward).character == this.scenario.characters[index]) {
+                      response.rewards.splice(i,1);
+                      i--;
+                    }
+                  }
+                }
+              });
               role.tasks.forEach(inlineTask => {
                 inlineTask.forEach(task => {
                   if (task instanceof Task) {

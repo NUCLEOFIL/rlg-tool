@@ -13,9 +13,82 @@
     </div>
     <div class="form-result">
         <label for="result">{{'discussion_result_label' | translate}}</label>
+        <!--
         <select name="result">
             <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
         </select>
+        -->
+        <div class="form-result-results">
+
+            <div class="form-result-results-result" *ngFor="let reward of discussion.rewards, let rewardIndex = index">
+                <div class="form-result-results-result-type">
+                    <label>{{'role_reward_type_label' | translate}}</label>
+                    <select [(ngModel)]="reward.type" (change)="discussion.changeRewardType(rewardIndex, reward.type)"
+                    [matTooltip]="translate.instant('discussion_reward_type_discussion_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
+                        <option value="skill">{{'role_reward_type_skill' | translate}}</option>
+                        <option value="character">{{'role_reward_type_character' | translate}}</option>
+                        <option value="object">{{'role_reward_type_object' | translate}}</option>
+                        <!--<option value="discuss">Changer de discussion</option>-->
+                    </select> 
+                </div>
+
+                <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
+                    <select (change)="discussion.changeQuestReward(role.intitule, rewardIndex, $event)"
+                    [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
+                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                <option [ngValue]="quest.questName" [selected]="discussion.getQuestReward(rewardIndex).intitule == quest.intitule && discussion.getQuestReward(rewardIndex).questName == quest.questName"
+                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                    {{quest.questName}}
+                                </option>
+                            </ng-container>
+                        </ng-container>
+                    </select>
+                </div>
+                
+                <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
+                    <input type="number" [(ngModel)]="discussion.getSkillReward(rewardIndex).quantity"/>
+                    <select [(ngModel)]="discussion.getSkillReward(rewardIndex).skill"
+                    [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <ng-container *ngFor="let skill of role.ressources">
+                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+
+                <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
+                    <select [(ngModel)]="discussion.getCharacterReward(rewardIndex).character"
+                    [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                    </select>
+                </div>
+
+                <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
+                    <input type="number" [(ngModel)]="discussion.getObjectReward(rewardIndex).quantity"/>
+                    <select [(ngModel)]="discussion.getObjectReward(rewardIndex).object"
+                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <ng-container *ngFor="let ressource of scenario.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                        <ng-container *ngFor="let ressource of role.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+
+                <button mat-button class="form-result-button-remove" (click)="discussion.removeReward(rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
+            </div>
+
+            <button mat-button class="form-result-button-add" (click)="discussion.addReward()"><mat-icon fontIcon="add"></mat-icon></button>
+        </div>
+        
     </div>
     <div class="form-addSentence">
         <button mat-button (click)="addDeclarativeSentence()">{{'discussion_buttons_newDeclarativeSentence' | translate}}</button>
@@ -47,12 +120,6 @@
                             [disabled]="discussion.firstSentenceID != -1 && discussion.firstSentenceID != sentence.ID"/>
                         <label for="firstSentence">{{'discussion_firstSentence_label' | translate}}</label>
                     </div>
-                    <div class="form-result">
-                        <label for="result">{{'discussion_result_label' | translate}}</label>
-                        <select name="result">
-                            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
-                        </select>
-                    </div>
                     <div class="form-nextSentence">
                         <label for="nextSentence">{{'discussion_nextSentence_label' | translate}}</label>
                         <select name="nextSentence" [(ngModel)]="getSentenceAsDeclarativeSentence(sentence).nextSentence">
@@ -61,6 +128,85 @@
                                 <option [ngValue]="nextSentence.ID" *ngIf="sentence.ID != nextSentence.ID && sentence.idDiscussion == nextSentence.idDiscussion">ID: {{nextSentence.ID}}</option>
                             </ng-container>
                         </select>
+                    </div>
+                    <div class="form-result">
+                        <label for="result">{{'discussion_result_label' | translate}}</label>
+                        <!--
+                        <select name="result">
+                            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
+                        </select>
+                        -->
+                        <div class="form-result-results">
+                
+                            <div class="form-result-results-result" *ngFor="let reward of sentence.rewards, let rewardIndex = index">
+                                <div class="form-result-results-result-type">
+                                    <label>{{'role_reward_type_label' | translate}}</label>
+                                    <select [(ngModel)]="reward.type" (change)="sentence.changeRewardType(rewardIndex, reward.type)"
+                                    [matTooltip]="translate.instant('discussion_reward_type_declarativeSentence_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
+                                        <option value="skill">{{'role_reward_type_skill' | translate}}</option>
+                                        <option value="character">{{'role_reward_type_character' | translate}}</option>
+                                        <option value="object">{{'role_reward_type_object' | translate}}</option>
+                                        <!--<option value="discuss">Changer de discussion</option>-->
+                                    </select> 
+                                </div>
+                
+                                <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
+                                    <select (change)="sentence.changeQuestReward(role.intitule, rewardIndex, $event)"
+                                    [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
+                                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                                <option [ngValue]="quest.questName" [selected]="sentence.getQuestReward(rewardIndex).intitule == quest.intitule && sentence.getQuestReward(rewardIndex).questName == quest.questName"
+                                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                                    {{quest.questName}}
+                                                </option>
+                                            </ng-container>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
+                                    <input type="number" [(ngModel)]="sentence.getSkillReward(rewardIndex).quantity"/>
+                                    <select [(ngModel)]="sentence.getSkillReward(rewardIndex).skill"
+                                    [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <ng-container *ngFor="let skill of role.ressources">
+                                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                
+                                <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
+                                    <select [(ngModel)]="sentence.getCharacterReward(rewardIndex).character"
+                                    [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                                    </select>
+                                </div>
+                
+                                <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
+                                    <input type="number" [(ngModel)]="sentence.getObjectReward(rewardIndex).quantity"/>
+                                    <select [(ngModel)]="sentence.getObjectReward(rewardIndex).object"
+                                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <ng-container *ngFor="let ressource of scenario.ressources">
+                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let ressource of role.ressources">
+                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                
+                                <button mat-button class="form-result-button-remove" (click)="sentence.removeReward(rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
+                            </div>
+                
+                            <button mat-button class="form-result-button-add" (click)="sentence.addReward()"><mat-icon fontIcon="add"></mat-icon></button>
+                        </div>
+                        
                     </div>
                     <button mat-button class="form-sentence-delete" (click)="deleteDeclarativeSentence(sentence.ID)">{{'discussion_buttons_deleteDeclarativeSentence' | translate}}</button>
                 </div>
@@ -92,9 +238,75 @@
                     </div>
                     <div class="form-result">
                         <label for="result">{{'discussion_result_label' | translate}}</label>
-                        <select name="result">
-                            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
-                        </select>
+                        <div class="form-result-results">
+                            <div class="form-result-results-result" *ngFor="let reward of sentence.rewards, let rewardIndex = index">
+                                <div class="form-result-results-result-type">
+                                    <label>{{'role_reward_type_label' | translate}}</label>
+                                    <select [(ngModel)]="reward.type" (change)="sentence.changeRewardType(rewardIndex, reward.type)"
+                                    [matTooltip]="translate.instant('discussion_reward_type_interrogativeSentence_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
+                                        <option value="skill">{{'role_reward_type_skill' | translate}}</option>
+                                        <option value="character">{{'role_reward_type_character' | translate}}</option>
+                                        <option value="object">{{'role_reward_type_object' | translate}}</option>
+                                        <!--<option value="discuss">Changer de discussion</option>-->
+                                    </select> 
+                                </div>
+                
+                                <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
+                                    <select (change)="sentence.changeQuestReward(role.intitule, rewardIndex, $event)"
+                                    [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
+                                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                                <option [ngValue]="quest.questName" [selected]="sentence.getQuestReward(rewardIndex).intitule == quest.intitule && sentence.getQuestReward(rewardIndex).questName == quest.questName"
+                                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                                    {{quest.questName}}
+                                                </option>
+                                            </ng-container>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
+                                    <input type="number" [(ngModel)]="sentence.getSkillReward(rewardIndex).quantity"/>
+                                    <select [(ngModel)]="sentence.getSkillReward(rewardIndex).skill"
+                                    [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <ng-container *ngFor="let skill of role.ressources">
+                                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                
+                                <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
+                                    <select [(ngModel)]="sentence.getCharacterReward(rewardIndex).character"
+                                    [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                                    </select>
+                                </div>
+                
+                                <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
+                                    <input type="number" [(ngModel)]="sentence.getObjectReward(rewardIndex).quantity"/>
+                                    <select [(ngModel)]="sentence.getObjectReward(rewardIndex).object"
+                                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <ng-container *ngFor="let ressource of scenario.ressources">
+                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let ressource of role.ressources">
+                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                
+                                <button mat-button class="form-result-button-remove" (click)="sentence.removeReward(rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
+                            </div>
+                
+                            <button mat-button class="form-result-button-add" (click)="sentence.addReward()"><mat-icon fontIcon="add"></mat-icon></button>
+                        </div>
                     </div>
                     <button mat-button class="form-sentence-addResponse" (click)="addResponse(getSentenceAsInterrogativeSentence(sentence))">{{'discussion_buttons_newResponse' | translate}}</button>
 
@@ -113,12 +325,6 @@
                                         <label for="sentence">{{'discussion_response' | translate}}</label>
                                         <textarea name="sentence" [(ngModel)]="response.value"></textarea>
                                     </div>
-                                    <div class="form-result">
-                                        <label for="result">{{'discussion_result_label' | translate}}</label>
-                                        <select name="result">
-                                            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
-                                        </select>
-                                    </div>
                                     <div class="form-nextSentence">
                                         <label for="nextSentence">{{'discussion_nextSentence_label' | translate}}</label>
                                         <select name="nextSentence" [(ngModel)]="response.nextSentence">
@@ -127,6 +333,79 @@
                                                 <option [ngValue]="nextSentence.ID" *ngIf="sentence.ID != nextSentence.ID && sentence.idDiscussion == nextSentence.idDiscussion">ID: {{nextSentence.ID}}</option>
                                             </ng-container>
                                         </select>
+                                    </div>
+                                    <div class="form-result">
+                                        <label for="result">{{'discussion_result_label' | translate}}</label>
+                                        <div class="form-result-results">
+                    
+                                            <div class="form-result-results-result" *ngFor="let reward of response.rewards, let rewardIndex = index">
+                                                <div class="form-result-results-result-type">
+                                                    <label>{{'role_reward_type_label' | translate}}</label>
+                                                    <select [(ngModel)]="reward.type" (change)="response.changeRewardType(rewardIndex, reward.type)"
+                                                    [matTooltip]="translate.instant('discussion_reward_type_response_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                        <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
+                                                        <option value="skill">{{'role_reward_type_skill' | translate}}</option>
+                                                        <option value="character">{{'role_reward_type_character' | translate}}</option>
+                                                        <option value="object">{{'role_reward_type_object' | translate}}</option>
+                                                        <!--<option value="discuss">Changer de discussion</option>-->
+                                                    </select> 
+                                                </div>
+                                
+                                                <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
+                                                    <select (change)="response.changeQuestReward(role.intitule, rewardIndex, $event)"
+                                                    [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
+                                                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                                                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                                                <option [ngValue]="quest.questName" [selected]="response.getQuestReward(rewardIndex).intitule == quest.intitule && response.getQuestReward(rewardIndex).questName == quest.questName"
+                                                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                                                    {{quest.questName}}
+                                                                </option>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
+                                                    <input type="number" [(ngModel)]="response.getSkillReward(rewardIndex).quantity"/>
+                                                    <select [(ngModel)]="response.getSkillReward(rewardIndex).skill"
+                                                    [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                        <ng-container *ngFor="let skill of role.ressources">
+                                                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+                                
+                                                <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
+                                                    <select [(ngModel)]="response.getCharacterReward(rewardIndex).character"
+                                                    [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                                                    </select>
+                                                </div>
+                                
+                                                <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
+                                                    <input type="number" [(ngModel)]="response.getObjectReward(rewardIndex).quantity"/>
+                                                    <select [(ngModel)]="response.getObjectReward(rewardIndex).object"
+                                                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                        <ng-container *ngFor="let ressource of scenario.ressources">
+                                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                                        </ng-container>
+                                                        <ng-container *ngFor="let ressource of role.ressources">
+                                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+                                
+                                                <button mat-button class="form-result-button-remove" (click)="response.removeReward(rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
+                                            </div>
+                                
+                                            <button mat-button class="form-result-button-add" (click)="response.addReward()"><mat-icon fontIcon="add"></mat-icon></button>
+                                        </div>
                                     </div>
                                     <button mat-button class="form-sentence-delete" (click)="deleteResponse(getSentenceAsInterrogativeSentence(sentence), response.ID)" *ngIf="countResponses(sentence.ID) > 1">{{'discussion_buttons_deleteResponse' | translate}}</button>
                                 </div>

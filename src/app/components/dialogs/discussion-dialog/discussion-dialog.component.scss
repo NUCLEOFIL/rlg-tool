@@ -61,6 +61,61 @@ mat-dialog-actions {
 
     &-result {
         margin-top: 20px;
+
+        &-results {
+
+            &-result {
+                margin-bottom: 5px;
+
+                &-type {
+                    display: flex;
+                    justify-content: space-between;
+
+                    select {
+                        width: 200px;
+                    }
+                }
+
+                &-skill, &-object {
+                    margin-top: 3px;
+                    width: 250px;
+                    display: flex;
+                    justify-content: space-between;
+
+                    input {
+                        width: 30px;
+                        text-align: center;
+                    }
+
+                    select {
+                        width: 200px;
+                    }
+                }
+
+                &-character, &-quest {
+                    margin-top: 3px;
+                    width: 250px;
+
+                    select {
+                        width: 250px;
+                    }
+                }
+            }
+        }
+
+        &-button {
+            &-add {
+                margin-top: 5px;
+                width: 250px;
+            }
+
+            &-remove {
+                position: relative;
+                left: 100%;
+                transform: translateX(-100%);
+                margin-top: 5px;  
+            }
+        }
     }
 
     &-result, &-nextSentence {
@@ -68,6 +123,10 @@ mat-dialog-actions {
         display: flex;
         justify-content: space-between;
         margin-bottom: 5px;
+    }
+
+    &-nextSentence {
+        margin-top: 5px;
 
         select {
             width: 250px;

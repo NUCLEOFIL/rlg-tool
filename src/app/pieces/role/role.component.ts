@@ -219,6 +219,54 @@ export class RoleComponent implements OnInit {
     const dialogRef = this.dialog.open(CleanDialogComponent, { data: this.translate.instant('role_clean')+' '+(this.role.intitule ? '<'+this.role.intitule+'>' : (this.i+1)) });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
+        this.scenario.missions.forEach(mission => {
+          mission.roles.forEach(role => {
+            if (role.intitule == this.role.intitule) {
+              for (let i = 0; i < role.rewards.length; i++) {
+                let reward = role.rewards[i];
+                if (reward.type == 'quest') {
+                  if ((reward as QuestReward).questName == this.role.questName) {
+                    role.rewards.splice(i,1);
+                    i--;
+                  }
+                }
+              } 
+              role.discussions.forEach(discussion => {
+                for (let i = 0; i < discussion.rewards.length; i++) {
+                  let reward = discussion.rewards[i];
+                  if (reward.type == 'quest') {
+                    if ((reward as QuestReward).questName == this.role.questName) {
+                      discussion.rewards.splice(i,1);
+                      i--;
+                    }
+                  }
+                }
+              });
+              role.sentences.forEach(sentence => {
+                for (let i = 0; i < sentence.rewards.length; i++) {
+                  let reward = sentence.rewards[i];
+                  if (reward.type == 'quest') {
+                    if ((reward as QuestReward).questName == this.role.questName) {
+                      sentence.rewards.splice(i,1);
+                      i--;
+                    }
+                  }
+                }
+              });
+              role.responses.forEach(response => {
+                for (let i = 0; i < response.rewards.length; i++) {
+                  let reward = response.rewards[i];
+                  if (reward.type == 'quest') {
+                    if ((reward as QuestReward).questName == this.role.questName) {
+                      response.rewards.splice(i,1);
+                      i--;
+                    }
+                  }
+                }
+              });
+            }
+          });
+        });
         this.role.intitule = '';
         this.role.questName = '';
         this.role.description = '';
@@ -226,6 +274,9 @@ export class RoleComponent implements OnInit {
         this.role.rewards = [];
         this.role.stuff = '';
         this.role.supplementaryRoles = []; 
+        this.role.discussions = [];
+        this.role.sentences = [];
+        this.role.responses = [];
         this.role.tasks.forEach(inlineTasks => {
           inlineTasks.forEach(task => {
             this.role.ressources.forEach(ressource => {
@@ -287,16 +338,62 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       let missionIndex: number = this.scenario.missions.findIndex(mission => mission == this.mission);
       if (result == true) {
-        this.mission.roles.forEach(role => {
-          role.tasks.forEach(inlineTask => {
-            inlineTask.forEach(task => {
-              if (task instanceof Task) {
-                if (task.typeUnity == 'talkWithRole' || task.typeUnity == 'askToSeeRole') {
-                  if (task.role == role.intitule) {
-                    task.role = '';
+        this.scenario.missions.forEach(mission => {
+          mission.roles.forEach(role => {
+            if (role.intitule == this.role.intitule) {
+              for (let i = 0; i < role.rewards.length; i++) {
+                let reward = role.rewards[i];
+                if (reward.type == 'quest') {
+                  if ((reward as QuestReward).questName == this.role.questName) {
+                    role.rewards.splice(i,1);
+                    i--;
                   }
-                }              
-              }
+                }
+              } 
+              role.discussions.forEach(discussion => {
+                for (let i = 0; i < discussion.rewards.length; i++) {
+                  let reward = discussion.rewards[i];
+                  if (reward.type == 'quest') {
+                    if ((reward as QuestReward).questName == this.role.questName) {
+                      discussion.rewards.splice(i,1);
+                      i--;
+                    }
+                  }
+                }
+              });
+              role.sentences.forEach(sentence => {
+                for (let i = 0; i < sentence.rewards.length; i++) {
+                  let reward = sentence.rewards[i];
+                  if (reward.type == 'quest') {
+                    if ((reward as QuestReward).questName == this.role.questName) {
+                      sentence.rewards.splice(i,1);
+                      i--;
+                    }
+                  }
+                }
+              });
+              role.responses.forEach(response => {
+                for (let i = 0; i < response.rewards.length; i++) {
+                  let reward = response.rewards[i];
+                  if (reward.type == 'quest') {
+                    if ((reward as QuestReward).questName == this.role.questName) {
+                      response.rewards.splice(i,1);
+                      i--;
+                    }
+                  }
+                }
+              });
+            }
+            role.tasks.forEach(inlineTask => {
+              inlineTask.forEach(task => {
+                if (task instanceof Task) {
+                  if (task.typeUnity == 'talkWithRole' || task.typeUnity == 'askToSeeRole') {
+                    if (task.role == role.intitule) {
+                      task.role = '';
+                    }
+                  }              
+                }
+              });
             });
           });
         });
@@ -348,19 +445,70 @@ export class RoleComponent implements OnInit {
       if (result == true) {
         for (let i = 0; i < this.role.rewards.length; i++) {
           let reward: Reward = this.role.rewards[i];
-          if (reward.type = 'object') {
+          if (reward.type == 'object') {
             if (this.role.ressources[index] == (reward as ObjectReward).object) {
               this.role.rewards.splice(i,1);
               i--;
             }
           }
-          if (reward.type = 'skill') {
+          if (reward.type == 'skill') {
             if (this.role.ressources[index] == (reward as SkillReward).skill) {
               this.role.rewards.splice(i,1);
               i--;
             }
           }
         }
+        this.role.discussions.forEach(discussion => {
+          for (let i = 0; i < discussion.rewards.length; i++) {
+            let reward: Reward = discussion.rewards[i];
+            if (reward.type == 'object') {
+              if (this.role.ressources[index] == (reward as ObjectReward).object) {
+                discussion.rewards.splice(i,1);
+                i--;
+              }
+            }
+            if (reward.type == 'skill') {
+              if (this.role.ressources[index] == (reward as SkillReward).skill) {
+                discussion.rewards.splice(i,1);
+                i--;
+              }
+            }
+          }
+        });
+        this.role.sentences.forEach(sentence => {
+          for (let i = 0; i < sentence.rewards.length; i++) {
+            let reward: Reward = sentence.rewards[i];
+            if (reward.type == 'object') {
+              if (this.role.ressources[index] == (reward as ObjectReward).object) {
+                sentence.rewards.splice(i,1);
+                i--;
+              }
+            }
+            if (reward.type == 'skill') {
+              if (this.role.ressources[index] == (reward as SkillReward).skill) {
+                sentence.rewards.splice(i,1);
+                i--;
+              }
+            }
+          }
+        });
+        this.role.responses.forEach(response => {
+          for (let i = 0; i < response.rewards.length; i++) {
+            let reward: Reward = response.rewards[i];
+            if (reward.type == 'object') {
+              if (this.role.ressources[index] == (reward as ObjectReward).object) {
+                response.rewards.splice(i,1);
+                i--;
+              }
+            }
+            if (reward.type == 'skill') {
+              if (this.role.ressources[index] == (reward as SkillReward).skill) {
+                response.rewards.splice(i,1);
+                i--;
+              }
+            }
+          }
+        });
         this.role.tasks.forEach(inlineTasks => {
           inlineTasks.forEach(task => {
             if (task instanceof Task) {

@@ -9,6 +9,8 @@ import { InterrogativeSentence } from 'src/app/class/sentence/interrogativeSente
 import { Sentence } from 'src/app/class/sentence/sentence';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { SuppressDialogComponent } from '../suppress-dialog/suppress-dialog.component';
+import { QuestReward } from 'src/app/class/rewards/quest-reward/quest-reward';
+import { Scenario } from 'src/app/class/scenario/scenario';
 
 @Component({
   selector: 'app-discussion-dialog',
@@ -19,11 +21,13 @@ export class DiscussionDialogComponent implements OnInit {
 
   role: Role;
   discussion: Discussion;
+  scenario: Scenario;
 
   constructor(public dialogRef: MatDialogRef<DiscussionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogDiscussionData, protected translate: TranslateService, protected tooltipService: TooltipService, public dialog: MatDialog) {
       this.role = this.data.role;
       this.discussion = this.data.discussion;
+      this.scenario = this.data.scenario;
     }
 
   ngOnInit(): void {
@@ -177,4 +181,5 @@ export class DiscussionDialogComponent implements OnInit {
 export interface DialogDiscussionData {
   role: Role;
   discussion: Discussion;
+  scenario: Scenario;
 }

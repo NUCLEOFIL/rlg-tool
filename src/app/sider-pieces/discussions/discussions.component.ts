@@ -39,7 +39,7 @@ export class DiscussionsComponent implements OnInit {
       this.role.discussions.push(discussion);
       const dialogRef = this.dialog.open(DiscussionDialogComponent, {
         width: '60vw',
-        data: { role: this.role, discussion: discussion }
+        data: { role: this.role, discussion: discussion, scenario: this.scenario }
       });
     }
   }
@@ -47,7 +47,7 @@ export class DiscussionsComponent implements OnInit {
   openDiscussion(discussion: Discussion) {
     const dialogRef = this.dialog.open(DiscussionDialogComponent, {
       width: '60vw',
-      data: { role: this.role, discussion: discussion }
+      data: { role: this.role, discussion: discussion, scenario: this.scenario }
     });
   }
 

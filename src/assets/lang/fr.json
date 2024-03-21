@@ -138,6 +138,7 @@
     "role_reward_type_label": "Type",
     "role_reward_type_newQuest": "Débuter une nouvelle quête",
     "role_reward_type_newQuest_tooltip": "Choisir une quête d'une autre mission avec le même nom de Rôle",
+    "role_reward_quest_placeholder": "Nom de la quête",
     "role_reward_type_skill": "Travailler un champ de compétence",
     "role_reward_type_skill_tooltip": "Choisir une compétence créée ci-dessous",
     "role_reward_type_character": "Récupérer le contact d'un PNJ",
@@ -146,6 +147,7 @@
     "role_reward_type_objective_tooltip": "Choisir un objectif pédagogique créé ci-dessus",
     "role_reward_type_object": "Récupérer un objet",
     "role_reward_type_object_placeholder": "Nom de l'objet",
+    "role_reward_type_object_tooltip": "Choisir un objet créé",
     "role_reward_type_object_delete": "cet Objet de la Récompense",
     "role_reward_type_other": "Autre",
     "role_reward_delete": "cette Récompense",
@@ -434,7 +436,7 @@
     "discussion_declarativeSentence": "Phrase",
     "discussion_interrogativeSentence": "Question",
     "discussion_response": "Réponse",
-    "discussion_result_label": "Résultat",
+    "discussion_result_label": "Résultats",
     "discussion_result_placeholder": "Choisir un résultat",
     "discussion_nextSentence_label": "Phrase suivante",
     "discussion_nextSentence_placeholder": "Choisir la phrase suivante",
@@ -448,5 +450,9 @@
     "discussion_delete": "cette Discussion",
     "discussion_declarativeSentence_delete": "cette Phrase",
     "discussion_interrogativeSentence_delete": "cette Question",
-    "discussion_response_delete": "cette Réponse"
+    "discussion_response_delete": "cette Réponse",
+    "discussion_reward_type_discussion_tooltip": "",
+    "discussion_reward_type_declarativeSentence_tootlip": "",
+    "discussion_reward_type_interrogativeSentence_tooltip": "",
+    "discussion_reward_type_response_tooltip": ""
 }
