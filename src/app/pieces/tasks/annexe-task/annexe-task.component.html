@@ -292,7 +292,7 @@
             <div class="piece-form-bottom-duration"
             [matTooltip]="translate.instant('task_duration_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-                <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="1" (change)="task.duration < 1 ? task.duration = 1 : ''; editTrace($event,'Task_duration')"/>
+                <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="0" (change)="task.duration < 0 ? task.duration = 0 : ''; editTrace($event,'Task_duration')"/>
                 <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange(); editTrace($event,'Task_duration_unit')">
                     <option value="UT">{{'task_duration_ut' | translate}}</option>
                     <option value="min">{{'task_duration_min' | translate}}</option>
