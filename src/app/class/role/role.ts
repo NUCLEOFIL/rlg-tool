@@ -9,6 +9,7 @@ import { Comment } from "../comment/comment";
 import { Discussion } from "../discussion/discussion";
 import { Sentence } from "../sentence/sentence";
 import { Response } from "../response/response";
+import { Character } from "../character/character";
 
 export class Role {
 
@@ -274,5 +275,13 @@ export class Role {
         });
         
         return cpt;
+    }
+
+    characterHasDiscussion(char: Character): boolean {
+        if (this.discussions.find(discussion => discussion.character == char) != undefined) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

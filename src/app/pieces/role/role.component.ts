@@ -29,6 +29,7 @@ import { CopyRoleSuccessComponent } from 'src/app/components/snackbars/copy-role
 import { RoleOccurrence } from 'src/app/class/role-occurrence/role-occurrence';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { Reward } from 'src/app/class/rewards/reward';
+import { DiscussionReward } from 'src/app/class/rewards/discussion-reward/discussion-reward';
 
 @Component({
   selector: 'app-role',
@@ -613,6 +614,9 @@ export class RoleComponent implements OnInit {
       case 'object': this.role.rewards[index] = new ObjectReward();
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
+      case 'discussion': this.role.rewards[index] = new DiscussionReward();
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[DiscussionReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        break;
     }
   }
 
@@ -655,6 +659,10 @@ export class RoleComponent implements OnInit {
 
   getObjectsReward(index: number): ObjectsReward {
     return this.role.rewards[index] as ObjectsReward;
+  }
+
+  getDiscussionReward(index: number): DiscussionReward {
+    return this.role.rewards[index] as DiscussionReward;
   }
 
   addObject(index: number): void {

@@ -3,7 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Character } from 'src/app/class/character/character';
 import { Discussion } from 'src/app/class/discussion/discussion';
+import { Mission } from 'src/app/class/mission/mission';
 import { Response } from 'src/app/class/response/response';
+import { DiscussionReward } from 'src/app/class/rewards/discussion-reward/discussion-reward';
+import { Reward } from 'src/app/class/rewards/reward';
 import { Role } from 'src/app/class/role/role';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { DeclarativeSentence } from 'src/app/class/sentence/declarativeSentence/declarative-sentence';
@@ -73,6 +76,50 @@ export class DiscussionsComponent implements OnInit {
           }
         }
         this.role.discussions.splice(discussionIndex,1);
+
+        for (let rewardIndex: number = 0; rewardIndex < this.role.rewards.length; rewardIndex++) {
+          let reward: Reward = this.role.rewards[rewardIndex];
+          if (reward.type == 'discussion') {
+            if ((reward as DiscussionReward).discussionId == discussion.ID) {
+              this.role.rewards.splice(rewardIndex,1);
+              rewardIndex--;
+            }
+          }
+        }
+        this.role.discussions.forEach(discuss => {
+          for (let rewardIndex: number = 0; rewardIndex < discuss.rewards.length; rewardIndex++) {
+            let reward: Reward = discuss.rewards[rewardIndex];
+            if (reward.type == 'discussion') {
+              if ((reward as DiscussionReward).discussionId == discussion.ID) {
+                discuss.rewards.splice(rewardIndex,1);
+                rewardIndex--;
+              }
+            }
+          }
+        });
+        this.role.sentences.forEach(sentence => {
+          for (let rewardIndex: number = 0; rewardIndex < sentence.rewards.length; rewardIndex++) {
+            let reward: Reward = sentence.rewards[rewardIndex];
+            if (reward.type == 'discussion') {
+              if ((reward as DiscussionReward).discussionId == discussion.ID) {
+                sentence.rewards.splice(rewardIndex,1);
+                rewardIndex--;
+              }
+            }
+          }
+        });
+        this.role.discussions.forEach(response => {
+          for (let rewardIndex: number = 0; rewardIndex < response.rewards.length; rewardIndex++) {
+            let reward: Reward = response.rewards[rewardIndex];
+            if (reward.type == 'discussion') {
+              if ((reward as DiscussionReward).discussionId == discussion.ID) {
+                response.rewards.splice(rewardIndex,1);
+                rewardIndex--;
+              }
+            }
+          }
+        });
+
       }
     });
   } 

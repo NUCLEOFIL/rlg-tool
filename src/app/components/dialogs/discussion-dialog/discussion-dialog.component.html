@@ -30,7 +30,7 @@
                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                         <option value="character">{{'role_reward_type_character' | translate}}</option>
                         <option value="object">{{'role_reward_type_object' | translate}}</option>
-                        <!--<option value="discuss">Changer de discussion</option>-->
+                        <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                     </select> 
                 </div>
 
@@ -66,6 +66,21 @@
                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                         <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                    </select>
+                </div>
+
+                <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
+                    <select [(ngModel)]="discussion.getDiscussionReward(rewardIndex).discussionId"
+                    [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                        <ng-container *ngFor="let character of scenario.characters">
+                            <optgroup [label]="character.name" *ngIf="role.characterHasDiscussion(character)">
+                                <ng-container *ngFor="let discuss of role.discussions">
+                                    <option [ngValue]="discuss.ID" *ngIf="discuss.character == character && discussion.ID != discuss.ID">{{discuss.name}}</option>
+                                </ng-container>
+                            </optgroup>                        
+                        </ng-container>
                     </select>
                 </div>
 
@@ -148,7 +163,7 @@
                                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                                         <option value="character">{{'role_reward_type_character' | translate}}</option>
                                         <option value="object">{{'role_reward_type_object' | translate}}</option>
-                                        <!--<option value="discuss">Changer de discussion</option>-->
+                                        <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                                     </select> 
                                 </div>
                 
@@ -184,6 +199,21 @@
                                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                                         <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
+                                    <select [(ngModel)]="sentence.getDiscussionReward(rewardIndex).discussionId"
+                                    [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                                        <ng-container *ngFor="let character of scenario.characters">
+                                            <optgroup [label]="character.name" *ngIf="role.characterHasDiscussion(character)">
+                                                <ng-container *ngFor="let discuss of role.discussions">
+                                                    <option [ngValue]="discuss.ID" *ngIf="discuss.character == character && discussion.ID != discuss.ID">{{discuss.name}}</option>
+                                                </ng-container>
+                                            </optgroup>                        
+                                        </ng-container>
                                     </select>
                                 </div>
                 
@@ -249,7 +279,7 @@
                                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                                         <option value="character">{{'role_reward_type_character' | translate}}</option>
                                         <option value="object">{{'role_reward_type_object' | translate}}</option>
-                                        <!--<option value="discuss">Changer de discussion</option>-->
+                                        <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                                     </select> 
                                 </div>
                 
@@ -285,6 +315,21 @@
                                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                                         <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
+                                    <select [(ngModel)]="sentence.getDiscussionReward(rewardIndex).discussionId"
+                                    [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                                        <ng-container *ngFor="let character of scenario.characters">
+                                            <optgroup [label]="character.name" *ngIf="role.characterHasDiscussion(character)">
+                                                <ng-container *ngFor="let discuss of role.discussions">
+                                                    <option [ngValue]="discuss.ID" *ngIf="discuss.character == character && discussion.ID != discuss.ID">{{discuss.name}}</option>
+                                                </ng-container>
+                                            </optgroup>                        
+                                        </ng-container>
                                     </select>
                                 </div>
                 
@@ -348,7 +393,7 @@
                                                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                                                         <option value="character">{{'role_reward_type_character' | translate}}</option>
                                                         <option value="object">{{'role_reward_type_object' | translate}}</option>
-                                                        <!--<option value="discuss">Changer de discussion</option>-->
+                                                        <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                                                     </select> 
                                                 </div>
                                 
@@ -384,6 +429,21 @@
                                                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                                                         <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
+                                                    <select [(ngModel)]="response.getDiscussionReward(rewardIndex).discussionId"
+                                                    [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                                                        <ng-container *ngFor="let character of scenario.characters">
+                                                            <optgroup [label]="character.name" *ngIf="role.characterHasDiscussion(character)">
+                                                                <ng-container *ngFor="let discuss of role.discussions">
+                                                                    <option [ngValue]="discuss.ID" *ngIf="discuss.character == character && discussion.ID != discuss.ID">{{discuss.name}}</option>
+                                                                </ng-container>
+                                                            </optgroup>                        
+                                                        </ng-container>
                                                     </select>
                                                 </div>
                                 

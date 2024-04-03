@@ -1,5 +1,6 @@
 import { Character } from "../character/character";
 import { CharacterReward } from "../rewards/character-reward/character-reward";
+import { DiscussionReward } from "../rewards/discussion-reward/discussion-reward";
 import { ObjectReward } from "../rewards/object-reward/object-reward";
 import { QuestReward } from "../rewards/quest-reward/quest-reward";
 import { Reward } from "../rewards/reward";
@@ -40,6 +41,9 @@ export class Discussion {
             case 'object': this.rewards[index] = new ObjectReward();
                 //this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
                 break;
+            case 'discussion': this.rewards[index] = new DiscussionReward();
+                //this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[DiscussionReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+                break;
         }
     }
 
@@ -70,6 +74,10 @@ export class Discussion {
     getObjectReward(index: number): ObjectReward {
         return this.rewards[index] as ObjectReward;
     }
+
+    getDiscussionReward(index: number): DiscussionReward {
+        return this.rewards[index] as DiscussionReward;
+    }    
 
     changeQuestReward(roleIntitule: string, index: number, event: any) {
         let value: string = event.target.value;

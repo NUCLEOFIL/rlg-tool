@@ -48,6 +48,7 @@ import { Sentence } from './class/sentence/sentence';
 import { InterrogativeSentence } from './class/sentence/interrogativeSentence/interrogative-sentence';
 import { DeclarativeSentence } from './class/sentence/declarativeSentence/declarative-sentence';
 import { ObjectReward } from './class/rewards/object-reward/object-reward';
+import { DiscussionReward } from './class/rewards/discussion-reward/discussion-reward';
 
 @Component({
   selector: 'app-root',
@@ -279,6 +280,9 @@ export class AppComponent {
                 if (rewardData.type == 'object') {
                   return Object.assign(new ObjectReward(), rewardData);
                 }
+                if (rewardData.type == 'discussion') {
+                  return Object.assign(new DiscussionReward(), rewardData);
+                }
               });
               role.rewards.forEach((reward: Reward, index: number) => {
                 if (reward instanceof SkillReward) {
@@ -328,6 +332,9 @@ export class AppComponent {
                   if (rewardData.type == 'object') {
                     return Object.assign(new ObjectReward(), rewardData);
                   }
+                  if (rewardData.type == 'discussion') {
+                    return Object.assign(new DiscussionReward(), rewardData);
+                  }
                 });
                 discussion.rewards.forEach((reward: Reward, index: number) => {
                   if (reward instanceof SkillReward) {
@@ -371,6 +378,9 @@ export class AppComponent {
                   if (rewardData.type == 'object') {
                     return Object.assign(new ObjectReward(), rewardData);
                   }
+                  if (rewardData.type == 'discussion') {
+                    return Object.assign(new DiscussionReward(), rewardData);
+                  }
                 });
                 sentence.rewards.forEach((reward: Reward, index: number) => {
                   if (reward instanceof SkillReward) {
@@ -406,6 +416,9 @@ export class AppComponent {
                   }
                   if (rewardData.type == 'object') {
                     return Object.assign(new ObjectReward(), rewardData);
+                  }
+                  if (rewardData.type == 'discussion') {
+                    return Object.assign(new DiscussionReward(), rewardData);
                   }
                 });
                 response.rewards.forEach((reward: Reward, index: number) => {
