@@ -16,6 +16,7 @@ import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identi
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-random-event',
@@ -43,7 +44,7 @@ export class RandomEventComponent implements OnInit {
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService) { }
+    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();

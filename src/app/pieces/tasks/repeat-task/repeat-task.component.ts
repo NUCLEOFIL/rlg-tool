@@ -11,6 +11,7 @@ import { Scenario } from 'src/app/class/scenario/scenario';
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-repeat-task',
@@ -33,7 +34,8 @@ export class RepeatTaskComponent implements OnInit {
   urlIcon: string = 'url("./assets/background-images/repeatTask.png")';
   
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService,
+    protected unityService: UnityService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
