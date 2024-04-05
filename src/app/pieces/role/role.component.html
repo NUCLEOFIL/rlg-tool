@@ -60,7 +60,8 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
         <div class="piece-form-rewards">
             <label for="reward">{{'role_reward_label' | translate}}</label>
             <div class="piece-form-rewards-reward" *ngFor="let reward of role.rewards, let i = index">
-                <div class="piece-form-rewards-reward-type">
+                <div></div>
+                <div class="piece-form-rewards-reward-type" *ngIf="!(unityService.unity_isActive && reward.type == 'other')">
                     <label>{{'role_reward_type_label' | translate}}</label>
                     <select [(ngModel)]="reward.type" (change)="changeRewardType(i, reward.type)"
                     [matTooltip]="translate.instant('role_reward_tooltip')"
@@ -72,7 +73,7 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
                         <option value="objects" hidden>{{'role_reward_type_object' | translate}}</option>
                         <option value="object">{{'role_reward_type_object' | translate}}</option>
                         <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
-                        <option value="other">{{'role_reward_type_other' | translate}}</option>
+                        <option value="other" *ngIf="!unityService.unity_isActive">{{'role_reward_type_other' | translate}}</option>
                     </select>                    
                 </div>
                 <div class="piece-form-rewards-reward-objects" *ngIf="reward.type == 'objects'">
@@ -167,7 +168,7 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-other" *ngIf="reward.type == 'other'">
+                <div class="piece-form-rewards-reward-other" *ngIf="reward.type == 'other' && !unityService.unity_isActive">
                     <textarea [(ngModel)]="getOtherReward(i).text" (change)="editTrace($event, 'Reward_['+i+']_other')"></textarea>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>

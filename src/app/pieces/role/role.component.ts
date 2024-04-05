@@ -30,6 +30,7 @@ import { RoleOccurrence } from 'src/app/class/role-occurrence/role-occurrence';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { Reward } from 'src/app/class/rewards/reward';
 import { DiscussionReward } from 'src/app/class/rewards/discussion-reward/discussion-reward';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-role',
@@ -44,7 +45,8 @@ export class RoleComponent implements OnInit {
   @Input() i: number = 0;
   @Input() missionIndex: number = 0;
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService, private _snackBar: MatSnackBar, protected copyRoleService: CopyRoleService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService, private _snackBar: MatSnackBar, protected copyRoleService: CopyRoleService,
+    protected unityService: UnityService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
