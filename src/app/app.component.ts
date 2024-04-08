@@ -49,6 +49,7 @@ import { InterrogativeSentence } from './class/sentence/interrogativeSentence/in
 import { DeclarativeSentence } from './class/sentence/declarativeSentence/declarative-sentence';
 import { ObjectReward } from './class/rewards/object-reward/object-reward';
 import { DiscussionReward } from './class/rewards/discussion-reward/discussion-reward';
+import { RoleEducationnalObjective } from './class/role-educationnal-objective/role-educationnal-objective';
 
 @Component({
   selector: 'app-root',
@@ -272,6 +273,7 @@ export class AppComponent {
                   return Object.assign(new ObjectsReward(), rewardData);
                 }
                 if (rewardData.type == 'objective') {
+                  rewardData.objective = Object.assign(new RoleEducationnalObjective(), rewardData.objective)
                   return Object.assign(new ObjectiveReward(), rewardData);
                 }
                 if (rewardData.type == 'other') {
