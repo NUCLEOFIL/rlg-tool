@@ -298,6 +298,8 @@
     "repeat_title1": "Répéter",
     "repeat_title2": "fois",
     "repeat_title3": "ou jusqu'à ce que :",
+    "repeat_missionRepeatLimit1": "Ne peut être répétée que",
+    "repeat_missionRepeatLimit2": "fois dans la mission",
 
     "supplementaryRole_title": "Tâche liée au rôle supplémentaire",
     "supplementaryRole_tooltip": "Sert à associer ou non une tâche à un Rôle supplémentaire.",

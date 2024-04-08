@@ -6,13 +6,18 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
             <mat-icon fontIcon="refresh"></mat-icon>
             <div class="piece-form-header-for">
                 <label>{{'repeat_title1' | translate}}</label>
-                <input type="text" [(ngModel)]="task.repeat.iteration" (change)="editTrace($event,'repeat_nbTimes')"/>
+                <input type="text" min="1" [max]="task.repeat.limitMissionRepeat" [(ngModel)]="task.repeat.iteration" (change)="editTrace($event,'repeat_nbTimes')"/>
                 <label>{{'repeat_title2' | translate}}</label>
             </div>
         </div>
         <div class="piece-form-while">
             <label>{{'repeat_title3' | translate}}</label>
             <textarea [(ngModel)]="task.repeat.while" (change)="editTrace($event,'repeat_stopCondition')"></textarea>
-        </div>    
+        </div>
+        <div class="piece-form-missionRepeatLimit">
+            <label>{{'repeat_missionRepeatLimit1' | translate}}</label>
+            <input type="text" min="1" [(ngModel)]="task.repeat.limitMissionRepeat" (change)="editTrace($event, 'repeat_missionRepeatLimit')"/>
+            <label>{{'repeat_missionRepeatLimit2' | translate}}</label>
+        </div>
     </div>
 </div>

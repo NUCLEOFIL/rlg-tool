@@ -124,6 +124,16 @@
             background-color: white;
             padding: 4px;
             border-radius: 50%;
+
+            &-off {
+                height: 3px;
+                width: 35px;
+                background-color: black;
+                bottom: 50px;
+                left: 99px;
+                position: absolute;
+                transform: rotateZ(45deg);
+            }
         }
 
         &-character {

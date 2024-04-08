@@ -262,6 +262,16 @@
                 background-color: white;
                 border-radius: 50%;
                 padding: 4px;
+
+                &-off {
+                    height: 3px;
+                    width: 35px;
+                    background-color: black;
+                    top: 57px;
+                    right: 19px;
+                    position: absolute;
+                    transform: rotateZ(45deg);
+                }
             }
 
             &-symbol {
