@@ -12,6 +12,10 @@ import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UnityService } from 'src/app/services/unity/unity.service';
+import { PrerequireTask } from 'src/app/class/prerequires/prerequire-task/prerequire-task';
+import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
+import { Ressource } from 'src/app/class/ressource/ressource';
+import { PrerequireRessource } from 'src/app/class/prerequires/prerequire-ressource/prerequire-ressource';
 
 @Component({
   selector: 'app-repeat-task',
@@ -21,6 +25,7 @@ import { UnityService } from 'src/app/services/unity/unity.service';
 export class RepeatTaskComponent implements OnInit {
 
   displayMenu: string = 'hide';
+  displayPrequires: string = 'hide';
 
   @Input() scenario: Scenario = new Scenario();
   @Input() task: Task = new Task('normal');
@@ -35,7 +40,7 @@ export class RepeatTaskComponent implements OnInit {
   
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService,
-    protected unityService: UnityService) { }
+    protected unityService: UnityService, private tutorialService: TutorialService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -151,5 +156,97 @@ export class RepeatTaskComponent implements OnInit {
 
   editMoveTrace(event: any, source: string): void {
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
+  }
+
+  changeDisplayPrerequires(): void {
+    if(this.displayPrequires == 'show') {
+      this.displayPrequires = 'hide';
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'hide',this.missionIndex,this.roleIndex,'prerequires','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+    } else {
+      this.displayPrequires = 'show';
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+    }
+  }
+
+  checkboxChangedTask(event: any, task:(Task|null)): void {
+    if (task instanceof Task) {
+      if (event.target.checked) {
+        this.onCheckTask(task);
+      } else {
+        this.onUncheckTask(task);
+      }
+    }
+  }
+
+  isCheckedTask(task: (Task|null)): boolean {
+    if (task instanceof Task) {
+      return this.task.prerequireTasks.some(element => element.identifier == task.identifier);
+    }
+    return false;
+  }
+
+  onCheckTask(task: Task): void {
+    this.task.prerequireTasks.push(new PrerequireTask(task.identifier));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+    this.validTutorialPhase7();
+  }
+
+  onUncheckTask(task: Task): void {
+    let i: number = this.task.prerequireTasks.findIndex(element => element.identifier == task.identifier);
+    this.task.prerequireTasks.splice(i,1);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_task','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+  }
+
+  checkboxChangedRessource(event: any, ressource: Ressource): void {
+    if (event.target.checked) {
+      this.onCheckRessource(ressource);
+    } else {
+      this.onUncheckRessource(ressource);
+    }
+  }
+
+  isCheckedRessource(ressource: Ressource): boolean {
+    return this.task.prerequireRessources.some(element => element.ressource == ressource);
+  }
+
+  onCheckRessource(ressource: Ressource): void {
+    this.task.prerequireRessources.push(new PrerequireRessource(ressource));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+    this.validTutorialPhase7();
+  }
+
+  onUncheckRessource(ressource: Ressource): void {
+    let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
+    this.task.prerequireRessources.splice(i, 1);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_ressource','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+  }
+
+  getAssociatePrerequireRessource(ressource: Ressource): PrerequireRessource {
+    let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
+    return this.task.prerequireRessources[i];
+  }
+
+  hasPossibleAntecedents(): boolean {
+    let res = false;
+    this.role.tasks.forEach(inlineTask => {
+      for(let i = 0; i < inlineTask.length; i++) {
+        if (inlineTask[i]?.identifier && (this.task.identifier != inlineTask[i]?.identifier)) {
+          res = true;
+        }
+      }
+    });
+    return res;
+  }
+
+  validTutorialPhase7(): void {
+    if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 7 
+        && this.task.symbol.symbol && (this.task.prerequireTasks.length > 0 || this.task.prerequireRessources.length > 0)
+        && this.scenario.missions[0].roles[0].tasks[0].some(task => task?.symbol.symbol && (task.prerequireTasks.length > 0 || task.prerequireRessources.length > 0))
+        && this.scenario.missions[0].roles[1].tasks[0].some(task => task?.symbol.symbol && (task.prerequireTasks.length > 0 || task.prerequireRessources.length > 0))) {
+
+
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tutorialService.validPhase();
+    }
   }
 }
