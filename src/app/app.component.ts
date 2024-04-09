@@ -142,6 +142,13 @@ export class AppComponent {
     }
   }
 
+  changeMode(): void {
+    this.unityService.unity_isActive = !this.unityService.unity_isActive
+    if (this.unityService.unity_isActive) {
+      alert(this.translate.instant('unity_export_notavailable'))
+    }
+  }
+
   downloadManual(): void {
     const manualUrl = './assets/GuideMaker_v2.3.pdf';
     this.http.get(manualUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
