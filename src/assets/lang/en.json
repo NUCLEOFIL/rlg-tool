@@ -299,8 +299,7 @@
     "repeat_title1": "Repeat",
     "repeat_title2": "times",
     "repeat_title3": "or until:",
-    "repeat_missionRepeatLimit1": "Can only be repeated",
-    "repeat_missionRepeatLimit2": "times in the mission",    
+    "repeat_missionRepeatLimit": "Play only one round",   
 
     "supplementaryRole_title": "Task related to the additional role",
     "supplementaryRole_tooltip": "Used to associate or not associate a task with an additional role.",
