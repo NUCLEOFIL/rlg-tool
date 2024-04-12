@@ -17,6 +17,8 @@ import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UnityService } from 'src/app/services/unity/unity.service';
+import { CopyTaskSuccessComponent } from 'src/app/components/snackbars/copy-task-success/copy-task-success.component';
+import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
 
 @Component({
   selector: 'app-random-event',
@@ -44,7 +46,7 @@ export class RandomEventComponent implements OnInit {
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService) { }
+    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService, protected copyTaskService: CopyTaskService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -149,6 +151,19 @@ export class RandomEventComponent implements OnInit {
     });
   }
 
+  onClickCopy() {
+    this.copyTaskService.onClickCopy(this.scenario, this.role, this.task);
+    this._snackBar.openFromComponent(CopyTaskSuccessComponent, { duration: 5000 });
+  }
+
+  onClickPaste() {
+    this.role.tasks[this.i][this.j] = this.copyTaskService.onClickPaste(this.scenario);;
+    if (this.role.isAlreadyUsedIdentifier((this.role.tasks[this.i][this.j] as Task).identifier)) {
+      this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });
+      (this.role.tasks[this.i][this.j] as Task).identifier = '';
+    }
+  }
+
   changeDisplaySymbolChoice(): void {
     if(this.displaySymbolChoice == 'show') {
       this.displaySymbolChoice = 'hide';
@@ -186,6 +201,21 @@ export class RandomEventComponent implements OnInit {
       this.displayPrequires = 'show';
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
     }
+  }
+
+  canChangeInFinalTask(): boolean {
+    let res: boolean = true;
+    let lastTaskIndex: number = -1;
+    for (let i = this.role.tasks[this.i].length - 1; i >= 0; i--) {
+      if (this.role.tasks[this.i][i] instanceof Task) {
+        lastTaskIndex = i;
+        break;
+      }
+    }
+    if (this.j < lastTaskIndex || this.role.tasks[this.i].some(task => task?.type == 'final') || this.role.tasks[this.i].some(task => task?.type == 'repeat')) {
+      res = false;
+    }
+    return res;
   }
 
   moveTask(direction: string): void {

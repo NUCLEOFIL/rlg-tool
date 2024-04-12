@@ -9,6 +9,12 @@
     <div class="piece-attach piece-attach-right" [style.background]="task.supplementaryRole ? task.supplementaryRole.color : 'var(--piece-background-color)'"></div>
 
     <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="content_copy" (click)="onClickCopy()"
+        [matTooltip]="translate.instant('role_copy_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="content_paste" (click)="onClickPaste()" *ngIf="copyTaskService.task && role != copyTaskService.role && (copyTaskService.task?.type == 'final' || copyTaskService.task?.type == 'repeat' ? canChangeInFinalTask() : true)"
+        [matTooltip]="translate.instant('role_paste_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <div>
             <mat-icon fontIcon="change_circle" [matMenuTriggerFor]="menuChange"
             [matTooltip]="translate.instant('task_transform_tooltip')"

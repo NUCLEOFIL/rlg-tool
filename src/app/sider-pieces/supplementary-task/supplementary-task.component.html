@@ -14,7 +14,7 @@
         <div class="piece-form-select">
             <label>{{'supplementaryRole_label' | translate}}</label>
             <select [(ngModel)]="task.supplementaryRole" (change)="editTrace($event,'supplementaryRole')">
-                <option selected [ngValue]="undefined">{{'supplementaryRole_none' | translate}}</option>
+                <option selected [ngValue]="null">{{'supplementaryRole_none' | translate}}</option>
                 <ng-container *ngFor="let supplementaryRole of role.supplementaryRoles">
                     <option [ngValue]="supplementaryRole">{{supplementaryRole.name}}</option>
                 </ng-container>

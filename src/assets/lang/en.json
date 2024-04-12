@@ -231,6 +231,7 @@
     "task_unity_exchangeObjects_receive_label": "To receive:",
     "task_unity_name_label": "Name:",
     "task_unity_desc_label": "Descr:",
+    "task_copy_snackbar": "Task copied, go to another role to paste it\nSome fields are not copied, make sure to manually verify the information when pasting",
     "normalTask_title": "Task",
     "normalTask_action_placeholder": "Ordering the main HTML tags",
     "normalTask_add": "Add a Task",

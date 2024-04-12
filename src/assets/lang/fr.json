@@ -231,6 +231,7 @@
     "task_unity_exchangeObjects_receive_label": "A recevoir :",
     "task_unity_name_label": "Nom :",
     "task_unity_desc_label": "Descr :",
+    "task_copy_snackbar": "Tâche copiée, rendez-vous dans un autre rôle pour le coller\nCertains champs ne sont pas copiés, veillez à vérifier manuellement les informations lors du collage",
     "normalTask_title": "Tâche",
     "normalTask_action_placeholder": "Positionner dans l'ordre les balises HTML principales",
     "normalTask_add": "Ajouter une Tâche",

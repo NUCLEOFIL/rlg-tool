@@ -16,6 +16,10 @@ import { PrerequireTask } from 'src/app/class/prerequires/prerequire-task/prereq
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 import { Ressource } from 'src/app/class/ressource/ressource';
 import { PrerequireRessource } from 'src/app/class/prerequires/prerequire-ressource/prerequire-ressource';
+import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
+import { CopyTaskSuccessComponent } from 'src/app/components/snackbars/copy-task-success/copy-task-success.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identifier-snackbar/identifier-snackbar.component';
 
 @Component({
   selector: 'app-repeat-task',
@@ -40,7 +44,7 @@ export class RepeatTaskComponent implements OnInit {
   
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService,
-    protected unityService: UnityService, private tutorialService: TutorialService) { }
+    protected unityService: UnityService, private tutorialService: TutorialService, protected copyTaskService: CopyTaskService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -87,6 +91,15 @@ export class RepeatTaskComponent implements OnInit {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
       }
     });
+  }
+
+  onClickCopy() {
+    this.copyTaskService.onClickCopy(this.scenario, this.role, this.task);
+    this._snackBar.openFromComponent(CopyTaskSuccessComponent, { duration: 5000 });
+  }
+
+  onClickPaste() {
+    this.role.tasks[this.i][this.j] = this.copyTaskService.onClickPaste(this.scenario);;
   }
 
   moveTask(direction: string): void {
@@ -166,6 +179,21 @@ export class RepeatTaskComponent implements OnInit {
       this.displayPrequires = 'show';
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
     }
+  }
+
+  canChangeInFinalTask(): boolean {
+    let res: boolean = true;
+    let lastTaskIndex: number = -1;
+    for (let i = this.role.tasks[this.i].length - 1; i >= 0; i--) {
+      if (this.role.tasks[this.i][i] instanceof Task) {
+        lastTaskIndex = i;
+        break;
+      }
+    }
+    if (this.j < lastTaskIndex || this.role.tasks[this.i].some(task => task?.type == 'final') || this.role.tasks[this.i].some(task => task?.type == 'repeat')) {
+      res = false;
+    }
+    return res;
   }
 
   checkboxChangedTask(event: any, task:(Task|null)): void {

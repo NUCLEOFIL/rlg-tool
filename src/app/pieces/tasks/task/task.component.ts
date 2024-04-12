@@ -18,6 +18,8 @@ import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 import { UnityService } from 'src/app/services/unity/unity.service';
+import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
+import { CopyTaskSuccessComponent } from 'src/app/components/snackbars/copy-task-success/copy-task-success.component';
 
 @Component({
   selector: 'app-task',
@@ -46,7 +48,7 @@ export class TaskComponent implements OnInit {
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
     private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService,
-    protected unityService: UnityService) { }
+    protected unityService: UnityService, protected copyTaskService: CopyTaskService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -158,6 +160,19 @@ export class TaskComponent implements OnInit {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
       }
     });
+  }
+
+  onClickCopy() {
+    this.copyTaskService.onClickCopy(this.scenario, this.role, this.task);
+    this._snackBar.openFromComponent(CopyTaskSuccessComponent, { duration: 5000 });
+  }
+
+  onClickPaste() {
+    this.role.tasks[this.i][this.j] = this.copyTaskService.onClickPaste(this.scenario);;
+    if (this.role.isAlreadyUsedIdentifier((this.role.tasks[this.i][this.j] as Task).identifier)) {
+      this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });
+      (this.role.tasks[this.i][this.j] as Task).identifier = '';
+    }
   }
 
   changeDisplaySymbolChoice(): void {

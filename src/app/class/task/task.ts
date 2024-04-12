@@ -34,7 +34,7 @@ export class Task {
     other: string = '';
     role: string = ''; //role.intitule
 
-    supplementaryRole!: SupplementaryRole;
+    supplementaryRole: SupplementaryRole|null = null;
     interrupt: string = '';
 
     rewards: Reward[] = [];

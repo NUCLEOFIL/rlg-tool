@@ -473,7 +473,7 @@ export class AppComponent {
                     if (task.supplementaryRole) {
                       task.supplementaryRole = Object.assign(new SupplementaryRole, task.supplementaryRole);
                       let supplementaryRoleIndex: number | undefined = role.supplementaryRoles.findIndex(element =>
-                        element.name == task.supplementaryRole.name && element.color == task.supplementaryRole.color
+                        element.name == (task.supplementaryRole as SupplementaryRole).name && element.color == (task.supplementaryRole as SupplementaryRole).color
                       );
                       task.supplementaryRole = role.supplementaryRoles[supplementaryRoleIndex];
                     }

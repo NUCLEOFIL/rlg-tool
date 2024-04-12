@@ -60,6 +60,7 @@ import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-
 import { DeleteOptionnalTasksComponent } from './components/snackbars/delete-optionnal-tasks/delete-optionnal-tasks.component';
 import { DiscussionsComponent } from './sider-pieces/discussions/discussions.component';
 import { DiscussionDialogComponent } from './components/dialogs/discussion-dialog/discussion-dialog.component';
+import { CopyTaskSuccessComponent } from './components/snackbars/copy-task-success/copy-task-success.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -110,7 +111,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CreateOptionnalTaskDialogComponent,
     DeleteOptionnalTasksComponent,
     DiscussionsComponent,
-    DiscussionDialogComponent
+    DiscussionDialogComponent,
+    CopyTaskSuccessComponent
   ],
   imports: [
     BrowserModule,
