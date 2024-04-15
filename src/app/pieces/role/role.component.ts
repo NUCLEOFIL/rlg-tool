@@ -22,10 +22,8 @@ import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RoleNameDuplicateComponent } from 'src/app/components/snackbars/role-name-duplicate/role-name-duplicate.component';
 import { CopyRoleService } from 'src/app/services/copyRole/copy-role.service';
 import { Task } from 'src/app/class/task/task';
-import { CopyRoleSuccessComponent } from 'src/app/components/snackbars/copy-role-success/copy-role-success.component';
 import { RoleOccurrence } from 'src/app/class/role-occurrence/role-occurrence';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { Reward } from 'src/app/class/rewards/reward';
@@ -141,7 +139,7 @@ export class RoleComponent implements OnInit {
       }
     });
     this.copyRoleService.mission = this.mission;
-    this._snackBar.openFromComponent(CopyRoleSuccessComponent, { duration: 5000 });
+    this._snackBar.open(this.translate.instant('role_copy_snackbar'), '', { duration: 5000, panelClass: 'snackbar-success' });
   }
 
   onClickPaste(): void {
@@ -723,7 +721,7 @@ export class RoleComponent implements OnInit {
   intituleIsAlreadyUsed(): void {
     this.mission.roles.forEach(role => {
       if (role != this.role && role.intitule == this.role.intitule) {
-        this._snackBar.openFromComponent(RoleNameDuplicateComponent, { duration: 5000 });
+        this._snackBar.open(this.translate.instant('snackbar_roleName'), '', { duration: 5000, panelClass: 'snackbar-fail' });
         this.role.intitule = '';
       }
     });

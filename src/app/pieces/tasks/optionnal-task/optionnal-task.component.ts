@@ -12,15 +12,11 @@ import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dia
 import { MatDialog } from '@angular/material/dialog';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identifier-snackbar/identifier-snackbar.component';
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MoveOptionnalTasksComponent } from 'src/app/components/snackbars/move-optionnal-tasks/move-optionnal-tasks.component';
-import { DeleteOptionnalTasksComponent } from 'src/app/components/snackbars/delete-optionnal-tasks/delete-optionnal-tasks.component';
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
-import { CopyTaskSuccessComponent } from 'src/app/components/snackbars/copy-task-success/copy-task-success.component';
 
 @Component({
   selector: 'app-optionnal-task',
@@ -138,7 +134,7 @@ export class OptionnalTaskComponent implements OnInit {
     }
     this.task.changeType(type);
     if (this.role.countOptionnalTasksInColumn(this.role.getRealIndex(this.i,this.j)) < 2) {
-      this._snackBar.openFromComponent(DeleteOptionnalTasksComponent, { duration: 5000 });
+      this._snackBar.open(this.translate.instant('snackbar_deleteOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
     }
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform_into_['+type+']',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
   }
@@ -159,7 +155,7 @@ export class OptionnalTaskComponent implements OnInit {
         this.role.removeTask(this.i, this.j);
         this.mission.equalizeLengths();
         if (this.role.countOptionnalTasksInColumn(this.role.getRealIndex(this.i,this.j)) < 2) {
-          this._snackBar.openFromComponent(DeleteOptionnalTasksComponent, { duration: 5000 });
+          this._snackBar.open(this.translate.instant('snackbar_deleteOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
         }
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
       } else {
@@ -170,13 +166,13 @@ export class OptionnalTaskComponent implements OnInit {
 
   onClickCopy() {
     this.copyTaskService.onClickCopy(this.scenario, this.role, this.task);
-    this._snackBar.openFromComponent(CopyTaskSuccessComponent, { duration: 5000 });
+    this._snackBar.open(this.translate.instant('task_copy_snackbar'), '', { duration: 5000, panelClass: 'snackbar-success' });
   }
 
   onClickPaste() {
     this.role.tasks[this.i][this.j] = this.copyTaskService.onClickPaste(this.scenario);;
     if (this.role.isAlreadyUsedIdentifier((this.role.tasks[this.i][this.j] as Task).identifier)) {
-      this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });
+      this._snackBar.open(this.translate.instant('snackbar_identifier'), '', { duration: 5000, panelClass: 'snackbar-fail' });
       (this.role.tasks[this.i][this.j] as Task).identifier = '';
     }
   }
@@ -242,7 +238,7 @@ export class OptionnalTaskComponent implements OnInit {
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this._snackBar.openFromComponent(MoveOptionnalTasksComponent, { duration: 5000 });
+      this._snackBar.open(this.translate.instant('snackbar_moveOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
     } else if (direction == 'top' && this.canMoveTo('top')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
@@ -255,7 +251,7 @@ export class OptionnalTaskComponent implements OnInit {
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this._snackBar.openFromComponent(MoveOptionnalTasksComponent, { duration: 5000 });
+      this._snackBar.open(this.translate.instant('snackbar_moveOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
     } else if (direction == 'bottom') {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
@@ -317,7 +313,7 @@ export class OptionnalTaskComponent implements OnInit {
       }); 
     }
     if (this.role.isAlreadyUsedIdentifier(this.task.identifier)) {
-      this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });
+      this._snackBar.open(this.translate.instant('snackbar_identifier'), '', { duration: 5000, panelClass: 'snackbar-fail' });
       this.task.identifier = '';  
     }
     this.editTrace(event, 'Task_identifier');

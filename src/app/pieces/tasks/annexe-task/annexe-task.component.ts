@@ -12,15 +12,12 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { CleanDialogComponent } from 'src/app/components/dialogs/clean-dialog/clean-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identifier-snackbar/identifier-snackbar.component';
 import { Trace } from 'src/app/class/trace/trace';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
-import { FinishTutorialComponent } from 'src/app/components/snackbars/finish-tutorial/finish-tutorial.component';
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
-import { CopyTaskSuccessComponent } from 'src/app/components/snackbars/copy-task-success/copy-task-success.component';
 
 @Component({
   selector: 'app-annexe-task',
@@ -59,7 +56,7 @@ export class AnnexeTaskComponent implements OnInit {
       this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
       if (this.tutorialService.isDone()) {
-        this._snackBar.openFromComponent(FinishTutorialComponent, { duration: 5000 });
+        this._snackBar.open(this.translate.instant('tutorial_finish'), '', { duration: 5000, panelClass: 'snackbar-success' });
       }
     }
   }
@@ -161,13 +158,13 @@ export class AnnexeTaskComponent implements OnInit {
 
   onClickCopy() {
     this.copyTaskService.onClickCopy(this.scenario, this.role, this.task);
-    this._snackBar.openFromComponent(CopyTaskSuccessComponent, { duration: 5000 });
+    this._snackBar.open(this.translate.instant('task_copy_snackbar'), '', { duration: 5000, panelClass: 'snackbar-success' });
   }
 
   onClickPaste() {
     this.role.tasks[this.i][this.j] = this.copyTaskService.onClickPaste(this.scenario);;
     if (this.role.isAlreadyUsedIdentifier((this.role.tasks[this.i][this.j] as Task).identifier)) {
-      this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });
+      this._snackBar.open(this.translate.instant('snackbar_identifier'), '', { duration: 5000, panelClass: 'snackbar-fail' });
       (this.role.tasks[this.i][this.j] as Task).identifier = '';
     }
   }
@@ -283,7 +280,7 @@ export class AnnexeTaskComponent implements OnInit {
       }); 
     }
     if (this.role.isAlreadyUsedIdentifier(this.task.identifier)) {
-      this._snackBar.openFromComponent(IdentifierSnackbarComponent, { duration: 5000 });
+      this._snackBar.open(this.translate.instant('snackbar_identifier'), '', { duration: 5000, panelClass: 'snackbar-fail' });
       this.task.identifier = '';
     }
     this.editTrace(event, 'Task_identifier');

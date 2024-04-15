@@ -17,9 +17,7 @@ import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 import { Ressource } from 'src/app/class/ressource/ressource';
 import { PrerequireRessource } from 'src/app/class/prerequires/prerequire-ressource/prerequire-ressource';
 import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
-import { CopyTaskSuccessComponent } from 'src/app/components/snackbars/copy-task-success/copy-task-success.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { IdentifierSnackbarComponent } from 'src/app/components/snackbars/identifier-snackbar/identifier-snackbar.component';
 
 @Component({
   selector: 'app-repeat-task',
@@ -95,7 +93,7 @@ export class RepeatTaskComponent implements OnInit {
 
   onClickCopy() {
     this.copyTaskService.onClickCopy(this.scenario, this.role, this.task);
-    this._snackBar.openFromComponent(CopyTaskSuccessComponent, { duration: 5000 });
+    this._snackBar.open(this.translate.instant('task_copy_snackbar'), '', { duration: 5000, panelClass: 'snackbar-success' });
   }
 
   onClickPaste() {

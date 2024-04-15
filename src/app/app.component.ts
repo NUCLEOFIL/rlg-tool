@@ -30,21 +30,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialog.component';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { LoadingsucessSnackbarComponent } from './components/snackbars/loadingsucess-snackbar/loadingsucess-snackbar.component';
-import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail-snackbar/loadingfail-snackbar.component';
 import { Trace } from './class/trace/trace';
 import Minimap from 'js-minimap';
 import { MinimapService } from './services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from './services/tutorial/tutorial.service';
-import { VerifyGameFailSnackbarComponent } from './components/snackbars/verify-game-fail-snackbar/verify-game-fail-snackbar.component';
 import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify-dialog.component';
 import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-dialog.component';
 import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-optionnal-task-dialog/create-optionnal-task-dialog.component';
 import { UnityService } from './services/unity/unity.service';
 import { Discussion } from './class/discussion/discussion';
 import { Response } from './class/response/response';
-import { Sentence } from './class/sentence/sentence';
 import { InterrogativeSentence } from './class/sentence/interrogativeSentence/interrogative-sentence';
 import { DeclarativeSentence } from './class/sentence/declarativeSentence/declarative-sentence';
 import { ObjectReward } from './class/rewards/object-reward/object-reward';
@@ -600,10 +596,10 @@ export class AppComponent {
             this.titleService.setTitle('RLG Maker');
           }
           this.cdr.detectChanges();
-          this._snackBar.openFromComponent(LoadingsucessSnackbarComponent, { duration: 5000 });
+          this._snackBar.open(this.translate.instant('snackbar_loading_success'), '', { duration: 5000, panelClass: 'snackbar-success' });
         } catch (e) {
           console.error(e);
-          this._snackBar.openFromComponent(LoadingfailSnackbarComponent, { duration: 5000 });
+          this._snackBar.open(this.translate.instant('snackbar_loading_fail'), '', { duration: 5000, panelClass: 'snackbar-success' });
         }
       };
     }
@@ -769,7 +765,7 @@ export class AppComponent {
         data: this.scenario
       });
     } else {
-      this._snackBar.openFromComponent(VerifyGameFailSnackbarComponent, { duration: 10000 });
+      this._snackBar.open(this.translate.instant('verify_error'), '', { duration: 10000, panelClass: 'snackbar-fail' });
     }
   }
 

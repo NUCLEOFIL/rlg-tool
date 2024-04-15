@@ -29,6 +29,6 @@ export class TutorialService {
   }
 
   isDone(): boolean {
-    return this.phaseDone.some(phase => false);
+    return !this.phaseDone.some(phase => false);
   }
 }

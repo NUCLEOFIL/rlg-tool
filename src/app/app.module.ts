@@ -41,26 +41,16 @@ import { CleanDialogComponent } from './components/dialogs/clean-dialog/clean-di
 import { CreateDialogComponent } from './components/dialogs/create-dialog/create-dialog.component';
 import { GameCharactersComponent } from './pieces/game-characters/game-characters.component';
 import { SaveDialogComponent } from './components/dialogs/save-dialog/save-dialog.component';
-import { IdentifierSnackbarComponent } from './components/snackbars/identifier-snackbar/identifier-snackbar.component';
-import { LoadingsucessSnackbarComponent } from './components/snackbars/loadingsucess-snackbar/loadingsucess-snackbar.component';
-import { LoadingfailSnackbarComponent } from './components/snackbars/loadingfail-snackbar/loadingfail-snackbar.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
-import { FinishTutorialComponent } from './components/snackbars/finish-tutorial/finish-tutorial.component';
-import { VerifyGameFailSnackbarComponent } from './components/snackbars/verify-game-fail-snackbar/verify-game-fail-snackbar.component';
 import { VerifyDialogComponent } from './components/dialogs/verify-dialog/verify-dialog.component';
-import { RoleNameDuplicateComponent } from './components/snackbars/role-name-duplicate/role-name-duplicate.component';
-import { CopyRoleSuccessComponent } from './components/snackbars/copy-role-success/copy-role-success.component';
 import { LegalDialogComponent } from './components/dialogs/legal-dialog/legal-dialog.component';
 import { RewardsComponent } from './sider-pieces/rewards/rewards.component';
-import { MoveOptionnalTasksComponent } from './components/snackbars/move-optionnal-tasks/move-optionnal-tasks.component';
 import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-optionnal-task-dialog/create-optionnal-task-dialog.component';
-import { DeleteOptionnalTasksComponent } from './components/snackbars/delete-optionnal-tasks/delete-optionnal-tasks.component';
 import { DiscussionsComponent } from './sider-pieces/discussions/discussions.component';
 import { DiscussionDialogComponent } from './components/dialogs/discussion-dialog/discussion-dialog.component';
-import { CopyTaskSuccessComponent } from './components/snackbars/copy-task-success/copy-task-success.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -96,23 +86,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     CreateDialogComponent,
     GameCharactersComponent,
     SaveDialogComponent,
-    IdentifierSnackbarComponent,
-    LoadingsucessSnackbarComponent,
-    LoadingfailSnackbarComponent,
     TutorialComponent,
-    FinishTutorialComponent,
-    VerifyGameFailSnackbarComponent,
     VerifyDialogComponent,
-    RoleNameDuplicateComponent,
-    CopyRoleSuccessComponent,
     LegalDialogComponent,
     RewardsComponent,
-    MoveOptionnalTasksComponent,
     CreateOptionnalTaskDialogComponent,
-    DeleteOptionnalTasksComponent,
     DiscussionsComponent,
-    DiscussionDialogComponent,
-    CopyTaskSuccessComponent
+    DiscussionDialogComponent
   ],
   imports: [
     BrowserModule,
