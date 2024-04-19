@@ -179,7 +179,6 @@
                     <option value="depositObject">{{'task_unity_type_depositObject' | translate}}</option>
                     <option value="askToSeeRole">{{'task_unity_type_askToSeeRole' | translate}}</option>
                     <option value="interactObject">{{'task_unity_type_interactObject' | translate}}</option>
-                    <option value="other">{{'task_unity_type_other' | translate}}</option>
                 </select>
             </div>
             <div class="piece-form-content-unity-typeContent">
@@ -310,10 +309,6 @@
                     <div class="piece-form-content-unity-typeContent-interactObject-name">
                         <input name="interactionName" type="text" [(ngModel)]="task.interactionName" [placeholder]="translate.instant('task_unity_interactName_placeholder')"/>
                     </div>
-                </div>
-    
-                <div class="piece-form-content-unity-typeContent-other" *ngIf="task.typeUnity == 'other'">
-                    <textarea [(ngModel)]="task.other"></textarea>
                 </div>
             </div>
             
