@@ -125,7 +125,7 @@
             <div class="piece-form-top-title">{{'annexeTask_title' | translate}}</div> 
             <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
             <mat-icon class="piece-form-top-repeat" fontIcon="refresh" *ngIf="(task.repeat.iteration > 0 || task.repeat.while != '' || task.repeat.limitMissionRepeat) && !unityService.unity_isActive"></mat-icon>
-            <span class="piece-form-top-repeat-off" *ngIf="(task.repeat.iteration > 0 || task.repeat.while != '' || task.repeat.limitMissionRepeat) && !unityService.unity_isActive && task.repeat.limitMissionRepeat"></span>
+            <span class="piece-form-top-repeat-off" *ngIf="(task.repeat.iteration == 0 && task.repeat.while == '') && task.repeat.limitMissionRepeat && !unityService.unity_isActive"></span>
         </div>
         <textarea class="piece-form-content" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action')" [style.background-image]="(i == findFirstIndexOfTaskType('annexe')[0] && j == findFirstIndexOfTaskType('annexe')[1]) ? urlIcon : ''"
             *ngIf="!unityService.unity_isActive"    

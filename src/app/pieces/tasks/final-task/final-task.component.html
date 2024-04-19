@@ -153,7 +153,7 @@
             <div class="piece-form-top-title">{{'finalTask_title' | translate}}</div>
             <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
             <mat-icon class="piece-form-top-repeat" fontIcon="refresh" *ngIf="(task.repeat.iteration > 0 || task.repeat.while != '' || task.repeat.limitMissionRepeat) && !unityService.unity_isActive"></mat-icon>
-            <span class="piece-form-top-repeat-off" *ngIf="(task.repeat.iteration > 0 || task.repeat.while != '' || task.repeat.limitMissionRepeat) && !unityService.unity_isActive && task.repeat.limitMissionRepeat"></span>
+            <span class="piece-form-top-repeat-off" *ngIf="(task.repeat.iteration == 0 && task.repeat.while == '') && task.repeat.limitMissionRepeat && !unityService.unity_isActive"></span>
             <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()"
             [matTooltip]="translate.instant('task_common_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
