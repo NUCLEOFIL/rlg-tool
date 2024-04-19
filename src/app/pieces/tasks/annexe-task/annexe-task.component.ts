@@ -162,7 +162,8 @@ export class AnnexeTaskComponent implements OnInit {
   }
 
   onClickPaste() {
-    this.role.tasks[this.i][this.j] = this.copyTaskService.onClickPaste(this.scenario);;
+    let newTask: Task = this.copyTaskService.onClickPaste(this.scenario);
+    this.role.tasks[this.i][this.j] = newTask;
     if (this.role.isAlreadyUsedIdentifier((this.role.tasks[this.i][this.j] as Task).identifier)) {
       this._snackBar.open(this.translate.instant('snackbar_identifier'), '', { duration: 5000, panelClass: 'snackbar-fail' });
       (this.role.tasks[this.i][this.j] as Task).identifier = '';

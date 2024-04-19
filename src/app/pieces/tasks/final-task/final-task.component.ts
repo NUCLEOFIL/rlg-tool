@@ -17,6 +17,7 @@ import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
+import { Symbol } from 'src/app/class/symbol/symbol';
 
 @Component({
   selector: 'app-final-task',
@@ -165,7 +166,11 @@ export class FinalTaskComponent implements OnInit {
   }
 
   onClickPaste() {
-    this.role.tasks[this.i][this.j] = this.copyTaskService.onClickPaste(this.scenario);;
+    let newTask: Task = this.copyTaskService.onClickPaste(this.scenario);
+    if (this.canUseSymbol(newTask.symbol.symbol, newTask.symbol.color) == 'disable') {
+      newTask.symbol = new Symbol();
+    }
+    this.role.tasks[this.i][this.j] = newTask;
     if (this.role.isAlreadyUsedIdentifier((this.role.tasks[this.i][this.j] as Task).identifier)) {
       this._snackBar.open(this.translate.instant('snackbar_identifier'), '', { duration: 5000, panelClass: 'snackbar-fail' });
       (this.role.tasks[this.i][this.j] as Task).identifier = '';

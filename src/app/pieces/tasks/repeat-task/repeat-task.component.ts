@@ -97,7 +97,7 @@ export class RepeatTaskComponent implements OnInit {
   }
 
   onClickPaste() {
-    this.role.tasks[this.i][this.j] = this.copyTaskService.onClickPaste(this.scenario);;
+    this.role.tasks[this.i][this.j] = this.copyTaskService.onClickPaste(this.scenario);
   }
 
   moveTask(direction: string): void {
