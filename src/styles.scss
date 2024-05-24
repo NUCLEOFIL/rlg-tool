@@ -101,6 +101,36 @@ $highlight-color: #009b00;
     border: 1px solid black;
 }
 
+select:disabled, button:disabled {
+    opacity: 0.5;
+    color: black !important;
+}
+
+.disabledTask {
+    background-color: #d3d3d3;
+    opacity: 0.6;
+    height: 400px;
+    position: absolute;
+    top: 0;
+    z-index: 100;
+
+    &-attach-right {
+        width: 40px;
+        height: 40px;
+        transform: translateY(-50%) rotate(45deg);
+        position: absolute;
+        right: -20px;
+        top: 200px;
+        background-color: #d3d3d3;
+        opacity: 0.6;
+        pointer-events: none;
+        z-index: 100;
+        clip-path: polygon(0 0, 100% 100%, 100% 0);
+    }
+
+}
+
+
 .snackbar-fail {
     background-color: #de3e44;
     color: white;

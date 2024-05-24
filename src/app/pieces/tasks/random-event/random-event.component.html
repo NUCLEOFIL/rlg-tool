@@ -1,4 +1,4 @@
-<div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displaySymbolChoice='hide'" (click)="onClickPiece()"
+<div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displaySymbolChoice='hide'" (click)="!unityService.unity_isActive ? onClickPiece() : ''"
     [style.background]="task.supplementaryRole ?
     'linear-gradient(140deg, var(--piece-background-color) 0%, var(--piece-background-color) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
     : 'var(--piece-background-color)'"
@@ -138,27 +138,30 @@
         <div class="piece-form-top">
             <input class="piece-form-top-identifier" name="identifier" type="text" [(ngModel)]="task.identifier" (change)="changeIdentifier($event)" placeholder="A" min="1" maxlength="5"
             [matTooltip]="translate.instant('task_identifier_tooltip')"
-            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            [disabled]="unityService.unity_isActive"/>
             <div class="piece-form-top-title">{{'randomEvent_title1' | translate}}<br>{{'randomEvent_title2' | translate}}</div>
             <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
             <mat-icon class="piece-form-top-repeat" fontIcon="refresh" *ngIf="(task.repeat.iteration > 0 || task.repeat.while != '' || task.repeat.limitMissionRepeat) && !unityService.unity_isActive"></mat-icon>
             <span class="piece-form-top-repeat-off" *ngIf="(task.repeat.iteration == 0 && task.repeat.while == '') && task.repeat.limitMissionRepeat && !unityService.unity_isActive"></span>
             <button mat-button class="piece-form-top-symbol" (click)="changeDisplaySymbolChoice()"
             [matTooltip]="translate.instant('task_common_tooltip')"
-            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            [disabled]="unityService.unity_isActive">
                 <mat-icon *ngIf="task.symbol.symbol" [style.color]="task.symbol.color" [fontIcon]="task.symbol.symbol"></mat-icon>
             </button>    
         </div>
         <textarea class="piece-form-content" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action')" [style.background-image]="(i == findFirstIndexOfTaskType('event')[0] && j == findFirstIndexOfTaskType('event')[1]) ? urlIcon : ''"
             [placeholder]="translate.instant('randomEvent_action_placeholder')"
             [matTooltip]="translate.instant('task_action_tooltip')"
-            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            [disabled]="unityService.unity_isActive"></textarea>
         <div class="piece-form-bottom">
             <div class="piece-form-bottom-duration"
             [matTooltip]="translate.instant('task_duration_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-                <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="0" (change)="task.duration < 0 ? task.duration = 0 : ''; editTrace($event,'Task_duration')"/>
-                <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange(); editTrace($event,'Task_duration_unit')">
+                <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="0" (change)="task.duration < 0 ? task.duration = 0 : ''; editTrace($event,'Task_duration')" [disabled]="unityService.unity_isActive"/>
+                <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange(); editTrace($event,'Task_duration_unit')" [disabled]="unityService.unity_isActive">
                     <option value="UT">{{'task_duration_ut' | translate}}</option>
                     <option value="min">{{'task_duration_min' | translate}}</option>
                     <option value="tours">{{'task_duration_turn' | translate}}</option> 
@@ -170,9 +173,13 @@
             <mat-icon class="piece-form-bottom-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != '' && !unityService.unity_isActive"></mat-icon>
             <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()"
             [matTooltip]="translate.instant('task_prerequire_tooltip')"
-            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            [disabled]="unityService.unity_isActive">
                 {{'task_prerequire_label' | translate}}
             </button>
         </div>
     </div>
+
+    <div [ngClass]="unityService.unity_isActive ? 'disabledTask' : ''" [ngStyle]="{'width': pieceWidth+'px'}" [matTooltip]="translate.instant('task_unity_disabledTask_tooltip')" matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></div>
+    <div [ngClass]="unityService.unity_isActive ? 'disabledTask-attach-right' : ''"></div>
 </div>

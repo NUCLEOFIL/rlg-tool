@@ -46,6 +46,7 @@ import { DeclarativeSentence } from './class/sentence/declarativeSentence/declar
 import { ObjectReward } from './class/rewards/object-reward/object-reward';
 import { DiscussionReward } from './class/rewards/discussion-reward/discussion-reward';
 import { RoleEducationnalObjective } from './class/role-educationnal-objective/role-educationnal-objective';
+import { ExportUnity } from './class/exportUnity/export-unity';
 
 @Component({
   selector: 'app-root',
@@ -140,9 +141,6 @@ export class AppComponent {
 
   changeMode(): void {
     this.unityService.unity_isActive = !this.unityService.unity_isActive
-    if (this.unityService.unity_isActive) {
-      alert(this.translate.instant('unity_export_notavailable'))
-    }
   }
 
   downloadManual(): void {
@@ -603,6 +601,29 @@ export class AppComponent {
         }
       };
     }
+  }
+
+  exportRoleToUnity(role: Role, roleIndex: number, missionIndex: number) {
+    let exporter = new ExportUnity(this.scenario, role);
+    let fileName: string = '';
+    if (role.intitule) {
+      fileName = role.intitule+' - '+this.translate.instant('siderTitle_mission')+' '+(missionIndex+1)+(this.scenario.projectName ? ' - '+this.scenario.projectName : '')+' - RLG Maker Export';
+    } else {
+      fileName = this.translate.instant('siderTitle_role')+' '+(roleIndex+1)+' - '+this.translate.instant('siderTitle_mission')+' '+(missionIndex+1)+(this.scenario.projectName ? ' - '+this.scenario.projectName : '')+' - RLG Maker Export';
+    }
+    try {
+      const jsonString = exporter.exportRoleToUnity();
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = fileName;
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);        
+    } catch {
+      this._snackBar.open(this.translate.instant('snackbar_unity_exportFailed'), '', { duration: 10000, panelClass: 'snackbar-fail' });
+    }
+     
   }
 
   zoomIn(): void {

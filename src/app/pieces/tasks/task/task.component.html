@@ -16,7 +16,8 @@
         <div>
             <mat-icon fontIcon="change_circle" [matMenuTriggerFor]="menuChange"
             [matTooltip]="translate.instant('task_transform_tooltip')"
-            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            *ngIf="!unityService.unity_isActive"></mat-icon>
             <mat-menu #menuChange="matMenu">
                 <button class="piece-menu-changeMenuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="onClickChange('annexe')">{{'task_transform_annexeTask' | translate}}</button>
                 <button class="piece-menu-changeMenuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="onClickChange('optionnal')">{{'task_transform_optionnalTask' | translate}}</button>
@@ -171,11 +172,11 @@
                 <select name="type" [(ngModel)]="task.typeUnity" (change)="task.resetUnityContent()">
                     <option value="getObject">{{'task_unity_type_getObject' | translate}}</option>
                     <option value="character">{{'task_unity_type_character' | translate}}</option>
-                    <option value="combineObjects">{{'task_unity_type_combineObjects' | translate}}</option>
-                    <option value="talkWithRole">{{'task_unity_type_talkWithRole' | translate}}</option>
-                    <option value="exchangeObjects">{{'task_unity_type_exchangeObjects' | translate}}</option>
-                    <option value="depositObject">{{'task_unity_type_depositObject' | translate}}</option>
-                    <option value="askToSeeRole">{{'task_unity_type_askToSeeRole' | translate}}</option>
+                    <!--<option value="combineObjects">{{'task_unity_type_combineObjects' | translate}}</option>-->
+                    <!--<option value="talkWithRole">{{'task_unity_type_talkWithRole' | translate}}</option>-->
+                    <!--<option value="exchangeObjects">{{'task_unity_type_exchangeObjects' | translate}}</option>-->
+                    <!--<option value="depositObject">{{'task_unity_type_depositObject' | translate}}</option>-->
+                    <!--<option value="askToSeeRole">{{'task_unity_type_askToSeeRole' | translate}}</option>-->
                     <option value="interactObject">{{'task_unity_type_interactObject' | translate}}</option>
                 </select>
             </div>
@@ -204,7 +205,7 @@
                         <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
                     </select>
                 </div>
-
+                <!--
                 <div class="piece-form-content-unity-typeContent-combineObjects" *ngIf="task.typeUnity == 'combineObjects'">
                     <div class="piece-form-content-unity-typeContent-combineObjects-element" *ngFor="let element of task.combineObjects, let elementIndex = index">
                         <button mat-button class="piece-form-content-unity-typeContent-button" (click)="removeCombineObject(elementIndex)" *ngIf="task.combineObjects.length > 2"><mat-icon fontIcon="remove"></mat-icon></button>
@@ -288,7 +289,7 @@
                         </ng-container>
                     </select>
                 </div>
-
+                -->
                 <div class="piece-form-content-unity-typeContent-interactObject" *ngIf="task.typeUnity == 'interactObject'">
                     <div class="piece-form-content-unity-typeContent-interactObject-select">
                         <select [(ngModel)]="task.object">

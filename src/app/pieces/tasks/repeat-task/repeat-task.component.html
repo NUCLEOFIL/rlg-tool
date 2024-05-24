@@ -1,4 +1,4 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()" 
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="!unityService.unity_isActive ? onClickPiece() : ''" 
 [class]="pieceDetailsService.piece == task ? 'isActive' : 'border'">
     <div class="piece-attach piece-attach-left"></div>
 
@@ -106,7 +106,8 @@
         <textarea [(ngModel)]="task.objective" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action')" [style.background-image]="(i == findFirstIndexOfTaskType('repeat')[0] && j == findFirstIndexOfTaskType('repeat')[1]) ? urlIcon : ''"
             [placeholder]="translate.instant('repeatTask_action_placeholder')"
             [matTooltip]="translate.instant('task_action_tooltip')"
-            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            [disabled]="unityService.unity_isActive"></textarea>
             <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
             <mat-icon class="piece-form-repeat" fontIcon="refresh" *ngIf="(task.repeat.iteration > 0 || task.repeat.while != '' || task.repeat.limitMissionRepeat) && !unityService.unity_isActive"></mat-icon>
             <span class="piece-form-repeat-off" *ngIf="(task.repeat.iteration == 0 && task.repeat.while == '') && task.repeat.limitMissionRepeat && !unityService.unity_isActive"></span>
@@ -116,8 +117,11 @@
             <mat-icon class="piece-form-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != '' && !unityService.unity_isActive"></mat-icon>
             <button mat-button class="piece-form-prerequires" (click)="changeDisplayPrerequires()"
             [matTooltip]="translate.instant('task_prerequire_tooltip')"
-            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            [disabled]="unityService.unity_isActive">
                 {{'task_prerequire_label' | translate}}
             </button>
     </div>
+
+    <div [ngClass]="unityService.unity_isActive ? 'disabledTask' : ''" [matTooltip]="translate.instant('task_unity_disabledTask_tooltip')" matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></div>
 </div>
