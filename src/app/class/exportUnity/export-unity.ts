@@ -985,7 +985,7 @@ export class ExportUnity {
 
         this.role.rewards.forEach(reward => {
             if (reward instanceof SkillReward) {
-                let skill: UnitySkill = this.exportedRole.Item.find(skl => skl.name == reward.skill.name) as UnitySkill;
+                let skill: UnitySkill = this.exportedRole.Skill.find(skl => skl.name == reward.skill.name) as UnitySkill;
                 if (!results.some(element => element.skillID == skill.ID)) {
                     let resultID: number = this.resultID++;
                     let result: UnityEarnSkillResult = {

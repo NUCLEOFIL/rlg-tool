@@ -98,6 +98,9 @@ export class DiscussionDialogComponent implements OnInit {
           }
         });        
       }
+      if (this.discussion.firstSentenceID == removedSentenceId) {
+        this.discussion.firstSentenceID = -1;
+      }
     });
   }
 
@@ -143,6 +146,9 @@ export class DiscussionDialogComponent implements OnInit {
               }          
             }
           }
+        }
+        if (this.discussion.firstSentenceID == removedSentenceId) {
+          this.discussion.firstSentenceID = -1;
         }
       }
     });
