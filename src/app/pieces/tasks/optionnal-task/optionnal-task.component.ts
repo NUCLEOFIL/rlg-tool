@@ -137,7 +137,7 @@ export class OptionnalTaskComponent implements OnInit {
     if (this.role.countOptionnalTasksInColumn(this.role.getRealIndex(this.i,this.j)) < 2) {
       this._snackBar.open(this.translate.instant('snackbar_deleteOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
     }
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform_into_['+type+']',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.roleIndex,'all','Opt_task_['+this.i+';'+this.j+']_transform_into_['+type+']', '#E8E3B3'));
   }
 
   onClickDelete(): void {

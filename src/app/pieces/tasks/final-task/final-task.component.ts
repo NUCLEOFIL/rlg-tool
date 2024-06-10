@@ -135,7 +135,7 @@ export class FinalTaskComponent implements OnInit {
     }
     this.task.changeType(type);
     this.mission.equalizeLengths();
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform_into_['+type+']',this.missionIndex,this.roleIndex,'all','Final_task_['+this.i+';'+this.j+']', '#B28386'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.roleIndex,'all','Final_task_['+this.i+';'+this.j+']_transform_into_['+type+']', '#B28386'));
   }
 
   onClickDelete(): void {

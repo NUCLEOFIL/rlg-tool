@@ -136,7 +136,7 @@ export class TaskComponent implements OnInit {
       this.task.symbol.symbol = '';
     }
     this.task.changeType(type);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform_into_['+type+']',this.missionIndex,this.roleIndex,'all','Task_['+this.i+';'+this.j+']', '#B9DFE3'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.roleIndex,'all','Task_['+this.i+';'+this.j+']_transform_into_['+type+']', '#B9DFE3'));
   }
 
   onClickDelete(): void {
@@ -459,5 +459,14 @@ export class TaskComponent implements OnInit {
 
   removeExchangeReceiveObject(index: number): void {
     this.task.receiveObjects.splice(index,1);
+  }
+
+  resetUnityContent(): void {
+    this.task.resetUnityContent();
+    switch (this.task.typeUnity) {
+      case 'getObject': new Trace(this.scenario.traces.length, 'transform', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'typeUnity_transform_into_[getObject]', 'Task_['+this.i+';'+this.j+']', '#B9DFE3'); break;
+      case 'character': new Trace(this.scenario.traces.length, 'transform', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'typeUnity_transform_into_[talkWith]', 'Task_['+this.i+';'+this.j+']', '#B9DFE3'); break;
+      case 'interactObject': new Trace(this.scenario.traces.length, 'transform', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'typeUnity_transform_into_[interactWith]', 'Task_['+this.i+';'+this.j+']', '#B9DFE3'); break;
+    }
   }
 }

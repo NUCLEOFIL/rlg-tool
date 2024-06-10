@@ -21,8 +21,8 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                 </div>
                 -->     
                 <div class="piece-form-content-object" *ngIf="reward.type == 'object'">
-                    <input type="number" name="quantity" [(ngModel)]="getObjectReward(rewardIndex).quantity"/>
-                    <select name="object_name" [(ngModel)]="getObjectReward(rewardIndex).object">
+                    <input type="number" name="quantity" [(ngModel)]="getObjectReward(rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity')"/>
+                    <select name="object_name" [(ngModel)]="getObjectReward(rewardIndex).object" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object')">
                         <option value="null" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
                         <ng-container *ngFor="let ressource of scenario.ressources">
                             <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
@@ -33,14 +33,14 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                     </select>
                 </div>
                 <div class="piece-form-content-character" *ngIf="reward.type == 'character'">
-                    <select name="character" [(ngModel)]="getCharacterReward(rewardIndex).character">
+                    <select name="character" [(ngModel)]="getCharacterReward(rewardIndex).character" (change)="editTrace($event, 'Reward_['+rewardIndex+']_character')">
                         <option value="null" selected disabled>{{'rewards_character_placeholder' | translate}}</option>
                         <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
                     </select>
                 </div>
                 <div class="piece-form-content-skill" *ngIf="reward.type == 'skill'">
-                    <input type="number" name="quantity" [(ngModel)]="getSkillReward(rewardIndex).quantity"/>
-                    <select name="skill" [(ngModel)]="getSkillReward(rewardIndex).skill">
+                    <input type="number" name="quantity" [(ngModel)]="getSkillReward(rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity')"/>
+                    <select name="skill" [(ngModel)]="getSkillReward(rewardIndex).skill" (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill')">
                         <option value="null" selected disabled>{{'rewards_skill_placeholder' | translate}}</option>
                         <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
                             <option *ngIf="ressource.type == 'attribut'" [ngValue]="ressource">{{ressource.name}}</option>

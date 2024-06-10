@@ -15,7 +15,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
             <textarea [(ngModel)]="task.repeat.while" (change)="editTrace($event,'repeat_stopCondition')"></textarea>
         </div>
         <div class="piece-form-missionRepeatLimit">
-            <input type="checkbox" [(ngModel)]="task.repeat.limitMissionRepeat"/>
+            <input type="checkbox" [(ngModel)]="task.repeat.limitMissionRepeat" (change)="checkboxTrace($event, 'repeat_repeatLimit')"/>
             <label>{{'repeat_missionRepeatLimit' | translate}}</label>
         </div>
     </div>

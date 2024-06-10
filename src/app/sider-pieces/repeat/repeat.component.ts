@@ -45,4 +45,12 @@ export class RepeatComponent implements OnInit {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#A6C9EC'));
     }
   }
+
+  checkboxTrace(event: any, source: string) {
+    if(event.target.checked) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'check', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, source, this.formatTraceTarget(), '#A6C9EC'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'uncheck', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, source, this.formatTraceTarget(), '#A6C9EC'));
+    }
+  }
 }

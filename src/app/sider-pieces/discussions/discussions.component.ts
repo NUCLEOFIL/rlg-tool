@@ -12,6 +12,7 @@ import { Scenario } from 'src/app/class/scenario/scenario';
 import { DeclarativeSentence } from 'src/app/class/sentence/declarativeSentence/declarative-sentence';
 import { InterrogativeSentence } from 'src/app/class/sentence/interrogativeSentence/interrogative-sentence';
 import { Sentence } from 'src/app/class/sentence/sentence';
+import { Trace } from 'src/app/class/trace/trace';
 import { DiscussionDialogComponent } from 'src/app/components/dialogs/discussion-dialog/discussion-dialog.component';
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
@@ -37,13 +38,15 @@ export class DiscussionsComponent implements OnInit {
 
   addDiscussion() {
     if (this.selectedCharacter && this.intitule) {
-      let discussion = new Discussion(this.role.actualDiscussionID++, this.selectedCharacter, this.intitule);
+      let discussionID: number = this.role.actualDiscussionID++;
+      let discussion = new Discussion(discussionID, this.selectedCharacter, this.intitule);
       this.intitule = '';
       this.role.discussions.push(discussion);
       const dialogRef = this.dialog.open(DiscussionDialogComponent, {
         width: '60vw',
         data: { role: this.role, discussion: discussion, scenario: this.scenario }
       });
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'all', 'discussion_['+discussionID+']', '#D5D5FF'));
     }
   }
 
@@ -52,6 +55,7 @@ export class DiscussionsComponent implements OnInit {
       width: '60vw',
       data: { role: this.role, discussion: discussion, scenario: this.scenario }
     });
+    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'open_discussion', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'all', 'discussion_['+discussion.ID+']', '#D5D5FF'));
   }
 
   deleteDiscussion(discussionIndex: number) {
@@ -119,8 +123,8 @@ export class DiscussionsComponent implements OnInit {
             }
           }
         });
-
-      }
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'delete', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'all', 'discussion_['+discussion.ID+']', '#D5D5FF'));
+      } 
     });
   } 
 }

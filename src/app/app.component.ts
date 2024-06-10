@@ -782,15 +782,18 @@ export class AppComponent {
 
   verifyGame(): void {
     if (this.verifyIfAllDurationUnitAreSame()) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'verify_scenario', undefined, undefined, undefined, 'Scenario'));
       const dialogRef = this.dialog.open(VerifyDialogComponent, {
         data: this.scenario
       });
     } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'failed_verify_scenario', undefined, undefined, undefined, 'Scenario'));
       this._snackBar.open(this.translate.instant('verify_error'), '', { duration: 10000, panelClass: 'snackbar-fail' });
     }
   }
 
   consultLegals(): void {
+    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'consult_legals'));
     const dialogRef = this.dialog.open(LegalDialogComponent, {
       maxWidth: '50vw',
     });

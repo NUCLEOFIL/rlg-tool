@@ -46,6 +46,14 @@ export class RewardsComponent implements OnInit {
     return res;
   }
 
+  editTrace(event: any, source: string): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#CFE3B9'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#CFE3B9'));
+    }
+  }
+
   getCharacterReward(index: number): CharacterReward {
     return this.task.rewards[index] as CharacterReward;
   }

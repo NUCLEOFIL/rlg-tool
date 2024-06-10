@@ -172,7 +172,7 @@ export class AnnexeTaskComponent implements OnInit {
 
   onClickChange(type: string): void {
     this.task.changeType(type);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform_into_['+type+']',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']_transform_into_['+type+']', '#BCCECC'));
   }
 
   changeDisplayPrerequires(): void {

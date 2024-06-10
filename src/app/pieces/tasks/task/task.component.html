@@ -169,7 +169,7 @@
         <div class="piece-form-content piece-form-content-unity" *ngIf="unityService.unity_isActive">
             <div class="piece-form-content-unity-type">
                 <label for="type">{{'task_unity_type_label' | translate}}</label>
-                <select name="type" [(ngModel)]="task.typeUnity" (change)="task.resetUnityContent()">
+                <select name="type" [(ngModel)]="task.typeUnity" (change)="resetUnityContent()">
                     <option value="getObject">{{'task_unity_type_getObject' | translate}}</option>
                     <option value="character">{{'task_unity_type_character' | translate}}</option>
                     <!--<option value="combineObjects">{{'task_unity_type_combineObjects' | translate}}</option>-->
@@ -183,8 +183,8 @@
             <div class="piece-form-content-unity-typeContent">
                 
                 <div class="piece-form-content-unity-typeContent-getObject" *ngIf="task.typeUnity == 'getObject'">
-                    <input type="number" [(ngModel)]="task.objectQuantity"/>
-                    <select [(ngModel)]="task.object">
+                    <input type="number" [(ngModel)]="task.objectQuantity" (change)="editTrace($event, 'typeUnity_object_quantity')"/>
+                    <select [(ngModel)]="task.object" (change)="editTrace($event, 'typeUnity_object_object')">
                         <option [ngValue]="null" selected disabled>{{'task_unity_objectName_label' | translate}}</option>
                         <ng-container *ngFor="let ressource of scenario.ressources">
                             <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
@@ -200,7 +200,7 @@
                 </div>
 
                 <div class="piece-form-content-unity-typeContent-character" *ngIf="task.typeUnity == 'character'">
-                    <select [(ngModel)]="task.character">
+                    <select [(ngModel)]="task.character" (change)="editTrace($event, 'typeUnity_character')">
                         <option [ngValue]="null" selected disabled>{{'task_unity_characterName_label' | translate}}</option>
                         <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
                     </select>
@@ -292,7 +292,7 @@
                 -->
                 <div class="piece-form-content-unity-typeContent-interactObject" *ngIf="task.typeUnity == 'interactObject'">
                     <div class="piece-form-content-unity-typeContent-interactObject-select">
-                        <select [(ngModel)]="task.object">
+                        <select [(ngModel)]="task.object" (change)="editTrace($event, 'typeUnity_interact_object')">
                             <option [ngValue]="null" selected disabled>{{'task_unity_objectName_label' | translate}}</option>
                             <ng-container *ngFor="let ressource of scenario.ressources">
                                 <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
@@ -306,7 +306,7 @@
                     </div>
                        
                     <div class="piece-form-content-unity-typeContent-interactObject-name">
-                        <input name="interactionName" type="text" [(ngModel)]="task.interactionName" [placeholder]="translate.instant('task_unity_interactName_placeholder')"/>
+                        <input name="interactionName" type="text" [(ngModel)]="task.interactionName" [placeholder]="translate.instant('task_unity_interactName_placeholder')" (change)="editTrace($event, 'typeUnity_interact_name')"/>
                     </div>
                 </div>
 
@@ -314,11 +314,11 @@
             <div class="piece-form-content-unity-infos">
                 <div class="piece-form-content-unity-infos-name">
                     <label for="name">{{'task_unity_name_label' | translate}}</label>
-                    <input name="name" type="text" [(ngModel)]="task.name"/>
+                    <input name="name" type="text" [(ngModel)]="task.name" (change)="editTrace($event, 'Task_name')"/>
                 </div>
                 <div class="piece-form-content-unity-infos-desc">
                     <label for="description">{{'task_unity_desc_label' | translate}}</label>
-                    <textarea name="description" [(ngModel)]="task.objective"></textarea>
+                    <textarea name="description" [(ngModel)]="task.objective" (change)="editTrace($event, 'Task_description')"></textarea>
                 </div>  
             </div>
      

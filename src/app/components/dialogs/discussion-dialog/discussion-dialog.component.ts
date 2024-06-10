@@ -11,6 +11,12 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { SuppressDialogComponent } from '../suppress-dialog/suppress-dialog.component';
 import { QuestReward } from 'src/app/class/rewards/quest-reward/quest-reward';
 import { Scenario } from 'src/app/class/scenario/scenario';
+import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
+import { Trace } from 'src/app/class/trace/trace';
+import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
+import { DiscussionReward } from 'src/app/class/rewards/discussion-reward/discussion-reward';
+import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
+import { SkillReward } from 'src/app/class/rewards/skill-reward/skill-reward';
 
 @Component({
   selector: 'app-discussion-dialog',
@@ -24,7 +30,7 @@ export class DiscussionDialogComponent implements OnInit {
   scenario: Scenario;
 
   constructor(public dialogRef: MatDialogRef<DiscussionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogDiscussionData, protected translate: TranslateService, protected tooltipService: TooltipService, public dialog: MatDialog) {
+    @Inject(MAT_DIALOG_DATA) public data: DialogDiscussionData, protected translate: TranslateService, protected tooltipService: TooltipService, public dialog: MatDialog, private pieceDetailsService: PieceDetailsService) {
       this.role = this.data.role;
       this.discussion = this.data.discussion;
       this.scenario = this.data.scenario;
@@ -72,6 +78,7 @@ export class DiscussionDialogComponent implements OnInit {
     newSentence.idDiscussion = this.discussion.ID;
     this.discussion.sentences.push(newSentence.ID);
     this.role.sentences.push(newSentence);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'declarativeSentence_[ID:'+newSentence.ID+']', '#D5D5FF'));
   }
 
   deleteDeclarativeSentence(removedSentenceId: number) {
@@ -96,11 +103,14 @@ export class DiscussionDialogComponent implements OnInit {
               }
             });
           }
-        });        
+        });  
+        if (this.discussion.firstSentenceID == removedSentenceId) {
+          this.discussion.firstSentenceID = -1;
+        }
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'declarativeSentence_[ID:'+removedSentenceId+']', '#D5D5FF'));             
       }
-      if (this.discussion.firstSentenceID == removedSentenceId) {
-        this.discussion.firstSentenceID = -1;
-      }
+
+
     });
   }
 
@@ -115,6 +125,7 @@ export class DiscussionDialogComponent implements OnInit {
 
     this.discussion.sentences.push(newSentence.ID);
     this.role.sentences.push(newSentence);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'interrogativeSentence_[ID:'+newSentence.ID+']', '#D5D5FF'));
   }
 
   deleteInterrogativeSentence(removedSentenceId: number) {
@@ -150,6 +161,7 @@ export class DiscussionDialogComponent implements OnInit {
         if (this.discussion.firstSentenceID == removedSentenceId) {
           this.discussion.firstSentenceID = -1;
         }
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'interrogativeSentence_[ID:'+removedSentenceId+']', '#D5D5FF'));
       }
     });
   }
@@ -159,6 +171,7 @@ export class DiscussionDialogComponent implements OnInit {
     newResponse.idInterrogativeSentence = sentence.ID;
     sentence.responses.push(newResponse.ID);
     this.role.responses.push(newResponse);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'response_[ID:'+newResponse.ID+']', '#D5D5FF'));
   }
 
   countResponses(sentenceId: number): number {
@@ -179,8 +192,165 @@ export class DiscussionDialogComponent implements OnInit {
         sentence.responses.splice(sentenceResponseIndex,1);
         let responseIndex = this.role.responses.findIndex(response => response.ID == removedResponseId);
         this.role.responses.splice(responseIndex,1);      
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'response_[ID:'+removedResponseId+']', '#D5D5FF'));
       }
     });
+  }
+
+  addReward(parent: Discussion | Sentence | Response): void {
+    parent.rewards.push(new ObjectReward());
+    if (parent instanceof Discussion) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + parent.rewards.length + ']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF')); 
+    }
+    if (parent instanceof Sentence) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + parent.rewards.length + ']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+    }
+    if (parent instanceof Response) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + parent.rewards.length + ']', 'response_[ID:'+parent.ID+ ']', '#D5D5FF'));
+    }
+  }
+
+  changeRewardType(parent: Discussion | Sentence | Response, index: number, type: string): void {
+    switch (type) {
+      case 'quest': parent.rewards[index] = new QuestReward();
+        if (parent instanceof Discussion) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Sentence) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Response) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+        }            
+        break;
+      case 'skill': parent.rewards[index] = new SkillReward();
+        if (parent instanceof Discussion) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Sentence) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Response) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+        }            
+        break;
+      case 'character': parent.rewards[index] = new CharacterReward();
+        if (parent instanceof Discussion) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Sentence) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Response) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        break;
+      case 'object': parent.rewards[index] = new ObjectReward();
+        if (parent instanceof Discussion) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Sentence) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Response) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        break;
+      case 'discussion': parent.rewards[index] = new DiscussionReward();
+        if (parent instanceof Discussion) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Sentence) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Response) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        break;
+    }
+  }
+
+  removeReward(parent: Discussion | Sentence | Response, index: number): void {
+    const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('role_reward_delete') });
+    dialogRef.afterClosed().subscribe(result => {
+        if (result == true) {
+          parent.rewards.splice(index, 1);
+          if (parent instanceof Discussion) {
+            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
+          }
+          if (parent instanceof Sentence) {
+            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+          }
+          if (parent instanceof Response) {
+            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
+          }
+        } else {
+          if (parent instanceof Discussion) {
+            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'cancel_delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
+          }
+          if (parent instanceof Sentence) {
+            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'cancel_delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+          }
+          if (parent instanceof Response) {
+            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'cancel_delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
+          }
+        }
+    });
+  }
+
+  getQuestReward(parent: Discussion | Sentence | Response, index: number): QuestReward {
+    return parent.rewards[index] as QuestReward;
+  }
+
+  getCharacterReward(parent: Discussion | Sentence | Response, index: number): CharacterReward {
+    return parent.rewards[index] as CharacterReward;
+  }
+
+  getSkillReward(parent: Discussion | Sentence | Response, index: number): SkillReward {
+    return parent.rewards[index] as SkillReward;
+  }
+
+  getObjectReward(parent: Discussion | Sentence | Response, index: number): ObjectReward {
+    return parent.rewards[index] as ObjectReward;
+  }
+
+  getDiscussionReward(parent: Discussion | Sentence | Response, index: number): DiscussionReward {
+    return parent.rewards[index] as DiscussionReward;
+  }    
+
+  changeQuestReward(parent: Discussion | Sentence | Response, roleIntitule: string, index: number, event: any) {
+    let value: string = event.target.value;
+    let reward = new QuestReward();
+    reward.intitule = roleIntitule;
+    reward.questName = value;
+    parent.rewards[index] = reward;
+    let target: string = '';
+    if (parent instanceof Discussion) {
+      target = 'discussion_[ID:'+parent.ID+']';
+    }
+    if (parent instanceof Sentence) {
+      target = 'sentence_[ID:'+parent.ID+']';
+    }
+    if (parent instanceof Response) {
+      target = 'response_[ID:'+parent.ID+']';
+    }
+    this.editTrace(event, 'Reward_['+index+']_quest', target);
+  }
+
+  editTrace(event: any, source: string, target: string): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, source, target, '#D5D5FF'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source, target, '#D5D5FF'));
+    }
+  }
+
+  checkboxTrace(event: any, source: string, target: string) {
+    if(event.target.checked) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'check', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, source, target, '#D5D5FF'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'uncheck', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, source, target, '#D5D5FF'));
+    }
   }
 }
 
