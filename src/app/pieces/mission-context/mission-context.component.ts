@@ -86,7 +86,7 @@ export class MissionContextComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.i,undefined,source,'Context_m', '#EAC19B'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.i,undefined,source,'Context_m', '#EAC19B', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.i,undefined,source,'Context_m', '#EAC19B'));
     }

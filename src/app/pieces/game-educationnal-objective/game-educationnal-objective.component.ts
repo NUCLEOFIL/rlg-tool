@@ -47,7 +47,7 @@ export class GameEducationnalObjectiveComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Obj_g', '#BAC5D8'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Obj_g', '#BAC5D8', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Obj_g', '#BAC5D8'));
     }

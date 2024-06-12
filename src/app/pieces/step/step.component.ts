@@ -164,13 +164,13 @@ export class StepComponent implements OnInit {
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
       if (this.parent instanceof Mission) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC'));
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC', undefined, event.target.value));
       } else if (this.parent instanceof Role) {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
       }
     } else {
       if (this.parent instanceof Mission) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC'));
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC', undefined, event.target.value));
       } else if (this.parent instanceof Role) {
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
       }

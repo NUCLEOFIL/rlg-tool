@@ -695,7 +695,7 @@ export class RoleComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.i,source,'Role_['+(this.i)+']', '#9AD5EC','*'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.i,source,'Role_['+(this.i)+']', '#9AD5EC','*', event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.i,source,'Role_['+(this.i)+']', '#9AD5EC','*'));
     }

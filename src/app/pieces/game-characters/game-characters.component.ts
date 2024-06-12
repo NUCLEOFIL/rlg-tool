@@ -197,7 +197,7 @@ export class GameCharactersComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Characters', '#CE7B66'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Characters', '#CE7B66', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Characters', '#CE7B66'));
     }
