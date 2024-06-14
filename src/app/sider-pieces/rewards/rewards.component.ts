@@ -48,7 +48,7 @@ export class RewardsComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#CFE3B9'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#CFE3B9', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#CFE3B9'));
     }

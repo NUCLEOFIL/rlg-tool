@@ -34,7 +34,7 @@ export class RoleOccurenceComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,'Role_['+this.pieceDetailsService.roleIndex+']', '#E5C5AC'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,'Role_['+this.pieceDetailsService.roleIndex+']', '#E5C5AC', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,'Role_['+this.pieceDetailsService.roleIndex+']', '#E5C5AC'));
     }

@@ -339,7 +339,7 @@ export class DiscussionDialogComponent implements OnInit {
 
   editTrace(event: any, source: string, target: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, source, target, '#D5D5FF'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, source, target, '#D5D5FF', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source, target, '#D5D5FF'));
     }

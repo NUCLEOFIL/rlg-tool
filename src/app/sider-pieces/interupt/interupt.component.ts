@@ -40,7 +40,7 @@ export class InteruptComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F7C9CF'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F7C9CF', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F7C9CF'));
     }

@@ -42,7 +42,7 @@ export class SupplementaryTaskComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (this.task.supplementaryRole != undefined) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'Select_secondary_task',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#9AD5EC'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'Select_secondary_task',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#9AD5EC', event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'Deselect_secondary_task',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#9AD5EC'));
     }

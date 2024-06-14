@@ -159,7 +159,7 @@ export class RepeatTaskComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#B9DFE3'));
     }

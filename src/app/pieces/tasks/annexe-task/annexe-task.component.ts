@@ -357,7 +357,7 @@ export class AnnexeTaskComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
     }

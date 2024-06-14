@@ -190,7 +190,7 @@ export class FinalTaskComponent implements OnInit {
     this.task.symbol.color = symbolColor;
     this.displaySymbolChoice = 'hide';
     if (symbol != '' && symbolColor != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'select_common',this.missionIndex,this.roleIndex,'symbol','Final_task_['+this.i+';'+this.j+']', '#B28386'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'select_common',this.missionIndex,this.roleIndex,'symbol','Final_task_['+this.i+';'+this.j+']', '#B28386', undefined, 'symbol: '+symbol+' | color: '+symbolColor));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete_common',this.missionIndex,this.roleIndex,'symbol','Final_task_['+this.i+';'+this.j+']', '#B28386'));
     }
@@ -384,7 +384,7 @@ export class FinalTaskComponent implements OnInit {
   
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Final_task_['+this.i+';'+this.j+']', '#B28386'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Final_task_['+this.i+';'+this.j+']', '#B28386', undefined, event.target.value));
     } else {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Final_task_['+this.i+';'+this.j+']', '#B28386'));
     }

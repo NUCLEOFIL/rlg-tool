@@ -23,7 +23,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
             [matTooltip]="translate.instant('discussions_addDiscussion_tooltip')"
             matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <label for="intitule">{{'discussions_addDiscussion_label' | translate}}</label>
-                <input name="intitule" type="text" [(ngModel)]="intitule"/> 
+                <input name="intitule" type="text" [(ngModel)]="intitule" (change)="editTrace($event, 'Name_d', 'newDiscussion')"/> 
             </div>
             <button mat-button class="piece-form-button-create" (click)="addDiscussion()">{{'discussions_addDiscussion_button' | translate}}</button>
         </div>
