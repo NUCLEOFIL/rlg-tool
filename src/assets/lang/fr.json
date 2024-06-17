@@ -448,7 +448,7 @@
     "discussion_result_label": "Résultats",
     "discussion_result_placeholder": "Choisir un résultat",
     "discussion_nextSentence_label": "Phrase suivante",
-    "discussion_nextSentence_placeholder": "Choisir la phrase suivante",
+    "discussion_nextSentence_none": "Aucune",
     "discussion_buttons_newDeclarativeSentence": "Ajouter une phrase",
     "discussion_buttons_newInterrogativeSentence": "Ajouter une question",
     "discussion_buttons_deleteDeclarativeSentence": "Supprimer la phrase",

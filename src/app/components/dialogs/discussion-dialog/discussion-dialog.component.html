@@ -142,7 +142,7 @@
                     <div class="form-nextSentence">
                         <label for="nextSentence">{{'discussion_nextSentence_label' | translate}}</label>
                         <select name="nextSentence" [(ngModel)]="getSentenceAsDeclarativeSentence(sentence).nextSentence" (change)="editTrace($event, 'nextSentence', 'declarativeSentence_[ID:'+sentence.ID+']')">
-                            <option [ngValue]="-1" disabled selected>{{'discussion_nextSentence_placeholder' | translate}}</option>
+                            <option [ngValue]="-1" selected>{{'discussion_nextSentence_none' | translate}}</option>
                             <ng-container *ngFor="let nextSentence of role.sentences">
                                 <option [ngValue]="nextSentence.ID" *ngIf="sentence.ID != nextSentence.ID && sentence.idDiscussion == nextSentence.idDiscussion">ID: {{nextSentence.ID}}</option>
                             </ng-container>
@@ -385,7 +385,7 @@
                                     <div class="form-nextSentence">
                                         <label for="nextSentence">{{'discussion_nextSentence_label' | translate}}</label>
                                         <select name="nextSentence" [(ngModel)]="response.nextSentence" (change)="editTrace($event, 'nextSentence', 'response_[ID:'+response.ID+']')">
-                                            <option [ngValue]="-1" disabled selected>{{'discussion_nextSentence_placeholder' | translate}}</option>
+                                            <option [ngValue]="-1" selected>{{'discussion_nextSentence_none' | translate}}</option>
                                             <ng-container *ngFor="let nextSentence of role.sentences">
                                                 <option [ngValue]="nextSentence.ID" *ngIf="sentence.ID != nextSentence.ID && sentence.idDiscussion == nextSentence.idDiscussion">ID: {{nextSentence.ID}}</option>
                                             </ng-container>
