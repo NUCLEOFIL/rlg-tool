@@ -135,7 +135,7 @@ export class AppComponent {
         case 'en': this.selectedLang = 'en'; this.translate.use('en'); break;
       }
       this.minimapService.reset();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'change_lang', undefined, undefined, this.selectedLang, 'Scenario'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'change_lang', undefined, undefined, 'all', 'Scenario', undefined, undefined, this.selectedLang));
     }
   }
 
@@ -738,17 +738,17 @@ export class AppComponent {
 
   tooltipsTrace(event: any) {
     if(event.target.checked) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'enable_tooltips',undefined, undefined,'tooltips','Scenario'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'enable_tooltips',undefined, undefined,'all','Scenario'));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'disable_tooltips',undefined, undefined,'tooltips','Scenario'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'disable_tooltips',undefined, undefined,'all','Scenario'));
     }
   }
 
   unityTrace(event: any) {
     if(event.target.checked) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'enable_unity',undefined, undefined,'unity','Scenario'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'enable_unity',undefined, undefined,'all','Scenario'));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'disable_unity',undefined, undefined,'unity','Scenario'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'disable_unity',undefined, undefined,'all','Scenario'));
     }
   }
 

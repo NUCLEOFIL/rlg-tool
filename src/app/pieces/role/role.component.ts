@@ -436,7 +436,7 @@ export class RoleComponent implements OnInit {
 
   addRessource(): void {
     this.role.ressources.push(new Ressource());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'skill/ressource_['+this.role.ressources.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Skill/Ressource_['+this.role.ressources.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
   }
 
