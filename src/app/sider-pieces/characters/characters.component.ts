@@ -32,7 +32,7 @@ export class CharactersComponent implements OnInit {
     if (this.selectedAssignCharacter != undefined) {
       this.task.characters.push(this.selectedAssignCharacter);
       this.selectedAssignCharacter = undefined;
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'Select_character',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'character_['+this.task.characters.length+']',this.formatTraceTarget(),'#CE7B66'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'Select_character',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'character_['+(this.task.characters.length-1)+']',this.formatTraceTarget(),'#CE7B66'));
     }
   }
 

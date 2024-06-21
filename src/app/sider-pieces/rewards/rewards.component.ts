@@ -72,7 +72,7 @@ export class RewardsComponent implements OnInit {
 
   addReward(): void {
     this.piece.rewards.push(new ObjectReward());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+this.piece.rewards.length+']', this.formatTraceTarget(), '#CFE3B9', '*'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));
   }
 
   removeReward(index: number): void {
@@ -80,9 +80,9 @@ export class RewardsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.piece.rewards.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+this.piece.rewards.length+']', this.formatTraceTarget(), '#CFE3B9', '*'));    
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));    
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+this.piece.rewards.length+']', this.formatTraceTarget(), '#CFE3B9', '*'));        
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));        
       }
     });
   }

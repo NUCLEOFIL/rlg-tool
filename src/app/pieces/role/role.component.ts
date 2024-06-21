@@ -436,7 +436,7 @@ export class RoleComponent implements OnInit {
 
   addRessource(): void {
     this.role.ressources.push(new Ressource());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Skill/Ressource_['+this.role.ressources.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Skill/Ressource_['+(this.role.ressources.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
   }
 
@@ -586,7 +586,7 @@ export class RoleComponent implements OnInit {
 
   addReward(): void {
     this.role.rewards.push(new QuestReward());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Reward_['+this.role.rewards.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Reward_['+(this.role.rewards.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
     this.validTutorialPhase5();
   }

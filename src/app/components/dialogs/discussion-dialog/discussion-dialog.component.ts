@@ -200,13 +200,13 @@ export class DiscussionDialogComponent implements OnInit {
   addReward(parent: Discussion | Sentence | Response): void {
     parent.rewards.push(new ObjectReward());
     if (parent instanceof Discussion) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + parent.rewards.length + ']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF')); 
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + (parent.rewards.length-1) + ']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF')); 
     }
     if (parent instanceof Sentence) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + parent.rewards.length + ']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + (parent.rewards.length-1) + ']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
     if (parent instanceof Response) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + parent.rewards.length + ']', 'response_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + (parent.rewards.length-1) + ']', 'response_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
   }
 
