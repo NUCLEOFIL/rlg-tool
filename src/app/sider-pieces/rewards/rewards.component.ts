@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { Mission } from 'src/app/class/mission/mission';
 import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { ObjectsReward } from 'src/app/class/rewards/objects-reward/objects-reward';
@@ -21,8 +22,8 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 export class RewardsComponent implements OnInit {
 
   @Input() scenario: Scenario = new Scenario();
-  @Input() task: Task = new Task('normal');
-  @Input() role: Role = new Role();
+  @Input() piece: Task|Mission = new Task('normal');
+  @Input() role?: Role;
 
   constructor(protected translate: TranslateService, protected tooltipService: TooltipService, protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog) { }
 
@@ -32,8 +33,8 @@ export class RewardsComponent implements OnInit {
   formatTraceTarget(): string {
     let res: string = '';
 
-    if (this.pieceDetailsService.piece instanceof Task) {
-      switch(this.pieceDetailsService.piece.type) {
+    if (this.piece instanceof Task) {
+      switch(this.piece.type) {
         case 'normal': res = 'Task_['+this.pieceDetailsService.pieceIndex+']'; break;
         case 'annexe': res = 'Side_task_['+this.pieceDetailsService.pieceIndex+']'; break;
         case 'final': res = 'Final_task_['+this.pieceDetailsService.pieceIndex+']'; break;
@@ -41,6 +42,9 @@ export class RewardsComponent implements OnInit {
         case 'event': res = 'Event_task_['+this.pieceDetailsService.pieceIndex+']'; break;
         case 'repeat': res = 'Repeat_task_['+this.pieceDetailsService.pieceIndex+']'; break;
       }
+    }
+    if (this.piece instanceof Mission) {
+      res = 'Mission_['+this.pieceDetailsService.pieceIndex+']';
     }
 
     return res;
@@ -55,43 +59,43 @@ export class RewardsComponent implements OnInit {
   }
 
   getCharacterReward(index: number): CharacterReward {
-    return this.task.rewards[index] as CharacterReward;
+    return this.piece.rewards[index] as CharacterReward;
   }
 
   getSkillReward(index: number): SkillReward {
-    return this.task.rewards[index] as SkillReward;
+    return this.piece.rewards[index] as SkillReward;
   }
 
   getObjectReward(index: number): ObjectReward {
-    return this.task.rewards[index] as ObjectReward;
+    return this.piece.rewards[index] as ObjectReward;
   }
 
   addReward(): void {
-    this.task.rewards.push(new ObjectReward());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+this.task.rewards.length+']', this.formatTraceTarget(), '#CFE3B9', '*'));
+    this.piece.rewards.push(new ObjectReward());
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+this.piece.rewards.length+']', this.formatTraceTarget(), '#CFE3B9', '*'));
   }
 
   removeReward(index: number): void {
     const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('role_reward_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
-        this.task.rewards.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+this.task.rewards.length+']', this.formatTraceTarget(), '#CFE3B9', '*'));    
+        this.piece.rewards.splice(index, 1);
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+this.piece.rewards.length+']', this.formatTraceTarget(), '#CFE3B9', '*'));    
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+this.task.rewards.length+']', this.formatTraceTarget(), '#CFE3B9', '*'));        
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+this.piece.rewards.length+']', this.formatTraceTarget(), '#CFE3B9', '*'));        
       }
     });
   }
 
   changeRewardType(index: number, type: string): void {
     switch(type) {
-      case 'object': this.task.rewards[index] = new ObjectsReward();
+      case 'object': this.piece.rewards[index] = new ObjectsReward();
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[ObjectReward]',  this.formatTraceTarget(), '#CFE3B9', '*'));
         break;
-      case 'skill': this.task.rewards[index] = new SkillReward();
+      case 'skill': this.piece.rewards[index] = new SkillReward();
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]',  this.formatTraceTarget(), '#CFE3B9', '*'));
         break;
-      case 'character': this.task.rewards[index] = new CharacterReward();
+      case 'character': this.piece.rewards[index] = new CharacterReward();
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]',  this.formatTraceTarget(), '#CFE3B9', '*')); 
         break;
     }

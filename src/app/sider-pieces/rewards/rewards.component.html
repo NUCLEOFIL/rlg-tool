@@ -3,7 +3,7 @@
 matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
         <div class="piece-form-title">{{'rewards_title' | translate}}</div>
-        <div class="piece-form-content" *ngFor="let reward of task.rewards, let rewardIndex = index">          
+        <div class="piece-form-content" *ngFor="let reward of piece.rewards, let rewardIndex = index">          
             <div class="piece-form-content-type">
                 <label for="type">{{'rewards_type_label'| translate}}</label>
                 <select name="type" [(ngModel)]="reward.type" (change)="changeRewardType(rewardIndex,reward.type)">

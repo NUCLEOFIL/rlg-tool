@@ -4,6 +4,7 @@ import { Role } from "../role/role";
 import { Step } from "../step/step";
 import { Task } from "../task/task";
 import { Comment } from "../comment/comment";
+import { Reward } from "../rewards/reward";
 
 export class Mission {
 
@@ -12,6 +13,7 @@ export class Mission {
     roles: Role[] = [new Role(), new Role()];
     chronologie: (Step | null)[] = [new Step()];
     comments: Comment[] = [];
+    rewards: Reward[] = [];
 
     public addChronologieStep(index: number) {
         this.chronologie[index] = new Step();

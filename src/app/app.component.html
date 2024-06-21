@@ -124,14 +124,47 @@
         </div>
         <div class="container-sider-title">{{getSiderTitle()}}</div>
         <div class="container-sider-elements">
-            <app-rewards class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" [role]="pieceDetailsService.parentAsRole()" *ngIf="pieceDetailsService.pieceIsTask()" [scenario]="scenario"></app-rewards>
-            <app-role-occurence class="container-sider-elements-element" [role]="pieceDetailsService.pieceAsRole()" *ngIf="pieceDetailsService.pieceIsRole() && !unityService.unity_isActive" [scenario]="scenario"></app-role-occurence>
-            <app-supplementary-task class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" [role]="pieceDetailsService.parentAsRole()" *ngIf="pieceDetailsService.pieceIsTask()" [scenario]="scenario"></app-supplementary-task>
-            <app-repeat class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive" [scenario]="scenario"></app-repeat>
-            <app-interupt class="container-sider-elements-element" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive" [scenario]="scenario"></app-interupt>
-            <app-characters class="container-sider-elements-element" [scenario]="scenario" [task]="pieceDetailsService.pieceAsTask()" *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive"></app-characters>
-            <app-comments class="container-sider-elements-element" [piece]="pieceDetailsService.piece" [scenario]="scenario"></app-comments>
-            <app-discussions class="container-sider-elements-element" [scenario]="scenario" [role]="pieceDetailsService.pieceAsRole()" *ngIf="pieceDetailsService.pieceIsRole()"></app-discussions>
+            <app-rewards class="container-sider-elements-element" 
+                [piece]="pieceDetailsService.pieceIsTask() ? pieceDetailsService.pieceAsTask() : pieceDetailsService.pieceAsMission()" 
+                [role]="pieceDetailsService.pieceIsTask() ? pieceDetailsService.parentAsRole() : undefined"
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsTask() || pieceDetailsService.pieceIsMission()">
+            </app-rewards>
+            <app-role-occurence class="container-sider-elements-element" 
+                [role]="pieceDetailsService.pieceAsRole()" 
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsRole() && !unityService.unity_isActive">
+            </app-role-occurence>
+            <app-supplementary-task class="container-sider-elements-element" 
+                [task]="pieceDetailsService.pieceAsTask()" 
+                [role]="pieceDetailsService.parentAsRole()" 
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsTask()">
+            </app-supplementary-task>
+            <app-repeat class="container-sider-elements-element" 
+                [task]="pieceDetailsService.pieceAsTask()" 
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive">
+            </app-repeat>
+            <app-interupt class="container-sider-elements-element"
+                [task]="pieceDetailsService.pieceAsTask()" 
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive">
+            </app-interupt>
+            <app-characters class="container-sider-elements-element" 
+                [scenario]="scenario" 
+                [task]="pieceDetailsService.pieceAsTask()" 
+                *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive">
+            </app-characters>
+            <app-comments class="container-sider-elements-element" 
+                [piece]="pieceDetailsService.piece" 
+                [scenario]="scenario">
+            </app-comments>
+            <app-discussions class="container-sider-elements-element" 
+                [scenario]="scenario" 
+                [role]="pieceDetailsService.pieceAsRole()" 
+                *ngIf="pieceDetailsService.pieceIsRole()">
+            </app-discussions>
         </div>
         
     </div>
