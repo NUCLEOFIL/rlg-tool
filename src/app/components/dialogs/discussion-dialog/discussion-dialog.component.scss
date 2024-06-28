@@ -100,6 +100,46 @@ mat-dialog-actions {
                         width: 250px;
                     }
                 }
+
+                &-randomObjects {
+                    margin-top: 3px;
+                    width: 250px;
+                    display: flex;
+                    justify-content: space-between;
+                    flex-direction: column;
+
+                    input {
+                        text-align: center;
+                        width: 30px;
+                    }
+    
+                    &-object {
+                        display: flex;
+                        margin-bottom: 2px;
+                        margin-top: 4px;
+                        width: 325px;
+    
+                        select {
+                            width: 190px;
+                            margin-left: 10px;
+                        }
+
+                        button {
+                            margin-left: 5px;
+                            line-height: 30px;
+                            height: 30px;
+                        }
+                    }
+                    
+                    &-button-add {
+                        margin-top: 4px;
+                        position: relative;
+                        left: 100%;
+                        transform: translateX(-100%);
+                        width: 64px;
+                    }
+                    
+                }
             }
         }
 

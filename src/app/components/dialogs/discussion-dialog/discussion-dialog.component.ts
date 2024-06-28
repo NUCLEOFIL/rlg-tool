@@ -17,6 +17,8 @@ import { CharacterReward } from 'src/app/class/rewards/character-reward/characte
 import { DiscussionReward } from 'src/app/class/rewards/discussion-reward/discussion-reward';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { SkillReward } from 'src/app/class/rewards/skill-reward/skill-reward';
+import { RandomObjectsReward } from 'src/app/class/rewards/random-objects-reward/random-objects-reward';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-discussion-dialog',
@@ -30,7 +32,8 @@ export class DiscussionDialogComponent implements OnInit {
   scenario: Scenario;
 
   constructor(public dialogRef: MatDialogRef<DiscussionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogDiscussionData, protected translate: TranslateService, protected tooltipService: TooltipService, public dialog: MatDialog, private pieceDetailsService: PieceDetailsService) {
+    @Inject(MAT_DIALOG_DATA) public data: DialogDiscussionData, protected translate: TranslateService, protected tooltipService: TooltipService, public dialog: MatDialog,
+      private pieceDetailsService: PieceDetailsService, protected unityService: UnityService) {
       this.role = this.data.role;
       this.discussion = this.data.discussion;
       this.scenario = this.data.scenario;
@@ -267,6 +270,17 @@ export class DiscussionDialogComponent implements OnInit {
           this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         break;
+      case 'randomObjects': parent.rewards[index] = new RandomObjectsReward();
+        if (parent instanceof Discussion) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Sentence) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Response) {
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        break;
     }
   }
 
@@ -316,7 +330,37 @@ export class DiscussionDialogComponent implements OnInit {
 
   getDiscussionReward(parent: Discussion | Sentence | Response, index: number): DiscussionReward {
     return parent.rewards[index] as DiscussionReward;
-  }    
+  } 
+  
+  getRandomObjectsReward(parent: Discussion | Sentence | Response, index: number): RandomObjectsReward {
+    return parent.rewards[index] as RandomObjectsReward;
+  }
+
+  addObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number) {
+    reward.addObject();
+    if (parent instanceof Discussion) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
+    }
+    if (parent instanceof Sentence) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+    }
+    if (parent instanceof Response) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
+    }
+  }
+
+  removeObjectToRandomObjectsReward(parent: Discussion | Sentence | Response, reward: RandomObjectsReward, rewardIndex: number, objectIndex: number) {
+    reward.removeObject(objectIndex);
+    if (parent instanceof Discussion) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
+    }
+    if (parent instanceof Sentence) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+    }
+    if (parent instanceof Response) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
+    }
+  }
 
   changeQuestReward(parent: Discussion | Sentence | Response, roleIntitule: string, index: number, event: any) {
     let value: string = event.target.value;

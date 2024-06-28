@@ -47,6 +47,7 @@ import { ObjectReward } from './class/rewards/object-reward/object-reward';
 import { DiscussionReward } from './class/rewards/discussion-reward/discussion-reward';
 import { RoleEducationnalObjective } from './class/role-educationnal-objective/role-educationnal-objective';
 import { ExportUnity } from './class/exportUnity/export-unity';
+import { RandomObjectsReward } from './class/rewards/random-objects-reward/random-objects-reward';
 
 @Component({
   selector: 'app-root',
@@ -286,6 +287,9 @@ export class AppComponent {
                 if (rewardData.type == 'discussion') {
                   return Object.assign(new DiscussionReward(), rewardData);
                 }
+                if (rewardData.type == 'randomObjects') {
+                  return Object.assign(new RandomObjectsReward(), rewardData);
+                }
               });
               role.rewards.forEach((reward: Reward, index: number) => {
                 if (reward instanceof SkillReward) {
@@ -308,6 +312,17 @@ export class AppComponent {
                     let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
                     reward.object = role.ressources[i];
                   }
+                }
+                if (reward instanceof RandomObjectsReward) {
+                  reward.objects.forEach((object, objectIndex) => {
+                    if (scenario.ressources.some(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number)) {
+                      let i: number = scenario.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                      reward.objects[objectIndex] = scenario.ressources[i];
+                    } else {
+                      let i: number = role.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                      reward.objects[objectIndex] = role.ressources[i];
+                    }
+                  });
                 }
               });
               role.discussions = role.discussions.map((discussionData: any) => {
@@ -338,6 +353,9 @@ export class AppComponent {
                   if (rewardData.type == 'discussion') {
                     return Object.assign(new DiscussionReward(), rewardData);
                   }
+                  if (rewardData.type == 'randomObjects') {
+                    return Object.assign(new RandomObjectsReward(), rewardData);
+                  }
                 });
                 discussion.rewards.forEach((reward: Reward, index: number) => {
                   if (reward instanceof SkillReward) {
@@ -356,6 +374,17 @@ export class AppComponent {
                       let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
                       reward.object = role.ressources[i];
                     }
+                  }
+                  if (reward instanceof RandomObjectsReward) {
+                    reward.objects.forEach((object, objectIndex) => {
+                      if (scenario.ressources.some(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number)) {
+                        let i: number = scenario.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                        reward.objects[objectIndex] = scenario.ressources[i];
+                      } else {
+                        let i: number = role.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                        reward.objects[objectIndex] = role.ressources[i];
+                      }
+                    });
                   }
                 });
                 return discussion;
@@ -384,6 +413,9 @@ export class AppComponent {
                   if (rewardData.type == 'discussion') {
                     return Object.assign(new DiscussionReward(), rewardData);
                   }
+                  if (rewardData.type == 'randomObjects') {
+                    return Object.assign(new RandomObjectsReward(), rewardData);
+                  }
                 });
                 sentence.rewards.forEach((reward: Reward, index: number) => {
                   if (reward instanceof SkillReward) {
@@ -402,6 +434,17 @@ export class AppComponent {
                       let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
                       reward.object = role.ressources[i];
                     }
+                  }
+                  if (reward instanceof RandomObjectsReward) {
+                    reward.objects.forEach((object, objectIndex) => {
+                      if (scenario.ressources.some(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number)) {
+                        let i: number = scenario.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                        reward.objects[objectIndex] = scenario.ressources[i];
+                      } else {
+                        let i: number = role.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                        reward.objects[objectIndex] = role.ressources[i];
+                      }
+                    });
                   }
                 });
               });
@@ -423,6 +466,9 @@ export class AppComponent {
                   if (rewardData.type == 'discussion') {
                     return Object.assign(new DiscussionReward(), rewardData);
                   }
+                  if (rewardData.type == 'randomObjects') {
+                    return Object.assign(new RandomObjectsReward(), rewardData);
+                  }
                 });
                 response.rewards.forEach((reward: Reward, index: number) => {
                   if (reward instanceof SkillReward) {
@@ -441,6 +487,17 @@ export class AppComponent {
                       let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
                       reward.object = role.ressources[i];
                     }
+                  }
+                  if (reward instanceof RandomObjectsReward) {
+                    reward.objects.forEach((object, objectIndex) => {
+                      if (scenario.ressources.some(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number)) {
+                        let i: number = scenario.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                        reward.objects[objectIndex] = scenario.ressources[i];
+                      } else {
+                        let i: number = role.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                        reward.objects[objectIndex] = role.ressources[i];
+                      }
+                    });
                   }
                 });
               });
@@ -482,44 +539,51 @@ export class AppComponent {
                       }
                     })
 
-                    task.rewards.forEach((reward, rewardIndex) => {
-                      if (reward.type == 'object') {
-                        if (scenario.ressources.some(element => element.name == (reward as ObjectReward).object.name && element.type == (reward as ObjectReward).object.type && element.number == (reward as ObjectReward).object.number)) {
-                          let i: number = scenario.ressources.findIndex(element => element.name == (reward as ObjectReward).object.name && element.type == (reward as ObjectReward).object.type && element.number == (reward as ObjectReward).object.number);
-                          let newReward: ObjectReward = new ObjectReward();
-                          newReward.object = scenario.ressources[i];
-                          newReward.quantity = (reward as ObjectReward).quantity;
-                          task.rewards[rewardIndex] = newReward;
-                        } else {
-                          let i: number = role.ressources.findIndex(element => element.name == (reward as ObjectReward).object.name && element.type == (reward as ObjectReward).object.type && element.number == (reward as ObjectReward).object.number);
-                          let newReward: ObjectReward = new ObjectReward();
-                          newReward.object = role.ressources[i];
-                          newReward.quantity = (reward as ObjectReward).quantity;
-                          task.rewards[rewardIndex] = newReward;
-                        }
+                    task.rewards = task.rewards.map((rewardData: any) => {
+                      if (rewardData.type == 'skill') {
+                        return Object.assign(new SkillReward(), rewardData);
                       }
-                      if (reward.type == 'skill') {
-                        if (scenario.ressources.some(element => element.name == (reward as SkillReward).skill.name && element.type == (reward as SkillReward).skill.type && element.number == (reward as SkillReward).skill.number)) {
-                          let i: number = scenario.ressources.findIndex(element => element.name == (reward as SkillReward).skill.name && element.type == (reward as SkillReward).skill.type && element.number == (reward as SkillReward).skill.number);
-                          let newReward: SkillReward = new SkillReward();
-                          newReward.skill = scenario.ressources[i];
-                          newReward.quantity = (reward as SkillReward).quantity;
-                          task.rewards[rewardIndex] = newReward;
-                        } else {
-                          let i: number = role.ressources.findIndex(element => element.name == (reward as SkillReward).skill.name && element.type == (reward as SkillReward).skill.type && element.number == (reward as SkillReward).skill.number);
-                          let newReward: SkillReward = new SkillReward();
-                          newReward.skill = role.ressources[i];
-                          newReward.quantity = (reward as SkillReward).quantity;
-                          task.rewards[rewardIndex] = newReward;
-                        }
+                      if (rewardData.type == 'character') {
+                        return Object.assign(new CharacterReward(), rewardData);
                       }
-                      if (reward.type == 'character') {
-                        let i: number = scenario.characters.findIndex(element => element.name == (reward as CharacterReward).character.name && element.description == (reward as CharacterReward).character.description && element.color == (reward as CharacterReward).character.color);
-                        let newReward: CharacterReward = new CharacterReward();
-                        newReward.character = scenario.characters[i];
-                        task.rewards[rewardIndex] = newReward;
+                      if (rewardData.type == 'object') {
+                        return Object.assign(new ObjectReward(), rewardData);
+                      }
+                      if (rewardData.type == 'randomObjects') {
+                        return Object.assign(new RandomObjectsReward(), rewardData);
                       }
                     });
+                    task.rewards.forEach((reward: Reward, index: number) => {
+                      if (reward instanceof SkillReward) {
+                        let i: number = role.ressources.findIndex(element => element.type == 'attribut' && element.name == reward.skill.name && element.number == reward.skill.number);
+                        reward.skill = role.ressources[i];
+                      }
+                      if (reward instanceof CharacterReward) {
+                        let i: number = scenario.characters.findIndex(element => element.color == reward.character.color && element.description == reward.character.description && element.name == reward.character.name);
+                        reward.character = scenario.characters[i];
+                      }
+                      if (reward instanceof ObjectReward) {
+                        if (scenario.ressources.some(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number)) {
+                          let i: number = scenario.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                          reward.object = scenario.ressources[i];
+                        } else {
+                          let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                          reward.object = role.ressources[i];
+                        }
+                      }
+                      if (reward instanceof RandomObjectsReward) {
+                        reward.objects.forEach((object, objectIndex) => {
+                          if (scenario.ressources.some(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number)) {
+                            let i: number = scenario.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                            reward.objects[objectIndex] = scenario.ressources[i];
+                          } else {
+                            let i: number = role.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                            reward.objects[objectIndex]  = role.ressources[i];
+                          }
+                        });
+                      }
+                    });
+
                     if ((task.typeUnity == 'getObject' || task.typeUnity == 'depositObject' || task.typeUnity == 'interactObject') && task.object) {
                       if (scenario.ressources.some(element => element.name == (task.object as Ressource).name && element.number == (task.object as Ressource).number && element.type == (task.object as Ressource).type)) {
                         let i: number = scenario.ressources.findIndex(element => element.name == (task.object as Ressource).name && element.number == (task.object as Ressource).number && element.type == (task.object as Ressource).type);

@@ -29,6 +29,7 @@ import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward'
 import { Reward } from 'src/app/class/rewards/reward';
 import { DiscussionReward } from 'src/app/class/rewards/discussion-reward/discussion-reward';
 import { UnityService } from 'src/app/services/unity/unity.service';
+import { RandomObjectsReward } from 'src/app/class/rewards/random-objects-reward/random-objects-reward';
 
 @Component({
   selector: 'app-role',
@@ -617,6 +618,9 @@ export class RoleComponent implements OnInit {
       case 'discussion': this.role.rewards[index] = new DiscussionReward();
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[DiscussionReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
+      case 'randomObjects': this.role.rewards[index] = new RandomObjectsReward();
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'Role_['+this.i+']', '#9AD5EC', '*')); 
+        break;
     }
   }
 
@@ -663,6 +667,20 @@ export class RoleComponent implements OnInit {
 
   getDiscussionReward(index: number): DiscussionReward {
     return this.role.rewards[index] as DiscussionReward;
+  }
+
+  getRandomObjectsReward(index: number): RandomObjectsReward {
+    return this.role.rewards[index] as RandomObjectsReward;
+  }
+
+  addObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number) {
+    reward.addObject();
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+  }
+
+  removeObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number, objectIndex: number) {
+    reward.removeObject(objectIndex);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
   }
 
   addObject(index: number): void {

@@ -342,6 +342,47 @@
                         margin-top: 5px;
                     }
                 }
+
+                &-randomObjects {
+
+                    input {
+                        text-align: center;
+                        height: 16px;
+                    }
+    
+                    &-object {
+                        display: flex;
+                        margin-bottom: 2px;
+                        margin-top: 10px;
+
+                        &-percentage {
+                            width: 120px;
+
+                            input[type="number"] {
+                                width: 30px;
+                                height: 40px;
+                            }
+                        }
+                        
+                        button {
+                            margin-left: 5px;
+                        }
+                    }
+
+                    &-buttons {
+                        display: flex;
+                        flex-direction: column;
+
+                        button {
+                            position: relative;
+                            left: 100%;
+                            transform: translateX(-100%);
+                            margin-top: 5px;
+                            width: 50px;
+                            height: 50px;
+                        }
+                    }
+                }
             }
         }
 

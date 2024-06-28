@@ -30,6 +30,7 @@
                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                         <option value="character">{{'role_reward_type_character' | translate}}</option>
                         <option value="object">{{'role_reward_type_object' | translate}}</option>
+                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>
                         <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                     </select> 
                 </div>
@@ -102,6 +103,40 @@
                     </select>
                 </div>
 
+                <div class="form-result-results-result-randomObjects" *ngIf="reward.type == 'randomObjects' && !unityService.unity_isActive">
+                    <div class="form-result-results-result-randomObjects-repeat">
+                        <label>{{'rewards_randomObjects_repeat' | translate}} </label>
+                        <input type="number" min="1" [(ngModel)]="getRandomObjectsReward(discussion ,rewardIndex).repeatNumber" (change)="editTrace($event, 'Reward_['+rewardIndex+']_repeat', 'discussion_[ID:'+discussion.ID+']')"/>
+                    </div>
+                    <div *ngFor="let object of getRandomObjectsReward(discussion, rewardIndex).objects, let objectIndex = index">
+                        <div class="form-result-results-result-randomObjects-object">
+                            <div [matTooltip]="translate.instant('rewards_randomObjects_percentages_tootlip')"
+                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                <input type="number" min="0" max="100" [(ngModel)]="getRandomObjectsReward(discussion, rewardIndex).dropPercentages[objectIndex]"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_percentage', 'discussion_[ID:'+discussion.ID+']')"/>
+                                <label>%</label>
+                            </div>
+                            <select name="object_name" [(ngModel)]="getRandomObjectsReward(discussion, rewardIndex).objects[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_object', 'discussion_[ID:'+discussion.ID+']')">
+                                <option value="undefined" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                                <ng-container *ngFor="let ressource of scenario.ressources">
+                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                </ng-container>
+                                <ng-container *ngFor="let ressource of role.ressources">
+                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                </ng-container>
+                            </select>
+                            <button mat-button (click)="removeObjectToRandomObjectsReward(discussion, getRandomObjectsReward(discussion, rewardIndex), rewardIndex, objectIndex)" *ngIf="getRandomObjectsReward(discussion, rewardIndex).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                        </div>
+                        <div>
+                            <label>{{'rewards_randomObjects_dropBetween_part1' | translate}} </label>
+                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(discussion, rewardIndex).minDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_minQuantity', 'discussion_[ID:'+discussion.ID+']')"/>
+                            <label> {{'rewards_randomObjects_dropBetween_part2' | translate}} </label>
+                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(discussion, rewardIndex).maxDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_maxQuantity', 'discussion_[ID:'+discussion.ID+']')"/>
+                        </div>
+                    </div>
+                    <button mat-button class="form-result-results-result-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(discussion, rewardIndex), rewardIndex)"><mat-icon fontIcon="add"></mat-icon></button>
+                </div>
+
                 <button mat-button class="form-result-button-remove" (click)="removeReward(discussion, rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
             </div>
 
@@ -167,6 +202,7 @@
                                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                                         <option value="character">{{'role_reward_type_character' | translate}}</option>
                                         <option value="object">{{'role_reward_type_object' | translate}}</option>
+                                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>
                                         <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                                     </select> 
                                 </div>
@@ -237,6 +273,40 @@
                                             <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
                                         </ng-container>
                                     </select>
+                                </div>
+
+                                <div class="form-result-results-result-randomObjects" *ngIf="reward.type == 'randomObjects' && !unityService.unity_isActive">
+                                    <div class="form-result-results-result-randomObjects-repeat">
+                                        <label>{{'rewards_randomObjects_repeat' | translate}} </label>
+                                        <input type="number" min="1" [(ngModel)]="getRandomObjectsReward(sentence ,rewardIndex).repeatNumber" (change)="editTrace($event, 'Reward_['+rewardIndex+']_repeat', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    </div>
+                                    <div *ngFor="let object of getRandomObjectsReward(sentence, rewardIndex).objects, let objectIndex = index">
+                                        <div class="form-result-results-result-randomObjects-object">
+                                            <div [matTooltip]="translate.instant('rewards_randomObjects_percentages_tootlip')"
+                                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                <input type="number" min="0" max="100" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).dropPercentages[objectIndex]"
+                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_percentage', 'sentence_[ID:'+sentence.ID+']')"/>
+                                                <label>%</label>
+                                            </div>
+                                            <select name="object_name" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).objects[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_object', 'sentence_[ID:'+sentence.ID+']')">
+                                                <option value="undefined" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                                                <ng-container *ngFor="let ressource of scenario.ressources">
+                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                </ng-container>
+                                                <ng-container *ngFor="let ressource of role.ressources">
+                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                </ng-container>
+                                            </select>
+                                            <button mat-button (click)="removeObjectToRandomObjectsReward(sentence, getRandomObjectsReward(sentence, rewardIndex), rewardIndex, objectIndex)" *ngIf="getRandomObjectsReward(sentence, rewardIndex).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                                        </div>
+                                        <div>
+                                            <label>{{'rewards_randomObjects_dropBetween_part1' | translate}} </label>
+                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).minDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_minQuantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                            <label> {{'rewards_randomObjects_dropBetween_part2' | translate}} </label>
+                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).maxDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_maxQuantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                        </div>
+                                    </div>
+                                    <button mat-button class="form-result-results-result-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(sentence, rewardIndex), rewardIndex)"><mat-icon fontIcon="add"></mat-icon></button>
                                 </div>
                 
                                 <button mat-button class="form-result-button-remove" (click)="removeReward(sentence, rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
@@ -287,6 +357,7 @@
                                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                                         <option value="character">{{'role_reward_type_character' | translate}}</option>
                                         <option value="object">{{'role_reward_type_object' | translate}}</option>
+                                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>
                                         <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                                     </select> 
                                 </div>
@@ -358,6 +429,40 @@
                                         </ng-container>
                                     </select>
                                 </div>
+
+                                <div class="form-result-results-result-randomObjects" *ngIf="reward.type == 'randomObjects' && !unityService.unity_isActive">
+                                    <div class="form-result-results-result-randomObjects-repeat">
+                                        <label>{{'rewards_randomObjects_repeat' | translate}} </label>
+                                        <input type="number" min="1" [(ngModel)]="getRandomObjectsReward(sentence ,rewardIndex).repeatNumber" (change)="editTrace($event, 'Reward_['+rewardIndex+']_repeat', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    </div>
+                                    <div *ngFor="let object of getRandomObjectsReward(sentence, rewardIndex).objects, let objectIndex = index">
+                                        <div class="form-result-results-result-randomObjects-object">
+                                            <div [matTooltip]="translate.instant('rewards_randomObjects_percentages_tootlip')"
+                                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                <input type="number" min="0" max="100" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).dropPercentages[objectIndex]"
+                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_percentage', 'sentence_[ID:'+sentence.ID+']')"/>
+                                                <label>%</label>
+                                            </div>
+                                            <select name="object_name" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).objects[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_object', 'sentence_[ID:'+sentence.ID+']')">
+                                                <option value="undefined" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                                                <ng-container *ngFor="let ressource of scenario.ressources">
+                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                </ng-container>
+                                                <ng-container *ngFor="let ressource of role.ressources">
+                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                </ng-container>
+                                            </select>
+                                            <button mat-button (click)="removeObjectToRandomObjectsReward(sentence, getRandomObjectsReward(sentence, rewardIndex), rewardIndex, objectIndex)" *ngIf="getRandomObjectsReward(sentence, rewardIndex).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                                        </div>
+                                        <div>
+                                            <label>{{'rewards_randomObjects_dropBetween_part1' | translate}} </label>
+                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).minDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_minQuantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                            <label> {{'rewards_randomObjects_dropBetween_part2' | translate}} </label>
+                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).maxDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_maxQuantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                        </div>
+                                    </div>
+                                    <button mat-button class="form-result-results-result-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(sentence, rewardIndex), rewardIndex)"><mat-icon fontIcon="add"></mat-icon></button>
+                                </div>
                 
                                 <button mat-button class="form-result-button-remove" (click)="removeReward(sentence, rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
                             </div>
@@ -405,6 +510,7 @@
                                                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                                                         <option value="character">{{'role_reward_type_character' | translate}}</option>
                                                         <option value="object">{{'role_reward_type_object' | translate}}</option>
+                                                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>
                                                         <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                                                     </select> 
                                                 </div>
@@ -475,6 +581,40 @@
                                                             <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
                                                         </ng-container>
                                                     </select>
+                                                </div>
+
+                                                <div class="form-result-results-result-randomObjects" *ngIf="reward.type == 'randomObjects' && !unityService.unity_isActive">
+                                                    <div class="form-result-results-result-randomObjects-repeat">
+                                                        <label>{{'rewards_randomObjects_repeat' | translate}} </label>
+                                                        <input type="number" min="1" [(ngModel)]="getRandomObjectsReward(response ,rewardIndex).repeatNumber" (change)="editTrace($event, 'Reward_['+rewardIndex+']_repeat', 'response_[ID:'+response.ID+']')"/>
+                                                    </div>
+                                                    <div *ngFor="let object of getRandomObjectsReward(response, rewardIndex).objects, let objectIndex = index">
+                                                        <div class="form-result-results-result-randomObjects-object">
+                                                            <div [matTooltip]="translate.instant('rewards_randomObjects_percentages_tootlip')"
+                                                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                                <input type="number" min="0" max="100" [(ngModel)]="getRandomObjectsReward(response, rewardIndex).dropPercentages[objectIndex]"
+                                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_percentage', 'response_[ID:'+response.ID+']')"/>
+                                                                <label>%</label>
+                                                            </div>
+                                                            <select name="object_name" [(ngModel)]="getRandomObjectsReward(response, rewardIndex).objects[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_object', 'response_[ID:'+response.ID+']')">
+                                                                <option value="undefined" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                                                                <ng-container *ngFor="let ressource of scenario.ressources">
+                                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                                </ng-container>
+                                                                <ng-container *ngFor="let ressource of role.ressources">
+                                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                                </ng-container>
+                                                            </select>
+                                                            <button mat-button (click)="removeObjectToRandomObjectsReward(response, getRandomObjectsReward(response, rewardIndex), rewardIndex, objectIndex)" *ngIf="getRandomObjectsReward(response, rewardIndex).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                                                        </div>
+                                                        <div>
+                                                            <label>{{'rewards_randomObjects_dropBetween_part1' | translate}} </label>
+                                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(response, rewardIndex).minDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_minQuantity', 'response_[ID:'+response.ID+']')"/>
+                                                            <label> {{'rewards_randomObjects_dropBetween_part2' | translate}} </label>
+                                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(response, rewardIndex).maxDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_maxQuantity', 'response_[ID:'+response.ID+']')"/>
+                                                        </div>
+                                                    </div>
+                                                    <button mat-button class="form-result-results-result-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(response, rewardIndex), rewardIndex)"><mat-icon fontIcon="add"></mat-icon></button>
                                                 </div>
                                 
                                                 <button mat-button class="form-result-button-remove" (click)="removeReward(response, rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>

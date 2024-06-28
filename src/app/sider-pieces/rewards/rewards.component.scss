@@ -81,6 +81,40 @@
                 display: flex;
                 justify-content: right;
             }
+
+            &-randomObjects {
+
+                input {
+                    text-align: center;
+                    height: 16px;
+                }
+
+                &-object {
+                    display: flex;
+                    margin-bottom: 2px;
+                    margin-top: 10px;
+
+                    select {
+                        width: 160px;
+                    }
+                    
+                    input {
+                        height: auto;
+                    }
+                    
+                    button {
+                        margin-left: 9px;
+                    }
+                }
+
+                &-button-add {
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                    position: relative;
+                    left: 100%;
+                    transform: translateX(-100%);
+                }
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import { Mission } from 'src/app/class/mission/mission';
 import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { ObjectsReward } from 'src/app/class/rewards/objects-reward/objects-reward';
+import { RandomObjectsReward } from 'src/app/class/rewards/random-objects-reward/random-objects-reward';
 import { SkillReward } from 'src/app/class/rewards/skill-reward/skill-reward';
 import { Role } from 'src/app/class/role/role';
 import { Scenario } from 'src/app/class/scenario/scenario';
@@ -13,6 +14,7 @@ import { Trace } from 'src/app/class/trace/trace';
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-rewards',
@@ -25,7 +27,7 @@ export class RewardsComponent implements OnInit {
   @Input() piece: Task|Mission = new Task('normal');
   @Input() role?: Role;
 
-  constructor(protected translate: TranslateService, protected tooltipService: TooltipService, protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog) { }
+  constructor(protected translate: TranslateService, protected tooltipService: TooltipService, protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected unityService: UnityService) { }
 
   ngOnInit(): void {
   }
@@ -70,6 +72,20 @@ export class RewardsComponent implements OnInit {
     return this.piece.rewards[index] as ObjectReward;
   }
 
+  getRandomObjectsReward(index: number): RandomObjectsReward {
+    return this.piece.rewards[index] as RandomObjectsReward;
+  }
+
+  addObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number) {
+    reward.addObject();
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));
+  }
+
+  removeObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number, objectIndex: number) {
+    reward.removeObject(objectIndex);
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(rewardIndex)+']_object_['+objectIndex+']', this.formatTraceTarget(), '#CFE3B9', '*'));
+  }
+
   addReward(): void {
     this.piece.rewards.push(new ObjectReward());
     this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));
@@ -97,6 +113,9 @@ export class RewardsComponent implements OnInit {
         break;
       case 'character': this.piece.rewards[index] = new CharacterReward();
         this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]',  this.formatTraceTarget(), '#CFE3B9', '*')); 
+        break;
+      case 'randomObjects': this.piece.rewards[index] = new RandomObjectsReward();
+        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]',  this.formatTraceTarget(), '#CFE3B9', '*')); 
         break;
     }
   }
