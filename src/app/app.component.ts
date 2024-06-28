@@ -243,6 +243,40 @@ export class AppComponent {
             mission.context.comments = jsonData.missions[index].context.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
             mission.educationnalObjective = Object.assign(new EducationnalObjective(), jsonData.missions[index].educationnalObjective);
             mission.educationnalObjective.comments = jsonData.missions[index].educationnalObjective.comments.map((commentData: any) => Object.assign(new Comment, commentData));
+            mission.rewards = mission.rewards.map((rewardData: any) => {
+              if (rewardData.type == 'skill') {
+                return Object.assign(new SkillReward(), rewardData);
+              }
+              if (rewardData.type == 'character') {
+                return Object.assign(new CharacterReward(), rewardData);
+              }
+              if (rewardData.type == 'object') {
+                return Object.assign(new ObjectReward(), rewardData);
+              }
+              if (rewardData.type == 'randomObjects') {
+                return Object.assign(new RandomObjectsReward(), rewardData);
+              }
+            });
+            mission.rewards.forEach((reward: Reward, index: number) => {
+              if (reward instanceof CharacterReward) {
+                let i: number = scenario.characters.findIndex(element => element.color == reward.character.color && element.description == reward.character.description && element.name == reward.character.name);
+                reward.character = scenario.characters[i];
+              }
+              if (reward instanceof ObjectReward) {
+                if (scenario.ressources.some(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number)) {
+                  let i: number = scenario.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                  reward.object = scenario.ressources[i];
+                }
+              }
+              if (reward instanceof RandomObjectsReward) {
+                reward.objects.forEach((object, objectIndex) => {
+                  if (scenario.ressources.some(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number)) {
+                    let i: number = scenario.ressources.findIndex(element => element.name == object?.name && element.type == 'ressource' && element.number == object?.number);
+                    reward.objects[objectIndex] = scenario.ressources[i];
+                  }
+                });
+              }
+            });
             mission.roles = jsonData.missions[index].roles.map((roleData: any) => Object.assign(new Role(), roleData));
             mission.roles.forEach((role, index) => {
               role.comments = role.comments.map((commentData: any) => Object.assign(new Comment(), commentData));

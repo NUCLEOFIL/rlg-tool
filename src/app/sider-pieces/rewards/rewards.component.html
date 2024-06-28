@@ -11,7 +11,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                     <option value="object">{{'rewards_type_object' | translate}}</option>
                     <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'rewards_type_randomObjects' | translate}}</option>
                     <option value="character">{{'rewards_type_character' | translate}}</option>
-                    <option value="skill">{{'rewards_type_skill' | translate}}</option>
+                    <option value="skill" *ngIf="pieceDetailsService.roleIndex != undefined">{{'rewards_type_skill' | translate}}</option>
                 </select>
             </div>
             <div *ngIf="reward.type != 'none'">
@@ -28,8 +28,10 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                         <ng-container *ngFor="let ressource of scenario.ressources">
                             <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
                         </ng-container>
-                        <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
-                            <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                        <ng-container *ngIf="pieceDetailsService.roleIndex != undefined">
+                            <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
+                                <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                            </ng-container>
                         </ng-container>
                     </select>
                 </div>
@@ -51,8 +53,10 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                                 <ng-container *ngFor="let ressource of scenario.ressources">
                                     <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
                                 </ng-container>
-                                <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
-                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                <ng-container *ngIf="pieceDetailsService.roleIndex != undefined">
+                                    <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
+                                        <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                    </ng-container>
                                 </ng-container>
                             </select>
                             <button mat-button (click)="removeObjectToRandomObjectsReward(getRandomObjectsReward(rewardIndex), rewardIndex, objectIndex)" *ngIf="getRandomObjectsReward(rewardIndex).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
