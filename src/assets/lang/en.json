@@ -290,6 +290,10 @@
     "rules_ressource_tooltip": "Objects and resources available for ALL roles",
     "rules_clean": "Game rules (This includes the deletion of all resources",
     "rules_delete": "this Resource",
+    "ressource_rarity": "Rarity",
+    "ressource_rarity_legendary": "Legendary",
+    "ressource_rarity_rare": "Rare",
+    "ressource_rarity_common": "Common",
 
     "occurence_title": "Role occurrence",
     "occurence_tooltip": "This allows selecting how many players will represent each role if the number of players is subject to change.",

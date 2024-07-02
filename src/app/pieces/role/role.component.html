@@ -239,8 +239,16 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
                     <label for="quantity">{{'role_ressource_quantity_label' | translate}}</label>
                     <input name="quantity" type="text" [(ngModel)]="ressource.number" (change)="editTrace($event, 'Skill/Ressource_['+i+']_stats')">
                 </div>
-                <div class="piece-form-ressources-ressource-quantity">
-                    <label for="type">{{'role_ressource_type_label' |translate}}</label>
+                <div class="piece-form-ressources-ressource-rarity" *ngIf="ressource.type == 'ressource' && !unityService.unity_isActive">
+                    <label for="rarity">{{'ressource_rarity' | translate}}</label>
+                    <select [class]="'piece-form-ressources-ressource-rarity-'+ressource.rarity" [(ngModel)]="ressource.rarity" (change)="editTrace($event,'Skill/Ressource_['+i+']_rarity')">
+                        <option value="legendary" class="piece-form-ressources-ressource-rarity-legendary">{{'ressource_rarity_legendary' | translate}}</option>
+                        <option value="rare" class="piece-form-ressources-ressource-rarity-rare">{{'ressource_rarity_rare' | translate}}</option>
+                        <option value="common" class="piece-form-ressources-ressource-rarity-common">{{'ressource_rarity_common' | translate}}</option>
+                    </select>
+                </div>
+                <div class="piece-form-ressources-ressource-type">
+                    <label for="type">{{'role_ressource_type_label' | translate}}</label>
                     <select name="type" [(ngModel)]="ressource.type" (change)="editTrace($event, 'Skill/Ressource_['+i+']_type')">
                         <option value="ressource">{{'role_ressource_type_object' | translate}}</option>
                         <option value="attribut">{{'role_ressource_type_skill' | translate}}</option>

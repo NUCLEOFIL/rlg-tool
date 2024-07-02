@@ -84,12 +84,16 @@
                 margin-top: 5px;
             }
 
-            input {
+            input, select {
                 height: 30px;
                 border: none;
                 border-radius: 10px;
                 background-color: white;
                 width: 150px;
+            }
+
+            select {
+                width: 154px;
             }
 
             &-object {
@@ -107,11 +111,29 @@
                         justify-content: space-between;
                     }
                     
-                    &-quantity {
+                    &-quantity, &-rarity {
                         display: flex;
                         flex-direction: row;
                         justify-content: space-between;
                         margin-top: 5px;
+                    }
+
+                    &-rarity {
+                        option {
+                            background-color: white;
+                        }
+
+                        &-legendary {
+                            color: #f6a001;
+                        }
+                        
+                        &-rare {
+                            color: #1bc700;
+                        }
+
+                        &-common {
+                            color: #000000;
+                        }
                     }
                 }
             }

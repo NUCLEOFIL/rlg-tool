@@ -437,6 +437,24 @@
                         background-size: 20%;
                     }
                 }
+
+                &-rarity {
+                    option {
+                        background-color: white;
+                    }
+
+                    &-legendary {
+                        color: #f6a001;
+                    }
+                    
+                    &-rare {
+                        color: #1bc700;
+                    }
+
+                    &-common {
+                        color: #000000;
+                    }
+                }
             }
 
             button {

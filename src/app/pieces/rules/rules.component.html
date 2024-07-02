@@ -28,6 +28,14 @@
                         <label for="quantity">{{'rules_ressource_quantity_label' | translate}}</label>
                         <input name="quantity" type="number" min="1"[(ngModel)]="ressource.number" (change)="editTrace($event,'Ressource_['+i+']_quantity')"/>
                     </div>
+                    <div class="piece-form-ressources-object-infos-rarity" *ngIf="!unityService.unity_isActive">
+                        <label for="rarity">{{'ressource_rarity' | translate}}</label>
+                        <select [class]="'piece-form-ressources-object-infos-rarity-'+ressource.rarity" [(ngModel)]="ressource.rarity" (change)="editTrace($event,'Ressource_['+i+']_rarity')">
+                            <option value="legendary" class="piece-form-ressources-object-infos-rarity-legendary">{{'ressource_rarity_legendary' | translate}}</option>
+                            <option value="rare" class="piece-form-ressources-object-infos-rarity-rare">{{'ressource_rarity_rare' | translate}}</option>
+                            <option value="common" class="piece-form-ressources-object-infos-rarity-common">{{'ressource_rarity_common' | translate}}</option>
+                        </select>
+                    </div>
                     <button mat-button (click)="removeRessource(i)"><mat-icon fontIcon="remove"></mat-icon></button>                           
                 </div>
                 <button mat-button (click)="addRessource()"><mat-icon fontIcon="add"></mat-icon></button>

@@ -12,6 +12,7 @@ import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { Reward } from 'src/app/class/rewards/reward';
+import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
   selector: 'app-rules',
@@ -23,7 +24,7 @@ export class RulesComponent implements OnInit {
   displayMenu: string = 'hide';
   @Input() scenario: Scenario = new Scenario();
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService) { }
 
   ngOnInit(): void {
   }
