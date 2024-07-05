@@ -22,6 +22,7 @@ import { UnityService } from 'src/app/services/unity/unity.service';
 export class RulesComponent implements OnInit {
 
   displayMenu: string = 'hide';
+  mechanicsExpanded: string = 'hide';
   @Input() scenario: Scenario = new Scenario();
 
   constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService) { }
@@ -138,9 +139,27 @@ export class RulesComponent implements OnInit {
     });
   }
 
+  changeDisplayMechanics(): void {
+    if(this.mechanicsExpanded == 'show') {
+      this.mechanicsExpanded = 'hide';
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'hide',undefined,undefined,'mechanics','Rules', '#C6C2BD'));
+    } else {
+      this.mechanicsExpanded = 'show';
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',undefined,undefined,'mechanics','Rules', '#C6C2BD'));
+    }
+    this.minimapService.reset();
+  }
+
+  forceShowDisplayMechanics(): string {
+    if (this.mechanicsExpanded != 'show') {
+      this.mechanicsExpanded = 'show';
+    }
+    return 'show';
+  }
+
   addRessource(): void {
     this.scenario.ressources.push(new Ressource());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',undefined,undefined,'Ressource_['+(this.scenario.traces.length-1)+']','Rules', '#C6C2BD'));
+    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',undefined,undefined,'Ressource_['+(this.scenario.ressources.length-1)+']','Rules', '#C6C2BD'));
     this.minimapService.reset();
   }
 

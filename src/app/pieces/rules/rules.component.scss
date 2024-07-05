@@ -49,16 +49,14 @@
         }    
 
         &-title {
-            margin-top: 20px;
+            margin-top: 10px;
             font-family: "Glacial Indifference Bold";
             margin-bottom: 10px;
             font-size: 25px;
         }
 
         &-rules {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 10px;
+            margin-top: 10px;
 
             textarea {
                 background-image: url("../../../assets/background-images/rules.png");
@@ -75,7 +73,6 @@
         }
 
         &-ressources {
-            margin-bottom: 20px;
 
             button {
                 position: relative;
@@ -137,7 +134,51 @@
                     }
                 }
             }
+        }
 
+        &-gameMechanics {
+            &-button {
+                &-add {
+                    width: 100%;
+                    margin-bottom: 10px;                 
+                }
+            }
+
+            &-mechanics {
+                transition: max-height 0.5s linear;
+                overflow: hidden;
+            }
+
+            &-mechanics.show {
+                max-height: 1000px;
+            }
+
+            &-mechanics.hide {
+                max-height: 0;
+            }
+        }
+
+        &-gameMovements, &-gameMechanics {
+            label {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+            textarea {
+                border-radius: 20px;
+                border: none;
+                height: 100px;
+                padding: 5px 5px 5px 5px;
+                resize: none;
+            }
+        }
+
+        &-rules, &-ressources, &-gameMovements, &-gameMechanics, 
+        &-gameMechanics-mechanics-tutorial, &-gameMechanics-mechanics-easterEggs, 
+        &-gameMechanics-mechanics-ranking, &-gameMechanics-mechanics-badges {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
         }
     }
 }

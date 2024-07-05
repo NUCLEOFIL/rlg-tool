@@ -14,6 +14,11 @@ export class Scenario {
     characters: Character[] = [];
     gameRules: string = '';
     ressources: Ressource[] = [];
+    gameMovements: string = '';
+    gameTutorial: string = '';
+    gameEasterEggs: string = '';
+    gameRanking: string = '';
+    gameBadges: string = '';
     comments: Comment[] = [];
     projectName: string = '';
     tooltips: boolean = true;
