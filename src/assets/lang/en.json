@@ -396,6 +396,8 @@
     "tutorial_optionnalPhase_comments": "This allows you to add any information you deem important to specify on any tile. To add a comment, click on a tile, and the comments will be present in the sidebar.",
     "tutorial_optionnal_gameMechanics": "Game Mechanics",
     "tutorial_optionnalPhase_gameMechanics": "You can enrich your game with other mechanics such as a tutorial, easter eggs, a ranking, or badges. Tooltips will provide more details about these mechanics.",
+    "tutorial_optionnal_randomObjectsReward": "Reward: Random Objects",
+    "tutorial_optionnalPhase_randomObjectsReward": "You can set a reward as a list of randomly drawn objects. It is possible to define the percentage chance for each draw to obtain an object, with the quantity falling between the defined minimum and maximum values.",
 
     "verify_title": "Here are the feasibility verification details for your scenario:",
     "verify_error": "Warning, you have not entered the same time units for all tasks, so it is impossible to verify the scenario",

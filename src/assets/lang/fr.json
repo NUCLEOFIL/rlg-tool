@@ -396,6 +396,8 @@
     "tutorial_optionnalPhase_comments": "Ceci permet d'ajouter tout élément qui vous semble important de préciser sur n'importe quelle tuile. Pour ajouter un commentaire, cliquez sur une tuile et les commentaires seront présents dans la barre latérale.",
     "tutorial_optionnal_gameMechanics": "Mécaniques du jeu",
     "tutorial_optionnalPhase_gameMechanics": "Vous pouvez enrichir votre jeu avec d'autres mécaniques de jeu comme un tutoriel, des easter eggs, un classement ou des badges. Les infobulles pourront vous donner plus de détails sur ces mécaniques.",
+    "tutorial_optionnal_randomObjectsReward": "Récompense: Objets aléatoire",
+    "tutorial_optionnalPhase_randomObjectsReward": "Vous pouvez définir en récompense, une liste d'objets tirés aléatoirement. Il est possible de définir le pourcentage de chance, pour chaque tirage, de récupérer un objet dont la quantité est comprise entre la valeur minimale et maximale définie.",
 
     "verify_title": "Voici les informations de vérification de faisabilité de votre scénario :",
     "verify_error": "Attention, vous n'avez pas saisi les mêmes unités de temps sur toutes les tâches, il est donc impossible de vérifier le scénario",
