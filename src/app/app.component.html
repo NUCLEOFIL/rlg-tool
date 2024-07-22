@@ -1,6 +1,6 @@
 <div class="container">
     <div class="container-appDragScroll" [ngClass]="siderFolded ? 'siderFolded' : ''" appDragScroll appMouseWheelZoom [scenario]="scenario">
-        <div class="container-appMouseWheelZoom">
+        <div class="container-appMouseWheelZoom" [style.scale]="this.zoomService.zoom">
 
             <div class="container-scenario-main">
                 <div class="container-scenario-main-gamePieces" [style.z-index]="4">
@@ -15,9 +15,11 @@
 
                         <div class="container-scenario-chronologie">
                             <div class="container-scenario-chronologie-title">{{'steps_mission' | translate}}</div>
-                            <div class="container-scenario-chronologie-steps">
-                                <div *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i">
-                                    <app-step *ngIf="step != null" [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [parent]="mission" [index]="i" [mission]="mission"></app-step>
+                            <div class="container-scenario-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission)" [cdkDropListData]="mission.chronologie">
+                                <div class="container-scenario-chronologie-element" *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i" cdkDrag [cdkDragDisabled]="!ctrlPressed">
+                                    <div *ngIf="step != null">
+                                        <app-step [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [parent]="mission" [index]="i" [mission]="mission"></app-step>
+                                    </div>
                                     <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
                                         <button mat-button (click)="addMissionStep(mission, i, missionIndex)"
                                         [matTooltip]="translate.instant('plus_tooltip')"
@@ -45,10 +47,11 @@
                                     <div style="display: flex; flex-direction: column;">
                                         <div class="container-scenario-main-missions-mission-roles-role-chronologie">
                                             <div class="container-scenario-main-missions-mission-roles-role-chronologie-title">{{'steps_role' | translate}}</div>
-                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-steps">
-
-                                                <div *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i">
-                                                    <app-step *ngIf="step != null" [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [roleIndex]="roleIndex" [parent]="role" [index]="i" [mission]="mission"></app-step>
+                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission)" [cdkDropListData]="role.chronologie">
+                                                <div class="container-scenario-main-missions-mission-roles-role-chronologie-element" *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i" cdkDrag [cdkDragDisabled]="!ctrlPressed">
+                                                    <div *ngIf="step != null">
+                                                        <app-step [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [roleIndex]="roleIndex" [parent]="role" [index]="i" [mission]="mission"></app-step>
+                                                    </div>                                                    
                                                     <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
                                                         <button mat-button (click)="addRoleStep(mission, role, i, missionIndex, roleIndex)"
                                                         [matTooltip]="translate.instant('plus_tooltip')"
@@ -65,29 +68,32 @@
 
                                         <div style="display: flex; flex-direction: row;">
                                             <app-role [style.z-index]="2" [scenario]="scenario" [role]="role" [mission]="mission" [i]="roleIndex" [missionIndex]="missionIndex"></app-role>
-                                            <div class="container-scenario-main-missions-mission-roles-role-tasks" [style.z-index]="1">
-                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
-                                                    <div *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j">
-                                                        <div *ngIf="task != null">
-                                                            <app-task *ngIf="task.type == 'normal'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-task>
-                                                            <app-annexe-task *ngIf="task.type == 'annexe'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-annexe-task>
-                                                            <app-random-event *ngIf="task.type == 'event'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-random-event>
-                                                            <app-optionnal-task *ngIf="task.type == 'optionnal'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-optionnal-task>
-                                                            <app-final-task *ngIf="task.type == 'final'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-final-task>
-                                                            <app-repeat-task *ngIf="task.type == 'repeat'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-repeat-task>
-                                                        </div>
-                                                        <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="task == null">
-                                                            <button mat-button [matMenuTriggerFor]="addTaskMenu"
-                                                            [matTooltip]="translate.instant('plus_tooltip')"
-                                                            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
-                                                            <mat-menu #addTaskMenu="matMenu">
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'normal')">{{'normalTask_add' | translate}}</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'annexe')" *ngIf="!unityService.unity_isActive">{{'annexeTask_add' | translate}}</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'optionnal')" *ngIf="!unityService.unity_isActive">{{'optionnalTask_add' | translate}}</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'final')" *ngIf="canCreateFinalOrRepeatTask(tasks, j) && !unityService.unity_isActive">{{'finalTask_add' | translate}}</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'event')" *ngIf="!unityService.unity_isActive">{{'randomEvent_add' | translate}}</button>
-                                                                <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'repeat')" *ngIf="canCreateFinalOrRepeatTask(tasks, j) && !unityService.unity_isActive">{{'repeatTask_add' | translate}}</button>
-                                                            </mat-menu>
+                                            <div class="container-scenario-main-missions-mission-roles-role-tasks" [style.z-index]="1" cdkDropListGroup>
+                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inline" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
+                                                    <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="taskDrop($event, mission)" [cdkDropListData]="tasks">
+                                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-element" *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j" cdkDrag [cdkDragDisabled]="!ctrlPressed">
+                                                            <div *ngIf="task != null">
+                                                                <app-task *ngIf="task.type == 'normal'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-task>
+                                                                <app-annexe-task *ngIf="task.type == 'annexe'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-annexe-task>
+                                                                <app-random-event *ngIf="task.type == 'event'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-random-event>
+                                                                <app-optionnal-task *ngIf="task.type == 'optionnal'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-optionnal-task>
+                                                                <app-final-task *ngIf="task.type == 'final'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-final-task>
+                                                                <app-repeat-task *ngIf="task.type == 'repeat'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-repeat-task>
+                                                            </div>
+                                                            
+                                                            <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="task == null">
+                                                                <button mat-button [matMenuTriggerFor]="addTaskMenu"
+                                                                [matTooltip]="translate.instant('plus_tooltip')"
+                                                                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
+                                                                <mat-menu #addTaskMenu="matMenu">
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'normal')">{{'normalTask_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'annexe')" *ngIf="!unityService.unity_isActive">{{'annexeTask_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'optionnal')" *ngIf="!unityService.unity_isActive">{{'optionnalTask_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'final')" *ngIf="canCreateFinalOrRepeatTask(tasks, j) && !unityService.unity_isActive">{{'finalTask_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'event')" *ngIf="!unityService.unity_isActive">{{'randomEvent_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'repeat')" *ngIf="canCreateFinalOrRepeatTask(tasks, j) && !unityService.unity_isActive">{{'repeatTask_add' | translate}}</button>
+                                                                </mat-menu>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="dontContainFinalOrRepeatTask(tasks)">
@@ -265,6 +271,9 @@
         <button mat-mini-fab color="white" (click)="zoomIn()"
         [matTooltip]="translate.instant('zoomIn_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_in"></mat-icon></button>
+        <button mat-mini-fab color="white" (click)="resetZoom()"
+        [matTooltip]="translate.instant('zoomReset_tooltip')"
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">{{getZoomPercentage()}}%</button>
         <button mat-mini-fab color="white" (click)="zoomOut()"
         [matTooltip]="translate.instant('zoomOut_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_out"></mat-icon></button>

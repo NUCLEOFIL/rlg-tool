@@ -48,6 +48,7 @@ import { DiscussionReward } from './class/rewards/discussion-reward/discussion-r
 import { RoleEducationnalObjective } from './class/role-educationnal-objective/role-educationnal-objective';
 import { ExportUnity } from './class/exportUnity/export-unity';
 import { RandomObjectsReward } from './class/rewards/random-objects-reward/random-objects-reward';
+import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-root',
@@ -61,9 +62,10 @@ export class AppComponent {
   @ViewChild('fileInput') fileInput: any;
   selectedLang: string = 'en';
   siderFolded: boolean = false;
+  ctrlPressed: boolean = false;
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
-    private elementRef: ElementRef, private zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
+    private elementRef: ElementRef, protected zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
     private _snackBar: MatSnackBar, protected minimapService: MinimapService, protected translate: TranslateService, protected tutorialService: TutorialService,
     protected unityService: UnityService) {
 
@@ -127,6 +129,87 @@ export class AppComponent {
       link.click();
       URL.revokeObjectURL(url);
     }
+  }
+  
+  @HostListener('document:keydown', ['$event'])
+  onCtrlDown(event: KeyboardEvent) {
+    if (event.key == 'Shift') {
+      this.ctrlPressed = true;      
+    }
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  onCtrlUp(event: KeyboardEvent) {
+    if (event.key == 'Shift') {
+      this.ctrlPressed = false;
+    }
+  }
+
+  taskDrop(event: CdkDragDrop<(Task|null)[]>, mission: Mission) {
+    if (event.previousContainer.data[event.previousIndex] instanceof Task
+      && ((event.previousContainer.data[event.previousIndex] as Task).type == 'repeat' || (event.previousContainer.data[event.previousIndex] as Task).type == 'final')) {
+      if (event.previousContainer === event.container) {
+        if (!event.container.data.slice(event.currentIndex).some(element => element instanceof Task)) {
+          moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+          this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_moveBeforeTasks'), '', { duration: 5000, panelClass: 'snackbar-fail' });
+        }
+      } else {
+        if (event.container.data.some(element => element?.type == 'final' || element?.type == 'repeat')) {
+          let tmp: Task = event.previousContainer.data[event.previousIndex] as Task;
+          event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
+          event.container.data[event.currentIndex] = tmp;
+          this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_inversion'), '', { duration: 5000, panelClass: 'snackbar-warning' });
+
+        } else if (event.container.data.slice(event.currentIndex).some(element => element instanceof Task)) {
+          let lastTaskIndex: number;
+          if (event.container.data.some(element => element instanceof Task)) {
+              lastTaskIndex = event.container.data.length - 1;
+              while (!(event.container.data[lastTaskIndex] instanceof Task)) {
+                  lastTaskIndex--;
+              }
+          } else {
+              lastTaskIndex = 0;
+          }
+          transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, lastTaskIndex+1);
+          this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_taskPlacedAtEnd'), '', { duration: 5000, panelClass: 'snackbar-warning' });
+        } else {
+          transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+        }
+      }
+      if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+        this.tutorialService.validPhase();
+      }
+    } else {
+      if (event.previousContainer === event.container) {
+        moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      } else {
+        transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+      }
+      if (event.container.data.some(element => element?.type == 'final' || element?.type == 'repeat')
+        && event.container.data.findIndex(element => element?.type == 'final' || element?.type == 'repeat') < event.currentIndex) {
+        moveItemInArray(event.container.data,event.currentIndex, event.container.data.findIndex(element => element?.type == 'final' || element?.type == 'repeat'));
+        this._snackBar.open(this.translate.instant('snackbar_moveTask_movedBeforeEndlineTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
+      }
+      if (event.previousContainer.data[event.previousIndex] instanceof Task && (event.previousContainer.data[event.previousIndex] as Task).type == 'optionnal') {
+        this._snackBar.open(this.translate.instant('snackbar_moveOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
+      }
+      if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+        this.tutorialService.validPhase();
+      }
+    }
+    mission.equalizeLengths();
+    this.minimapService.reset();
+    this.cdr.detectChanges();
+  }
+
+  stepDrop(event: CdkDragDrop<(Step|null)[]>, mission: Mission) {
+    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex); 
+    mission.equalizeLengths();
+    this.minimapService.reset();
+    this.cdr.detectChanges();
   }
 
   changeLanguage(lang: string): void {
@@ -748,6 +831,15 @@ export class AppComponent {
         this.tutorialService.validPhase();
       }
     }
+  }
+
+  resetZoom(): void {
+    this.zoomService.zoom = 1;
+    this.minimapService.reset()
+  }
+
+  getZoomPercentage(): number {
+    return Math.fround(this.zoomService.zoom*100);
   }
 
   addMissionStep(mission: Mission, index: number, missionIndex: number): void {

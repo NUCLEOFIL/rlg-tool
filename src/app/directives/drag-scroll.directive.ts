@@ -33,7 +33,7 @@ export class DragScrollDirective {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
-    if(this.isMouseDown) {
+    if(this.isMouseDown && !event.shiftKey) {
       event.preventDefault();
       const x = event.clientX - this.startX;
       const y = event.clientY - this.startY;
