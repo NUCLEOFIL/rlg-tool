@@ -218,6 +218,10 @@ export class ExportUnity {
                     results.push(resultID);
                 }
             });
+            character.discussionID.push(discuss.ID);
+            if (discuss.isFirstDiscussion) {
+                character.currentDiscussionID = discuss.ID;
+            }
             let discussion: UnityDiscussion = {
                 ID: discuss.ID,
                 name: discuss.name,
@@ -583,7 +587,6 @@ export class ExportUnity {
         throw new Error('Unknown typeUnity '+task.typeUnity);
     }
     
-
     private getIdentifierRelatedTask(identifier: string): Task {
         let relatedTask: Task = new Task('normal');
         this.role.tasks.forEach(inlineTask => {

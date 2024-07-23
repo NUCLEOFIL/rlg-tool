@@ -88,6 +88,12 @@ export class DiscussionDialogComponent implements OnInit {
     const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('discussion_declarativeSentence_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
+        this.role.discussions.forEach(discussion => {
+          let sentenceIndex: number = discussion.sentences.findIndex(sentence => sentence == removedSentenceId);
+          if (sentenceIndex != undefined) {
+            discussion.sentences.splice(sentenceIndex,1);
+          }
+        });
         this.role.sentences.forEach((sentence, index) => {
           if (sentence.ID == removedSentenceId) {
             this.role.sentences.splice(index,1);
@@ -135,6 +141,12 @@ export class DiscussionDialogComponent implements OnInit {
     const dialogRef = this.dialog.open(SuppressDialogComponent, { data: this.translate.instant('discussion_interrogativeSentence_delete') });
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
+        this.role.discussions.forEach(discussion => {
+          let sentenceIndex: number = discussion.sentences.findIndex(sentence => sentence == removedSentenceId);
+          if (sentenceIndex != undefined) {
+            discussion.sentences.splice(sentenceIndex,1);
+          }
+        });
         for (let sentenceIndex: number = 0; sentenceIndex < this.role.sentences.length; sentenceIndex++) {
           let sentence: Sentence = this.role.sentences[sentenceIndex];
           if (sentence instanceof DeclarativeSentence && sentence.nextSentence == removedSentenceId) {
