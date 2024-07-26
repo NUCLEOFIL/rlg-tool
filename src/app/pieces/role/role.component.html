@@ -89,7 +89,7 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
                     <select [(ngModel)]="getCharacterReward(i).character" (change)="editTrace($event, 'Reward_['+i+']_character')"
                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>

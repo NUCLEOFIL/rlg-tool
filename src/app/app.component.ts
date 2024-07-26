@@ -801,8 +801,9 @@ export class AppComponent {
       link.href = url;
       link.click();
       URL.revokeObjectURL(url);        
-    } catch {
+    } catch (e: any) {
       this._snackBar.open(this.translate.instant('snackbar_unity_exportFailed'), '', { duration: 10000, panelClass: 'snackbar-fail' });
+      console.error(e.name);
     }
      
   }

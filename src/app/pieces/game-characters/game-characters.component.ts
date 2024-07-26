@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
 import { Reward } from 'src/app/class/rewards/reward';
+import { CharacterUsedInRewardComponent } from 'src/app/components/dialogs/character-used-in-reward/character-used-in-reward.component';
 
 @Component({
   selector: 'app-game-characters',
@@ -173,9 +174,10 @@ export class GameCharactersComponent implements OnInit {
                     for (let rewardIndex = 0; rewardIndex < task.rewards.length; rewardIndex++) {
                       let reward = task.rewards[rewardIndex];
                       if (reward.type == 'character') {
-                        if ((reward as CharacterReward).character == this.scenario.characters[index])
-                        task.rewards.splice(rewardIndex,1);
-                        rewardIndex--;
+                        if ((reward as CharacterReward).character == this.scenario.characters[index]) {
+                          task.rewards.splice(rewardIndex,1);
+                          rewardIndex--;                          
+                        }
                       }
                     }    
                     if ((task?.typeUnity == 'character' || task?.typeUnity == 'exchangeObjects') && task.character == this.scenario.characters[index]) {
@@ -195,6 +197,147 @@ export class GameCharactersComponent implements OnInit {
       });
   }
 
+  changeReachableByPhoneTo(character: Character, value: boolean) {
+    character.reachableByPhone = value;
+    if (character.reachableByPhone == false) {
+      let characterUsedInReward: boolean = false;
+      this.scenario.missions.forEach(mission => {
+        mission.roles.forEach(role => {
+          for (let i = 0; i < role.rewards.length; i++) {
+            let reward: Reward = role.rewards[i];
+            if (reward.type == 'character') {
+              if ((reward as CharacterReward).character == character) {
+                characterUsedInReward = true;
+              }
+            }
+          }
+          role.discussions.forEach(discussion => {
+            for (let i = 0; i < discussion.rewards.length; i++) {
+              let reward: Reward = discussion.rewards[i];
+              if (reward.type == 'character') {
+                if ((reward as CharacterReward).character == character) {
+                  characterUsedInReward = true;
+                }
+              }
+            }
+          });
+          role.sentences.forEach(sentence => {
+            for (let i = 0; i < sentence.rewards.length; i++) {
+              let reward: Reward = sentence.rewards[i];
+              if (reward.type == 'character') {
+                if ((reward as CharacterReward).character == character) {
+                  characterUsedInReward = true;
+                }
+              }
+            }
+          });
+          role.responses.forEach(response => {
+            for (let i = 0; i < response.rewards.length; i++) {
+              let reward: Reward = response.rewards[i];
+              if (reward.type == 'character') {
+                if ((reward as CharacterReward).character == character) {
+                  characterUsedInReward = true;
+                }
+              }
+            }
+          });
+          role.tasks.forEach(inlineTask => {
+            inlineTask.forEach(task => {
+              if (task instanceof Task) {
+                for (let rewardIndex = 0; rewardIndex < task.rewards.length; rewardIndex++) {
+                  let reward = task.rewards[rewardIndex];
+                  if (reward.type == 'character') {
+                    if ((reward as CharacterReward).character == character) {
+                      characterUsedInReward = true;
+                    }
+                  }
+                }                    
+              }
+            });
+          });
+        });
+      });
+
+      if (characterUsedInReward) {
+        const dialogRef = this.dialog.open(CharacterUsedInRewardComponent, {
+          data: {
+            character: character,
+            result: false
+          }
+        });
+        dialogRef.afterClosed().subscribe(data => {
+          if (data.result) {
+            this.deleteAssociateCharacterRewards(character);
+          }
+        });
+      }
+    }
+  }
+
+  deleteAssociateCharacterRewards(character: Character): void {
+    this.scenario.missions.forEach(mission => {
+      mission.roles.forEach(role => {
+        for (let i = 0; i < role.rewards.length; i++) {
+          let reward: Reward = role.rewards[i];
+          if (reward.type == 'character') {
+            if ((reward as CharacterReward).character == character) {
+              role.rewards.splice(i,1);
+              i--;
+            }
+          }
+        }
+        role.discussions.forEach(discussion => {
+          for (let i = 0; i < discussion.rewards.length; i++) {
+            let reward: Reward = discussion.rewards[i];
+            if (reward.type == 'character') {
+              if ((reward as CharacterReward).character == character) {
+                discussion.rewards.splice(i,1);
+                i--;
+              }
+            }
+          }
+        });
+        role.sentences.forEach(sentence => {
+          for (let i = 0; i < sentence.rewards.length; i++) {
+            let reward: Reward = sentence.rewards[i];
+            if (reward.type == 'character') {
+              if ((reward as CharacterReward).character == character) {
+                sentence.rewards.splice(i,1);
+                i--;
+              }
+            }
+          }
+        });
+        role.responses.forEach(response => {
+          for (let i = 0; i < response.rewards.length; i++) {
+            let reward: Reward = response.rewards[i];
+            if (reward.type == 'character') {
+              if ((reward as CharacterReward).character == character) {
+                response.rewards.splice(i,1);
+                i--;
+              }
+            }
+          }
+        });
+        role.tasks.forEach(inlineTask => {
+          inlineTask.forEach(task => {
+            if (task instanceof Task) {
+              for (let rewardIndex = 0; rewardIndex < task.rewards.length; rewardIndex++) {
+                let reward = task.rewards[rewardIndex];
+                if (reward.type == 'character') {
+                  if ((reward as CharacterReward).character == character) {
+                    task.rewards.splice(rewardIndex,1);
+                    rewardIndex--;
+                  }
+                }
+              }                   
+            }
+          });
+        });
+      });
+    });
+  }
+
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Characters', '#CE7B66', undefined, event.target.value));
@@ -202,4 +345,17 @@ export class GameCharactersComponent implements OnInit {
       this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Characters', '#CE7B66'));
     }
   }
+
+  checkboxTrace(event: any, source: string) {
+    if(event.target.checked) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'check', undefined, undefined, source, 'Characters', '#CE7B66'));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'uncheck', undefined, undefined, source, 'Characters', '#CE7B66'));
+    }
+  }
+}
+
+export interface CharacterUsedInRewardDialogData {
+  character: Character;
+  result: boolean;
 }

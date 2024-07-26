@@ -91,15 +91,17 @@ export class ExportUnity {
 
         this.role.rewards.forEach(reward => {
             if (reward instanceof CharacterReward) {
-                if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
-                    let char: UnityCharacter = {
-                        name: reward.character.name,
-                        ID: this.characterID++,
-                        discussionID: [],
-                        currentDiscussionID: undefined,
-                        phone: reward.character.tel
-                    };
-                    characters.push(char);
+                if (reward.character.reachableByPhone) {
+                    if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
+                        let char: UnityCharacter = {
+                            name: reward.character.name,
+                            ID: this.characterID++,
+                            discussionID: [],
+                            currentDiscussionID: undefined,
+                            phone: reward.character.tel
+                        };
+                        characters.push(char);
+                    }                    
                 }
             }
         });
@@ -121,15 +123,17 @@ export class ExportUnity {
                     }
                     task.rewards.forEach(reward => {
                         if (reward instanceof CharacterReward) {
-                            if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
-                                let char: UnityCharacter = {
-                                    name: reward.character.name,
-                                    ID: this.characterID++,
-                                    discussionID: [],
-                                    currentDiscussionID: undefined,
-                                    phone: reward.character.tel
-                                };
-                                characters.push(char);
+                            if (reward.character.reachableByPhone) {
+                                if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
+                                    let char: UnityCharacter = {
+                                        name: reward.character.name,
+                                        ID: this.characterID++,
+                                        discussionID: [],
+                                        currentDiscussionID: undefined,
+                                        phone: reward.character.tel
+                                    };
+                                    characters.push(char);
+                                }                                
                             }
                         }
                     });
@@ -140,15 +144,17 @@ export class ExportUnity {
         this.role.discussions.forEach(discussion => {
             discussion.rewards.forEach(reward => {
                 if (reward instanceof CharacterReward) {
-                    if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
-                        let char: UnityCharacter = {
-                            name: reward.character.name,
-                            ID: this.characterID++,
-                            discussionID: [],
-                            currentDiscussionID: undefined,
-                            phone: reward.character.tel
-                        };
-                        characters.push(char);
+                    if (reward.character.reachableByPhone) {
+                        if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
+                            let char: UnityCharacter = {
+                                name: reward.character.name,
+                                ID: this.characterID++,
+                                discussionID: [],
+                                currentDiscussionID: undefined,
+                                phone: reward.character.tel
+                            };
+                            characters.push(char);
+                        }                        
                     }
                 }
             });
@@ -157,15 +163,17 @@ export class ExportUnity {
         this.role.sentences.forEach(sentence => {
             sentence.rewards.forEach(reward => {
                 if (reward instanceof CharacterReward) {
-                    if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
-                        let char: UnityCharacter = {
-                            name: reward.character.name,
-                            ID: this.characterID++,
-                            discussionID: [],
-                            currentDiscussionID: undefined,
-                            phone: reward.character.tel
-                        };
-                        characters.push(char);
+                    if (reward.character.reachableByPhone) {
+                        if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
+                            let char: UnityCharacter = {
+                                name: reward.character.name,
+                                ID: this.characterID++,
+                                discussionID: [],
+                                currentDiscussionID: undefined,
+                                phone: reward.character.tel
+                            };
+                            characters.push(char);
+                        }                        
                     }
                 }
             });
@@ -174,15 +182,17 @@ export class ExportUnity {
         this.role.responses.forEach(response => {
             response.rewards.forEach(reward => {
                 if (reward instanceof CharacterReward) {
-                    if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
-                        let char: UnityCharacter = {
-                            name: reward.character.name,
-                            ID: this.characterID++,
-                            discussionID: [],
-                            currentDiscussionID: undefined,
-                            phone: reward.character.tel
-                        };
-                        characters.push(char);
+                    if (reward.character.reachableByPhone) {
+                        if (!characters.some(char => reward.character.name == char.name && reward.character.tel == char.phone)) {
+                            let char: UnityCharacter = {
+                                name: reward.character.name,
+                                ID: this.characterID++,
+                                discussionID: [],
+                                currentDiscussionID: undefined,
+                                phone: reward.character.tel
+                            };
+                            characters.push(char);
+                        }                        
                     }
                 }
             });
@@ -206,8 +216,10 @@ export class ExportUnity {
                     results.push(resultID);
                 }
                 if (reward instanceof CharacterReward) {
-                    let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
-                    results.push(resultID);
+                    if (reward.character.reachableByPhone) {
+                        let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
+                        results.push(resultID);                        
+                    }
                 }
                 if (reward instanceof ObjectReward) {
                     let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
@@ -252,8 +264,10 @@ export class ExportUnity {
                         results.push(resultID);
                     }
                     if (reward instanceof CharacterReward) {
-                        let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
-                        results.push(resultID);
+                        if (reward.character.reachableByPhone) {
+                            let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
+                            results.push(resultID);                            
+                        }
                     }
                     if (reward instanceof ObjectReward) {
                         let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
@@ -294,8 +308,10 @@ export class ExportUnity {
                         results.push(resultID);
                     }
                     if (reward instanceof CharacterReward) {
-                        let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
-                        results.push(resultID);
+                        if (reward.character.reachableByPhone) {
+                            let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
+                            results.push(resultID);                            
+                        }
                     }
                     if (reward instanceof ObjectReward) {
                         let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
@@ -335,8 +351,10 @@ export class ExportUnity {
                     results.push(resultID);
                 }
                 if (reward instanceof CharacterReward) {
-                    let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
-                    results.push(resultID);
+                    if (reward.character.reachableByPhone) {
+                        let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
+                        results.push(resultID);                        
+                    }
                 }
                 if (reward instanceof ObjectReward) {
                     let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
@@ -414,8 +432,10 @@ export class ExportUnity {
                             results.push(resultID);
                         }
                         if (reward instanceof CharacterReward) {
-                            let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
-                            results.push(resultID);
+                            if (reward.character.reachableByPhone) {
+                                let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
+                                results.push(resultID);                                
+                            }
                         }
                         if (reward instanceof ObjectReward) {
                             let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
@@ -466,8 +486,10 @@ export class ExportUnity {
                             results.push(resultID);
                         }
                         if (reward instanceof CharacterReward) {
-                            let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
-                            results.push(resultID);
+                            if (reward.character.reachableByPhone) {
+                                let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
+                                results.push(resultID);                                
+                            }
                         }
                         if (reward instanceof ObjectReward) {
                             let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
@@ -519,8 +541,10 @@ export class ExportUnity {
                             results.push(resultID);
                         }
                         if (reward instanceof CharacterReward) {
-                            let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
-                            results.push(resultID);
+                            if (reward.character.reachableByPhone) {
+                                let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
+                                results.push(resultID);                                
+                            }
                         }
                         if (reward instanceof ObjectReward) {
                             let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
@@ -889,15 +913,17 @@ export class ExportUnity {
 
         this.role.rewards.forEach(reward => {
             if (reward instanceof CharacterReward) {
-                let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
-                if (!results.some(element => character.ID == element.characterID)) {
-                    let resultID: number = this.resultID++;
-                    let result: UnityGetPhoneNumberResult = {
-                        ID: resultID,
-                        characterID: character.ID,
-                        name: 'Récupérer le numéro de '+character.name
-                    };
-                    results.push(result);
+                if (reward.character.reachableByPhone) {
+                    let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
+                    if (!results.some(element => character.ID == element.characterID)) {
+                        let resultID: number = this.resultID++;
+                        let result: UnityGetPhoneNumberResult = {
+                            ID: resultID,
+                            characterID: character.ID,
+                            name: 'Récupérer le numéro de '+character.name
+                        };
+                        results.push(result);
+                    }                    
                 }
             }
         });
@@ -907,15 +933,17 @@ export class ExportUnity {
                 if (task instanceof Task) {
                     task.rewards.forEach(reward => {
                         if (reward instanceof CharacterReward) {
-                            let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
-                            if (!results.some(element => character.ID == element.characterID)) {
-                                let resultID: number = this.resultID++;
-                                let result: UnityGetPhoneNumberResult = {
-                                    ID: resultID,
-                                    characterID: character.ID,
-                                    name: 'Récupérer le numéro de '+character.name
-                                };
-                                results.push(result);
+                            if (reward.character.reachableByPhone) {
+                                let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
+                                if (!results.some(element => character.ID == element.characterID)) {
+                                    let resultID: number = this.resultID++;
+                                    let result: UnityGetPhoneNumberResult = {
+                                        ID: resultID,
+                                        characterID: character.ID,
+                                        name: 'Récupérer le numéro de '+character.name
+                                    };
+                                    results.push(result);
+                                }                                
                             }
                         }
                     });
@@ -926,15 +954,17 @@ export class ExportUnity {
         this.role.discussions.forEach(discussion => {
             discussion.rewards.forEach(reward => {
                 if (reward instanceof CharacterReward) {
-                    let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
-                    if (!results.some(element => character.ID == element.characterID)) {
-                        let resultID: number = this.resultID++;
-                        let result: UnityGetPhoneNumberResult = {
-                            ID: resultID,
-                            characterID: character.ID,
-                            name: 'Récupérer le numéro de '+character.name
-                        };
-                        results.push(result);
+                    if (reward.character.reachableByPhone) {
+                        let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
+                        if (!results.some(element => character.ID == element.characterID)) {
+                            let resultID: number = this.resultID++;
+                            let result: UnityGetPhoneNumberResult = {
+                                ID: resultID,
+                                characterID: character.ID,
+                                name: 'Récupérer le numéro de '+character.name
+                            };
+                            results.push(result);
+                        }                        
                     }
                 }
             });
@@ -943,15 +973,17 @@ export class ExportUnity {
         this.role.sentences.forEach(sentence => {
             sentence.rewards.forEach(reward => {
                 if (reward instanceof CharacterReward) {
-                    let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
-                    if (!results.some(element => character.ID == element.characterID)) {
-                        let resultID: number = this.resultID++;
-                        let result: UnityGetPhoneNumberResult = {
-                            ID: resultID,
-                            characterID: character.ID,
-                            name: 'Récupérer le numéro de '+character.name
-                        };
-                        results.push(result);
+                    if (reward.character.reachableByPhone) {
+                        let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
+                        if (!results.some(element => character.ID == element.characterID)) {
+                            let resultID: number = this.resultID++;
+                            let result: UnityGetPhoneNumberResult = {
+                                ID: resultID,
+                                characterID: character.ID,
+                                name: 'Récupérer le numéro de '+character.name
+                            };
+                            results.push(result);
+                        }                        
                     }
                 }
             });
@@ -960,15 +992,17 @@ export class ExportUnity {
         this.role.responses.forEach(response => {
             response.rewards.forEach(reward => {
                 if (reward instanceof CharacterReward) {
-                    let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
-                    if (!results.some(element => character.ID == element.characterID)) {
-                        let resultID: number = this.resultID++;
-                        let result: UnityGetPhoneNumberResult = {
-                            ID: resultID,
-                            characterID: character.ID,
-                            name: 'Récupérer le numéro de '+character.name
-                        };
-                        results.push(result);
+                    if (reward.character.reachableByPhone) {
+                        let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == reward.character.name && char.phone == reward.character.tel) as UnityCharacter;
+                        if (!results.some(element => character.ID == element.characterID)) {
+                            let resultID: number = this.resultID++;
+                            let result: UnityGetPhoneNumberResult = {
+                                ID: resultID,
+                                characterID: character.ID,
+                                name: 'Récupérer le numéro de '+character.name
+                            };
+                            results.push(result);
+                        }                        
                     }
                 }
             });

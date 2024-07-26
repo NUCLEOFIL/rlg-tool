@@ -57,8 +57,8 @@
             font-weight: lighter;
             margin-top: 10px;
             margin-bottom: 5px;
-        }  
-        input {
+        }
+        input[type='text'], input[type='tel'], input[type='color'] {
             height: 40px;
             border-radius: 10px;
             border: none;
@@ -135,6 +135,21 @@
 
                     &-color {
                         margin-top: 5px;
+                    }
+
+                    &-contact {
+                        margin-top: 5px;
+
+                        &-checkbox {
+                            
+                            label {
+                                margin-left: 5px;
+                            }
+
+                            input {
+                                transform: scale(1.2);
+                            }
+                        }
                     }
                 }
             }

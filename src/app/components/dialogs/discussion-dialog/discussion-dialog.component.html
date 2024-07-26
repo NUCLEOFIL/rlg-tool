@@ -68,7 +68,7 @@
                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'discussion_[ID:'+discussion.ID+']')">
-                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
                     </select>
                 </div>
 
@@ -240,7 +240,7 @@
                                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'sentence_[ID:'+sentence.ID+']')">
-                                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
                                     </select>
                                 </div>
 
@@ -395,7 +395,7 @@
                                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'sentence_[ID:'+sentence.ID+']')">
-                                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
                                     </select>
                                 </div>
 
@@ -548,7 +548,7 @@
                                                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'response_[ID:'+response.ID+']')">
-                                                        <option [ngValue]="character" *ngFor="let character of scenario.characters">{{character.name}}</option>
+                                                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
                                                     </select>
                                                 </div>
 

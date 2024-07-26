@@ -51,6 +51,7 @@ import { RewardsComponent } from './sider-pieces/rewards/rewards.component';
 import { CreateOptionnalTaskDialogComponent } from './components/dialogs/create-optionnal-task-dialog/create-optionnal-task-dialog.component';
 import { DiscussionsComponent } from './sider-pieces/discussions/discussions.component';
 import { DiscussionDialogComponent } from './components/dialogs/discussion-dialog/discussion-dialog.component';
+import { CharacterUsedInRewardComponent } from './components/dialogs/character-used-in-reward/character-used-in-reward.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -92,7 +93,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     RewardsComponent,
     CreateOptionnalTaskDialogComponent,
     DiscussionsComponent,
-    DiscussionDialogComponent
+    DiscussionDialogComponent,
+    CharacterUsedInRewardComponent
   ],
   imports: [
     BrowserModule,

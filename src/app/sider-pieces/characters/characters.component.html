@@ -19,10 +19,10 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
         </div>
         <div>
             <div class="piece-form-title">{{'sider_chars_title' | translate}}</div>
-            <div class="piece-form-character-create" *ngFor="let character of task.characters, let index = index">
-                <div class="piece-form-character-create-top">
+            <div class="piece-form-character" *ngFor="let character of task.characters, let index = index">
+                <div class="piece-form-character-top">
                     <mat-icon fontIcon="person"></mat-icon>
-                    <div class="piece-form-character-create-top-name">
+                    <div class="piece-form-character-top-name">
                         <label for="name">{{'char_name_label' | translate}}</label>
                         <input name="name" type="text" [(ngModel)]="character.name" disabled/>                    
                     </div>
@@ -32,9 +32,19 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                         <label for="description">{{'char_description_label' | translate}}</label>
                         <textarea name="description" [(ngModel)]="character.description" disabled></textarea>
                     </div>
-                    <div class="piece-form-character-create-infos-phone" *ngIf="unityService.unity_isActive">
+                    <div class="piece-form-character-infos-phone">
                         <label for="tel">{{'char_phone_label' | translate}}</label>
                         <input name="tel" type="tel" [(ngModel)]="newCharacter.tel" disabled=""/>
+                    </div>
+                    <div class="piece-form-character-infos-contact">
+                        <div class="piece-form-character-infos-contact-checkbox">
+                            <input type="checkbox" [(ngModel)]="character.physicalPresence" disabled/>
+                            <label>{{'char_contact_physically_label' | translate}}</label>
+                        </div>
+                        <div class="piece-form-character-infos-contact-checkbox">
+                            <input type="checkbox" [disabled]="newCharacter.tel == ''" [(ngModel)]="character.reachableByPhone" disabled/>
+                            <label>{{'char_contact_reachableByPhone_label' | translate}}</label>
+                        </div>
                     </div>
                     <div class="piece-form-character-infos-color">
                         <label for="color">{{'char_color_label' | translate}}</label>
