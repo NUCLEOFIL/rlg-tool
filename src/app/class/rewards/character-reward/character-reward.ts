@@ -7,5 +7,5 @@ export class CharacterReward extends Reward {
         super('character');
     }
 
-    character!: Character;
+    character: Character = new Character();
 }
