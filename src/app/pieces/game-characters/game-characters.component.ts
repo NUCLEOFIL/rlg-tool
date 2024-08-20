@@ -121,6 +121,15 @@ export class GameCharactersComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           this.scenario.missions.forEach(mission => {
+            for (let i = 0; i < mission.rewards.length; i++) {
+              let reward: Reward = mission.rewards[i];
+              if (reward.type == 'character') {
+                if ((reward as CharacterReward).character == this.scenario.characters[index]) {
+                  mission.rewards.splice(i,1);
+                  i--;
+                }
+              }
+            }
             mission.roles.forEach(role => {
               for (let i = 0; i < role.rewards.length; i++) {
                 let reward: Reward = role.rewards[i];
