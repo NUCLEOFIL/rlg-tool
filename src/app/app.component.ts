@@ -145,12 +145,32 @@ export class AppComponent {
     }
   }
 
-  taskDrop(event: CdkDragDrop<(Task|null)[]>, mission: Mission) {
+  getInlineTaskIndex(role: Role, inlineTask: Array<Task|null>): number {
+    return role.tasks.findIndex(element => element == inlineTask);
+  }
+
+  taskDrop(event: CdkDragDrop<(Task | null)[]>, mission: Mission, role: Role, missionIndex: number, roleIndex: number) {
+
+    let actualInlineTaskIndex: number = this.getInlineTaskIndex(role, event.previousContainer.data);
+    let destinationInlineTaskIndex: number = this.getInlineTaskIndex(role, event.container.data);
+    let traceTaskType: string;
+    let traceTaskColor: string;
+    switch ((event.previousContainer.data[event.previousIndex] as Task).type) {
+      case 'annexe': traceTaskType = 'Side_task'; traceTaskColor = '#BCCECC'; break;
+      case 'optionnal': traceTaskType = 'Opt_task'; traceTaskColor = '#E8E3B3'; break;
+      case 'final': traceTaskType = 'Final_task'; traceTaskColor = '#B28386'; break;
+      case 'event': traceTaskType = 'Event_task'; traceTaskColor = '#BFDAA3'; break;
+      case 'repeat': traceTaskType = 'Repeat_task'; traceTaskColor = '#ABBCC6'; break;
+      case 'normal': traceTaskType = 'Task'; traceTaskColor = '#B9DFE3'; break;
+      default: traceTaskType = 'nullTask'; traceTaskColor = '#F7F7F7'; break;
+    }
     if (event.previousContainer.data[event.previousIndex] instanceof Task
       && ((event.previousContainer.data[event.previousIndex] as Task).type == 'repeat' || (event.previousContainer.data[event.previousIndex] as Task).type == 'final')) {
+
       if (event.previousContainer === event.container) {
         if (!event.container.data.slice(event.currentIndex).some(element => element instanceof Task)) {
           moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
         } else {
           this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_moveBeforeTasks'), '', { duration: 5000, panelClass: 'snackbar-fail' });
         }
@@ -159,44 +179,49 @@ export class AppComponent {
           let tmp: Task = event.previousContainer.data[event.previousIndex] as Task;
           event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
           event.container.data[event.currentIndex] = tmp;
+          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
           this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_inversion'), '', { duration: 5000, panelClass: 'snackbar-warning' });
-
         } else if (event.container.data.slice(event.currentIndex).some(element => element instanceof Task)) {
           let lastTaskIndex: number;
           if (event.container.data.some(element => element instanceof Task)) {
-              lastTaskIndex = event.container.data.length - 1;
-              while (!(event.container.data[lastTaskIndex] instanceof Task)) {
-                  lastTaskIndex--;
-              }
+            lastTaskIndex = event.container.data.length - 1;
+            while (!(event.container.data[lastTaskIndex] instanceof Task)) {
+              lastTaskIndex--;
+            }
           } else {
-              lastTaskIndex = 0;
+            lastTaskIndex = 0;
           }
-          transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, lastTaskIndex+1);
+          transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, lastTaskIndex + 1);
+          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
           this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_taskPlacedAtEnd'), '', { duration: 5000, panelClass: 'snackbar-warning' });
         } else {
           transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
         }
       }
-      if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase - 1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_' + this.tutorialService.phase, 'Tutorial'));
         this.tutorialService.validPhase();
       }
     } else {
       if (event.previousContainer === event.container) {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
       } else {
         transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
       }
       if (event.container.data.some(element => element?.type == 'final' || element?.type == 'repeat')
         && event.container.data.findIndex(element => element?.type == 'final' || element?.type == 'repeat') < event.currentIndex) {
-        moveItemInArray(event.container.data,event.currentIndex, event.container.data.findIndex(element => element?.type == 'final' || element?.type == 'repeat'));
+        moveItemInArray(event.container.data, event.currentIndex, event.container.data.findIndex(element => element?.type == 'final' || element?.type == 'repeat'));
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
         this._snackBar.open(this.translate.instant('snackbar_moveTask_movedBeforeEndlineTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
       }
       if (event.previousContainer.data[event.previousIndex] instanceof Task && (event.previousContainer.data[event.previousIndex] as Task).type == 'optionnal') {
         this._snackBar.open(this.translate.instant('snackbar_moveOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
       }
-      if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase - 1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
+        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_' + this.tutorialService.phase, 'Tutorial'));
         this.tutorialService.validPhase();
       }
     }
@@ -205,11 +230,17 @@ export class AppComponent {
     this.cdr.detectChanges();
   }
 
-  stepDrop(event: CdkDragDrop<(Step|null)[]>, mission: Mission) {
+  stepDrop(event: CdkDragDrop<(Step|null)[]>, mission: Mission, parent: Role | Mission, missionIndex: number, roleIndex: number|undefined) {
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex); 
     mission.equalizeLengths();
     this.minimapService.reset();
     this.cdr.detectChanges();
+
+    if (parent instanceof Mission) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'dragMove',missionIndex,undefined,'all','Step_m_['+event.previousIndex+']','#ACC9FC',undefined,'['+event.currentIndex+']'));
+    } else if (parent instanceof Role) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'dragMove',missionIndex,roleIndex,'all','Step_r_['+event.previousIndex+']','#ACC9FC',undefined,'['+event.currentIndex+']'));
+    }
   }
 
   changeLanguage(lang: string): void {

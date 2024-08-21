@@ -228,24 +228,28 @@ export class RandomEventComponent implements OnInit {
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveLeft','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i-1)+';'+(this.j)+']'));
     } else if (direction == 'top' && this.canMoveTo('top')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveTop','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i)+';'+(this.j-1)+']'));
     } else if (direction == 'right' && this.canMoveTo('right')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveRight','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i+1)+';'+(this.j)+']'));
     } else if (direction == 'bottom') {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveBottom','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i)+';'+(this.j+1)+']'));
     }
   }
 

@@ -244,12 +244,14 @@ export class OptionnalTaskComponent implements OnInit {
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
       this._snackBar.open(this.translate.instant('snackbar_moveOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveLeft','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3',undefined,'['+(this.i-1)+';'+(this.j)+']'));
     } else if (direction == 'top' && this.canMoveTo('top')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveTop','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3',undefined,'['+(this.i)+';'+(this.j-1)+']'));
     } else if (direction == 'right' && this.canMoveTo('right')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
@@ -257,12 +259,14 @@ export class OptionnalTaskComponent implements OnInit {
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
       this._snackBar.open(this.translate.instant('snackbar_moveOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveRight','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3',undefined,'['+(this.i+1)+';'+(this.j)+']'));
     } else if (direction == 'bottom') {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveBottom','Opt_task_['+this.i+';'+this.j+']', '#E8E3B3',undefined,'['+(this.i)+';'+(this.j+1)+']'));
     }
   }
   canMoveTo(direction: string): boolean {

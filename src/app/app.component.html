@@ -15,7 +15,7 @@
 
                         <div class="container-scenario-chronologie">
                             <div class="container-scenario-chronologie-title">{{'steps_mission' | translate}}</div>
-                            <div class="container-scenario-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission)" [cdkDropListData]="mission.chronologie">
+                            <div class="container-scenario-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission, mission, missionIndex, undefined)" [cdkDropListData]="mission.chronologie">
                                 <div class="container-scenario-chronologie-element" *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i" cdkDrag [cdkDragDisabled]="!ctrlPressed">
                                     <div *ngIf="step != null">
                                         <app-step [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [parent]="mission" [index]="i" [mission]="mission"></app-step>
@@ -47,7 +47,7 @@
                                     <div style="display: flex; flex-direction: column;">
                                         <div class="container-scenario-main-missions-mission-roles-role-chronologie">
                                             <div class="container-scenario-main-missions-mission-roles-role-chronologie-title">{{'steps_role' | translate}}</div>
-                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission)" [cdkDropListData]="role.chronologie">
+                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission, role, missionIndex, roleIndex)" [cdkDropListData]="role.chronologie">
                                                 <div class="container-scenario-main-missions-mission-roles-role-chronologie-element" *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i" cdkDrag [cdkDragDisabled]="!ctrlPressed">
                                                     <div *ngIf="step != null">
                                                         <app-step [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [roleIndex]="roleIndex" [parent]="role" [index]="i" [mission]="mission"></app-step>
@@ -70,7 +70,7 @@
                                             <app-role [style.z-index]="2" [scenario]="scenario" [role]="role" [mission]="mission" [i]="roleIndex" [missionIndex]="missionIndex"></app-role>
                                             <div class="container-scenario-main-missions-mission-roles-role-tasks" [style.z-index]="1" cdkDropListGroup>
                                                 <div class="container-scenario-main-missions-mission-roles-role-tasks-inline" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
-                                                    <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="taskDrop($event, mission)" [cdkDropListData]="tasks">
+                                                    <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="taskDrop($event, mission, role, missionIndex, roleIndex)" [cdkDropListData]="tasks">
                                                         <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-element" *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j" cdkDrag [cdkDragDisabled]="!ctrlPressed">
                                                             <div *ngIf="task != null">
                                                                 <app-task *ngIf="task.type == 'normal'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-task>

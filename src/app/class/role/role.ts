@@ -221,15 +221,19 @@ export class Role {
         return index;
     }
 
-    public moveStep(i: number, direction: string): void {
+    public moveStep(i: number, direction: string): number {
         let tmp: Step | null = this.chronologie[i];
+        let newIndex: number = i;
         if (direction == 'left') {
             this.chronologie[i] = this.chronologie[i - 1];
             this.chronologie[i - 1] = tmp;
+            newIndex = i-1;
         } else if (direction == 'right') {
             this.chronologie[i] = this.chronologie[i + 1];
             this.chronologie[i + 1] = tmp;
+            newIndex = i+1;
         }
+        return newIndex;
     }
 
     public getLastTaskIndex(i: number): number {

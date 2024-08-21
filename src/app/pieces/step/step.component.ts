@@ -134,22 +134,27 @@ export class StepComponent implements OnInit {
         if (this.parent instanceof Mission) {
           this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
         } else if (this.parent instanceof Role) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
         }
       } else {
         if (this.parent instanceof Mission) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
         } else if (this.parent instanceof Role) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
         }
       }
     });
   }
 
   moveStep(direction: string) {
-    this.parent.moveStep(this.index, direction);
+    let newIndex: number = this.parent.moveStep(this.index, direction);
     this.displayMenu = 'hide';
     this.mission.equalizeLengths();
+    if (this.parent instanceof Mission) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC',undefined,'['+newIndex+']'));
+    } else if (this.parent instanceof Role) {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC',undefined,'['+newIndex+']'));
+    }
   }
 
   FirstStepIndex(): number {

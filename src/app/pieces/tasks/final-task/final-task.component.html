@@ -32,24 +32,24 @@
         matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
         <div class="piece-menu-directioncross">
             <div class="piece-menu-directioncross-left">
-                <mat-icon style="transform: rotate(0turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('left'); editMoveTrace($event,'Task_moveLeft')"
+                <mat-icon style="transform: rotate(0turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('left')"
                 [matTooltip]="translate.instant('moveLeftFinal_tooltip')"
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
             </div>
             <div class="piece-menu-directioncross-updownarrows">
                 <div class="piece-menu-updownarrows-up">
-                    <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top'); editMoveTrace($event,'Task_moveTop')"
+                    <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top')"
                     [matTooltip]="translate.instant('moveTop_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
                 </div>
                 <div class="piece-menu-directioncross-updownarrows-down">
-                    <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom'); editMoveTrace($event,'Task_moveBottom')"
+                    <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom')"
                     [matTooltip]="translate.instant('moveBottom_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
                 </div>
             </div>
             <div class="piece-menu-directioncross-right">
-                <mat-icon style="transform: rotate(0.5turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('right'); editMoveTrace($event,'Task_moveRight')"
+                <mat-icon style="transform: rotate(0.5turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('right')"
                 [matTooltip]="translate.instant('moveRightFinal_tooltip')"
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
             </div>
