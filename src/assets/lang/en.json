@@ -13,7 +13,7 @@
     "plus_tooltip": "Add a new tile of this type.",
     "zoomIn_tooltip": "Zoom In.",
     "zoomOut_tooltip": "Zoom Out.",
-    "resetRoom_tooltip": "Reset zoom to 100%",
+    "zoomReset_tooltip": "Reset zoom to 100%",
     "settingsMenu_tooltip": "Open the settings menu (save, import, ...)",
     "enableHelp_label": "Enable the tooltips",
     "enableHelp_tooltip": "Description of each element of the RLG Maker.",
