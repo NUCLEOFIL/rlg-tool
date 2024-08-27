@@ -945,22 +945,48 @@ export class AppComponent {
   getSiderTitle(): string {
     let piece = this.pieceDetailsService.piece;
     if (piece instanceof Task) {
-      return this.translate.instant('siderTitle_task');
+      return this.translate.instant('siderTitle_mission') + ' ' + ((this.pieceDetailsService.missionIndex as number) + 1)
+        + ' / ' + (this.pieceDetailsService.parentAsRole().intitule == ''
+        ? (this.translate.instant('siderTitle_role') + ' ' + ((this.pieceDetailsService.roleIndex as number) + 1))
+        : this.pieceDetailsService.parentAsRole().intitule)
+        + '\n' + this.translate.instant('siderTitle_task') + ' [' 
+        + ((this.pieceDetailsService.pieceIndex as number[])[0] + 1) + ';'
+        + ((this.pieceDetailsService.parent as Role).getRealIndex(((this.pieceDetailsService.pieceIndex as number[])[0]), (this.pieceDetailsService.pieceIndex as number[])[1]) + 1) + ']';
     }
     if (piece instanceof Role) {
-      return this.translate.instant('siderTitle_role');
+      return this.translate.instant('siderTitle_mission') + ' ' + ((this.pieceDetailsService.missionIndex as number) + 1)
+      + ' / ' + this.translate.instant('siderTitle_role') + ' ' + ((this.pieceDetailsService.roleIndex as number) + 1);
     }
     if (piece instanceof Mission) {
-      return this.translate.instant('siderTitle_mission');
+      return this.translate.instant('siderTitle_mission') + ' ' + ((this.pieceDetailsService.missionIndex as number) + 1)
     }
     if (piece instanceof Scenario) {
       return this.translate.instant('siderTitle_game');
     }
     if (piece instanceof Step) {
-      return this.translate.instant('siderTitle_step');
+      if (this.pieceDetailsService.parent instanceof Mission) {
+        return this.translate.instant('siderTitle_mission') + ' ' + ((this.pieceDetailsService.missionIndex as number) + 1)
+        + ' / ' + this.translate.instant('siderTitle_step') + ' ' + (this.getStepNumber((this.pieceDetailsService.parent as Mission), (this.pieceDetailsService.pieceIndex as number)));
+      } else {
+        return this.translate.instant('siderTitle_mission') + ' ' + ((this.pieceDetailsService.missionIndex as number) + 1)
+        + ' / ' + (this.pieceDetailsService.parentAsRole().intitule == ''
+        ? (this.translate.instant('siderTitle_role') + ' ' + ((this.pieceDetailsService.roleIndex as number) + 1))
+        : this.pieceDetailsService.parentAsRole().intitule)
+        + '\n' + this.translate.instant('siderTitle_step') + ' ' + (this.getStepNumber((this.pieceDetailsService.parent as Role), (this.pieceDetailsService.pieceIndex as number)));
+      }
     } else {
-      return "";
+      return '';
     }
+  }
+
+  getStepNumber(parent: Mission | Role, index: number): number {
+    let number: number = 1;
+    for(let i = 0; i < index; i++) {
+      if (parent.chronologie[i] instanceof Step) {
+        number++;
+      }
+    }
+    return number;
   }
 
   tooltipsTrace(event: any) {

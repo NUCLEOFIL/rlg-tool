@@ -91,6 +91,7 @@ export class StepComponent implements OnInit {
   onClickPiece(): void {
     this.pieceDetailsService.piece = this.step;
     this.pieceDetailsService.missionIndex = this.missionIndex;
+    this.pieceDetailsService.parent = this.parent;
     if (this.parent instanceof Mission) {
       this.pieceDetailsService.roleIndex = undefined;
     } else {
