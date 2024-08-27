@@ -14,6 +14,7 @@
     "zoomIn_tooltip": "Zoomer.",
     "zoomOut_tooltip": "Dézoomer.",
     "zoomReset_tooltip": "Réinitialiser le zoom à 100%",
+    "zoomAdjust_tooltip": "Ajuster le zoom",
     "settingsMenu_tooltip": "Ouvrir le menu des paramètres (sauvegarde, import, ...)",
     "enableHelp_label": "Activer les aides",
     "enableHelp_tooltip": "Descriptif de chaque élément du RLG Maker.",

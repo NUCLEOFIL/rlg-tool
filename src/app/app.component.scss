@@ -393,3 +393,9 @@
     font-family: 'Glacial Indifference', sans-serif;
     font-size: 16px;
 }
+
+::ng-deep .mat-slider.mat-accent .mat-slider-track-fill, 
+::ng-deep .mat-slider.mat-accent .mat-slider-thumb, 
+::ng-deep .mat-slider.mat-accent .mat-slider-thumb-label {
+    background-color: #0060df;
+}

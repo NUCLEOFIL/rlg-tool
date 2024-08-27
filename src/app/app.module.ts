@@ -11,6 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatExpansionModule } from '@angular/material/expansion'; 
+import { MatSliderModule } from '@angular/material/slider';
 
 import { AppComponent } from './app.component';
 import { EducationalObjectiveComponent } from './pieces/educational-objective/educational-objective.component';
@@ -116,7 +117,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
     DragDropModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -271,9 +271,20 @@
         <button mat-mini-fab color="white" (click)="zoomIn()"
         [matTooltip]="translate.instant('zoomIn_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_in"></mat-icon></button>
-        <button mat-mini-fab color="white" (click)="resetZoom()"
-        [matTooltip]="translate.instant('zoomReset_tooltip')"
+        <button mat-mini-fab color="white" [matMenuTriggerFor]="zoomSlider"
+        [matTooltip]="translate.instant('zoomAdjust_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">{{getZoomPercentage()}}%</button>
+        <mat-menu class="container-zoom-sliderMenu" #zoomSlider="matMenu" xPosition="before" yPosition="above">
+            <span>
+                <mat-slider min="0.3" max="1.50" step="0.01"
+                    [(ngModel)]="zoomService.zoom"
+                    (input)="changeZoomLevel($event)">
+                </mat-slider>
+            </span>
+            <button mat-flat-button color="white" (click)="resetZoom()"
+                [matTooltip]="translate.instant('zoomReset_tooltip')"
+                matTooltipPosition="after" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_in"></mat-icon></button>                      
+        </mat-menu>
         <button mat-mini-fab color="white" (click)="zoomOut()"
         [matTooltip]="translate.instant('zoomOut_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_out"></mat-icon></button>

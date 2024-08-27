@@ -867,7 +867,12 @@ export class AppComponent {
 
   resetZoom(): void {
     this.zoomService.zoom = 1;
-    this.minimapService.reset()
+    this.minimapService.reset();
+  }
+  
+  changeZoomLevel(event: any): void {
+    this.zoomService.zoom = event.value;
+    this.minimapService.reset();
   }
 
   getZoomPercentage(): number {
