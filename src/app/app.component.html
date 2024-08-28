@@ -145,7 +145,7 @@
                 [task]="pieceDetailsService.pieceAsTask()" 
                 [role]="pieceDetailsService.parentAsRole()" 
                 [scenario]="scenario"
-                *ngIf="pieceDetailsService.pieceIsTask()">
+                *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive">
             </app-supplementary-task>
             <app-repeat class="container-sider-elements-element" 
                 [task]="pieceDetailsService.pieceAsTask()" 

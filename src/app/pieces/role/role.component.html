@@ -71,10 +71,10 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
                         <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
                         <option value="skill">{{'role_reward_type_skill' | translate}}</option>
                         <option value="character">{{'role_reward_type_character' | translate}}</option>
-                        <option value="objective">{{'role_reward_type_objective' | translate}}</option>
+                        <option value="objective" *ngIf="!unityService.unity_isActive">{{'role_reward_type_objective' | translate}}</option>
                         <option value="objects" hidden>{{'role_reward_type_object' | translate}}</option>
                         <option value="object">{{'role_reward_type_object' | translate}}</option>
-                        <option value="randomObjects">{{'role_reward_type_randomObjects' | translate}}</option>                        
+                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>                        
                         <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                         <option value="other" *ngIf="!unityService.unity_isActive">{{'role_reward_type_other' | translate}}</option>
                     </select>                    
@@ -163,7 +163,7 @@ matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltip
                     </select>
                     <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-objective" *ngIf="reward.type == 'objective'">
+                <div class="piece-form-rewards-reward-objective" *ngIf="reward.type == 'objective' && !unityService.unity_isActive">
                     <select [(ngModel)]="getObjectiveReward(i).objective" (change)="editTrace($event, 'Reward_['+i+']_objective')"
                     [matTooltip]="translate.instant('role_reward_type_objective_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
