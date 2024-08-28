@@ -955,7 +955,9 @@ export class AppComponent {
     }
     if (piece instanceof Role) {
       return this.translate.instant('siderTitle_mission') + ' ' + ((this.pieceDetailsService.missionIndex as number) + 1)
-      + ' / ' + this.translate.instant('siderTitle_role') + ' ' + ((this.pieceDetailsService.roleIndex as number) + 1);
+        + ' / ' + (piece.intitule == ''
+        ? (this.translate.instant('siderTitle_role') + ' ' + ((this.pieceDetailsService.roleIndex as number) + 1))
+        : piece.intitule)
     }
     if (piece instanceof Mission) {
       return this.translate.instant('siderTitle_mission') + ' ' + ((this.pieceDetailsService.missionIndex as number) + 1)
