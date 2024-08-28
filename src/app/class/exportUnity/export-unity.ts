@@ -208,7 +208,7 @@ export class ExportUnity {
             let results: number[] = [];
             discuss.rewards.forEach(reward => {
                 if (reward instanceof QuestReward) {
-                    let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName) as UnityBeginQuestResult).ID;
+                    let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder') as UnityBeginQuestResult).ID;
                     results.push(resultID);
                 }
                 if (reward instanceof SkillReward) {
@@ -256,7 +256,7 @@ export class ExportUnity {
                 let results: number[] = [];
                 sentence.rewards.forEach(reward => {
                     if (reward instanceof QuestReward) {
-                        let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName) as UnityBeginQuestResult).ID;
+                        let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder') as UnityBeginQuestResult).ID;
                         results.push(resultID);
                     }
                     if (reward instanceof SkillReward) {
@@ -300,7 +300,7 @@ export class ExportUnity {
                 let results: number[] = [];
                 sentence.rewards.forEach(reward => {
                     if (reward instanceof QuestReward) {
-                        let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName) as UnityBeginQuestResult).ID;
+                        let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder') as UnityBeginQuestResult).ID;
                         results.push(resultID);
                     }
                     if (reward instanceof SkillReward) {
@@ -343,7 +343,7 @@ export class ExportUnity {
             let results: number[] = [];
             resp.rewards.forEach(reward => {
                 if (reward instanceof QuestReward) {
-                    let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName) as UnityBeginQuestResult).ID;
+                    let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder') as UnityBeginQuestResult).ID;
                     results.push(resultID);
                 }
                 if (reward instanceof SkillReward) {
@@ -424,7 +424,7 @@ export class ExportUnity {
                     let results: number[] = [];
                     task.rewards.forEach(reward => {
                         if (reward instanceof QuestReward) {
-                            let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName) as UnityBeginQuestResult).ID;
+                            let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder') as UnityBeginQuestResult).ID;
                             results.push(resultID);
                         }
                         if (reward instanceof SkillReward) {
@@ -478,7 +478,7 @@ export class ExportUnity {
                     let results: number[] = [];
                     task.rewards.forEach(reward => {
                         if (reward instanceof QuestReward) {
-                            let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName) as UnityBeginQuestResult).ID;
+                            let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder') as UnityBeginQuestResult).ID;
                             results.push(resultID);
                         }
                         if (reward instanceof SkillReward) {
@@ -533,7 +533,7 @@ export class ExportUnity {
                     let results: number[] = [];
                     task.rewards.forEach(reward => {
                         if (reward instanceof QuestReward) {
-                            let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName) as UnityBeginQuestResult).ID;
+                            let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder') as UnityBeginQuestResult).ID;
                             results.push(resultID);
                         }
                         if (reward instanceof SkillReward) {
@@ -652,7 +652,7 @@ export class ExportUnity {
                 if (!results.some(element => element.questID == quest.ID)) {
                     let result: UnityBeginQuestResult = {
                         ID: this.resultID++,
-                        name: 'Débloquer la quête : '+reward.questName,
+                        name: 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder',
                         questID: quest.ID
                     };
                     results.push(result);
@@ -669,7 +669,7 @@ export class ExportUnity {
                             if (!results.some(element => element.questID == quest.ID)) {
                                 let result: UnityBeginQuestResult = {
                                     ID: this.resultID++,
-                                    name: 'Débloquer la quête : '+reward.questName,
+                                    name: 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder',
                                     questID: quest.ID
                                 };
                                 results.push(result);
@@ -687,7 +687,7 @@ export class ExportUnity {
                     if (!results.some(element => element.questID == quest.ID)) {
                         let result: UnityBeginQuestResult = {
                             ID: this.resultID++,
-                            name: 'Débloquer la quête : '+reward.questName,
+                            name: 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder',
                             questID: quest.ID
                         };
                         results.push(result);
@@ -703,7 +703,7 @@ export class ExportUnity {
                     if (!results.some(element => element.questID == quest.ID)) {
                         let result: UnityBeginQuestResult = {
                             ID: this.resultID++,
-                            name: 'Débloquer la quête : '+reward.questName,
+                            name: 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder',
                             questID: quest.ID
                         };
                         results.push(result);
@@ -719,7 +719,7 @@ export class ExportUnity {
                     if (!results.some(element => element.questID == quest.ID)) {
                         let result: UnityBeginQuestResult = {
                             ID: this.resultID++,
-                            name: 'Débloquer la quête : '+reward.questName,
+                            name: 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder',
                             questID: quest.ID
                         };
                         results.push(result);
