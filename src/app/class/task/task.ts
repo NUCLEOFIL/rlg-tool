@@ -1,5 +1,6 @@
 import { Character } from "../character/character";
 import { Comment } from "../comment/comment";
+import { LinkedFile } from "../linked-file/linked-file";
 import { PrerequireRessource } from "../prerequires/prerequire-ressource/prerequire-ressource";
 import { PrerequireTask } from "../prerequires/prerequire-task/prerequire-task";
 import { Repeat } from "../repeat/repeat";
@@ -38,6 +39,8 @@ export class Task {
     interrupt: string = '';
 
     rewards: Reward[] = [];
+
+    files: number[]  = [];
 
     constructor(type: string) {
         this.type = type;

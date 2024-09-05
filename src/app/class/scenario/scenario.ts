@@ -5,6 +5,7 @@ import { Mission } from "../mission/mission";
 import { Ressource } from "../ressource/ressource";
 import { Comment } from "../comment/comment";
 import { Trace } from "../trace/trace";
+import { LinkedFile } from "../linked-file/linked-file";
 
 export class Scenario {
 
@@ -27,5 +28,7 @@ export class Scenario {
     tutorial_phase: number = 1;
     tutorial_optionnalPhase: string = '';
     tutorial_phaseDone: boolean[] = []; 
+    files: LinkedFile[] = [];
+    actualFileID: number = 0;
     traces: Trace[] = [new Trace(0, 'new', undefined, undefined, 'all', 'Scenario')];
 }

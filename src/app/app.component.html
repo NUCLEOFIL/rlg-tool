@@ -171,6 +171,11 @@
                 [role]="pieceDetailsService.pieceAsRole()" 
                 *ngIf="pieceDetailsService.pieceIsRole()">
             </app-discussions>
+            <app-linked-files
+                [scenario]="scenario"
+                [piece]="pieceDetailsService.pieceAsTask()"
+                *ngIf="pieceDetailsService.pieceIsTask()">
+            </app-linked-files>
         </div>
         
     </div>

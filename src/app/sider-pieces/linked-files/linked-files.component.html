@@ -1,0 +1,20 @@
+<div class="piece"
+[matTooltip]="translate.instant('comments_tooltip')"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+    <div class="piece-form">
+        <div class="piece-form-title">Ressources</div>
+        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)">
+        <button mat-button (click)="selectFile()"
+        [matTooltip]="translate.instant('upload_tooltip')"
+        matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            <mat-icon fontIcon="upload-file"></mat-icon>
+            <span>Ajouter un fichier</span>
+        </button>
+        <ng-container *ngFor="let fileId of piece.files">
+            <img *ngIf="getFileFromId(fileId).folder == 'images'" [src]="getFileFromId(fileId).fileURL">
+            <video *ngIf="getFileFromId(fileId).folder == 'videos'" controls [src]="getFileFromId(fileId).fileURL"></video>
+            <audio *ngIf="getFileFromId(fileId).folder == 'audios'" controls [src]="getFileFromId(fileId).fileURL"></audio>
+        </ng-container>
+
+    </div>
+</div>

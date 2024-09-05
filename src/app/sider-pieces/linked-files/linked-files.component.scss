@@ -1,0 +1,22 @@
+.piece {
+    --piece-background-color: #c4b185;
+
+    width: 300px;
+    position: relative;
+    background-color: var(--piece-background-color);
+    border: solid #707070 1px;
+    border-radius: 6px;
+
+
+    &-form {
+        margin: 10px 5px 10px 5px;
+        display: flex;
+        flex-direction: column;
+
+        &-title {
+            font-family: "Glacial Indifference Bold";
+            margin-bottom: 10px;
+        }
+        
+    }
+}
