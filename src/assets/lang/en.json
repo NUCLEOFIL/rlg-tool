@@ -520,6 +520,10 @@
     "linkedFile_attach_tooltip": "Allows attaching to the tile a file already used elsewhere in the scenario",
     "linkedFile_files_titles": "Attached file(s)",
     "linkedFile_files_consultButton_tooltip": "Open the file in a new tab",
-    "linkedFile_files_tooltip": "List of files attached to the tile"
+    "linkedFile_files_tooltip": "List of files attached to the tile",
+    "linkedFile_dialog_suppress_title": "Detach the file",
+    "linkedFile_dialog_suppress_content_isUnused": "The file will no longer be attached to any tile and will be removed from the scenario",
+    "linkedFile_dialog_suppress_content_part1": "Are you sure you want to detach the file",
+    "linkedFile_dialog_suppress_content_part2": "from the tile?"
 
 }

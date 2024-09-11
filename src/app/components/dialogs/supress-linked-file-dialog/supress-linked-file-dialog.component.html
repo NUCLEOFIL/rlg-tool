@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>{{'linkedFile_dialog_suppress_title' | translate}}</h2>
+<mat-dialog-content>
+    <p *ngIf="!data.isUsed">{{'linkedFile_dialog_suppress_content_isUnused' | translate}}</p>    
+    <p>{{'linkedFile_dialog_suppress_content_part1' | translate}} {{data.name}} {{'linkedFile_dialog_suppress_content_part2' | translate}}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>{{'dialog_button_no' | translate}}</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'dialog_button_yes' | translate}}</button>
+</mat-dialog-actions>

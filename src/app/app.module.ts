@@ -54,6 +54,7 @@ import { DiscussionsComponent } from './sider-pieces/discussions/discussions.com
 import { DiscussionDialogComponent } from './components/dialogs/discussion-dialog/discussion-dialog.component';
 import { CharacterUsedInRewardComponent } from './components/dialogs/character-used-in-reward/character-used-in-reward.component';
 import { LinkedFilesComponent } from './sider-pieces/linked-files/linked-files.component';
+import { SupressLinkedFileDialogComponent } from './components/dialogs/supress-linked-file-dialog/supress-linked-file-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -97,7 +98,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiscussionsComponent,
     DiscussionDialogComponent,
     CharacterUsedInRewardComponent,
-    LinkedFilesComponent
+    LinkedFilesComponent,
+    SupressLinkedFileDialogComponent
   ],
   imports: [
     BrowserModule,

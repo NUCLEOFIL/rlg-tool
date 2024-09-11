@@ -1,9 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { LinkedFile } from 'src/app/class/linked-file/linked-file';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { Task } from 'src/app/class/task/task';
+import { SupressLinkedFileDialogComponent } from 'src/app/components/dialogs/supress-linked-file-dialog/supress-linked-file-dialog.component';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 
@@ -19,7 +21,7 @@ export class LinkedFilesComponent implements OnInit {
   @ViewChild('fileInput') fileInput: any;
   selectedFile: number = -1;
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private sanitizer: DomSanitizer) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private sanitizer: DomSanitizer, public dialog: MatDialog,) { }
 
   ngOnInit(): void {
   }
@@ -67,16 +69,28 @@ export class LinkedFilesComponent implements OnInit {
   }
 
   unassignFile(fileIndex: number, fileId: number): void {
-    this.piece.files.splice(fileIndex,1);
-
+    let file: LinkedFile = this.getFileFromId(fileId);
+    let fileName: string = file.name+'.'+file.extension; 
     if (!this.isUsedFile(fileId)) {
-      let index: number | undefined = this.scenario.files.findIndex(linkedFile => linkedFile.id == fileId);
-      if (index !== undefined) {
+      let index: number = this.scenario.files.findIndex(linkedFile => linkedFile.id == fileId) as number;
+      const dialogRef = this.dialog.open(SupressLinkedFileDialogComponent, { data: {name: fileName, isUsed: false} });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result == true) {
+          this.piece.files.splice(fileIndex,1);
+          this.scenario.files.splice(index,1);
+        } else {
 
-        
-        this.scenario.files.splice(index,1);        
-      }
-      
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SupressLinkedFileDialogComponent, { data: {name: fileName, isUsed: true} });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result == true) {
+            this.piece.files.splice(fileIndex,1);
+          } else {
+
+          }
+        });       
     }
 
     console.log(this.scenario.files);
@@ -90,7 +104,7 @@ export class LinkedFilesComponent implements OnInit {
         role.tasks.forEach(inlineTask => {
           inlineTask.forEach(task => {
             if (task instanceof Task) {
-              if (task.files.includes(fileId)) {
+              if (task.files.includes(fileId) && task != this.piece) {
                 used = true;
               }
             }

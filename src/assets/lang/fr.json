@@ -520,6 +520,10 @@
     "linkedFile_attach_tooltip": "Permet d'attacher à la tuile un fichier déjà utilisé quelque part dans le scénario",
     "linkedFile_files_titles": "Fichier(s) attaché(s)",
     "linkedFile_files_consultButton_tooltip": "Ouvrir le fichier dans un nouvel onglet",
-    "linkedFile_files_tooltip": "Liste des fichiers attachés à la tuile"
+    "linkedFile_files_tooltip": "Liste des fichiers attachés à la tuile",
+    "linkedFile_dialog_suppress_title": "Détacher le fichier",
+    "linkedFile_dialog_suppress_content_isUnused": "Le fichier ne sera plus attaché à aucune tuile et sera donc supprimé du scénario",
+    "linkedFile_dialog_suppress_content_part1": "Êtes-vous sûr de vouloir détacher le fichier",
+    "linkedFile_dialog_suppress_content_part2": "de la tuile ?"
     
 }
