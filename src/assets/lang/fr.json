@@ -504,7 +504,22 @@
     "discussion_reward_type_discussion_tooltip": "",
     "discussion_reward_type_declarativeSentence_tootlip": "",
     "discussion_reward_type_interrogativeSentence_tooltip": "",
-    "discussion_reward_type_response_tooltip": ""
+    "discussion_reward_type_response_tooltip": "",
 
+    "linkedFile_title": "Ressources",
+    "linkedFile_type_image": "Image",
+    "linkedFile_type_video": "Video",
+    "linkedFile_type_audio": "Audio",
+    "linkedFile_type_other": "Autre",
+    "linkedFile_import_title": "Importer et attacher un fichier",
+    "linkedFile_import_button": "Importer un fichier",
+    "linkedFile_import_tooltip": "Permet d'importer un nouveau fichier au scénario et de l'attacher à la tuile",
+    "linkedFile_attach_title": "Attacher un fichier déjà importé",
+    "linkedFile_attach_select_placeholder": "Choisissez le fichier",
+    "linkedFile_attach_button": "Attacher",
+    "linkedFile_attach_tooltip": "Permet d'attacher à la tuile un fichier déjà utilisé quelque part dans le scénario",
+    "linkedFile_files_titles": "Fichier(s) attaché(s)",
+    "linkedFile_files_consultButton_tooltip": "Ouvrir le fichier dans un nouvel onglet",
+    "linkedFile_files_tooltip": "Liste des fichiers attachés à la tuile"
     
 }

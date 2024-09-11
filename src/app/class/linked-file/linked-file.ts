@@ -8,13 +8,15 @@ export class LinkedFile {
     name: string;
     file: File;
     fileURL: SafeUrl;
+    mimeType: string;
 
     constructor(id: number, file: File, fileURL: SafeUrl) {
         this.id = id;
-        this.name = file.name;
         this.extension = file.name.split('.').pop();
+        this.name = file.name.replace('.'+this.extension, '');
         this.file = file;
         this.fileURL = fileURL;
+        this.mimeType = file.type;
 
         let imageTypePattern = /image\//;
         let videoTypePattern = /video\//;

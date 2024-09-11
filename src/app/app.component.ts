@@ -379,7 +379,7 @@ export class AppComponent {
   
                         if (jsfile) {
                           const blob = await jsfile.async('blob');
-                          const file = new File([blob], fileName, { type: blob.type });
+                          const file = new File([blob], linkedFile.name+'.'+linkedFile.extension, { type: linkedFile.mimeType });
                           linkedFile.file = file;
                           linkedFile.fileURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
                         }

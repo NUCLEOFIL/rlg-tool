@@ -186,7 +186,7 @@
         matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
             <mat-icon fontIcon="menu"></mat-icon>
         </button>
-        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)">
+        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" accept=".zip">
         <mat-menu class="container-settings" #settingsMenu="matMenu" xPosition="before">
             <button mat-menu-item (click)="downloadFile()"
             [matTooltip]="translate.instant('download_tooltip')"
