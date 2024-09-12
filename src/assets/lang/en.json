@@ -409,7 +409,9 @@
     "tutorial_optionnalPhase_gameMechanics": "You can enrich your game with other mechanics such as a tutorial, easter eggs, a ranking, or badges. Tooltips will provide more details about these mechanics.",
     "tutorial_optionnal_randomObjectsReward": "Reward: Random Objects",
     "tutorial_optionnalPhase_randomObjectsReward": "You can set a reward as a list of randomly drawn objects. It is possible to define the percentage chance for each draw to obtain an object, with the quantity falling between the defined minimum and maximum values.",
-
+    "tutorial_optionnal_linkedFiles": "Attachments",
+    "tutorial_optionnalPhase_linkedFiles": "This allows attaching one or more files of any type (.png, .mp3, .mp4, etc.) to a tile using the sidebar.\n\nFirst, the file needs to be imported into the scenario to attach it. However, if the file has already been imported and is still present in the scenario, it's not necessary to import it again to attach it to another tile.\n\nIt is also possible, if the browser can read this file type, to view it directly. Otherwise, the browser will download the file.",
+    
     "verify_title": "Here are the feasibility verification details for your scenario:",
     "verify_error": "Warning, you have not entered the same time units for all tasks, so it is impossible to verify the scenario",
     "verify_info_title": "Your scenario is feasible and balanced if:",
@@ -506,7 +508,7 @@
     "discussion_reward_type_interrogativeSentence_tooltip": "",
     "discussion_reward_type_response_tooltip": "",
 
-    "linkedFile_title": "Resources",
+    "linkedFile_title": "Attachments",
     "linkedFile_type_image": "Image",
     "linkedFile_type_video": "Video",
     "linkedFile_type_audio": "Audio",

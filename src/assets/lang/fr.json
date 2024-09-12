@@ -409,7 +409,9 @@
     "tutorial_optionnalPhase_gameMechanics": "Vous pouvez enrichir votre jeu avec d'autres mécaniques de jeu comme un tutoriel, des easter eggs, un classement ou des badges. Les infobulles pourront vous donner plus de détails sur ces mécaniques.",
     "tutorial_optionnal_randomObjectsReward": "Récompense: Objets aléatoire",
     "tutorial_optionnalPhase_randomObjectsReward": "Vous pouvez définir en récompense, une liste d'objets tirés aléatoirement. Il est possible de définir le pourcentage de chance, pour chaque tirage, de récupérer un objet dont la quantité est comprise entre la valeur minimale et maximale définie.",
-
+    "tutorial_optionnal_linkedFiles": "Pièces jointes",
+    "tutorial_optionnalPhase_linkedFiles": "Ceci permet d'attacher un ou plusieurs fichiers, de tous types (.png, .mp3, .mp4, ...), à une tuile à l'aide de la barre latérale.\n\nIl est dans un premier temps nécessaire d'importer le fichier dans le scénario pour l'attacher, cependant si le fichier a déjà été importé et est toujours présent dans le scénario, il n'est pas nécessaire de l'importer à nouveau pour l'attacher à une autre tuile.\n\nIl est également possible, si le navigateur est capable de lire ce type de fichier, de le consulter directement, le cas échéant le navigateur le téléchargera.",
+    
     "verify_title": "Voici les informations de vérification de faisabilité de votre scénario :",
     "verify_error": "Attention, vous n'avez pas saisi les mêmes unités de temps sur toutes les tâches, il est donc impossible de vérifier le scénario",
     "verify_info_title": "Votre scénario est réalisable et équilibré si :",
@@ -506,7 +508,7 @@
     "discussion_reward_type_interrogativeSentence_tooltip": "",
     "discussion_reward_type_response_tooltip": "",
 
-    "linkedFile_title": "Ressources",
+    "linkedFile_title": "Pièces jointes",
     "linkedFile_type_image": "Image",
     "linkedFile_type_video": "Video",
     "linkedFile_type_audio": "Audio",
