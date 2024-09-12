@@ -18,22 +18,22 @@
             <div class="piece-form-attachFile-selector">
                 <select [(ngModel)]="selectedFile">
                     <option [ngValue]="-1" selected hidden>{{'linkedFile_attach_select_placeholder' | translate}}</option>
-                    <optgroup [label]="translate.instant('linkedFile_type_image')">
+                    <optgroup [label]="translate.instant('linkedFile_type_image')" *ngIf="scenarioContainAtLeastOneTypeSelectableFile('images')">
                         <ng-container *ngFor="let linkedFile of scenario.files">
                             <option [ngValue]="linkedFile.id" *ngIf="linkedFile.folder == 'images' && !isFileAffected(linkedFile.id)">{{linkedFile.name}}.{{linkedFile.extension}}</option>
                         </ng-container>        
                     </optgroup>
-                    <optgroup [label]="translate.instant('linkedFile_type_video')">
+                    <optgroup [label]="translate.instant('linkedFile_type_video')" *ngIf="scenarioContainAtLeastOneTypeSelectableFile('videos')">
                         <ng-container *ngFor="let linkedFile of scenario.files">
                             <option [ngValue]="linkedFile.id" *ngIf="linkedFile.folder == 'videos' && !isFileAffected(linkedFile.id)">{{linkedFile.name}}.{{linkedFile.extension}}</option>
                         </ng-container>
                     </optgroup>
-                    <optgroup [label]="translate.instant('linkedFile_type_audio')">
+                    <optgroup [label]="translate.instant('linkedFile_type_audio')" *ngIf="scenarioContainAtLeastOneTypeSelectableFile('audios')">
                         <ng-container *ngFor="let linkedFile of scenario.files">
                             <option [ngValue]="linkedFile.id" *ngIf="linkedFile.folder == 'audios' && !isFileAffected(linkedFile.id)">{{linkedFile.name}}.{{linkedFile.extension}}</option>
                         </ng-container>
                     </optgroup>
-                    <optgroup [label]="translate.instant('linkedFile_type_other')">
+                    <optgroup [label]="translate.instant('linkedFile_type_other')" *ngIf="scenarioContainAtLeastOneTypeSelectableFile('others')">
                         <ng-container *ngFor="let linkedFile of scenario.files">
                             <option [ngValue]="linkedFile.id" *ngIf="linkedFile.folder == 'others' && !isFileAffected(linkedFile.id)">{{linkedFile.name}}.{{linkedFile.extension}}</option>
                         </ng-container>
@@ -43,33 +43,113 @@
             </div>
 
         </div>
+
         <div class="piece-form-files" [matTooltip]="translate.instant('linkedFile_files_tooltip')"
         matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
             <div class="piece-form-title">{{'linkedFile_files_titles' | translate}}</div>
-            <div class="piece-form-files-file" *ngFor="let fileId of piece.files, let fileIndex = index">
-                <div class="piece-form-files-file-top">
-                    <div class="piece-form-files-file-top-preview">
-                        <img *ngIf="getFileFromId(fileId).folder == 'images'" [src]="getFileFromId(fileId).fileURL">
-                        <video *ngIf="getFileFromId(fileId).folder == 'videos'" [src]="getFileFromId(fileId).fileURL"></video>
-                        <div class="piece-form-files-file-top-preview-icon" *ngIf="getFileFromId(fileId).folder == 'audios'">
-                            <mat-icon fontIcon="audio_file"></mat-icon> 
+
+            <div class="piece-form-files-category" *ngIf="pieceContainAtLeastOneTypeFile('images')">
+                <div class="piece-form-title">{{'linkedFile_type_image' | translate}}</div>
+                <div class="piece-form-files-category-file" *ngFor="let fileId of piece.files, let fileIndex = index">
+                    <div *ngIf="getFileFromId(fileId).folder == 'images'">
+                        <div class="piece-form-files-category-file-top">
+                            <div class="piece-form-files-category-file-top-preview">
+                                <img [src]="getFileFromId(fileId).fileURL"/>
+                            </div>
+                            <div class="piece-form-files-category-file-top-name">
+                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" />
+                                <label for="fileName">.{{getFileFromId(fileId).extension}}</label>
+                            </div>
                         </div>
-                        <div class="piece-form-files-file-top-preview-icon" *ngIf="getFileFromId(fileId).folder == 'others'">
-                            <mat-icon fontIcon="description"></mat-icon>   
-                        </div>   
-                    </div>
-                    <div class="piece-form-files-file-top-name">
-                        <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text"/>
-                        <label for="fileName">.{{getFileFromId(fileId).extension}}</label>
+                        <div class="piece-form-files-category-file-buttons">
+                            <button mat-button (click)="consultFile(fileId)"
+                                [matTooltip]="translate.instant('linkedFile_files_consultButton_tooltip')"
+                                matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                <mat-icon fontIcon="visibility"></mat-icon>
+                            </button>
+                            <button mat-button (click)="unassignFile(fileIndex, fileId)"><mat-icon fontIcon="remove"></mat-icon></button>
+                        </div>
                     </div>
                 </div>
-                <div class="piece-form-files-file-buttons">
-                    <button mat-button (click)="consultFile(fileId)" 
-                    [matTooltip]="translate.instant('linkedFile_files_consultButton_tooltip')"
-                    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
-                        <mat-icon fontIcon="visibility"></mat-icon>
-                    </button>
-                    <button mat-button (click)="unassignFile(fileIndex, fileId)"><mat-icon fontIcon="remove"></mat-icon></button>
+            </div>
+
+            <div class="piece-form-files-category" *ngIf="pieceContainAtLeastOneTypeFile('videos')">
+                <div class="piece-form-title">{{'linkedFile_type_video' | translate}}</div>
+                <div class="piece-form-files-category-file" *ngFor="let fileId of piece.files, let fileIndex = index">
+                    <div *ngIf="getFileFromId(fileId).folder == 'videos'">
+                        <div class="piece-form-files-category-file-top">
+                            <div class="piece-form-files-category-file-top-preview">
+                                <video [src]="getFileFromId(fileId).fileURL"></video>
+                            </div>
+                            <div class="piece-form-files-category-file-top-name">
+                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" />
+                                <label for="fileName">.{{getFileFromId(fileId).extension}}</label>
+                            </div>
+                        </div>
+                        <div class="piece-form-files-category-file-buttons">
+                            <button mat-button (click)="consultFile(fileId)"
+                                [matTooltip]="translate.instant('linkedFile_files_consultButton_tooltip')"
+                                matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                <mat-icon fontIcon="play_arrow"></mat-icon>
+                            </button>
+                            <button mat-button (click)="unassignFile(fileIndex, fileId)"><mat-icon fontIcon="remove"></mat-icon></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="piece-form-files-category" *ngIf="pieceContainAtLeastOneTypeFile('audios')">
+                <div class="piece-form-title">{{'linkedFile_type_audio' | translate}}</div>
+                <div class="piece-form-files-category-file" *ngFor="let fileId of piece.files, let fileIndex = index">
+                    <div *ngIf="getFileFromId(fileId).folder == 'audios'">
+                        <div class="piece-form-files-category-file-top">
+                            <div class="piece-form-files-category-file-top-preview">
+                                <div class="piece-form-files-category-file-top-preview-icon">
+                                    <mat-icon fontIcon="audio_file"></mat-icon>
+                                </div>
+                            </div>
+                            <div class="piece-form-files-category-file-top-name">
+                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" />
+                                <label for="fileName">.{{getFileFromId(fileId).extension}}</label>
+                            </div>
+                        </div>
+                        <div class="piece-form-files-category-file-buttons">
+                            <button mat-button (click)="consultFile(fileId)"
+                                [matTooltip]="translate.instant('linkedFile_files_consultButton_tooltip')" matTooltipPosition="before"
+                                [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                <mat-icon fontIcon="headphones"></mat-icon>
+                            </button>
+                            <button mat-button (click)="unassignFile(fileIndex, fileId)"><mat-icon fontIcon="remove"></mat-icon></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="piece-form-files-category" *ngIf="pieceContainAtLeastOneTypeFile('others')">
+                <div class="piece-form-title">{{'linkedFile_type_other' | translate}}</div>
+                <div class="piece-form-files-category-file" *ngFor="let fileId of piece.files, let fileIndex = index">
+                    <div *ngIf="getFileFromId(fileId).folder == 'others'">
+                        <div class="piece-form-files-category-file-top">
+                            <div class="piece-form-files-category-file-top-preview">
+                                <div class="piece-form-files-category-file-top-preview-icon">
+                                    <mat-icon fontIcon="description"></mat-icon>   
+                                </div>   
+                            </div>
+                            <div class="piece-form-files-category-file-top-name">
+                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" />
+                                <label for="fileName">.{{getFileFromId(fileId).extension}}</label>
+                            </div>
+                        </div>
+                        <div class="piece-form-files-category-file-buttons">
+                            <button mat-button (click)="consultFile(fileId)"
+                                [matTooltip]="translate.instant('linkedFile_files_consultButton_tooltip')" matTooltipPosition="before"
+                                [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                <mat-icon fontIcon="visibility"></mat-icon>
+                            </button>
+                            <button mat-button (click)="unassignFile(fileIndex, fileId)"><mat-icon fontIcon="remove"></mat-icon></button>
+                        </div>
+                    </div>
                 </div>
             </div>
 

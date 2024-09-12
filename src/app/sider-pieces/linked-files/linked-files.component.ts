@@ -21,7 +21,7 @@ export class LinkedFilesComponent implements OnInit {
   @ViewChild('fileInput') fileInput: any;
   selectedFile: number = -1;
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private sanitizer: DomSanitizer, public dialog: MatDialog,) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private sanitizer: DomSanitizer, public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -42,6 +42,26 @@ export class LinkedFilesComponent implements OnInit {
 
   selectFile() {
     this.fileInput.nativeElement.click()
+  }
+
+  pieceContainAtLeastOneTypeFile(type: string): boolean {
+    let contain: boolean = false;
+    this.piece.files.forEach(fileId => {
+      if (this.getFileFromId(fileId).folder == type) {
+        contain = true;
+      }
+    });
+    return contain;
+  }
+
+  scenarioContainAtLeastOneTypeSelectableFile(type: string): boolean {
+    let contain: boolean = false;
+    this.scenario.files.forEach(file => {
+      if (file.folder == type && !this.isFileAffected(file.id)) {
+        contain = true;
+      }
+    });
+    return contain;
   }
 
   consultFile(fileId: number) {
