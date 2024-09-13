@@ -3,8 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { LinkedFile } from 'src/app/class/linked-file/linked-file';
+import { Mission } from 'src/app/class/mission/mission';
+import { Role } from 'src/app/class/role/role';
 import { Scenario } from 'src/app/class/scenario/scenario';
+import { Step } from 'src/app/class/step/step';
 import { Task } from 'src/app/class/task/task';
+import { Trace } from 'src/app/class/trace/trace';
 import { SupressLinkedFileDialogComponent } from 'src/app/components/dialogs/supress-linked-file-dialog/supress-linked-file-dialog.component';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
@@ -31,8 +35,11 @@ export class LinkedFilesComponent implements OnInit {
     if (selectedFile) {
       let fileURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(selectedFile));
       let fileId: number = this.scenario.actualFileID++;
-      this.scenario.files.push(new LinkedFile(fileId, selectedFile, fileURL));
+      let newFile: LinkedFile = new LinkedFile(fileId, selectedFile, fileURL)
+      this.scenario.files.push(newFile);
       this.piece.files.push(fileId);
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'import',undefined,undefined,'file_[ID:'+fileId+']','Scenario','#C4B185',undefined,newFile.name+'.'+newFile.extension));
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'attach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
     }
   }
 
@@ -74,6 +81,7 @@ export class LinkedFilesComponent implements OnInit {
           detailWindow.document.title = 'RLG Maker - '+file.file.name;
         };
       }
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',undefined,undefined,'file_[ID:'+fileId+']','Scenario','#C4B185'));
     }
   }
 
@@ -84,6 +92,7 @@ export class LinkedFilesComponent implements OnInit {
   assignFile(): void {
     if (this.selectedFile !== -1) {
       this.piece.files.push(this.selectedFile);     
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'attach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+this.selectedFile+']', this.formatTraceTarget(),'#C4B185'));
       this.selectedFile = -1;
     }
   }
@@ -98,8 +107,10 @@ export class LinkedFilesComponent implements OnInit {
         if (result == true) {
           this.piece.files.splice(fileIndex,1);
           this.scenario.files.splice(index,1);
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',undefined,undefined,'file_['+fileId+']','Scenario','#C4B185'));
         } else {
-
+          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
         }
       });
     } else {
@@ -107,14 +118,12 @@ export class LinkedFilesComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           if (result == true) {
             this.piece.files.splice(fileIndex,1);
+            this.scenario.traces.push(new Trace(this.scenario.traces.length,'detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
           } else {
-
+            this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
           }
         });       
     }
-
-    console.log(this.scenario.files);
-
   }
 
   isUsedFile(fileId: number): boolean {
@@ -133,5 +142,46 @@ export class LinkedFilesComponent implements OnInit {
       });
     });
     return used;
+  }
+
+  editTrace(event: any, source: string, fileId: number): void {
+    if (event.target.value != '') {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'file_[ID:'+fileId+']', '#C4B185', undefined, event.target.value));
+    } else {
+      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'file_[ID:'+fileId+']', '#C4B185'));
+    }
+  }
+
+  formatTraceTarget(): string {
+    let res: string = '';
+
+    if (this.piece instanceof Scenario) {
+      res = 'Scenario';
+    }
+    if (this.piece instanceof Mission) {
+      res = 'Mission_['+this.pieceDetailsService.missionIndex+']';
+    }
+    if (this.piece instanceof Role) {
+      res = 'Role_['+this.pieceDetailsService.roleIndex+']';
+    }
+    if (this.piece instanceof Step) {
+      if (this.pieceDetailsService.roleIndex == undefined) {
+        res = 'Step_m_['+this.pieceDetailsService.pieceIndex+']';
+      } else {
+        res = 'Step_r_['+this.pieceDetailsService.pieceIndex+']';
+      }
+    }
+    if (this.piece instanceof Task) {
+      switch(this.piece.type) {
+        case 'normal': res = 'Task_['+this.pieceDetailsService.pieceIndex+']'; break;
+        case 'annexe': res = 'Side_task_['+this.pieceDetailsService.pieceIndex+']'; break;
+        case 'final': res = 'Final_task_['+this.pieceDetailsService.pieceIndex+']'; break;
+        case 'optionnal': res = 'Opt_task_['+this.pieceDetailsService.pieceIndex+']'; break;
+        case 'event': res = 'Event_task_['+this.pieceDetailsService.pieceIndex+']'; break;
+        case 'repeat': res = 'Repeat_task_['+this.pieceDetailsService.pieceIndex+']'; break;
+      }
+    }
+
+    return res;
   }
 }

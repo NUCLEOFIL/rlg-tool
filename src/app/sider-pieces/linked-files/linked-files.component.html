@@ -57,7 +57,7 @@
                                 <img [src]="getFileFromId(fileId).fileURL"/>
                             </div>
                             <div class="piece-form-files-category-file-top-name">
-                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" />
+                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" (change)="editTrace($event,'fileName', fileId)"/>
                                 <label for="fileName">.{{getFileFromId(fileId).extension}}</label>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                 <video [src]="getFileFromId(fileId).fileURL"></video>
                             </div>
                             <div class="piece-form-files-category-file-top-name">
-                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" />
+                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" (change)="editTrace($event,'fileName', fileId)"/>
                                 <label for="fileName">.{{getFileFromId(fileId).extension}}</label>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="piece-form-files-category-file-top-name">
-                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" />
+                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" (change)="editTrace($event,'fileName', fileId)"/>
                                 <label for="fileName">.{{getFileFromId(fileId).extension}}</label>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                                 </div>   
                             </div>
                             <div class="piece-form-files-category-file-top-name">
-                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" />
+                                <input name="fileName" [(ngModel)]="getFileFromId(fileId).name" type="text" (change)="editTrace($event,'fileName', fileId)"/>
                                 <label for="fileName">.{{getFileFromId(fileId).extension}}</label>
                             </div>
                         </div>
