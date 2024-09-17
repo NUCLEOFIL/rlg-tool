@@ -11,6 +11,7 @@ import { Trace } from 'src/app/class/trace/trace';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { MinimapService } from 'src/app/services/minimap/minimap.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-step',
@@ -31,7 +32,7 @@ export class StepComponent implements OnInit {
   pieceWidth: number = 400;
   urlIcon: string = 'url("./assets/background-images/step.png")';
 
-  constructor(protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService, private minimapService: MinimapService, protected translate: TranslateService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected tooltipService: TooltipService, private minimapService: MinimapService, protected translate: TranslateService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -108,15 +109,15 @@ export class StepComponent implements OnInit {
         this.step.durationUnit = 'UT';
         this.step.duration = 1;
         if (this.parent instanceof Mission) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
         } else if (this.parent instanceof Role) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
         }
       } else {
         if (this.parent instanceof Mission) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
         } else if (this.parent instanceof Role) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
         }
       }
     });
@@ -133,15 +134,15 @@ export class StepComponent implements OnInit {
         }
         this.mission.equalizeLengths();       
         if (this.parent instanceof Mission) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
         } else if (this.parent instanceof Role) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
         }
       } else {
         if (this.parent instanceof Mission) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC'));
         } else if (this.parent instanceof Role) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC'));
         }
       }
     });
@@ -152,9 +153,9 @@ export class StepComponent implements OnInit {
     this.displayMenu = 'hide';
     this.mission.equalizeLengths();
     if (this.parent instanceof Mission) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC',undefined,'['+newIndex+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,undefined,'all','Step_m_['+this.index+']','#ACC9FC',undefined,'['+newIndex+']'));
     } else if (this.parent instanceof Role) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC',undefined,'['+newIndex+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'all','Step_r_['+this.index+']','#ACC9FC',undefined,'['+newIndex+']'));
     }
   }
 
@@ -170,15 +171,15 @@ export class StepComponent implements OnInit {
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
       if (this.parent instanceof Mission) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC', undefined, event.target.value));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC', undefined, event.target.value));
       } else if (this.parent instanceof Role) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
       }
     } else {
       if (this.parent instanceof Mission) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC', undefined, event.target.value));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC', undefined, event.target.value));
       } else if (this.parent instanceof Role) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
       }
     }
   }
@@ -186,9 +187,9 @@ export class StepComponent implements OnInit {
   editMoveTrace(event: any, source: string): void {
     if (event.target.value != '') {
       if (this.parent instanceof Mission) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,undefined,source,'Step_m_['+this.index+']','#ACC9FC'));
       } else if (this.parent instanceof Role) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,source,'Step_r_['+this.index+']','#ACC9FC'));
       }
     }
   }

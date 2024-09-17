@@ -5,6 +5,7 @@ import { Task } from 'src/app/class/task/task';
 import { Trace } from 'src/app/class/trace/trace';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-interupt',
@@ -16,7 +17,7 @@ export class InteruptComponent implements OnInit {
   @Input() task: Task = new Task('normal');
   @Input() scenario: Scenario = new Scenario();
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
   }
@@ -40,9 +41,9 @@ export class InteruptComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F7C9CF', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F7C9CF', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F7C9CF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F7C9CF'));
     }
   }
 }

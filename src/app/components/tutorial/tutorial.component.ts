@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Scenario } from 'src/app/class/scenario/scenario';
 import { Trace } from 'src/app/class/trace/trace';
+import { TracesService } from 'src/app/services/traces/traces.service';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class TutorialComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   optionnalExpanded: string = 'hide';
 
-  constructor(protected tutorialService: TutorialService) { }
+  constructor(protected tutorialService: TutorialService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
   }
@@ -27,7 +28,7 @@ export class TutorialComponent implements OnInit {
   }
 
   onClickNext(): void {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'next', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'next', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
     if (this.tutorialService.phase < 9) {
       this.tutorialService.phase++;
     }
@@ -35,7 +36,7 @@ export class TutorialComponent implements OnInit {
   }
 
   onClickPrevious(): void {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'previous', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'previous', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
     if (this.tutorialService.phase > 1) {
       this.tutorialService.phase--;
     }
@@ -44,14 +45,14 @@ export class TutorialComponent implements OnInit {
 
   setOptionnalPhase(phase: string): void {
     this.tutorialService.optionnalPhase = phase;
-    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'view_optionnal', undefined, undefined, 'phase_'+phase, 'Tutorial'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'view_optionnal', undefined, undefined, 'phase_'+phase, 'Tutorial'));
   }
 
   closeTutorialTrace(): void {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'close', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'close', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
   }
 
   resumeClassicTrace(): void {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'resume_classic', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'resume_classic', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
   }
 }

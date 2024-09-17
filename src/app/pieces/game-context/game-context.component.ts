@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Trace } from 'src/app/class/trace/trace';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-game-context',
@@ -19,7 +20,7 @@ export class GameContextComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   @Input() gameContext: GameContext = new GameContext();
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService, private tutorialService: TutorialService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService, private tutorialService: TutorialService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
   }
@@ -35,9 +36,9 @@ export class GameContextComponent implements OnInit {
         this.gameContext.duration = '';
         this.gameContext.intrigue = '';
         this.gameContext.other = '';
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Context_g','#B6CC87'));                      
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',undefined,undefined,'all','Context_g','#B6CC87'));                      
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',undefined,undefined,'all','Context_g','#B6CC87'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',undefined,undefined,'all','Context_g','#B6CC87'));
       }
     });
   } 
@@ -51,16 +52,16 @@ export class GameContextComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Context_g', '#B6CC87', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',undefined,undefined,source,'Context_g', '#B6CC87', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Context_g', '#B6CC87'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',undefined,undefined,source,'Context_g', '#B6CC87'));
     }
     if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 3
       && this.scenario.educationnalObjective.objective
       && this.scenario.context.univers && this.scenario.context.support && this.scenario.context.duration && this.scenario.context.intrigue && this.scenario.context.other
       && this.scenario.missions[0].context.duration && this.scenario.missions[0].context.intrigue && this.scenario.missions[0].context.communication && this.scenario.missions[0].context.various
       && this.scenario.missions[0].educationnalObjective.objective) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }
   }

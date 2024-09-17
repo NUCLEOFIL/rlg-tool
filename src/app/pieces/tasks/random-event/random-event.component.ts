@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
 import { Symbol } from 'src/app/class/symbol/symbol';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-random-event',
@@ -45,7 +46,7 @@ export class RandomEventComponent implements OnInit {
   antecedent: boolean = false;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
-    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService, protected copyTaskService: CopyTaskService) { }
+    private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService, protected copyTaskService: CopyTaskService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
@@ -113,9 +114,9 @@ export class RandomEventComponent implements OnInit {
             });
           });
         });
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
       }
     });
   } 
@@ -143,9 +144,9 @@ export class RandomEventComponent implements OnInit {
         });
         this.role.removeTask(this.i, this.j);
         this.mission.equalizeLengths();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
       }
     });
   }
@@ -180,9 +181,9 @@ export class RandomEventComponent implements OnInit {
     this.task.symbol.color = symbolColor;
     this.displaySymbolChoice = 'hide';
     if (symbol != '' && symbolColor != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'select_common',this.missionIndex,this.roleIndex,'symbol','Event_task_['+this.i+';'+this.j+']', '#BFDAA3', undefined, 'symbol: '+symbol+' | color: '+symbolColor));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'select_common',this.missionIndex,this.roleIndex,'symbol','Event_task_['+this.i+';'+this.j+']', '#BFDAA3', undefined, 'symbol: '+symbol+' | color: '+symbolColor));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete_common',this.missionIndex,this.roleIndex,'symbol','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete_common',this.missionIndex,this.roleIndex,'symbol','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
     }
   }
 
@@ -199,10 +200,10 @@ export class RandomEventComponent implements OnInit {
   changeDisplayPrerequires(): void {
     if(this.displayPrequires == 'show') {
       this.displayPrequires = 'hide';
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'hide',this.missionIndex,this.roleIndex,'prerequires','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'hide',this.missionIndex,this.roleIndex,'prerequires','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
     } else {
       this.displayPrequires = 'show';
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
     }
   }
 
@@ -228,28 +229,28 @@ export class RandomEventComponent implements OnInit {
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveLeft','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i-1)+';'+(this.j)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveLeft','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i-1)+';'+(this.j)+']'));
     } else if (direction == 'top' && this.canMoveTo('top')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveTop','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i)+';'+(this.j-1)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveTop','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i)+';'+(this.j-1)+']'));
     } else if (direction == 'right' && this.canMoveTo('right')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveRight','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i+1)+';'+(this.j)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveRight','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i+1)+';'+(this.j)+']'));
     } else if (direction == 'bottom') {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveBottom','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i)+';'+(this.j+1)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveBottom','Event_task_['+this.i+';'+this.j+']', '#BFDAA3',undefined,'['+(this.i)+';'+(this.j+1)+']'));
     }
   }
 
@@ -331,13 +332,13 @@ export class RandomEventComponent implements OnInit {
 
   onCheckTask(task: Task): void {
     this.task.prerequireTasks.push(new PrerequireTask(task.identifier));
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
   }
 
   onUncheckTask(task: Task): void {
     let i: number = this.task.prerequireTasks.findIndex(element => element.identifier == task.identifier);
     this.task.prerequireTasks.splice(i,1);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_task','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_task','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
   }
 
   checkboxChangedRessource(event: any, ressource: Ressource): void {
@@ -354,13 +355,13 @@ export class RandomEventComponent implements OnInit {
 
   onCheckRessource(ressource: Ressource): void {
     this.task.prerequireRessources.push(new PrerequireRessource(ressource));
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
   }
 
   onUncheckRessource(ressource: Ressource): void {
     let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
     this.task.prerequireRessources.splice(i, 1);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_ressource','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_ressource','Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
   }
 
   getAssociatePrerequireRessource(ressource: Ressource): PrerequireRessource {
@@ -382,13 +383,13 @@ export class RandomEventComponent implements OnInit {
   
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Event_task_['+this.i+';'+this.j+']', '#BFDAA3', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.missionIndex,this.roleIndex,source,'Event_task_['+this.i+';'+this.j+']', '#BFDAA3', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
     }
   }
 
   editMoveTrace(event: any, source: string): void {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,source,'Event_task_['+this.i+';'+this.j+']', '#BFDAA3'));
   }
 }

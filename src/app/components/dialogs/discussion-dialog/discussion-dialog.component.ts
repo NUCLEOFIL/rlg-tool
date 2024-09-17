@@ -19,6 +19,7 @@ import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward'
 import { SkillReward } from 'src/app/class/rewards/skill-reward/skill-reward';
 import { RandomObjectsReward } from 'src/app/class/rewards/random-objects-reward/random-objects-reward';
 import { UnityService } from 'src/app/services/unity/unity.service';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-discussion-dialog',
@@ -33,7 +34,7 @@ export class DiscussionDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DiscussionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogDiscussionData, protected translate: TranslateService, protected tooltipService: TooltipService, public dialog: MatDialog,
-      private pieceDetailsService: PieceDetailsService, protected unityService: UnityService) {
+      private pieceDetailsService: PieceDetailsService, protected unityService: UnityService, private tracesService: TracesService) {
       this.role = this.data.role;
       this.discussion = this.data.discussion;
       this.scenario = this.data.scenario;
@@ -81,7 +82,7 @@ export class DiscussionDialogComponent implements OnInit {
     newSentence.idDiscussion = this.discussion.ID;
     this.discussion.sentences.push(newSentence.ID);
     this.role.sentences.push(newSentence);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'declarativeSentence_[ID:'+newSentence.ID+']', '#D5D5FF'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'declarativeSentence_[ID:'+newSentence.ID+']', '#D5D5FF'));
   }
 
   deleteDeclarativeSentence(removedSentenceId: number) {
@@ -116,7 +117,7 @@ export class DiscussionDialogComponent implements OnInit {
         if (this.discussion.firstSentenceID == removedSentenceId) {
           this.discussion.firstSentenceID = -1;
         }
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'declarativeSentence_[ID:'+removedSentenceId+']', '#D5D5FF'));             
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'declarativeSentence_[ID:'+removedSentenceId+']', '#D5D5FF'));             
       }
 
 
@@ -134,7 +135,7 @@ export class DiscussionDialogComponent implements OnInit {
 
     this.discussion.sentences.push(newSentence.ID);
     this.role.sentences.push(newSentence);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'interrogativeSentence_[ID:'+newSentence.ID+']', '#D5D5FF'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'interrogativeSentence_[ID:'+newSentence.ID+']', '#D5D5FF'));
   }
 
   deleteInterrogativeSentence(removedSentenceId: number) {
@@ -176,7 +177,7 @@ export class DiscussionDialogComponent implements OnInit {
         if (this.discussion.firstSentenceID == removedSentenceId) {
           this.discussion.firstSentenceID = -1;
         }
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'interrogativeSentence_[ID:'+removedSentenceId+']', '#D5D5FF'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'interrogativeSentence_[ID:'+removedSentenceId+']', '#D5D5FF'));
       }
     });
   }
@@ -186,7 +187,7 @@ export class DiscussionDialogComponent implements OnInit {
     newResponse.idInterrogativeSentence = sentence.ID;
     sentence.responses.push(newResponse.ID);
     this.role.responses.push(newResponse);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'response_[ID:'+newResponse.ID+']', '#D5D5FF'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'response_[ID:'+newResponse.ID+']', '#D5D5FF'));
   }
 
   countResponses(sentenceId: number): number {
@@ -207,7 +208,7 @@ export class DiscussionDialogComponent implements OnInit {
         sentence.responses.splice(sentenceResponseIndex,1);
         let responseIndex = this.role.responses.findIndex(response => response.ID == removedResponseId);
         this.role.responses.splice(responseIndex,1);      
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'response_[ID:'+removedResponseId+']', '#D5D5FF'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'response_[ID:'+removedResponseId+']', '#D5D5FF'));
       }
     });
   }
@@ -215,13 +216,13 @@ export class DiscussionDialogComponent implements OnInit {
   addReward(parent: Discussion | Sentence | Response): void {
     parent.rewards.push(new ObjectReward());
     if (parent instanceof Discussion) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + (parent.rewards.length-1) + ']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF')); 
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + (parent.rewards.length-1) + ']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF')); 
     }
     if (parent instanceof Sentence) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + (parent.rewards.length-1) + ']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + (parent.rewards.length-1) + ']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
     if (parent instanceof Response) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + (parent.rewards.length-1) + ']', 'response_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_[' + (parent.rewards.length-1) + ']', 'response_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
   }
 
@@ -229,68 +230,68 @@ export class DiscussionDialogComponent implements OnInit {
     switch (type) {
       case 'quest': parent.rewards[index] = new QuestReward();
         if (parent instanceof Discussion) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Sentence) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Response) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
         }            
         break;
       case 'skill': parent.rewards[index] = new SkillReward();
         if (parent instanceof Discussion) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Sentence) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Response) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
         }            
         break;
       case 'character': parent.rewards[index] = new CharacterReward();
         if (parent instanceof Discussion) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Sentence) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Response) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         break;
       case 'object': parent.rewards[index] = new ObjectReward();
         if (parent instanceof Discussion) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Sentence) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Response) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         break;
       case 'discussion': parent.rewards[index] = new DiscussionReward();
         if (parent instanceof Discussion) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Sentence) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Response) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         break;
       case 'randomObjects': parent.rewards[index] = new RandomObjectsReward();
         if (parent instanceof Discussion) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Sentence) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Response) {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         break;
     }
@@ -302,23 +303,23 @@ export class DiscussionDialogComponent implements OnInit {
         if (result == true) {
           parent.rewards.splice(index, 1);
           if (parent instanceof Discussion) {
-            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
+            this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
           }
           if (parent instanceof Sentence) {
-            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+            this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
           }
           if (parent instanceof Response) {
-            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
+            this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
           }
         } else {
           if (parent instanceof Discussion) {
-            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'cancel_delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
+            this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'cancel_delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
           }
           if (parent instanceof Sentence) {
-            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'cancel_delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+            this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'cancel_delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
           }
           if (parent instanceof Response) {
-            this.scenario.traces.push(new Trace(this.scenario.traces.length, 'cancel_delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
+            this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'cancel_delete', this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'Reward_['+index+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
           }
         }
     });
@@ -351,26 +352,26 @@ export class DiscussionDialogComponent implements OnInit {
   addObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number) {
     reward.addObject();
     if (parent instanceof Discussion) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
     if (parent instanceof Sentence) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
     if (parent instanceof Response) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
   }
 
   removeObjectToRandomObjectsReward(parent: Discussion | Sentence | Response, reward: RandomObjectsReward, rewardIndex: number, objectIndex: number) {
     reward.removeObject(objectIndex);
     if (parent instanceof Discussion) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'discussion_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
     if (parent instanceof Sentence) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'sentence_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
     if (parent instanceof Response) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'reponse_[ID:'+parent.ID+ ']', '#D5D5FF'));
     }
   }
 
@@ -395,17 +396,17 @@ export class DiscussionDialogComponent implements OnInit {
 
   editTrace(event: any, source: string, target: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, source, target, '#D5D5FF', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, source, target, '#D5D5FF', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source, target, '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source, target, '#D5D5FF'));
     }
   }
 
   checkboxTrace(event: any, source: string, target: string) {
     if(event.target.checked) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'check', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, source, target, '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'check', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, source, target, '#D5D5FF'));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'uncheck', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, source, target, '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'uncheck', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, source, target, '#D5D5FF'));
     }
   }
 }

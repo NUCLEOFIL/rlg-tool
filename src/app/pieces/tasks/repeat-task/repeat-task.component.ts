@@ -18,6 +18,7 @@ import { Ressource } from 'src/app/class/ressource/ressource';
 import { PrerequireRessource } from 'src/app/class/prerequires/prerequire-ressource/prerequire-ressource';
 import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-repeat-task',
@@ -42,7 +43,7 @@ export class RepeatTaskComponent implements OnInit {
   
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService,
-    protected unityService: UnityService, private tutorialService: TutorialService, protected copyTaskService: CopyTaskService, private _snackBar: MatSnackBar) { }
+    protected unityService: UnityService, private tutorialService: TutorialService, protected copyTaskService: CopyTaskService, private _snackBar: MatSnackBar, private tracesService: TracesService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -54,9 +55,9 @@ export class RepeatTaskComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.task.objective = '';
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
       }
     });
   } 
@@ -84,9 +85,9 @@ export class RepeatTaskComponent implements OnInit {
         });
         this.role.removeTask(this.i, this.j);
         this.mission.equalizeLengths();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
       }
     });
   }
@@ -105,22 +106,22 @@ export class RepeatTaskComponent implements OnInit {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveLeft','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6',undefined,'['+(this.i-1)+';'+(this.j)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveLeft','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6',undefined,'['+(this.i-1)+';'+(this.j)+']'));
     } else if (direction == 'top' && this.canMoveTo('top')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveTop','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6',undefined,'['+(this.i)+';'+(this.j-1)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveTop','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6',undefined,'['+(this.i)+';'+(this.j-1)+']'));
     } else if (direction == 'right' && this.canMoveTo('right')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveRight','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6',undefined,'['+(this.i+1)+';'+(this.j)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveRight','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6',undefined,'['+(this.i+1)+';'+(this.j)+']'));
     } else if (direction == 'bottom') {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveBottom','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6',undefined,'['+(this.i)+';'+(this.j+1)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveBottom','Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6',undefined,'['+(this.i)+';'+(this.j+1)+']'));
     }
   }
 
@@ -163,23 +164,23 @@ export class RepeatTaskComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
     }
   }
 
   editMoveTrace(event: any, source: string): void {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,source,'Repeat_task_['+this.i+';'+this.j+']', '#ABBCC6'));
   }
 
   changeDisplayPrerequires(): void {
     if(this.displayPrequires == 'show') {
       this.displayPrequires = 'hide';
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'hide',this.missionIndex,this.roleIndex,'prerequires','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'hide',this.missionIndex,this.roleIndex,'prerequires','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
     } else {
       this.displayPrequires = 'show';
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
     }
   }
 
@@ -217,14 +218,14 @@ export class RepeatTaskComponent implements OnInit {
 
   onCheckTask(task: Task): void {
     this.task.prerequireTasks.push(new PrerequireTask(task.identifier));
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
     this.validTutorialPhase7();
   }
 
   onUncheckTask(task: Task): void {
     let i: number = this.task.prerequireTasks.findIndex(element => element.identifier == task.identifier);
     this.task.prerequireTasks.splice(i,1);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_task','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_task','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
   }
 
   checkboxChangedRessource(event: any, ressource: Ressource): void {
@@ -241,14 +242,14 @@ export class RepeatTaskComponent implements OnInit {
 
   onCheckRessource(ressource: Ressource): void {
     this.task.prerequireRessources.push(new PrerequireRessource(ressource));
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
     this.validTutorialPhase7();
   }
 
   onUncheckRessource(ressource: Ressource): void {
     let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
     this.task.prerequireRessources.splice(i, 1);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_ressource','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_ressource','Task_['+this.i+';'+this.j+']', '#ABBCC6'));
   }
 
   getAssociatePrerequireRessource(ressource: Ressource): PrerequireRessource {
@@ -275,7 +276,7 @@ export class RepeatTaskComponent implements OnInit {
         && this.scenario.missions[0].roles[1].tasks[0].some(task => task?.symbol.symbol && (task.prerequireTasks.length > 0 || task.prerequireRessources.length > 0))) {
 
 
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }
   }

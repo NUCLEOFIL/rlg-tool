@@ -11,6 +11,7 @@ import { CreateDialogComponent } from 'src/app/components/dialogs/create-dialog/
 import { Trace } from 'src/app/class/trace/trace';
 import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-mission-context',
@@ -19,7 +20,7 @@ import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 })
 export class MissionContextComponent implements OnInit {
 
-  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService, private tutorialService: TutorialService) { }
+  constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, protected translate: TranslateService, private tutorialService: TutorialService, private tracesService: TracesService) { }
 
   @Input() missionContext: MissionContext = new MissionContext();
   @Input() scenario: Scenario = new Scenario();
@@ -42,9 +43,9 @@ export class MissionContextComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.scenario.missions.push(new Mission());
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.i,undefined,'all','Mission_['+(this.scenario.missions.length-1)+']'));        
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.i,undefined,'all','Mission_['+(this.scenario.missions.length-1)+']'));        
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_new',this.i,undefined,'all','Mission_['+(this.scenario.missions.length-1)+']'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_new',this.i,undefined,'all','Mission_['+(this.scenario.missions.length-1)+']'));
       }
     });
   }
@@ -57,9 +58,9 @@ export class MissionContextComponent implements OnInit {
         this.missionContext.intrigue = '';
         this.missionContext.communication = '';
         this.missionContext.various = '';
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.i,undefined,'all','Context_m_['+(this.i)+']','#EAC19B'));                     
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.i,undefined,'all','Context_m_['+(this.i)+']','#EAC19B'));                     
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.i,undefined,'all','Context_m_['+(this.i)+']','#EAC19B'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',this.i,undefined,'all','Context_m_['+(this.i)+']','#EAC19B'));
       }
     });
   } 
@@ -69,9 +70,9 @@ export class MissionContextComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.scenario.missions.splice(this.i, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.i,undefined,'all','Mission_['+(this.i)+']'));       
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.i,undefined,'all','Mission_['+(this.i)+']'));       
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.i,undefined,'all','Mission_['+(this.i)+']'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.i,undefined,'all','Mission_['+(this.i)+']'));
       }
     });
   }
@@ -86,16 +87,16 @@ export class MissionContextComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.i,undefined,source,'Context_m', '#EAC19B', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.i,undefined,source,'Context_m', '#EAC19B', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.i,undefined,source,'Context_m', '#EAC19B'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.i,undefined,source,'Context_m', '#EAC19B'));
     }
     if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 3
       && this.scenario.educationnalObjective.objective
       && this.scenario.context.univers && this.scenario.context.support && this.scenario.context.duration && this.scenario.context.intrigue && this.scenario.context.other
       && this.scenario.missions[0].context.duration && this.scenario.missions[0].context.intrigue && this.scenario.missions[0].context.communication && this.scenario.missions[0].context.various
       && this.scenario.missions[0].educationnalObjective.objective) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }
   }

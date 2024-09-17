@@ -14,6 +14,7 @@ import { UnityService } from 'src/app/services/unity/unity.service';
 import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
 import { Reward } from 'src/app/class/rewards/reward';
 import { CharacterUsedInRewardComponent } from 'src/app/components/dialogs/character-used-in-reward/character-used-in-reward.component';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-game-characters',
@@ -27,7 +28,7 @@ export class GameCharactersComponent implements OnInit {
   newCharacter: Character = new Character();
 
   constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService,
-    protected unityService: UnityService) { }
+    protected unityService: UnityService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
   }
@@ -99,10 +100,10 @@ export class GameCharactersComponent implements OnInit {
             });
           });
         });  
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Characters','#CE7B66'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',undefined,undefined,'all','Characters','#CE7B66'));
         this.minimapService.reset();                 
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',undefined,undefined,'all','Characters','#CE7B66'));                 
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',undefined,undefined,'all','Characters','#CE7B66'));                 
       }
     });
   }
@@ -111,7 +112,7 @@ export class GameCharactersComponent implements OnInit {
     if (this.newCharacter.name != '') {
       this.scenario.characters.push(this.newCharacter);
       this.newCharacter = new Character();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',undefined,undefined,'all','Characters_['+(this.scenario.characters.length-1)+']','#CE7B66'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',undefined,undefined,'all','Characters_['+(this.scenario.characters.length-1)+']','#CE7B66'));
       this.minimapService.reset();                    
     }
   }
@@ -198,10 +199,10 @@ export class GameCharactersComponent implements OnInit {
             });
           });
           this.scenario.characters.splice(index, 1);
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',undefined,undefined,'all','Characters_['+index+']','#CE7B66'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',undefined,undefined,'all','Characters_['+index+']','#CE7B66'));
           this.minimapService.reset();                
         } else {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',undefined,undefined,'all','Characters_['+index+']','#CE7B66'));                 
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',undefined,undefined,'all','Characters_['+index+']','#CE7B66'));                 
         }
       });
   }
@@ -349,17 +350,17 @@ export class GameCharactersComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Characters', '#CE7B66', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',undefined,undefined,source,'Characters', '#CE7B66', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Characters', '#CE7B66'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',undefined,undefined,source,'Characters', '#CE7B66'));
     }
   }
 
   checkboxTrace(event: any, source: string) {
     if(event.target.checked) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'check', undefined, undefined, source, 'Characters', '#CE7B66'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'check', undefined, undefined, source, 'Characters', '#CE7B66'));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'uncheck', undefined, undefined, source, 'Characters', '#CE7B66'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'uncheck', undefined, undefined, source, 'Characters', '#CE7B66'));
     }
   }
 }

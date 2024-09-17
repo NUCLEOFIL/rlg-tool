@@ -14,6 +14,7 @@ import { Trace } from 'src/app/class/trace/trace';
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { TracesService } from 'src/app/services/traces/traces.service';
 import { UnityService } from 'src/app/services/unity/unity.service';
 
 @Component({
@@ -27,7 +28,7 @@ export class RewardsComponent implements OnInit {
   @Input() piece: Task|Mission = new Task('normal');
   @Input() role?: Role;
 
-  constructor(protected translate: TranslateService, protected tooltipService: TooltipService, protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected unityService: UnityService) { }
+  constructor(protected translate: TranslateService, protected tooltipService: TooltipService, protected pieceDetailsService: PieceDetailsService, public dialog: MatDialog, protected unityService: UnityService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
   }
@@ -54,9 +55,9 @@ export class RewardsComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#CFE3B9', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#CFE3B9', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#CFE3B9'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#CFE3B9'));
     }
   }
 
@@ -78,17 +79,17 @@ export class RewardsComponent implements OnInit {
 
   addObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number) {
     reward.addObject();
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));
   }
 
   removeObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number, objectIndex: number) {
     reward.removeObject(objectIndex);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(rewardIndex)+']_object_['+objectIndex+']', this.formatTraceTarget(), '#CFE3B9', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(rewardIndex)+']_object_['+objectIndex+']', this.formatTraceTarget(), '#CFE3B9', '*'));
   }
 
   addReward(): void {
     this.piece.rewards.push(new ObjectReward());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));
   }
 
   removeReward(index: number): void {
@@ -96,9 +97,9 @@ export class RewardsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.piece.rewards.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));    
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));    
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));        
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+(this.piece.rewards.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));        
       }
     });
   }
@@ -106,16 +107,16 @@ export class RewardsComponent implements OnInit {
   changeRewardType(index: number, type: string): void {
     switch(type) {
       case 'object': this.piece.rewards[index] = new ObjectsReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[ObjectReward]',  this.formatTraceTarget(), '#CFE3B9', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[ObjectReward]',  this.formatTraceTarget(), '#CFE3B9', '*'));
         break;
       case 'skill': this.piece.rewards[index] = new SkillReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]',  this.formatTraceTarget(), '#CFE3B9', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[SkillReward]',  this.formatTraceTarget(), '#CFE3B9', '*'));
         break;
       case 'character': this.piece.rewards[index] = new CharacterReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]',  this.formatTraceTarget(), '#CFE3B9', '*')); 
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[CharacterReward]',  this.formatTraceTarget(), '#CFE3B9', '*')); 
         break;
       case 'randomObjects': this.piece.rewards[index] = new RandomObjectsReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]',  this.formatTraceTarget(), '#CFE3B9', '*')); 
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]',  this.formatTraceTarget(), '#CFE3B9', '*')); 
         break;
     }
   }

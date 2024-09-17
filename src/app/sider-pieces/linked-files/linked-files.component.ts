@@ -12,6 +12,7 @@ import { Trace } from 'src/app/class/trace/trace';
 import { SupressLinkedFileDialogComponent } from 'src/app/components/dialogs/supress-linked-file-dialog/supress-linked-file-dialog.component';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-linked-files',
@@ -25,7 +26,7 @@ export class LinkedFilesComponent implements OnInit {
   @ViewChild('fileInput') fileInput: any;
   selectedFile: number = -1;
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private sanitizer: DomSanitizer, public dialog: MatDialog) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private sanitizer: DomSanitizer, public dialog: MatDialog, private tracesService: TracesService) { }
 
   ngOnInit(): void {
   }
@@ -38,8 +39,8 @@ export class LinkedFilesComponent implements OnInit {
       let newFile: LinkedFile = new LinkedFile(fileId, selectedFile, fileURL)
       this.scenario.files.push(newFile);
       this.piece.files.push(fileId);
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'import',undefined,undefined,'file_[ID:'+fileId+']','Scenario','#C4B185',undefined,newFile.name+'.'+newFile.extension));
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'attach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'import',undefined,undefined,'file_[ID:'+fileId+']','Scenario','#C4B185',undefined,newFile.name+'.'+newFile.extension));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'attach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
     }
   }
 
@@ -81,7 +82,7 @@ export class LinkedFilesComponent implements OnInit {
           detailWindow.document.title = 'RLG Maker - '+file.file.name;
         };
       }
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',undefined,undefined,'file_[ID:'+fileId+']','Scenario','#C4B185'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'show',undefined,undefined,'file_[ID:'+fileId+']','Scenario','#C4B185'));
     }
   }
 
@@ -92,7 +93,7 @@ export class LinkedFilesComponent implements OnInit {
   assignFile(): void {
     if (this.selectedFile !== -1) {
       this.piece.files.push(this.selectedFile);     
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'attach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+this.selectedFile+']', this.formatTraceTarget(),'#C4B185'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'attach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+this.selectedFile+']', this.formatTraceTarget(),'#C4B185'));
       this.selectedFile = -1;
     }
   }
@@ -107,10 +108,10 @@ export class LinkedFilesComponent implements OnInit {
         if (result == true) {
           this.piece.files.splice(fileIndex,1);
           this.scenario.files.splice(index,1);
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',undefined,undefined,'file_['+fileId+']','Scenario','#C4B185'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',undefined,undefined,'file_['+fileId+']','Scenario','#C4B185'));
         } else {
-          this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
         }
       });
     } else {
@@ -118,9 +119,9 @@ export class LinkedFilesComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           if (result == true) {
             this.piece.files.splice(fileIndex,1);
-            this.scenario.traces.push(new Trace(this.scenario.traces.length,'detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
+            this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
           } else {
-            this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
+            this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
           }
         });       
     }
@@ -146,9 +147,9 @@ export class LinkedFilesComponent implements OnInit {
 
   editTrace(event: any, source: string, fileId: number): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'file_[ID:'+fileId+']', '#C4B185', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',undefined,undefined,source,'file_[ID:'+fileId+']', '#C4B185', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'file_[ID:'+fileId+']', '#C4B185'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',undefined,undefined,source,'file_[ID:'+fileId+']', '#C4B185'));
     }
   }
 

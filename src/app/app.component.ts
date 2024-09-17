@@ -52,6 +52,7 @@ import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray, transferArrayItem }
 import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { LinkedFile } from './class/linked-file/linked-file';
+import { TracesService } from './services/traces/traces.service';
 
 
 @Component({
@@ -71,7 +72,7 @@ export class AppComponent {
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
     private elementRef: ElementRef, protected zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
     private _snackBar: MatSnackBar, protected minimapService: MinimapService, protected translate: TranslateService, protected tutorialService: TutorialService,
-    protected unityService: UnityService, private sanitizer: DomSanitizer) {
+    protected unityService: UnityService, private sanitizer: DomSanitizer, private tracesService: TracesService) {
 
     translate.setTranslation('en', require('../assets/lang/en.json'));
     translate.setTranslation('fr', require('../assets/lang/fr.json'));  
@@ -123,7 +124,7 @@ export class AppComponent {
       }
       this.scenario.tooltips = this.tooltipService.activatedTooltips;
       this.scenario.unity_isActive = this.unityService.unity_isActive;
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'quick_save', undefined, undefined, 'all', 'Scenario'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'quick_save', undefined, undefined, 'all', 'Scenario'));
       const jsonString = JSON.stringify(this.scenario,undefined,2);
       const blob = new Blob([jsonString], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -174,7 +175,7 @@ export class AppComponent {
       if (event.previousContainer === event.container) {
         if (!event.container.data.slice(event.currentIndex).some(element => element instanceof Task)) {
           moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
         } else {
           this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_moveBeforeTasks'), '', { duration: 5000, panelClass: 'snackbar-fail' });
         }
@@ -183,7 +184,7 @@ export class AppComponent {
           let tmp: Task = event.previousContainer.data[event.previousIndex] as Task;
           event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
           event.container.data[event.currentIndex] = tmp;
-          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
           this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_inversion'), '', { duration: 5000, panelClass: 'snackbar-warning' });
         } else if (event.container.data.slice(event.currentIndex).some(element => element instanceof Task)) {
           let lastTaskIndex: number;
@@ -196,36 +197,36 @@ export class AppComponent {
             lastTaskIndex = 0;
           }
           transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, lastTaskIndex + 1);
-          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
           this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_taskPlacedAtEnd'), '', { duration: 5000, panelClass: 'snackbar-warning' });
         } else {
           transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-          this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
         }
       }
       if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase - 1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_' + this.tutorialService.phase, 'Tutorial'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_' + this.tutorialService.phase, 'Tutorial'));
         this.tutorialService.validPhase();
       }
     } else {
       if (event.previousContainer === event.container) {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
       } else {
         transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
       }
       if (event.container.data.some(element => element?.type == 'final' || element?.type == 'repeat')
         && event.container.data.findIndex(element => element?.type == 'final' || element?.type == 'repeat') < event.currentIndex) {
         moveItemInArray(event.container.data, event.currentIndex, event.container.data.findIndex(element => element?.type == 'final' || element?.type == 'repeat'));
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
         this._snackBar.open(this.translate.instant('snackbar_moveTask_movedBeforeEndlineTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
       }
       if (event.previousContainer.data[event.previousIndex] instanceof Task && (event.previousContainer.data[event.previousIndex] as Task).type == 'optionnal') {
         this._snackBar.open(this.translate.instant('snackbar_moveOptionnalTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
       }
       if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase - 1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_' + this.tutorialService.phase, 'Tutorial'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_' + this.tutorialService.phase, 'Tutorial'));
         this.tutorialService.validPhase();
       }
     }
@@ -241,9 +242,9 @@ export class AppComponent {
     this.cdr.detectChanges();
 
     if (parent instanceof Mission) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'dragMove',missionIndex,undefined,'all','Step_m_['+event.previousIndex+']','#ACC9FC',undefined,'['+event.currentIndex+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'dragMove',missionIndex,undefined,'all','Step_m_['+event.previousIndex+']','#ACC9FC',undefined,'['+event.currentIndex+']'));
     } else if (parent instanceof Role) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'dragMove',missionIndex,roleIndex,'all','Step_r_['+event.previousIndex+']','#ACC9FC',undefined,'['+event.currentIndex+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'dragMove',missionIndex,roleIndex,'all','Step_r_['+event.previousIndex+']','#ACC9FC',undefined,'['+event.currentIndex+']'));
     }
   }
 
@@ -254,7 +255,7 @@ export class AppComponent {
         case 'en': this.selectedLang = 'en'; this.translate.use('en'); break;
       }
       this.minimapService.reset();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'change_lang', undefined, undefined, 'all', 'Scenario', undefined, undefined, this.selectedLang));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'change_lang', undefined, undefined, 'all', 'Scenario', undefined, undefined, this.selectedLang));
     }
   }
 
@@ -299,11 +300,14 @@ export class AppComponent {
         this.scenario.tutorial_phase = this.tutorialService.phase;
         this.scenario.tutorial_optionnalPhase = this.tutorialService.optionnalPhase;
         this.scenario.tutorial_phaseDone = this.tutorialService.phaseDone;
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'save', undefined, undefined, 'all', 'Scenario'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'save', undefined, undefined, 'all', 'Scenario'));
 
         const jsonString = JSON.stringify(this.scenario, undefined, 2);
         const zip = new JSZip();
         zip.file('save.json', jsonString);
+        const tracesJsonString = JSON.stringify(this.tracesService.traces,undefined,2);
+        zip.file('traces.json', tracesJsonString);
+
         const filesFolder = zip.folder('files');
         const filePromises: Promise<void>[] = [];
 
@@ -328,7 +332,7 @@ export class AppComponent {
         })
 
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'cancel_save', undefined, undefined, 'all', 'Scenario'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'cancel_save', undefined, undefined, 'all', 'Scenario'));
       }
     });
   }
@@ -349,6 +353,12 @@ export class AppComponent {
           jszip.loadAsync(arrayBuffer).then((zip) => {
 
             zip.forEach((relativePath, file) => {
+
+              if (relativePath == 'traces.json') {
+                file.async('string').then((content) => {
+                  this.tracesService.traces = JSON.parse(content);
+                });
+              }
 
               if (relativePath == 'save.json') {
                 file.async('string').then((content) => {
@@ -847,7 +857,7 @@ export class AppComponent {
                     });
                     this.scenario = scenario;
                     this.pieceDetailsService.piece = this.scenario;
-                    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'import', undefined, undefined, 'all', 'Scenario'));
+                    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'import', undefined, undefined, 'all', 'Scenario'));
                     if (scenario.projectName) {
                       this.titleService.setTitle('RLG Maker - ' + this.scenario.projectName);
                     } else {
@@ -909,7 +919,7 @@ export class AppComponent {
       element.style.transform = `scale(${this.zoomService.zoom})`;
       this.minimapService.reset();
       if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 2) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
         this.tutorialService.validPhase();
       }
     }
@@ -922,7 +932,7 @@ export class AppComponent {
       element.style.transform = `scale(${this.zoomService.zoom})`;
       this.minimapService.reset();  
       if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 2) {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
         this.tutorialService.validPhase();
       }
     }
@@ -945,13 +955,13 @@ export class AppComponent {
   addMissionStep(mission: Mission, index: number, missionIndex: number): void {
     mission.addChronologieStep(index);
     mission.equalizeLengths();
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,undefined,'all','Step_m_['+index+']','#ACC9FC'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',missionIndex,undefined,'all','Step_m_['+index+']','#ACC9FC'));
   }
 
   addRoleStep(mission: Mission, role: Role, index: number, missionIndex: number, roleIndex: number): void {
     role.addChronologieStep(index);
     mission.equalizeLengths();
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Step_r_['+index+']','#ACC9FC'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',missionIndex,roleIndex,'all','Step_r_['+index+']','#ACC9FC'));
   }
 
   addTask(mission: Mission, role: Role, missionIndex: number, roleIndex: number, i: number, j: number, type: string) {
@@ -979,12 +989,12 @@ export class AppComponent {
       role.addTask(i, j, type);
     }
     switch(type) {
-      case 'normal': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#B9DFE3')); break;
-      case 'annexe': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Side_task_['+i+';'+j+']', '#BCCECC')); break;
-      case 'optionnal': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Opt_task_['+i+';'+j+']', '#E8E3B3')); break;
-      case 'final': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Final_task_['+i+';'+j+']', '#B28386')); break;
-      case 'event': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Event_task_['+i+';'+j+']', '#BFDAA3')); break;
-      case 'repeat': this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,roleIndex,'all','Repeat_task_['+i+';'+j+']', '#ABBCC6')); break;
+      case 'normal': this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',missionIndex,roleIndex,'all','Task_['+i+';'+j+']', '#B9DFE3')); break;
+      case 'annexe': this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',missionIndex,roleIndex,'all','Side_task_['+i+';'+j+']', '#BCCECC')); break;
+      case 'optionnal': this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',missionIndex,roleIndex,'all','Opt_task_['+i+';'+j+']', '#E8E3B3')); break;
+      case 'final': this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',missionIndex,roleIndex,'all','Final_task_['+i+';'+j+']', '#B28386')); break;
+      case 'event': this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',missionIndex,roleIndex,'all','Event_task_['+i+';'+j+']', '#BFDAA3')); break;
+      case 'repeat': this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',missionIndex,roleIndex,'all','Repeat_task_['+i+';'+j+']', '#ABBCC6')); break;
     }
     mission.equalizeLengths();
   }
@@ -1056,22 +1066,22 @@ export class AppComponent {
 
   tooltipsTrace(event: any) {
     if(event.target.checked) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'enable_tooltips',undefined, undefined,'all','Scenario'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'enable_tooltips',undefined, undefined,'all','Scenario'));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'disable_tooltips',undefined, undefined,'all','Scenario'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'disable_tooltips',undefined, undefined,'all','Scenario'));
     }
   }
 
   unityTrace(event: any) {
     if(event.target.checked) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'enable_unity',undefined, undefined,'all','Scenario'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'enable_unity',undefined, undefined,'all','Scenario'));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'disable_unity',undefined, undefined,'all','Scenario'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'disable_unity',undefined, undefined,'all','Scenario'));
     }
   }
 
   resumeTutorialTrace() {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'resume_tutorial', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'resume_tutorial', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
   }
 
   verifyIfAllDurationUnitAreSame(): boolean {
@@ -1100,18 +1110,18 @@ export class AppComponent {
 
   verifyGame(): void {
     if (this.verifyIfAllDurationUnitAreSame()) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'verify_scenario', undefined, undefined, undefined, 'Scenario'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'verify_scenario', undefined, undefined, undefined, 'Scenario'));
       const dialogRef = this.dialog.open(VerifyDialogComponent, {
         data: this.scenario
       });
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'failed_verify_scenario', undefined, undefined, undefined, 'Scenario'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'failed_verify_scenario', undefined, undefined, undefined, 'Scenario'));
       this._snackBar.open(this.translate.instant('verify_error'), '', { duration: 10000, panelClass: 'snackbar-fail' });
     }
   }
 
   consultLegals(): void {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'consult_legals'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'consult_legals'));
     const dialogRef = this.dialog.open(LegalDialogComponent, {
       maxWidth: '50vw',
     });

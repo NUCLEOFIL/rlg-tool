@@ -18,6 +18,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TutorialService } from 'src/app/services/tutorial/tutorial.service';
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { CopyTaskService } from 'src/app/services/copyTask/copy-task.service';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-annexe-task',
@@ -46,14 +47,14 @@ export class AnnexeTaskComponent implements OnInit {
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog,
     private _snackBar: MatSnackBar, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService, protected unityService: UnityService,
-    protected copyTaskService: CopyTaskService) { }
+    protected copyTaskService: CopyTaskService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
     this.setPieceWidth();
     this.mission.equalizeLengths();
     this.minimapService.reset();
     if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 9) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
       if (this.tutorialService.isDone()) {
         this._snackBar.open(this.translate.instant('tutorial_finish'), '', { duration: 5000, panelClass: 'snackbar-success' });
@@ -119,9 +120,9 @@ export class AnnexeTaskComponent implements OnInit {
             });
           });
         });       
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
       }
     });
   } 
@@ -149,9 +150,9 @@ export class AnnexeTaskComponent implements OnInit {
         });
         this.role.removeTask(this.i, this.j);
         this.mission.equalizeLengths();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
       }
     });
   }
@@ -172,16 +173,16 @@ export class AnnexeTaskComponent implements OnInit {
 
   onClickChange(type: string): void {
     this.task.changeType(type);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']_transform_into_['+type+']', '#BCCECC'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.roleIndex,'all','Side_task_['+this.i+';'+this.j+']_transform_into_['+type+']', '#BCCECC'));
   }
 
   changeDisplayPrerequires(): void {
     if(this.displayPrequires == 'show') {
       this.displayPrequires = 'hide';
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'hide',this.missionIndex,this.roleIndex,'prerequires','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'hide',this.missionIndex,this.roleIndex,'prerequires','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
     } else {
       this.displayPrequires = 'show';
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'show',this.missionIndex,this.roleIndex,'prerequires','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
     }
   }
 
@@ -207,28 +208,28 @@ export class AnnexeTaskComponent implements OnInit {
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveLeft','Side_task_['+this.i+';'+this.j+']', '#BCCECC',undefined,'['+(this.i-1)+';'+(this.j)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveLeft','Side_task_['+this.i+';'+this.j+']', '#BCCECC',undefined,'['+(this.i-1)+';'+(this.j)+']'));
     } else if (direction == 'top' && this.canMoveTo('top')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveTop','Side_task_['+this.i+';'+this.j+']', '#BCCECC',undefined,'['+(this.i)+';'+(this.j-1)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveTop','Side_task_['+this.i+';'+this.j+']', '#BCCECC',undefined,'['+(this.i)+';'+(this.j-1)+']'));
     } else if (direction == 'right' && this.canMoveTo('right')) {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveRight','Side_task_['+this.i+';'+this.j+']', '#BCCECC',undefined,'['+(this.i+1)+';'+(this.j)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveRight','Side_task_['+this.i+';'+this.j+']', '#BCCECC',undefined,'['+(this.i+1)+';'+(this.j)+']'));
     } else if (direction == 'bottom') {
       this.role.moveTask(this.i, this.j, direction);
       this.displayMenu = 'hide';
       this.displayPrequires = 'hide';
       this.displaySymbolChoice = 'hide';
       this.mission.equalizeLengths();
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveBottom','Side_task_['+this.i+';'+this.j+']', '#BCCECC',undefined,'['+(this.i)+';'+(this.j+1)+']'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,'Task_moveBottom','Side_task_['+this.i+';'+this.j+']', '#BCCECC',undefined,'['+(this.i)+';'+(this.j+1)+']'));
     }
   }
 
@@ -310,13 +311,13 @@ export class AnnexeTaskComponent implements OnInit {
 
   onCheckTask(task: Task): void {
     this.task.prerequireTasks.push(new PrerequireTask(task.identifier));
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_task','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   onUncheckTask(task: Task): void {
     let i: number = this.task.prerequireTasks.findIndex(element => element.identifier == task.identifier);
     this.task.prerequireTasks.splice(i,1);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_task','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_task','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   checkboxChangedRessource(event: any, ressource: Ressource): void {
@@ -333,13 +334,13 @@ export class AnnexeTaskComponent implements OnInit {
 
   onCheckRessource(ressource: Ressource): void {
     this.task.prerequireRessources.push(new PrerequireRessource(ressource));
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.roleIndex,'prerequire_ressource','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   onUncheckRessource(ressource: Ressource): void {
     let i: number = this.task.prerequireRessources.findIndex(element => ressource == element.ressource);
     this.task.prerequireRessources.splice(i, 1);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_ressource','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.roleIndex,'prerequire_ressource','Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   getAssociatePrerequireRessource(ressource: Ressource): PrerequireRessource {
@@ -361,14 +362,14 @@ export class AnnexeTaskComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
     }
   }
 
   editMoveTrace(event: any, source: string): void {
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'move',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'move',this.missionIndex,this.roleIndex,source,'Side_task_['+this.i+';'+this.j+']', '#BCCECC'));
   }
 
   addCombineObject(): void {

@@ -6,6 +6,7 @@ import { Scenario } from 'src/app/class/scenario/scenario';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { Trace } from 'src/app/class/trace/trace';
 import { TranslateService } from '@ngx-translate/core';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-supplementary-task',
@@ -18,7 +19,7 @@ export class SupplementaryTaskComponent implements OnInit {
   @Input() task: Task = new Task('normal');
   @Input() role: Role = new Role();
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
   }
@@ -42,9 +43,9 @@ export class SupplementaryTaskComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (this.task.supplementaryRole != undefined) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'Select_secondary_task',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#9AD5EC', event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'Select_secondary_task',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#9AD5EC', event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'Deselect_secondary_task',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#9AD5EC'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'Deselect_secondary_task',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#9AD5EC'));
     }
   }
 }

@@ -30,6 +30,7 @@ import { Reward } from 'src/app/class/rewards/reward';
 import { DiscussionReward } from 'src/app/class/rewards/discussion-reward/discussion-reward';
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { RandomObjectsReward } from 'src/app/class/rewards/random-objects-reward/random-objects-reward';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-role',
@@ -45,7 +46,7 @@ export class RoleComponent implements OnInit {
   @Input() missionIndex: number = 0;
 
   constructor(protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService, public dialog: MatDialog, private minimapService: MinimapService, protected translate: TranslateService, private tutorialService: TutorialService, private _snackBar: MatSnackBar, protected copyRoleService: CopyRoleService,
-    protected unityService: UnityService) { }
+    protected unityService: UnityService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
     this.mission.equalizeLengths();
@@ -67,7 +68,7 @@ export class RoleComponent implements OnInit {
       if (result == true) {
         this.mission.roles.push(new Role());
         let missionIndex: number = this.scenario.missions.findIndex(mission => mission == this.mission);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',missionIndex,this.i,'all','Role_['+(this.mission.roles.length-1)+']','#9AD5EC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',missionIndex,this.i,'all','Role_['+(this.mission.roles.length-1)+']','#9AD5EC'));
       }
     });
   }
@@ -327,10 +328,10 @@ export class RoleComponent implements OnInit {
           });
         });
         this.role.ressources = [];
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
         this.minimapService.reset();      
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',this.missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',this.missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
       }
     });
   }
@@ -400,10 +401,10 @@ export class RoleComponent implements OnInit {
           });
         });
         this.mission.roles.splice(this.i, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
         this.minimapService.reset();  
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',missionIndex,this.i,'all','Role_['+(this.i)+']','#9AD5EC'));
       }
     });
   }
@@ -418,7 +419,7 @@ export class RoleComponent implements OnInit {
 
   addEducationnalObjective(): void {
     this.role.educationnalObjectives.push(new RoleEducationnalObjective());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Obj_['+(this.role.educationnalObjectives.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.i,'Obj_['+(this.role.educationnalObjectives.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
   }
 
@@ -427,17 +428,17 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.educationnalObjectives.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Obj_['+(index)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.i,'Obj_['+(index)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
         this.minimapService.reset();
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Obj_['+(index)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,this.i,'Obj_['+(index)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
       }
     });
   }
 
   addRessource(): void {
     this.role.ressources.push(new Ressource());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Skill/Ressource_['+(this.role.ressources.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.i,'Skill/Ressource_['+(this.role.ressources.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
   }
 
@@ -558,17 +559,17 @@ export class RoleComponent implements OnInit {
           });
         });
         this.role.ressources.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Skill/Ressource_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.i,'Skill/Ressource_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
         this.minimapService.reset();       
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Skill/Ressource_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,this.i,'Skill/Ressource_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
       }
     });
   }
   
   addSupplementaryRole(): void {
     this.role.supplementaryRoles.push(new SupplementaryRole());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Secondary_role_['+(this.role.supplementaryRoles.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.i,'Secondary_role_['+(this.role.supplementaryRoles.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
   }
 
@@ -577,17 +578,17 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.supplementaryRoles.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Secondary_role_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.i,'Secondary_role_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
         this.minimapService.reset();
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Secondary_role_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,this.i,'Secondary_role_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
       }
     });
   }
 
   addReward(): void {
     this.role.rewards.push(new QuestReward());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Reward_['+(this.role.rewards.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.i,'Reward_['+(this.role.rewards.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
     this.validTutorialPhase5();
   }
@@ -595,31 +596,31 @@ export class RoleComponent implements OnInit {
   changeRewardType(index: number, type: string): void {
     switch(type) {
       case 'objects': this.role.rewards[index] = new ObjectsReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectsReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectsReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
       case 'quest': this.role.rewards[index] = new QuestReward(); 
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[QuestReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[QuestReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
       case 'skill': this.role.rewards[index] = new SkillReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[SkillReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[SkillReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
       case 'objective': this.role.rewards[index] = new ObjectiveReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectiveReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectiveReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
       case 'character': this.role.rewards[index] = new CharacterReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[CharacterReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[CharacterReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
       case 'other': this.role.rewards[index] = new OtherReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[OtherReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[OtherReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
       case 'object': this.role.rewards[index] = new ObjectReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[ObjectReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
       case 'discussion': this.role.rewards[index] = new DiscussionReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[DiscussionReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[DiscussionReward]', 'Role_['+this.i+']', '#9AD5EC', '*'));
         break;
       case 'randomObjects': this.role.rewards[index] = new RandomObjectsReward();
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'Role_['+this.i+']', '#9AD5EC', '*')); 
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'Role_['+this.i+']', '#9AD5EC', '*')); 
         break;
     }
   }
@@ -629,10 +630,10 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.role.rewards.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Reward_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.i,'Reward_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
         this.minimapService.reset();      
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Reward_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));        
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,this.i,'Reward_['+index+']', 'Role_['+this.i+']', '#9AD5EC', '*'));        
       }
     });
   }
@@ -675,17 +676,17 @@ export class RoleComponent implements OnInit {
 
   addObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number) {
     reward.addObject();
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.i,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
   }
 
   removeObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number, objectIndex: number) {
     reward.removeObject(objectIndex);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.i,'Reward_['+rewardIndex+']_object_['+objectIndex+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
   }
 
   addObject(index: number): void {
     this.getObjectsReward(index).objects.push(new Ressource);
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.missionIndex,this.i,'Reward_['+index+']_object_['+this.getObjectsReward(index).objects.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.missionIndex,this.i,'Reward_['+index+']_object_['+this.getObjectsReward(index).objects.length+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
     this.minimapService.reset();
   }
 
@@ -694,10 +695,10 @@ export class RoleComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.getObjectsReward(i).objects.splice(j, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.missionIndex,this.i,'Reward_['+i+']_object_['+j+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.missionIndex,this.i,'Reward_['+i+']_object_['+j+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
         this.minimapService.reset();
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.missionIndex,this.i,'Reward_['+i+']_object_['+j+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.missionIndex,this.i,'Reward_['+i+']_object_['+j+']', 'Role_['+this.i+']', '#9AD5EC', '*'));
       }
     });
   }
@@ -713,16 +714,16 @@ export class RoleComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.missionIndex,this.i,source,'Role_['+(this.i)+']', '#9AD5EC','*', event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.missionIndex,this.i,source,'Role_['+(this.i)+']', '#9AD5EC','*', event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.missionIndex,this.i,source,'Role_['+(this.i)+']', '#9AD5EC','*'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.missionIndex,this.i,source,'Role_['+(this.i)+']', '#9AD5EC','*'));
     }
   }
 
   validTutorialPhase4(): void {
     if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 4
       && this.scenario.missions[0].roles[0].intitule && this.scenario.missions[0].roles[1].intitule) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }
   }
@@ -731,7 +732,7 @@ export class RoleComponent implements OnInit {
     if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 5
       && this.scenario.missions[0].roles[0].questName && this.scenario.missions[0].roles[0].rewards.length > 0
       && this.scenario.missions[0].roles[1].questName && this.scenario.missions[0].roles[1].rewards.length > 0) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }
   }

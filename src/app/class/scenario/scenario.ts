@@ -30,5 +30,4 @@ export class Scenario {
     tutorial_phaseDone: boolean[] = []; 
     files: LinkedFile[] = [];
     actualFileID: number = 0;
-    traces: Trace[] = [new Trace(0, 'new', undefined, undefined, 'all', 'Scenario')];
 }

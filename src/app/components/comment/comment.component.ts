@@ -10,6 +10,7 @@ import { Role } from 'src/app/class/role/role';
 import { Step } from 'src/app/class/step/step';
 import { Trace } from 'src/app/class/trace/trace';
 import { TranslateService } from '@ngx-translate/core';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-comment',
@@ -26,7 +27,7 @@ export class CommentComponent implements OnInit {
   isEditable: boolean = false;
   newAnswer: string = '';
 
-  constructor(public dialog: MatDialog, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
+  constructor(public dialog: MatDialog, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
     this.comment.answers.forEach(answer => {
@@ -40,9 +41,9 @@ export class CommentComponent implements OnInit {
       if (result == true) {
         this.comment.answers.splice(index, 1);
         this.answerEditables.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'answer_['+index+']',this.formatTraceTarget(),'#F3ED97'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'answer_['+index+']',this.formatTraceTarget(),'#F3ED97'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'answer_['+index+']',this.formatTraceTarget(),'#F3ED97'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'answer_['+index+']',this.formatTraceTarget(),'#F3ED97'));
       }
     });
   }
@@ -52,7 +53,7 @@ export class CommentComponent implements OnInit {
       this.comment.answers.push(this.newAnswer);
       this.answerEditables.push(false);
       this.newAnswer = '';
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'answer_['+(this.comment.answers.length-1)+']',this.formatTraceTarget(),'#F3ED97'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'answer_['+(this.comment.answers.length-1)+']',this.formatTraceTarget(),'#F3ED97'));
     }
   }
 
@@ -61,9 +62,9 @@ export class CommentComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.comments.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'all',this.formatTraceTarget(),'#F3ED97'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'all',this.formatTraceTarget(),'#F3ED97'));
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'all',this.formatTraceTarget(),'#F3ED97'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'all',this.formatTraceTarget(),'#F3ED97'));
       }
     });
   }
@@ -107,9 +108,9 @@ export class CommentComponent implements OnInit {
   
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F3ED97', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F3ED97', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F3ED97'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F3ED97'));
     }
   }
 }

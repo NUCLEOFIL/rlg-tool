@@ -9,6 +9,7 @@ import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
 import { Trace } from 'src/app/class/trace/trace';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-comments',
@@ -21,7 +22,7 @@ export class CommentsComponent implements OnInit {
   @Input() scenario: Scenario = new Scenario();
   newComment: string = '';
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
   }
@@ -32,7 +33,7 @@ export class CommentsComponent implements OnInit {
       comment.content = this.newComment;
       this.newComment = '';
       this.piece.comments.push(comment);  
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',
         this.pieceDetailsService.missionIndex,
         this.pieceDetailsService.roleIndex,
         'all',
@@ -77,9 +78,9 @@ export class CommentsComponent implements OnInit {
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F3ED97', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F3ED97', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F3ED97'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source,this.formatTraceTarget(), '#F3ED97'));
     }
   }
 }

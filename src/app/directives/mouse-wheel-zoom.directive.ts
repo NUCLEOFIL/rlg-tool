@@ -4,6 +4,7 @@ import { MinimapService } from '../services/minimap/minimap.service';
 import { TutorialService } from '../services/tutorial/tutorial.service';
 import { Scenario } from '../class/scenario/scenario';
 import { Trace } from '../class/trace/trace';
+import { TracesService } from '../services/traces/traces.service';
 
 @Directive({
   selector: '[appMouseWheelZoom]'
@@ -12,7 +13,7 @@ export class MouseWheelZoomDirective {
 
   @Input() scenario: Scenario = new Scenario();
 
-  constructor(private zoomService: ZoomService, private minimapService: MinimapService, private tutorialService: TutorialService) { }
+  constructor(private zoomService: ZoomService, private minimapService: MinimapService, private tutorialService: TutorialService, private tracesService: TracesService) { }
 
   @HostListener('wheel', ['$event'])
   onMouseWheel(event: WheelEvent) {
@@ -28,7 +29,7 @@ export class MouseWheelZoomDirective {
     this.zoomService.zoom += zoomLevel;
     this.minimapService.reset();
     if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase-1] && this.tutorialService.isActive && this.tutorialService.phase == 2) {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'valid_phase', undefined, undefined, 'phase_'+this.tutorialService.phase, 'Tutorial'));
       this.tutorialService.validPhase();
     }
   }

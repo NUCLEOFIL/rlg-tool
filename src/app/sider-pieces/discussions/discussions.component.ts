@@ -17,6 +17,7 @@ import { DiscussionDialogComponent } from 'src/app/components/dialogs/discussion
 import { SuppressDialogComponent } from 'src/app/components/dialogs/suppress-dialog/suppress-dialog.component';
 import { PieceDetailsService } from 'src/app/services/piece-details/piece-details.service';
 import { TooltipService } from 'src/app/services/tooltip/tooltip.service';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-discussions',
@@ -28,7 +29,7 @@ export class DiscussionsComponent implements OnInit {
   selectedCharacter: Character | null = null;
   intitule: string = '';
 
-  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, public dialog: MatDialog) { }
+  constructor(protected tooltipService: TooltipService, private pieceDetailsService: PieceDetailsService, protected translate: TranslateService, public dialog: MatDialog, private tracesService: TracesService) { }
 
   @Input() scenario: Scenario = new Scenario();
   @Input() role: Role = new Role();
@@ -46,7 +47,7 @@ export class DiscussionsComponent implements OnInit {
         width: '60vw',
         data: { role: this.role, discussion: discussion, scenario: this.scenario }
       });
-      this.scenario.traces.push(new Trace(this.scenario.traces.length, 'new', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'all', 'discussion_['+discussionID+']', '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'new', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'all', 'discussion_['+discussionID+']', '#D5D5FF'));
     }
   }
 
@@ -55,7 +56,7 @@ export class DiscussionsComponent implements OnInit {
       width: '60vw',
       data: { role: this.role, discussion: discussion, scenario: this.scenario }
     });
-    this.scenario.traces.push(new Trace(this.scenario.traces.length, 'open_discussion', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'all', 'discussion_['+discussion.ID+']', '#D5D5FF'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'open_discussion', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'all', 'discussion_['+discussion.ID+']', '#D5D5FF'));
   }
 
   deleteDiscussion(discussionIndex: number) {
@@ -123,16 +124,16 @@ export class DiscussionsComponent implements OnInit {
             }
           }
         });
-        this.scenario.traces.push(new Trace(this.scenario.traces.length, 'delete', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'all', 'discussion_['+discussion.ID+']', '#D5D5FF'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'delete', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'all', 'discussion_['+discussion.ID+']', '#D5D5FF'));
       } 
     });
   } 
 
   editTrace(event: any, source: string, target: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, source, target, '#D5D5FF', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, source, target, '#D5D5FF', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source, target, '#D5D5FF'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,source, target, '#D5D5FF'));
     }
   }
 }

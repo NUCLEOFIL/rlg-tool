@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { Reward } from 'src/app/class/rewards/reward';
 import { UnityService } from 'src/app/services/unity/unity.service';
+import { TracesService } from 'src/app/services/traces/traces.service';
 
 @Component({
   selector: 'app-rules',
@@ -25,7 +26,7 @@ export class RulesComponent implements OnInit {
   mechanicsExpanded: string = 'hide';
   @Input() scenario: Scenario = new Scenario();
 
-  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService) { }
+  constructor(protected tooltipService: TooltipService, public dialog: MatDialog, protected pieceDetailsService: PieceDetailsService, private minimapService: MinimapService, protected translate: TranslateService, protected unityService: UnityService, private tracesService: TracesService) { }
 
   ngOnInit(): void {
   }
@@ -131,10 +132,10 @@ export class RulesComponent implements OnInit {
           });
         });
         this.scenario.ressources = [];
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,'all','Rules', '#C6C2BD'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',undefined,undefined,'all','Rules', '#C6C2BD'));
         this.minimapService.reset();
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_erase',undefined,undefined,'all','Rules', '#C6C2BD'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_erase',undefined,undefined,'all','Rules', '#C6C2BD'));
       }
     });
   }
@@ -142,10 +143,10 @@ export class RulesComponent implements OnInit {
   changeDisplayMechanics(): void {
     if(this.mechanicsExpanded == 'show') {
       this.mechanicsExpanded = 'hide';
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'hide',undefined,undefined,'mechanics','Rules', '#C6C2BD'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'hide',undefined,undefined,'mechanics','Rules', '#C6C2BD'));
     } else {
       this.mechanicsExpanded = 'show';
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'show',undefined,undefined,'mechanics','Rules', '#C6C2BD'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'show',undefined,undefined,'mechanics','Rules', '#C6C2BD'));
     }
     this.minimapService.reset();
   }
@@ -159,7 +160,7 @@ export class RulesComponent implements OnInit {
 
   addRessource(): void {
     this.scenario.ressources.push(new Ressource());
-    this.scenario.traces.push(new Trace(this.scenario.traces.length,'new',undefined,undefined,'Ressource_['+(this.scenario.ressources.length-1)+']','Rules', '#C6C2BD'));
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',undefined,undefined,'Ressource_['+(this.scenario.ressources.length-1)+']','Rules', '#C6C2BD'));
     this.minimapService.reset();
   }
 
@@ -254,19 +255,19 @@ export class RulesComponent implements OnInit {
           });
         });
         this.scenario.ressources.splice(index, 1);
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'delete',undefined,undefined,'Ressource_['+index+']','Rules', '#C6C2BD'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',undefined,undefined,'Ressource_['+index+']','Rules', '#C6C2BD'));
         this.minimapService.reset();
       } else {
-        this.scenario.traces.push(new Trace(this.scenario.traces.length,'cancel_delete',undefined,undefined,'Ressource_['+index+']','Rules', '#C6C2BD'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_delete',undefined,undefined,'Ressource_['+index+']','Rules', '#C6C2BD'));
       }
     });
   }
 
   editTrace(event: any, source: string): void {
     if (event.target.value != '') {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'write',undefined,undefined,source,'Rules', '#C6C2BD', undefined, event.target.value));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'write',undefined,undefined,source,'Rules', '#C6C2BD', undefined, event.target.value));
     } else {
-      this.scenario.traces.push(new Trace(this.scenario.traces.length,'erase',undefined,undefined,source,'Rules', '#C6C2BD'));
+      this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'erase',undefined,undefined,source,'Rules', '#C6C2BD'));
     }
   }
 }
