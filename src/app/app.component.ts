@@ -175,7 +175,7 @@ export class AppComponent {
       if (event.previousContainer === event.container) {
         if (!event.container.data.slice(event.currentIndex).some(element => element instanceof Task)) {
           moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + actualInlineTaskIndex + ';' + event.previousIndex + ']', traceTaskColor, undefined, '[' + destinationInlineTaskIndex + ';' + event.currentIndex + ']'));
         } else {
           this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_moveBeforeTasks'), '', { duration: 5000, panelClass: 'snackbar-fail' });
         }
@@ -184,7 +184,7 @@ export class AppComponent {
           let tmp: Task = event.previousContainer.data[event.previousIndex] as Task;
           event.previousContainer.data[event.previousIndex] = event.container.data[event.currentIndex];
           event.container.data[event.currentIndex] = tmp;
-          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + actualInlineTaskIndex + ';' + event.previousIndex + ']', traceTaskColor, undefined, '[' + destinationInlineTaskIndex + ';' + event.currentIndex + ']'));
           this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_inversion'), '', { duration: 5000, panelClass: 'snackbar-warning' });
         } else if (event.container.data.slice(event.currentIndex).some(element => element instanceof Task)) {
           let lastTaskIndex: number;
@@ -197,11 +197,11 @@ export class AppComponent {
             lastTaskIndex = 0;
           }
           transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, lastTaskIndex + 1);
-          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + actualInlineTaskIndex + ';' + event.previousIndex + ']', traceTaskColor, undefined, '[' + destinationInlineTaskIndex + ';' + event.currentIndex + ']'));
           this._snackBar.open(this.translate.instant('snackbar_moveFinalTask_taskPlacedAtEnd'), '', { duration: 5000, panelClass: 'snackbar-warning' });
         } else {
           transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + actualInlineTaskIndex + ';' + event.previousIndex + ']', traceTaskColor, undefined, '[' + destinationInlineTaskIndex + ';' + event.currentIndex + ']'));
         }
       }
       if (!this.tutorialService.optionnalPhase && !this.tutorialService.phaseDone[this.tutorialService.phase - 1] && this.tutorialService.isActive && this.tutorialService.phase == 8) {
@@ -211,15 +211,15 @@ export class AppComponent {
     } else {
       if (event.previousContainer === event.container) {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + actualInlineTaskIndex + ';' + event.previousIndex + ']', traceTaskColor, undefined, '[' + destinationInlineTaskIndex + ';' + event.currentIndex + ']'));
       } else {
         transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + actualInlineTaskIndex + ';' + event.previousIndex + ']', traceTaskColor, undefined, '[' + destinationInlineTaskIndex + ';' + event.currentIndex + ']'));
       }
       if (event.container.data.some(element => element?.type == 'final' || element?.type == 'repeat')
         && event.container.data.findIndex(element => element?.type == 'final' || element?.type == 'repeat') < event.currentIndex) {
         moveItemInArray(event.container.data, event.currentIndex, event.container.data.findIndex(element => element?.type == 'final' || element?.type == 'repeat'));
-        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + event.previousIndex + ';' + actualInlineTaskIndex + ']', traceTaskColor, undefined, '[' + event.currentIndex + ';' + destinationInlineTaskIndex + ']'));
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'dragMove', missionIndex, roleIndex, 'all', traceTaskType + '_[' + actualInlineTaskIndex + ';' + event.previousIndex + ']', traceTaskColor, undefined, '[' + destinationInlineTaskIndex + ';' + event.currentIndex + ']'));
         this._snackBar.open(this.translate.instant('snackbar_moveTask_movedBeforeEndlineTask'), '', { duration: 5000, panelClass: 'snackbar-warning' });
       }
       if (event.previousContainer.data[event.previousIndex] instanceof Task && (event.previousContainer.data[event.previousIndex] as Task).type == 'optionnal') {
