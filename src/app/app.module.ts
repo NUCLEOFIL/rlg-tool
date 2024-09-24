@@ -55,6 +55,7 @@ import { DiscussionDialogComponent } from './components/dialogs/discussion-dialo
 import { CharacterUsedInRewardComponent } from './components/dialogs/character-used-in-reward/character-used-in-reward.component';
 import { LinkedFilesComponent } from './sider-pieces/linked-files/linked-files.component';
 import { SupressLinkedFileDialogComponent } from './components/dialogs/supress-linked-file-dialog/supress-linked-file-dialog.component';
+import { MinimapComponent } from './components/minimap/minimap.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -99,7 +100,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DiscussionDialogComponent,
     CharacterUsedInRewardComponent,
     LinkedFilesComponent,
-    SupressLinkedFileDialogComponent
+    SupressLinkedFileDialogComponent,
+    MinimapComponent
   ],
   imports: [
     BrowserModule,

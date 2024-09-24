@@ -96,11 +96,6 @@ export class AppComponent {
     const container = this.elementRef.nativeElement.querySelector('.container-appDragScroll');
     const target = this.elementRef.nativeElement.querySelector('.container-minimap');
     container.scrollTo(0,500);
-    this.minimapService.minimap = new Minimap({
-      container,
-      target,
-      observe: false
-    })
   }
 
   @HostListener('window:beforeunload', ['$event'])

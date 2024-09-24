@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="container-appDragScroll" [ngClass]="siderFolded ? 'siderFolded' : ''" appDragScroll appMouseWheelZoom [scenario]="scenario">
+    <div id="contentDiv" #contentDiv class="container-appDragScroll" [ngClass]="siderFolded ? 'siderFolded' : ''" appDragScroll appMouseWheelZoom [scenario]="scenario">
         <div class="container-appMouseWheelZoom" [style.scale]="this.zoomService.zoom">
 
             <div class="container-scenario-main">
@@ -271,7 +271,8 @@
         </mat-menu>
     </div>
 
-    <div class="container-minimap" [ngClass]="siderFolded ? 'siderFolded' : ''"></div>
+    <app-minimap class="container-minimap" [targetDiv]="contentDiv"></app-minimap>
+
     <div class="container-zoom" [ngClass]="siderFolded ? 'siderFolded' : ''">
         <button mat-mini-fab color="white" (click)="zoomIn()"
         [matTooltip]="translate.instant('zoomIn_tooltip')"
