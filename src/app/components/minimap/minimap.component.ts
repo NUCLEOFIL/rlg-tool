@@ -18,6 +18,10 @@ export class MinimapComponent implements AfterViewInit, OnDestroy {
   private startY: number = 0;
   private refreshSubscription!: Subscription;
   private scrollListener: () => void = () => {};
+  private autoScrollInterval: any;
+  private isMinimapDragging: boolean = false;
+  private minimapStartScrollLeft: number = 0;
+  private minimapStartScrollTop: number = 0;
 
   constructor(private renderer: Renderer2, private minimapService: MinimapService) {}
 
@@ -28,6 +32,7 @@ export class MinimapComponent implements AfterViewInit, OnDestroy {
         this.refreshMinimap();
       });
       this.initDragAndDrop();
+      this.initMinimapDragScroll();
     }
   }
 
@@ -132,11 +137,113 @@ export class MinimapComponent implements AfterViewInit, OnDestroy {
 
       this.startX = event.clientX;
       this.startY = event.clientY;
+
+      this.autoScrollMinimap(event.clientX, event.clientY);
     });
 
     this.renderer.listen(document, 'mouseup', () => {
       this.isDragging = false;
       this.renderer.removeClass(this.highlight.nativeElement, 'dragging');
+      clearInterval(this.autoScrollInterval);
+    });
+  }
+
+  autoScrollMinimap(mouseX: number, mouseY: number): void {
+    const minimapContainer = this.minimapContent.nativeElement.parentElement as HTMLElement;
+    const minimapRect = minimapContainer.getBoundingClientRect();
+    const edgeThreshold = 40;
+    const scrollSpeed = 5;
+  
+    if (this.autoScrollInterval) {
+      clearInterval(this.autoScrollInterval);
+    }
+  
+    this.autoScrollInterval = setInterval(() => {
+      if (!this.isDragging) {
+        clearInterval(this.autoScrollInterval);
+        return;
+      }
+  
+      let scrolled = false;
+      let deltaX = 0;
+      let deltaY = 0;
+  
+      if (mouseY < minimapRect.top + edgeThreshold) {
+        minimapContainer.scrollTop -= scrollSpeed;
+        deltaY = -scrollSpeed;
+        scrolled = true;
+      } else if (mouseY > minimapRect.bottom - edgeThreshold) {
+        minimapContainer.scrollTop += scrollSpeed;
+        deltaY = scrollSpeed;
+        scrolled = true;
+      }
+  
+      if (mouseX < minimapRect.left + edgeThreshold) {
+        minimapContainer.scrollLeft -= scrollSpeed;
+        deltaX = -scrollSpeed;
+        scrolled = true;
+      } else if (mouseX > minimapRect.right - edgeThreshold) {
+        minimapContainer.scrollLeft += scrollSpeed;
+        deltaX = scrollSpeed;
+        scrolled = true;
+      }
+  
+      if (scrolled) {
+        const currentTop = parseFloat(this.highlight.nativeElement.style.top) || 0;
+        const currentLeft = parseFloat(this.highlight.nativeElement.style.left) || 0;
+  
+        const newTop = currentTop + deltaY;
+        const newLeft = currentLeft + deltaX;
+  
+        const minimapHeight = this.minimapContent.nativeElement.scrollHeight;
+        const minimapWidth = this.minimapContent.nativeElement.scrollWidth;
+  
+        const highlightHeight = this.highlight.nativeElement.offsetHeight;
+        const highlightWidth = this.highlight.nativeElement.offsetWidth;
+  
+        const clampedTop = Math.max(0, Math.min(newTop, minimapHeight - highlightHeight));
+        const clampedLeft = Math.max(0, Math.min(newLeft, minimapWidth - highlightWidth));
+  
+        this.renderer.setStyle(this.highlight.nativeElement, 'top', `${clampedTop}px`);
+        this.renderer.setStyle(this.highlight.nativeElement, 'left', `${clampedLeft}px`);
+  
+        const scrollTop = (clampedTop / minimapHeight) * this.targetDiv.scrollHeight;
+        const scrollLeft = (clampedLeft / minimapWidth) * this.targetDiv.scrollWidth;
+  
+        this.targetDiv.scrollTop = scrollTop;
+        this.targetDiv.scrollLeft = scrollLeft;
+      }
+    }, 20);
+  }
+
+  initMinimapDragScroll(): void {
+    const minimapContainer = this.minimapContent.nativeElement.parentElement as HTMLElement;
+
+    this.renderer.listen(minimapContainer, 'mousedown', (event: MouseEvent) => {
+      if (this.isDragging) return;
+
+      this.isMinimapDragging = true;
+      this.startX = event.clientX;
+      this.startY = event.clientY;
+
+      this.minimapStartScrollLeft = minimapContainer.scrollLeft;
+      this.minimapStartScrollTop = minimapContainer.scrollTop;
+
+      event.preventDefault();
+    });
+
+    this.renderer.listen(document, 'mousemove', (event: MouseEvent) => {
+      if (!this.isMinimapDragging) return;
+
+      const deltaX = event.clientX - this.startX;
+      const deltaY = event.clientY - this.startY;
+
+      minimapContainer.scrollLeft = this.minimapStartScrollLeft - deltaX;
+      minimapContainer.scrollTop = this.minimapStartScrollTop - deltaY;
+    });
+
+    this.renderer.listen(document, 'mouseup', () => {
+      this.isMinimapDragging = false;
     });
   }
 
@@ -146,6 +253,10 @@ export class MinimapComponent implements AfterViewInit, OnDestroy {
     }
     if (this.scrollListener) {
       this.targetDiv.removeEventListener('scroll', this.scrollListener);
+    }
+
+    if (this.autoScrollInterval) {
+      clearInterval(this.autoScrollInterval);
     }
   }
 }

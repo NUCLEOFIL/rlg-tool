@@ -17,6 +17,6 @@ export class MinimapService {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
       this.refreshSubject.next();
-    }, 500);
+    }, 100);
   }  
 }

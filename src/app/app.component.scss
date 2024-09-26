@@ -301,6 +301,7 @@
         right: 360px;
         overflow: scroll;
         transition: right 0.5s ease;
+        scrollbar-width: none;
     }
 
     &-minimap.siderFolded {
