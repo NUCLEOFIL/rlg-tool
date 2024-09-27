@@ -16,7 +16,7 @@
                         <div class="container-scenario-chronologie">
                             <div class="container-scenario-chronologie-title">{{'steps_mission' | translate}}</div>
                             <div class="container-scenario-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission, mission, missionIndex, undefined)" [cdkDropListData]="mission.chronologie">
-                                <div class="container-scenario-chronologie-element" *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i" cdkDrag [cdkDragDisabled]="!ctrlPressed">
+                                <div class="container-scenario-chronologie-element" *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i" cdkDrag [cdkDragDisabled]="!shiftPressed">
                                     <div *ngIf="step != null">
                                         <app-step [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [parent]="mission" [index]="i" [mission]="mission"></app-step>
                                     </div>
@@ -48,7 +48,7 @@
                                         <div class="container-scenario-main-missions-mission-roles-role-chronologie">
                                             <div class="container-scenario-main-missions-mission-roles-role-chronologie-title">{{'steps_role' | translate}}</div>
                                             <div class="container-scenario-main-missions-mission-roles-role-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission, role, missionIndex, roleIndex)" [cdkDropListData]="role.chronologie">
-                                                <div class="container-scenario-main-missions-mission-roles-role-chronologie-element" *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i" cdkDrag [cdkDragDisabled]="!ctrlPressed">
+                                                <div class="container-scenario-main-missions-mission-roles-role-chronologie-element" *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i" cdkDrag [cdkDragDisabled]="!shiftPressed">
                                                     <div *ngIf="step != null">
                                                         <app-step [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [roleIndex]="roleIndex" [parent]="role" [index]="i" [mission]="mission"></app-step>
                                                     </div>                                                    
@@ -71,7 +71,7 @@
                                             <div class="container-scenario-main-missions-mission-roles-role-tasks" [style.z-index]="1" cdkDropListGroup>
                                                 <div class="container-scenario-main-missions-mission-roles-role-tasks-inline" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
                                                     <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="taskDrop($event, mission, role, missionIndex, roleIndex)" [cdkDropListData]="tasks">
-                                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-element" *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j" cdkDrag [cdkDragDisabled]="!ctrlPressed">
+                                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-element" *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j" cdkDrag [cdkDragDisabled]="!shiftPressed">
                                                             <div *ngIf="task != null">
                                                                 <app-task *ngIf="task.type == 'normal'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-task>
                                                                 <app-annexe-task *ngIf="task.type == 'annexe'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-annexe-task>
@@ -188,7 +188,7 @@
         </button>
         <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" accept=".zip">
         <mat-menu class="container-settings" #settingsMenu="matMenu" xPosition="before">
-            <button mat-menu-item (click)="downloadFile()"
+            <button mat-menu-item (click)="launchDownloadFile()"
             [matTooltip]="translate.instant('download_tooltip')"
             matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                 <mat-icon fontIcon="download_file"></mat-icon>

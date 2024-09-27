@@ -67,7 +67,7 @@ export class AppComponent {
   @ViewChild('fileInput') fileInput: any;
   selectedLang: string = 'en';
   siderFolded: boolean = false;
-  ctrlPressed: boolean = false;
+  shiftPressed: boolean = false;
 
   constructor(private cdr: ChangeDetectorRef, private http: HttpClient, protected pieceDetailsService: PieceDetailsService, protected tooltipService: TooltipService,
     private elementRef: ElementRef, protected zoomService: ZoomService, private dialog: MatDialog, private titleService: Title,
@@ -107,41 +107,22 @@ export class AppComponent {
 
   @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
-    if (event.ctrlKey && event.key === 's') {
-      event.preventDefault();
-      let fileName: string = this.scenario.projectName;
-      if (this.scenario.projectName == '') {
-        fileName = "Scénario - RLG Maker";
-        this.titleService.setTitle('RLG Maker'); 
-      } else {
-        fileName = this.scenario.projectName+' - RLG Maker';
-        this.titleService.setTitle('RLG Maker - '+this.scenario.projectName);
-      }
-      this.scenario.tooltips = this.tooltipService.activatedTooltips;
-      this.scenario.unity_isActive = this.unityService.unity_isActive;
-      this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'quick_save', undefined, undefined, 'all', 'Scenario'));
-      const jsonString = JSON.stringify(this.scenario,undefined,2);
-      const blob = new Blob([jsonString], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.download = fileName;
-      link.href = url;
-      link.click();
-      URL.revokeObjectURL(url);
+    if (event.key === 'Shift') {
+      this.shiftPressed = true;      
     }
-  }
-  
-  @HostListener('document:keydown', ['$event'])
-  onCtrlDown(event: KeyboardEvent) {
-    if (event.key == 'Shift') {
-      this.ctrlPressed = true;      
+
+    if (event.ctrlKey && event.key === 's') {
+      console.log("hégo")
+      event.preventDefault();
+      this.downloadFile(this.scenario.projectName);
+
     }
   }
 
   @HostListener('document:keyup', ['$event'])
-  onCtrlUp(event: KeyboardEvent) {
+  onKeyUp(event: KeyboardEvent) {
     if (event.key == 'Shift') {
-      this.ctrlPressed = false;
+      this.shiftPressed = false;
     }
   }
 
@@ -271,7 +252,7 @@ export class AppComponent {
     });
   }
 
-  downloadFile(): void {
+  launchDownloadFile(): void {
     let fileName: string = this.scenario.projectName;
     const dialogRef = this.dialog.open(SaveDialogComponent, {
       data: {
@@ -281,55 +262,58 @@ export class AppComponent {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data && data.result) {
-        if (data.fileName == '') {
-          fileName = "Scénario - RLG Maker";
-          this.titleService.setTitle('RLG Maker');
-        } else {
-          this.scenario.projectName = data.fileName;
-          fileName = data.fileName + ' - RLG Maker';
-          this.titleService.setTitle('RLG Maker - ' + this.scenario.projectName);
-        }
-        this.scenario.tooltips = this.tooltipService.activatedTooltips;
-        this.scenario.unity_isActive = this.unityService.unity_isActive;
-        this.scenario.tutorial_isActive = this.tutorialService.isActive;
-        this.scenario.tutorial_phase = this.tutorialService.phase;
-        this.scenario.tutorial_optionnalPhase = this.tutorialService.optionnalPhase;
-        this.scenario.tutorial_phaseDone = this.tutorialService.phaseDone;
-        this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'save', undefined, undefined, 'all', 'Scenario'));
-
-        const jsonString = JSON.stringify(this.scenario, undefined, 2);
-        const zip = new JSZip();
-        zip.file('save.json', jsonString);
-        const tracesJsonString = JSON.stringify(this.tracesService.traces,undefined,2);
-        zip.file('traces.json', tracesJsonString);
-
-        const filesFolder = zip.folder('files');
-        const filePromises: Promise<void>[] = [];
-
-        this.scenario.files.forEach((linkedFile, linkedFileIndex) => {
-          const filePromise = new Promise<void>((resolve, reject) => {
-            let fileFolder = filesFolder?.folder(linkedFile.folder);
-            let reader = new FileReader();
-            reader.onload = () => {
-              fileFolder?.file(linkedFile.id + '.' + linkedFile.extension, reader.result as ArrayBuffer);
-              resolve();
-            };
-            reader.onerror = reject;
-            reader.readAsArrayBuffer(linkedFile.file);
-          });
-          filePromises.push(filePromise);
-        });
-
-        Promise.all(filePromises).then(() => {
-          zip.generateAsync({ type: 'blob' }).then((content: Blob) => {
-            saveAs(content, fileName + '.zip');
-          });
-        })
-
+        this.downloadFile(data.fileName);
       } else {
         this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'cancel_save', undefined, undefined, 'all', 'Scenario'));
       }
     });
+  }
+
+  downloadFile(fileName: string): void {
+    if (fileName == '') {
+      fileName = "Scénario - RLG Maker";
+      this.titleService.setTitle('RLG Maker');
+    } else {
+      this.scenario.projectName = fileName;
+      fileName = fileName + ' - RLG Maker';
+      this.titleService.setTitle('RLG Maker - ' + this.scenario.projectName);
+    }
+    this.scenario.tooltips = this.tooltipService.activatedTooltips;
+    this.scenario.unity_isActive = this.unityService.unity_isActive;
+    this.scenario.tutorial_isActive = this.tutorialService.isActive;
+    this.scenario.tutorial_phase = this.tutorialService.phase;
+    this.scenario.tutorial_optionnalPhase = this.tutorialService.optionnalPhase;
+    this.scenario.tutorial_phaseDone = this.tutorialService.phaseDone;
+    this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'save', undefined, undefined, 'all', 'Scenario'));
+
+    const jsonString = JSON.stringify(this.scenario, undefined, 2);
+    const zip = new JSZip();
+    zip.file('save.json', jsonString);
+    const tracesJsonString = JSON.stringify(this.tracesService.traces,undefined,2);
+    zip.file('traces.json', tracesJsonString);
+
+    const filesFolder = zip.folder('files');
+    const filePromises: Promise<void>[] = [];
+
+    this.scenario.files.forEach((linkedFile, linkedFileIndex) => {
+      const filePromise = new Promise<void>((resolve, reject) => {
+        let fileFolder = filesFolder?.folder(linkedFile.folder);
+        let reader = new FileReader();
+        reader.onload = () => {
+          fileFolder?.file(linkedFile.id + '.' + linkedFile.extension, reader.result as ArrayBuffer);
+          resolve();
+        };
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(linkedFile.file);
+      });
+      filePromises.push(filePromise);
+    });
+
+    Promise.all(filePromises).then(() => {
+      zip.generateAsync({ type: 'blob' }).then((content: Blob) => {
+        saveAs(content, fileName + '.zip');
+      });
+    })
   }
 
   selectFile(): void {
