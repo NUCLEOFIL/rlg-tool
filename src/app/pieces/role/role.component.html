@@ -1,170 +1,305 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
+[class]="pieceDetailsService.piece == role ? 'isActive' : 'border'"
+[matTooltip]="translate.instant('role_tooltip')"
+matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips || i != 0">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="delete" (click)="onClickDelete()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"
+        [matTooltip]="translate.instant('role_add_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="content_copy" (click)="onClickCopy()"
+        [matTooltip]="translate.instant('role_copy_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="content_paste" (click)="onClickPaste()" *ngIf="copyRoleService.role && mission != copyRoleService.mission"
+        [matTooltip]="translate.instant('role_paste_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"
+        [matTooltip]="translate.instant('role_delete_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
     <div class="piece-form">
-        <div class="piece-form-title">Rôle 1</div>
-        <img src="../../../assets/background-images/role.png"/>
+        <div class="piece-form-title">{{role.intitule ? role.intitule : translate.instant('role_title')+' '+(i+1)}}</div>
+        <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="role.comments.length > 0"></mat-icon>
+        <img src="./assets/background-images/role_opacity0.png" draggable="false" *ngIf="i == 0"/>
+        <img src="./assets/background-images/role2_opacity0.png" draggable="false" *ngIf="i == 1"/>
         <div class="piece-form-intitule">
-            <label for="intitule">Intitulé</label>
-            <input name="intitule" type="text" placeholder="Développeur/euse web"/>   
+            <label for="intitule">{{'role_intitule_label' | translate}}</label>
+            <input name="intitule" type="text" [(ngModel)]="role.intitule" (change)="intituleIsAlreadyUsed(); editTrace($event, 'name_r');; validTutorialPhase4();"
+            maxlength="22"
+            [placeholder]="translate.instant('role_intitule_placeholder')"
+            [matTooltip]="translate.instant('role_intitule_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>
         <div class="piece-form-name">
-            <label for="name">Nom de la quête</label>
-            <input name="name" type="text" placeholder="Intégration de site web"/>   
+            <label for="name">{{'role_name_label' | translate}}</label>
+            <input name="name" type="text" [(ngModel)]="role.questName" (change)="editTrace($event,'quest_name'); validTutorialPhase5();" [placeholder]="translate.instant('role_name_placeholder')"
+            [matTooltip]="translate.instant('role_name_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>
         <div class="piece-form-description">
-            <label for="description">Description</label>
-            <textarea name="description"></textarea>
+            <label for="description">{{'role_description_label' | translate}}</label>
+            <textarea name="description" [(ngModel)]="role.description" (change)="editTrace($event,'description_r')"
+            [matTooltip]="translate.instant('role_description_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-objectives">
-            <label for="objective">Objectif(s) pédagoqique(s)</label>
-            <div class="piece-form-objectives-objective">
-                <input name="objective" type="text" placeholder="Nom de l'objectif"/>
-                <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+            <label for="objective">{{'role_objective_label' | translate}}</label>
+            <div class="piece-form-objectives-objective" *ngFor="let objective of role.educationnalObjectives, let i = index">
+                <input name="objective" type="text" [(ngModel)]="role.educationnalObjectives[i].objective" (change)="editTrace($event, 'Obj_['+(i)+']')" [placeholder]="translate.instant('role_objective_placeholder')"
+                [matTooltip]="translate.instant('role_objective_tooltip')"
+                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
+                <button mat-button *ngIf="role.educationnalObjectives.length > 1" (click)="removeEducationnalObjective(i)"><mat-icon fontIcon="remove"></mat-icon></button>
             </div>
-            <div class="piece-form-objectives-objective">
-                <input name="objective" type="text" placeholder="Nom de l'objectif"/>
-                <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
-            </div>
-            <button mat-button class="piece-form-objectives-add"><mat-icon fontIcon="add"></mat-icon></button>
+            <button mat-button class="piece-form-objectives-add" (click)="addEducationnalObjective()"><mat-icon fontIcon="add"></mat-icon></button>
         </div>
         <div class="piece-form-rewards">
-            <label for="reward">Récompense(s)</label>
-            <div class="piece-form-rewards-reward">
-                <div class="piece-form-rewards-reward-type">
-                    <label>Type</label>
-                    <select [(ngModel)]="rewardType">
-                        <option value="1">Débuter une nouvelle quête</option>
-                        <option value="2">Travailler un champ de compétence</option>
-                        <option value="3">Récupérer le contact d'un PNJ</option>
-                        <option value="4">Atteindre un objectif pédagoqique</option>
-                        <option value="5">Récupérer un objet</option>
-                        <option value="6">Changer de discussion</option>
-                        <option value="7">Autre</option>
+            <label for="reward">{{'role_reward_label' | translate}}</label>
+            <div class="piece-form-rewards-reward" *ngFor="let reward of role.rewards, let i = index">
+                <div></div>
+                <div class="piece-form-rewards-reward-type" *ngIf="!(unityService.unity_isActive && reward.type == 'other')">
+                    <label>{{'role_reward_type_label' | translate}}</label>
+                    <select [(ngModel)]="reward.type" (change)="changeRewardType(i, reward.type)"
+                    [matTooltip]="translate.instant('role_reward_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
+                        <option value="skill">{{'role_reward_type_skill' | translate}}</option>
+                        <option value="character">{{'role_reward_type_character' | translate}}</option>
+                        <option value="objective" *ngIf="!unityService.unity_isActive">{{'role_reward_type_objective' | translate}}</option>
+                        <option value="objects" hidden>{{'role_reward_type_object' | translate}}</option>
+                        <option value="object">{{'role_reward_type_object' | translate}}</option>
+                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>                        
+                        <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
+                        <option value="other" *ngIf="!unityService.unity_isActive">{{'role_reward_type_other' | translate}}</option>
                     </select>                    
                 </div>
-
-
-                <div class="piece-form-rewards-reward-objects" *ngIf="rewardType == 5">
-                    <div class="piece-form-rewards-reward-objects-object">
-                        <input type="number"/>
-                        <input type="text" placeholder="Nom de l'objet"/>
-                        <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                <div class="piece-form-rewards-reward-objects" *ngIf="reward.type == 'objects'">
+                    <div class="piece-form-rewards-reward-objects-object" *ngFor="let object of getObjectsReward(i).objects, let j = index">
+                        <input type="number" [(ngModel)]="object.number" (change)="editTrace($event, 'Reward_['+i+']_object_['+j+']_quantity')"/>
+                        <input type="text" [(ngModel)]="object.name" (change)="editTrace($event, 'Reward_['+i+']_object_['+j+']_name')" [placeholder]="translate.instant('role_reward_type_object_placeholder')"/>
+                        <button mat-button (click)="removeObject(i,j)"><mat-icon fontIcon="remove"></mat-icon></button>
                     </div>
-                    <button mat-button class="piece-form-rewards-reward-objects-add"><mat-icon fontIcon="add"></mat-icon></button>
+                    <button mat-button class="piece-form-rewards-reward-objects-add" (click)="addObject(i)"><mat-icon fontIcon="add"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-character" *ngIf="rewardType == 3">
-                    <select>
-                        <option>Personnage 1</option>
+                <div class="piece-form-rewards-reward-character" *ngIf="reward.type == 'character'">
+                    <select [(ngModel)]="getCharacterReward(i).character" (change)="editTrace($event, 'Reward_['+i+']_character')"
+                    [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
                     </select>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-discussion" *ngIf="rewardType == 6">
+
+                <div class="piece-form-rewards-reward-discussion" *ngIf="reward.type == 'discussion'">
+                    <select [(ngModel)]="getDiscussionReward(i).discussionId" (change)="editTrace($event, 'Reward_['+i+']_discussion')"
+                    [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                        <ng-container *ngFor="let character of scenario.characters">
+                            <optgroup [label]="character.name" *ngIf="role.characterHasDiscussion(character)">
+                                <ng-container *ngFor="let discussion of role.discussions">
+                                    <option [ngValue]="discussion.ID" *ngIf="discussion.character == character">{{discussion.name}}</option>
+                                </ng-container>
+                            </optgroup>                        
+                        </ng-container>
+                    </select>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
+                </div>
+
+                <!--                
+                <div class="piece-form-rewards-reward-discussion" *ngIf="reward.type == 'discuss'">
                     <select>
                         <option>Discussion 1</option>
                     </select>
                     <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
-                <div class="piece-form-rewards-reward-skill" *ngIf="rewardType == 2">
-                    <input type="number"/>
-                    <select>
-                        <option>Compétence 1</option>
-                    </select>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
-                </div>
-                <div class="piece-form-rewards-reward-quest" *ngIf="rewardType == 1">
-                    <select>
-                        <option>Quête 1</option>
-                    </select>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
-                </div>
-                <div class="piece-form-rewards-reward-objective" *ngIf="rewardType == 4">
-                    <select>
-                        <option>Objectif pédagoqique 1</option>
-                    </select>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
-                </div>
-                <div class="piece-form-rewards-reward-other" *ngIf="rewardType == 7">
-                    <textarea></textarea>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
-                </div>
-                <div class="piece-form-rewards-reward-add" *ngIf="rewardType != 0">
-                    <button mat-button><mat-icon fontIcon="add"></mat-icon></button>
-                </div>
- 
-            </div>  
-        </div>
+                -->
 
+                <div class="piece-form-rewards-reward-object" *ngIf="reward.type == 'object'">
+                    <input type="number" [(ngModel)]="getObjectReward(i).quantity" (change)="editTrace($event, 'Reward_['+i+']_quantity')"/>
+                    <select [(ngModel)]="getObjectReward(i).object" (change)="editTrace($event, 'Reward_['+i+']_object')"
+                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <ng-container *ngFor="let ressource of scenario.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                        <ng-container *ngFor="let ressource of role.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                    </select>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
+                </div>
+
+                <div class="piece-form-rewards-reward-skill" *ngIf="reward.type == 'skill'">
+                    <input type="number" [(ngModel)]="getSkillReward(i).quantity" (change)="editTrace($event, 'Reward_['+i+']_quantity')"/>
+                    <select [(ngModel)]="getSkillReward(i).skill" (change)="editTrace($event, 'Reward_['+i+']_skill')"
+                    [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <ng-container *ngFor="let skill of role.ressources">
+                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                        </ng-container>
+                    </select>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
+                </div>
+                <div class="piece-form-rewards-reward-quest" *ngIf="reward.type == 'quest'">
+                    <select (change)="changeQuestReward(i, $event)"
+                    [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
+                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                <option [ngValue]="quest.questName" [selected]="getQuestReward(i).intitule == quest.intitule && getQuestReward(i).questName == quest.questName"
+                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                    {{quest.questName}}
+                                </option>
+                            </ng-container>
+                        </ng-container>
+                    </select>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
+                </div>
+                <div class="piece-form-rewards-reward-objective" *ngIf="reward.type == 'objective' && !unityService.unity_isActive">
+                    <select [(ngModel)]="getObjectiveReward(i).objective" (change)="editTrace($event, 'Reward_['+i+']_objective')"
+                    [matTooltip]="translate.instant('role_reward_type_objective_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <option [ngValue]="objective" *ngFor="let objective of role.educationnalObjectives">{{objective.objective}}</option>
+                    </select>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
+                </div>
+                <div class="piece-form-rewards-reward-other" *ngIf="reward.type == 'other' && !unityService.unity_isActive">
+                    <textarea [(ngModel)]="getOtherReward(i).text" (change)="editTrace($event, 'Reward_['+i+']_other')"></textarea>
+                    <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>
+                </div>
+
+                <div class="piece-form-rewards-reward-randomObjects" *ngIf="reward.type == 'randomObjects' && !unityService.unity_isActive">
+                    <div>
+                        <label>{{'rewards_randomObjects_repeat' | translate}} </label>
+                        <input type="number" min="1" [(ngModel)]="getRandomObjectsReward(i).repeatNumber" (change)="editTrace($event, 'Reward_['+i+']_repeat')"/>
+                    </div>
+                    <div *ngFor="let object of getRandomObjectsReward(i).objects, let objectIndex = index">
+                        <div class="piece-form-rewards-reward-randomObjects-object">
+                            <div class="piece-form-rewards-reward-randomObjects-object-percentage" [matTooltip]="translate.instant('rewards_randomObjects_percentages_tootlip')"
+                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                <input type="number" min="0" max="100" [(ngModel)]="getRandomObjectsReward(i).dropPercentages[objectIndex]"
+                                    (change)="editTrace($event, 'Reward_['+i+']_object_['+objectIndex+']_percentage')"/>
+                                <label>%</label>
+                            </div>
+                            <select name="object_name" [(ngModel)]="getRandomObjectsReward(i).objects[objectIndex]" (change)="editTrace($event, 'Reward_['+i+']_object_['+objectIndex+']_object')">
+                                <option value="undefined" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                                <ng-container *ngFor="let ressource of scenario.ressources">
+                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                </ng-container>
+                                <ng-container *ngFor="let ressource of this.role.ressources">
+                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                </ng-container>
+                            </select>
+                            <button mat-button (click)="removeObjectToRandomObjectsReward(getRandomObjectsReward(i), i, objectIndex)" *ngIf="getRandomObjectsReward(i).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                        </div>
+                        <div>
+                            <label>{{'rewards_randomObjects_dropBetween_part1' | translate}} </label>
+                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(i).minDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+i+']_object_['+objectIndex+']_minQuantity')"/>
+                            <label> {{'rewards_randomObjects_dropBetween_part2' | translate}} </label>
+                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(i).maxDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+i+']_object_['+objectIndex+']_maxQuantity')"/>
+                        </div>
+                    </div>
+                    <div class="piece-form-rewards-reward-randomObjects-buttons">
+                        <button mat-button class="piece-form-rewards-reward-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(i), i)"><mat-icon fontIcon="add"></mat-icon></button>
+                        <button mat-button (click)="removeReward(i)"><mat-icon fontIcon="remove"></mat-icon></button>                        
+                    </div>
+                </div>
+            </div>  
+            <div class="piece-form-rewards-add">
+                <button mat-button (click)="addReward()"><mat-icon fontIcon="add"></mat-icon></button>
+            </div>
+        </div>
 
         <div class="piece-form-personnalization">
-            <div class="piece-form-title">Personnalisation</div>
+            <div class="piece-form-title">{{'role_personnalization_title' | translate}}</div>
             <div class="piece-form-personnalization-appearance">
-                <label>Apparence, équipement</label>
-                <textarea></textarea>
+                <label>{{'role_personnalization_label' | translate}}</label>
+                <textarea [(ngModel)]="role.stuff" (change)="editTrace($event, 'equipment')"
+                [matTooltip]="translate.instant('role_personnalization_tooltip')"
+                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
             </div>
         </div>
 
-        <div class="piece-form-ressources">
-            <div class="piece-form-title">Ressources & compétences</div>
-            <div class="piece-form-ressources-ressource">
+        <div class="piece-form-ressources"
+        [matTooltip]="translate.instant('role_ressource_tooltip')"
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            <div class="piece-form-title">{{'role_ressource_title' | translate}}</div>
+            <div class="piece-form-ressources-ressource" *ngFor="let ressource of role.ressources, let i = index">
                 <div class="piece-form-ressources-ressource-name">
-                    <label for="name">Nom</label>
-                    <input name="name" type="text"/>
+                    <label for="name">{{'role_ressource_name_label' | translate}}</label>
+                    <input name="name" type="text" [(ngModel)]="ressource.name" (change)="editTrace($event, 'Skill/Ressource_['+i+']_name')"/>
                 </div>
                 <div class="piece-form-ressources-ressource-quantity">
-                    <label for="quantity">Nombre / stats</label>
-                    <input name="quantity" type="text">
+                    <label for="quantity">{{'role_ressource_quantity_label' | translate}}</label>
+                    <input name="quantity" type="text" [(ngModel)]="ressource.number" (change)="editTrace($event, 'Skill/Ressource_['+i+']_stats')">
                 </div>
-                <div class="piece-form-ressources-ressource-quantity">
-                    <label for="type">Type</label>
-                    <select name="type">
-                        <option value="1">Ressource / Objet</option>
-                        <option value="2">Attribut</option>
+                <div class="piece-form-ressources-ressource-rarity" *ngIf="ressource.type == 'ressource' && !unityService.unity_isActive">
+                    <label for="rarity">{{'ressource_rarity' | translate}}</label>
+                    <select [class]="'piece-form-ressources-ressource-rarity-'+ressource.rarity" [(ngModel)]="ressource.rarity" (change)="editTrace($event,'Skill/Ressource_['+i+']_rarity')">
+                        <option value="legendary" class="piece-form-ressources-ressource-rarity-legendary">{{'ressource_rarity_legendary' | translate}}</option>
+                        <option value="rare" class="piece-form-ressources-ressource-rarity-rare">{{'ressource_rarity_rare' | translate}}</option>
+                        <option value="common" class="piece-form-ressources-ressource-rarity-common">{{'ressource_rarity_common' | translate}}</option>
                     </select>
                 </div>
-                <button mat-button><mat-icon fontIcon="remove"></mat-icon></button> 
+                <div class="piece-form-ressources-ressource-type">
+                    <label for="type">{{'role_ressource_type_label' | translate}}</label>
+                    <select name="type" [(ngModel)]="ressource.type" (change)="editTrace($event, 'Skill/Ressource_['+i+']_type')">
+                        <option value="ressource">{{'role_ressource_type_object' | translate}}</option>
+                        <option value="attribut">{{'role_ressource_type_skill' | translate}}</option>
+                    </select>
+                </div>
+                <button mat-button><mat-icon fontIcon="remove" (click)="removeRessource(i)"></mat-icon></button> 
             </div>
-            <button mat-button class="piece-form-ressources-add"><mat-icon fontIcon="add"></mat-icon></button>
+            <button mat-button class="piece-form-ressources-add" (click)="addRessource()"><mat-icon fontIcon="add"></mat-icon></button>
         </div>
 
-        <div class="piece-form-title">Rôle supplémentaire</div>
-        <div class="piece-form-supplementary">
+        <div class="piece-form-title">{{'role_supplementaryRole_title' | translate}}</div>
+        <div class="piece-form-supplementary" [style.background]="'linear-gradient(302deg, '+supplementaryRole.color+' 0%, '+supplementaryRole.color+' 50%, #9ad5ec 50%, #9ad5ec 100%)'"
+        *ngFor="let supplementaryRole of role.supplementaryRoles, let i = index">
             <div class="piece-form-supplementary-form">
                 <div>
                     <div class="piece-form-supplementary-form-name">
-                        <label for="name">Nom</label>
-                        <input name="name" type="text"/>
+                        <label for="name">{{'role_supplementaryRole_name_label' | translate}}</label>
+                        <input name="name" type="text" [(ngModel)]="supplementaryRole.name" (change)="editTrace($event, 'Secondary_role_['+i+']_name')"
+                        [matTooltip]="translate.instant('role_supplementaryRole_name_tooltip')"
+                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
                     </div>
                     <div class="piece-form-supplementary-form-color">
-                        <label for="color">Couleur</label>
-                        <input name="color" type="color"/>
+                        <label for="color">{{'role_supplementaryRole_color_label' | translate}}</label>
+                        <input name="color" type="color" [(ngModel)]="supplementaryRole.color" (change)="editTrace($event, 'Secondary_role_['+i+']_color')"
+                        [matTooltip]="translate.instant('role_supplementaryRole_color_tooltip')"
+                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>
                     </div>
                     <div class="piece-form-supplementary-form-textarea">
-                        <label for="objectives">Objectifs</label>
-                        <textarea name="objectives"></textarea>
+                        <label for="objectives">{{'role_supplementaryRole_objective_label' | translate}}</label>
+                        <textarea name="objectives" [(ngModel)]="supplementaryRole.objectives" (change)="editTrace($event, 'Secondary_role_['+i+']_obj')"
+                        [matTooltip]="translate.instant('role_supplementaryRole_objective_tooltip')"
+                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
                     </div>
                     <div class="piece-form-supplementary-form-textarea">
-                        <label for="skills">Compétences</label>
-                        <textarea name="skills"></textarea>
+                        <label for="skills">{{'role_supplementaryRole_skill_label' | translate}}</label>
+                        <textarea name="skills" [(ngModel)]="supplementaryRole.skills" (change)="editTrace($event, 'Secondary_role_['+i+']_skill')"
+                        [matTooltip]="translate.instant('role_supplementaryRole_skill_tooltip')"
+                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
                     </div>
                     <div class="piece-form-supplementary-form-textarea">
-                        <label for="rules">Règles</label>
-                        <textarea name="rules"></textarea>
+                        <label for="rules">{{'role_supplementaryRole_rule_label' | translate}}</label>
+                        <textarea name="rules" [(ngModel)]="supplementaryRole.rules" (change)="editTrace($event, 'Secondary_role_['+i+']_rule')"
+                        [matTooltip]="translate.instant('role_supplementaryRole_rule_tooltip')"
+                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
                     </div>
-                    <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+                    <button mat-button (click)="removeSupplementaryRole(i)"><mat-icon fontIcon="remove"></mat-icon></button>
                 </div>
             </div>
         </div>
-        <button class="piece-form-supplementary-form-add" mat-button><mat-icon fontIcon="add"></mat-icon></button>
-
+        <button mat-button class="piece-form-supplementary-form-add" (click)="addSupplementaryRole()"><mat-icon fontIcon="add"></mat-icon></button>
     </div>
 </div>

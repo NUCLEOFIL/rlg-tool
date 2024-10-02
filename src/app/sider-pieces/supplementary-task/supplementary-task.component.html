@@ -1,14 +1,23 @@
-<div class="piece">
+<div class="piece" [style.background]="task.supplementaryRole ?
+    'linear-gradient(165deg, rgba(154,213,236,1) 0%, rgba(154,213,236,1) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
+    : 'linear-gradient(165deg, rgba(154,213,236,1) 0%, rgba(154,213,236,1) 55%, rgba(0,0,0,1) 55%, rgba(0,0,0,1) 100%)'"
+    [matTooltip]="translate.instant('supplementaryRole_tooltip')"
+    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
-        <div class="piece-title">Tâche liée au rôle supplémentaire</div>
+        <div class="piece-title">{{'supplementaryRole_title' | translate}}</div>
+        <!--
         <div class="piece-form-checkbox">
             <input type="checkbox" [(ngModel)]="checkbox"/>
             <label>Oui</label>
         </div>
-        <div class="piece-form-select" *ngIf="checkbox">
-            <label>Rôle</label>
-            <select>
-                <option>Rôle 1</option>
+        œ-->
+        <div class="piece-form-select">
+            <label>{{'supplementaryRole_label' | translate}}</label>
+            <select [(ngModel)]="task.supplementaryRole" (change)="editTrace($event,'supplementaryRole')">
+                <option selected [ngValue]="null">{{'supplementaryRole_none' | translate}}</option>
+                <ng-container *ngFor="let supplementaryRole of role.supplementaryRoles">
+                    <option [ngValue]="supplementaryRole">{{supplementaryRole.name}}</option>
+                </ng-container>
             </select>
         </div>
     </div>

@@ -5,7 +5,6 @@
     height: 300px;
     position: relative;
     background-color: var(--piece-background-color);
-    transition: all 0.5s ease;
 
     &-menu {
         position: absolute;
@@ -84,6 +83,13 @@
             font-family: 'Glacial Indifference Bold';
         }
 
+        &-comment {
+            transform: scale(1.2);
+            position: absolute;
+            top: 15px;
+            right: 5%;
+        }
+
         textarea {
             margin-top: 5px;
             padding: 10px;
@@ -91,8 +97,6 @@
             border-radius: 10px;
             border: none;
             resize: none;
-            font-size: 15px;
-            background-image: url("../../../assets/background-images/step.png");
             background-position: center;
             background-repeat: no-repeat;
             background-size: 100px;
@@ -100,6 +104,7 @@
 
         &-duration {
 
+            display: flex;
             margin-top: 10px;
 
             label {
@@ -113,7 +118,7 @@
                 width: 50px;
                 border-top-left-radius: 10px;
                 border-bottom-left-radius: 10px;
-                text-align: right;
+                text-align: center;
             }
 
             select {
@@ -122,19 +127,9 @@
                 border-bottom-right-radius: 10px;
                 border: none;
                 height: 32px;
-                width: 50px;
+                width: 70px;
                 text-align: center;
             }
         }
     }
-}
-
-.piece::after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    border: 1px solid black;
 }

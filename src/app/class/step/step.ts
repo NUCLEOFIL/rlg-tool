@@ -1,7 +1,9 @@
+import { Comment } from "../comment/comment";
+
 export class Step {
 
     description: string = '';
-    durarion: number = 1;
+    duration: number = 1;
     durationUnit: string = 'UT';
     comments: Comment[] = [];
 }

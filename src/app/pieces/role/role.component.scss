@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined");
+
 .piece {
     --piece-background-color: #9ad5ec;
 
@@ -104,7 +106,6 @@
             border-radius: 10px;
             border: none;
             padding: 5px 10px 5px 10px;
-            font-size: 15px;
         }
 
         textarea {
@@ -113,7 +114,6 @@
             border: none;
             resize: none;
             flex-grow: 1;
-            font-size: 15px;
         }
 
         img {
@@ -127,6 +127,16 @@
             margin-top: 20px;
             font-size: 25px;
             font-family: 'Glacial Indifference Bold';
+        }
+
+        &-comment {
+            position: absolute;
+            right: 30%;
+            top: 25px;
+            transform: scale(1.2);
+            background-color: white;
+            padding: 4px;
+            border-radius: 50%;
         }
 
         &-intitule {
@@ -204,9 +214,18 @@
                 }
             }
 
+            &-add {
+                margin-top: 10px;
+
+                button {
+                    width: 100%;
+                }
+            }
+
             &-reward {
                 display: flex;
                 flex-direction: column;
+                margin-top: 10px;
 
                 select {
                     height: 50px;
@@ -305,7 +324,7 @@
                     }
                 }
 
-                &-skill {
+                &-skill, &-object {
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
@@ -324,11 +343,44 @@
                     }
                 }
 
-                &-add {
-                    margin-top: 10px;
+                &-randomObjects {
 
-                    button {
-                        width: 100%;
+                    input {
+                        text-align: center;
+                        height: 16px;
+                    }
+    
+                    &-object {
+                        display: flex;
+                        margin-bottom: 2px;
+                        margin-top: 10px;
+
+                        &-percentage {
+                            width: 120px;
+
+                            input[type="number"] {
+                                width: 30px;
+                                height: 40px;
+                            }
+                        }
+                        
+                        button {
+                            margin-left: 5px;
+                        }
+                    }
+
+                    &-buttons {
+                        display: flex;
+                        flex-direction: column;
+
+                        button {
+                            position: relative;
+                            left: 100%;
+                            transform: translateX(-100%);
+                            margin-top: 5px;
+                            width: 50px;
+                            height: 50px;
+                        }
                     }
                 }
             }
@@ -385,6 +437,24 @@
                         background-size: 20%;
                     }
                 }
+
+                &-rarity {
+                    option {
+                        background-color: white;
+                    }
+
+                    &-legendary {
+                        color: #f6a001;
+                    }
+                    
+                    &-rare {
+                        color: #1bc700;
+                    }
+
+                    &-common {
+                        color: #000000;
+                    }
+                }
             }
 
             button {
@@ -408,7 +478,6 @@
 
         &-supplementary {
             padding-bottom: 10px;
-            background: linear-gradient(302deg, rgb(2, 0, 36) 0%, rgb(2, 0, 36) 50%, #9ad5ec 50%, #9ad5ec 100%);
             width: 398px;
             position: relative;
             left: -34px;
@@ -477,14 +546,4 @@
             }
         }
     }
-}
-
-.piece::after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    border: 1px solid black;
 }

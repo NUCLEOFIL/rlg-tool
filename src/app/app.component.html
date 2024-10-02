@@ -1,129 +1,116 @@
 <div class="container">
-    <div class="container-appDragScroll" appDragScroll>
-        <div class="container-appMouseWheelZoom" appMouseWheelZoom>
+    <div id="contentDiv" #contentDiv class="container-appDragScroll" [ngClass]="siderFolded ? 'siderFolded' : ''" appDragScroll appMouseWheelZoom [scenario]="scenario">
+        <div class="container-appMouseWheelZoom" [style.scale]="this.zoomService.zoom">
 
             <div class="container-scenario-main">
                 <div class="container-scenario-main-gamePieces" [style.z-index]="4">
-                    <app-game-educationnal-objective></app-game-educationnal-objective>
-                    <app-game-context [style.z-index]="2"></app-game-context>
+                    <app-game-educationnal-objective [scenario]="scenario" [gameEducationnalObjective]="this.scenario.educationnalObjective"></app-game-educationnal-objective>
+                    <app-game-context [style.z-index]="2" [scenario]="scenario" [gameContext]="this.scenario.context"></app-game-context>
+                    <app-game-characters [style.z-index]="3" [scenario]="scenario"></app-game-characters>
+                    <app-rules [style.z-index]="4" [scenario]="scenario"></app-rules>
                 </div>
 
                 <div class="container-scenario-main-missions">
-                    <div class="container-scenario-main-missions-mission">
+                    <div class="container-scenario-main-missions-mission" *ngFor="let mission of this.scenario.missions, let missionIndex = index">
 
                         <div class="container-scenario-chronologie">
-                            <div class="container-scenario-chronologie-title">Chronologie générale de la mission</div>
-                            <div class="container-scenario-chronologie-steps">
-                                <app-step [style.z-index]="2"></app-step>
-                                <app-step [style.z-index]="1"></app-step>
+                            <div class="container-scenario-chronologie-title">{{'steps_mission' | translate}}</div>
+                            <div class="container-scenario-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission, mission, missionIndex, undefined)" [cdkDropListData]="mission.chronologie">
+                                <div class="container-scenario-chronologie-element" *ngFor="let step of mission.chronologie, let i = index" [style.z-index]="mission.chronologie.length-i" cdkDrag [cdkDragDisabled]="!shiftPressed">
+                                    <div *ngIf="step != null">
+                                        <app-step [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [parent]="mission" [index]="i" [mission]="mission"></app-step>
+                                    </div>
+                                    <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
+                                        <button mat-button (click)="addMissionStep(mission, i, missionIndex)"
+                                        [matTooltip]="translate.instant('plus_tooltip')"
+                                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
+                                    </div>
+                                </div>
+                                <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;">
+                                    <button mat-button (click)="addMissionStep(mission, mission.chronologie.length, missionIndex)"
+                                    [matTooltip]="translate.instant('plus_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="container-scenario-chronologie">
-                            <div class="container-scenario-chronologie-title">Chronologie du rôle</div>
-                            <div class="container-scenario-chronologie-steps">
-                                <app-step [style.z-index]="2"></app-step>
-                                <app-step [style.z-index]="1"></app-step>
-                            </div>
-                        </div>                        
+                        </div>           
 
                         <div style="display: flex;">
+
                             <div class="container-scenario-main-missions-mission-missionPieces" [style.z-index]="3">
-                                <app-educational-objective></app-educational-objective>
-                                <app-mission-context [style.z-index]="2"></app-mission-context>
+                                <app-educational-objective [educationnalObjective]="mission.educationnalObjective" [scenario]="scenario" [i]="missionIndex"></app-educational-objective>
+                                <app-mission-context [style.z-index]="2" [missionContext]="mission.context" [scenario]="scenario" [i]="missionIndex"></app-mission-context>
                             </div>
 
                             <div class="container-scenario-main-missions-mission-roles" [style.z-index]="2">
-                                <div class="container-scenario-main-missions-mission-roles-role">
-                                    <app-role [style.z-index]="10"></app-role>
-                                    <div class="container-scenario-main-missions-mission-roles-role-tasks"
-                                        [style.z-index]="1">
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-task [style.z-index]="3"></app-task>
-                                            <app-task [style.z-index]="2"></app-task>
-                                            <app-repeat-task [style.z-index]="1"></app-repeat-task>
-                                        </div>
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-annexe-task [style.z-index]="3"></app-annexe-task>
-                                            <app-optionnal-task [style.z-index]="2"></app-optionnal-task>
-                                            <app-final-task [style.z-index]="1"></app-final-task>
-                                        </div>
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-random-event [style.z-index]="2"></app-random-event>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="container-scenario-main-missions-mission-roles-role">
-                                    <app-role [style.z-index]="10"></app-role>
-                                    <div class="container-scenario-main-missions-mission-roles-role-tasks"
-                                        [style.z-index]="1">
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks" [style.z-index]="2">
-                                            <app-task [style.z-index]="3"></app-task>
-                                            <app-annexe-task [style.z-index]="2"></app-annexe-task>
-                                            <app-random-event [style.z-index]="1"></app-random-event>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                <div class="container-scenario-main-missions-mission-roles-role" *ngFor="let role of mission.roles, let roleIndex = index">
 
-                    <div class="container-scenario-main-missions-mission">
-
-                        <div class="container-scenario-chronologie">
-                            <div class="container-scenario-chronologie-title">Chronologie générale de la mission</div>
-                            <div class="container-scenario-chronologie-steps">
-                                <app-step [style.z-index]="2"></app-step>
-                                <app-step [style.z-index]="1"></app-step>
-                            </div>
-                        </div>
-
-                        <div class="container-scenario-chronologie">
-                            <div class="container-scenario-chronologie-title">Chronologie du rôle</div>
-                            <div class="container-scenario-chronologie-steps">
-                                <app-step [style.z-index]="2"></app-step>
-                                <app-step [style.z-index]="1"></app-step>
-                            </div>
-                        </div>
-
-                        <div style="display: flex;">
-                            <div class="container-scenario-main-missions-mission-missionPieces" [style.z-index]="3">
-                                <app-educational-objective></app-educational-objective>
-                                <app-mission-context [style.z-index]="2"></app-mission-context>
-                            </div>
-
-                            <div class="container-scenario-main-missions-mission-roles" [style.z-index]="2">
-                                <div class="container-scenario-main-missions-mission-roles-role">
-                                    <app-role [style.z-index]="10"></app-role>
-                                    <div class="container-scenario-main-missions-mission-roles-role-tasks"
-                                        [style.z-index]="1">
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-task [style.z-index]="2"></app-task>
-                                            <app-task [style.z-index]="1"></app-task>
+                                    <div style="display: flex; flex-direction: column;">
+                                        <div class="container-scenario-main-missions-mission-roles-role-chronologie">
+                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-title">{{'steps_role' | translate}}</div>
+                                            <div class="container-scenario-main-missions-mission-roles-role-chronologie-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="stepDrop($event, mission, role, missionIndex, roleIndex)" [cdkDropListData]="role.chronologie">
+                                                <div class="container-scenario-main-missions-mission-roles-role-chronologie-element" *ngFor="let step of role.chronologie, let i = index" [style.z-index]="role.chronologie.length-i" cdkDrag [cdkDragDisabled]="!shiftPressed">
+                                                    <div *ngIf="step != null">
+                                                        <app-step [step]="step" [scenario]="scenario" [missionIndex]="missionIndex" [roleIndex]="roleIndex" [parent]="role" [index]="i" [mission]="mission"></app-step>
+                                                    </div>                                                    
+                                                    <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;" *ngIf="step == null">
+                                                        <button mat-button (click)="addRoleStep(mission, role, i, missionIndex, roleIndex)"
+                                                        [matTooltip]="translate.instant('plus_tooltip')"
+                                                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
+                                                    </div>
+                                                </div>   
+                                                <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 300px;">
+                                                    <button mat-button (click)="addRoleStep(mission, role, role.chronologie.length, missionIndex, roleIndex)"
+                                                    [matTooltip]="translate.instant('plus_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-annexe-task [style.z-index]="2"></app-annexe-task>
-                                        </div>
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-random-event [style.z-index]="2"></app-random-event>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="container-scenario-main-missions-mission-roles-role">
-                                    <app-role [style.z-index]="10"></app-role>
-                                    <div class="container-scenario-main-missions-mission-roles-role-tasks"
-                                        [style.z-index]="1">
-                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inlineTasks"
-                                            [style.z-index]="2">
-                                            <app-task [style.z-index]="3"></app-task>
-                                            <app-annexe-task [style.z-index]="2"></app-annexe-task>
-                                            <app-random-event [style.z-index]="1"></app-random-event>
+
+                                        <div style="display: flex; flex-direction: row;">
+                                            <app-role [style.z-index]="2" [scenario]="scenario" [role]="role" [mission]="mission" [i]="roleIndex" [missionIndex]="missionIndex"></app-role>
+                                            <div class="container-scenario-main-missions-mission-roles-role-tasks" [style.z-index]="1" cdkDropListGroup>
+                                                <div class="container-scenario-main-missions-mission-roles-role-tasks-inline" *ngFor="let tasks of role.tasks, let i = index" [style.z-index]="role.tasks.length+i">
+                                                    <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-list" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="taskDrop($event, mission, role, missionIndex, roleIndex)" [cdkDropListData]="tasks">
+                                                        <div class="container-scenario-main-missions-mission-roles-role-tasks-inline-element" *ngFor="let task of tasks, let j = index" [style.z-index]="tasks.length-j" cdkDrag [cdkDragDisabled]="!shiftPressed">
+                                                            <div *ngIf="task != null">
+                                                                <app-task *ngIf="task.type == 'normal'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-task>
+                                                                <app-annexe-task *ngIf="task.type == 'annexe'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-annexe-task>
+                                                                <app-random-event *ngIf="task.type == 'event'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-random-event>
+                                                                <app-optionnal-task *ngIf="task.type == 'optionnal'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-optionnal-task>
+                                                                <app-final-task *ngIf="task.type == 'final'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-final-task>
+                                                                <app-repeat-task *ngIf="task.type == 'repeat'" [task]="task" [scenario]="scenario" [mission]="mission" [missionIndex]="missionIndex" [role]="role" [roleIndex]="roleIndex" [i]="i" [j]="j"></app-repeat-task>
+                                                            </div>
+                                                            
+                                                            <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="task == null">
+                                                                <button mat-button [matMenuTriggerFor]="addTaskMenu"
+                                                                [matTooltip]="translate.instant('plus_tooltip')"
+                                                                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
+                                                                <mat-menu #addTaskMenu="matMenu">
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'normal')">{{'normalTask_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'annexe')" *ngIf="!unityService.unity_isActive">{{'annexeTask_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'optionnal')" *ngIf="!unityService.unity_isActive">{{'optionnalTask_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'final')" *ngIf="canCreateFinalOrRepeatTask(tasks, j) && !unityService.unity_isActive">{{'finalTask_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'event')" *ngIf="!unityService.unity_isActive">{{'randomEvent_add' | translate}}</button>
+                                                                    <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, j, 'repeat')" *ngIf="canCreateFinalOrRepeatTask(tasks, j) && !unityService.unity_isActive">{{'repeatTask_add' | translate}}</button>
+                                                                </mat-menu>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="container-scenario-main-missions-mission-buttonAdd" style="height: 400px;" *ngIf="dontContainFinalOrRepeatTask(tasks)">
+                                                        <button mat-button [matMenuTriggerFor]="addTaskMenu"
+                                                        [matTooltip]="translate.instant('plus_tooltip')"
+                                                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="add"></mat-icon></button>
+                                                        <mat-menu #addTaskMenu="matMenu">
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'normal')">{{'normalTask_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bccecc'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'annexe')" *ngIf="!unityService.unity_isActive">{{'annexeTask_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'optionnal')" *ngIf="!unityService.unity_isActive">{{'optionnalTask_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'final')" *ngIf="!unityService.unity_isActive">{{'finalTask_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#bfdaa3'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'event')" *ngIf="!unityService.unity_isActive">{{'randomEvent_add' | translate}}</button>
+                                                            <button class="container-scenario-main-missions-mission-roles-role-tasks-menuButton" [style.background-color]="'#abbcc6'" mat-menu-item (click)="addTask(mission, role, missionIndex, roleIndex, i, tasks.length, 'repeat')" *ngIf="!unityService.unity_isActive">{{'repeatTask_add' | translate}}</button>
+                                                        </mat-menu>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -135,22 +122,180 @@
         </div>
     </div>
 
-    <div class="container-sider">
-        <app-rules class="container-sider-element"></app-rules>
-        <app-role-occurence class="container-sider-element"></app-role-occurence>
-        <app-supplementary-task class="container-sider-element"></app-supplementary-task>
-        <app-repeat class="container-sider-element"></app-repeat>
-        <app-interupt class="container-sider-element"></app-interupt>
-        <app-characters class="container-sider-element"></app-characters>
-        <app-comments class="container-sider-element"></app-comments>
+    <div class="container-sider" [ngClass]="siderFolded ? 'siderFolded' : ''">
+        <div class="container-sider-deploy" (click)="siderFolded = !siderFolded; minimapService.reset()"
+        [matTooltip]="siderFolded ? translate.instant('siderDeploy_tooltip') : translate.instant('siderFold_tooltip')"
+        matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            <mat-icon fontIcon="arrow_forward" [ngClass]="siderFolded ? 'siderFolded' : ''"></mat-icon>
+        </div>
+        <div class="container-sider-title">{{getSiderTitle()}}</div>
+        <div class="container-sider-elements">
+            <app-rewards class="container-sider-elements-element" 
+                [piece]="pieceDetailsService.pieceIsTask() ? pieceDetailsService.pieceAsTask() : pieceDetailsService.pieceAsMission()" 
+                [role]="pieceDetailsService.pieceIsTask() ? pieceDetailsService.parentAsRole() : undefined"
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsTask() || pieceDetailsService.pieceIsMission()">
+            </app-rewards>
+            <app-role-occurence class="container-sider-elements-element" 
+                [role]="pieceDetailsService.pieceAsRole()" 
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsRole() && !unityService.unity_isActive">
+            </app-role-occurence>
+            <app-supplementary-task class="container-sider-elements-element" 
+                [task]="pieceDetailsService.pieceAsTask()" 
+                [role]="pieceDetailsService.parentAsRole()" 
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive">
+            </app-supplementary-task>
+            <app-repeat class="container-sider-elements-element" 
+                [task]="pieceDetailsService.pieceAsTask()" 
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive">
+            </app-repeat>
+            <app-interupt class="container-sider-elements-element"
+                [task]="pieceDetailsService.pieceAsTask()" 
+                [scenario]="scenario"
+                *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive">
+            </app-interupt>
+            <app-characters class="container-sider-elements-element" 
+                [scenario]="scenario" 
+                [task]="pieceDetailsService.pieceAsTask()" 
+                *ngIf="pieceDetailsService.pieceIsTask() && !unityService.unity_isActive">
+            </app-characters>
+            <app-comments class="container-sider-elements-element" 
+                [piece]="pieceDetailsService.piece" 
+                [scenario]="scenario">
+            </app-comments>
+            <app-discussions class="container-sider-elements-element" 
+                [scenario]="scenario" 
+                [role]="pieceDetailsService.pieceAsRole()" 
+                *ngIf="pieceDetailsService.pieceIsRole()">
+            </app-discussions>
+            <app-linked-files class="container-sider-elements-element"
+                [scenario]="scenario"
+                [piece]="pieceDetailsService.pieceAsTask()"
+                *ngIf="pieceDetailsService.pieceIsTask()">
+            </app-linked-files>
+        </div>
+        
     </div>
 
-    <div class="container-settings">
-        <div class="container-settings-mode">
-            <input name="unity" type="checkbox" />
-            <label for="unity">Intégrer le jeu sous Unity</label>
-        </div>
-        <button mat-mini-fab color="white"><mat-icon fontIcon="download_file"></mat-icon></button>
-        <button mat-mini-fab color="white"><mat-icon fontIcon="upload-file"></mat-icon></button>
+    <div class="container-settings-button" [ngClass]="siderFolded ? 'siderFolded' : ''">
+        <button mat-mini-fab color="white" [matMenuTriggerFor]="settingsMenu"            
+        [matTooltip]="translate.instant('settingsMenu_tooltip')"
+        matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            <mat-icon fontIcon="menu"></mat-icon>
+        </button>
+        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" accept=".zip">
+        <mat-menu class="container-settings" #settingsMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="launchDownloadFile()"
+            [matTooltip]="translate.instant('download_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="download_file"></mat-icon>
+                <span>{{'download_label' | translate}}</span>
+            </button>
+            <button mat-menu-item [matMenuTriggerFor]="unityExportMissionMenu"
+            [matTooltip]="translate.instant('exportUnity_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            *ngIf="unityService.unity_isActive">
+                <mat-icon fontIcon="download_for_offline"></mat-icon>
+                <span>{{'exportUnity_label' | translate}}</span>
+            </button>
+            <button mat-menu-item (click)="selectFile()"
+            [matTooltip]="translate.instant('upload_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="upload-file"></mat-icon>
+                <span>{{'upload_label' | translate}}</span>
+            </button>
+            <span mat-menu-item (click)="tooltipService.activatedTooltips = !tooltipService.activatedTooltips; tooltipsTrace($event)"
+            [matTooltip]="translate.instant('enableHelp_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <input name="tooltip" type="checkbox" [(ngModel)]="tooltipService.activatedTooltips"/>
+                <label for="tooltip">{{'enableHelp_label' | translate}}</label>
+            </span>
+            <button mat-menu-item (click)="verifyGame()"
+            [matTooltip]="translate.instant('verify_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="verified"></mat-icon>
+                <span>{{'verify_label' | translate}}</span>
+            </button>
+            <button mat-menu-item (click)="downloadManual()"
+            [matTooltip]="translate.instant('manual_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="menu_book"></mat-icon>
+                <span>{{'manual_label' | translate}}</span>
+            </button>
+            <button mat-menu-item [matMenuTriggerFor]="changeLanguageMenu"
+            [matTooltip]="translate.instant('lang_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <img class="langIcon" [src]="'./assets/lang/icons/'+selectedLang+'.png'"/>
+                <span>{{'lang_label' | translate}}</span>
+            </button>
+            <span mat-menu-item (click)="changeMode(); unityTrace($event); minimapService.reset()"
+            [matTooltip]="translate.instant('unity_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <input name="unity" type="checkbox" [(ngModel)]="unityService.unity_isActive"/>
+                <label for="unity">{{'unity_label' | translate}}</label>
+            </span>
+            <button mat-menu-item (click)="consultLegals()"
+            [matTooltip]="translate.instant('legal_tooltip')"
+            matTooltipPosition="left" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <mat-icon fontIcon="attribution"></mat-icon>
+                <span>{{'legal_label' | translate}}</span>
+            </button>
+        </mat-menu>
+        <mat-menu #changeLanguageMenu="matMenu">
+            <button mat-menu-item (click)="changeLanguage('fr')">
+                <img class="langIcon" src="./assets/lang/icons/fr.png"/>
+                <span>{{'language_fr' | translate}}</span>
+            </button>
+            <button mat-menu-item (click)="changeLanguage('en')">
+                <img class="langIcon" src="./assets/lang/icons/en.png"/>
+                <span>{{'language_en' | translate}}</span>
+            </button>
+        </mat-menu>
+        <mat-menu #unityExportMissionMenu="matMenu">
+            <span mat-menu-item [matMenuTriggerFor]="unityExportRoleMenu" [matMenuTriggerData]="{missionIndex: missionIndex}"
+            *ngFor="let mission of scenario.missions, let missionIndex = index">
+                <span>{{translate.instant('siderTitle_mission')+' '+(missionIndex+1)}}</span>
+            </span>
+        </mat-menu>
+        <mat-menu #unityExportRoleMenu="matMenu">
+            <ng-template matMenuContent let-missionIndex="missionIndex">
+                <button mat-menu-item (click)="exportRoleToUnity(role, roleIndex, missionIndex)"
+                *ngFor="let role of scenario.missions[missionIndex].roles, let roleIndex = index">
+                    <mat-icon fontIcon="download_file"></mat-icon>
+                    <span>{{role.intitule ? role.intitule : translate.instant('siderTitle_role')+' '+(roleIndex+1)}}</span>
+                </button>                
+            </ng-template>
+        </mat-menu>
     </div>
+
+    <app-minimap class="container-minimap" [targetDiv]="contentDiv"></app-minimap>
+
+    <div class="container-zoom" [ngClass]="siderFolded ? 'siderFolded' : ''">
+        <button mat-mini-fab color="white" (click)="zoomIn()"
+        [matTooltip]="translate.instant('zoomIn_tooltip')"
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_in"></mat-icon></button>
+        <button mat-mini-fab color="white" [matMenuTriggerFor]="zoomSlider"
+        [matTooltip]="translate.instant('zoomAdjust_tooltip')"
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">{{getZoomPercentage()}}%</button>
+        <mat-menu class="container-zoom-sliderMenu" #zoomSlider="matMenu" xPosition="before" yPosition="above">
+            <span>
+                <mat-slider min="0.3" max="1.50" step="0.01"
+                    [(ngModel)]="zoomService.zoom"
+                    (input)="changeZoomLevel($event)">
+                </mat-slider>
+            </span>
+            <button mat-flat-button color="white" (click)="resetZoom()"
+                [matTooltip]="translate.instant('zoomReset_tooltip')"
+                matTooltipPosition="after" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_in"></mat-icon></button>                      
+        </mat-menu>
+        <button mat-mini-fab color="white" (click)="zoomOut()"
+        [matTooltip]="translate.instant('zoomOut_tooltip')"
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"><mat-icon fontIcon="zoom_out"></mat-icon></button>
+    </div>
+
+    <button class="container-tutorial-resume" mat-raised-button (click)="tutorialService.isActive = !tutorialService.isActive; resumeTutorialTrace()" *ngIf="!tutorialService.isActive"><mat-icon fontIcon="keyboard_return"></mat-icon> {{'tutorial_resume' | translate}}</button>
+    <app-tutorial style="z-index: 10; position: absolute;" *ngIf="tutorialService.isActive" cdkDrag cdkDragBoundary=".container"></app-tutorial>
 </div>

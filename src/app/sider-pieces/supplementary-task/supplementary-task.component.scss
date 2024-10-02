@@ -4,9 +4,8 @@
     width: 300px;
     height: 100px;
     position: relative;
-    background: linear-gradient(165deg, rgba(154,213,236,1) 0%, rgba(154,213,236,1) 55%, rgba(0,0,0,1) 55%, rgba(0,0,0,1) 100%);
-    border: solid black 1px;
-    border-radius: 10px;
+    border: solid #707070 1px;
+    border-radius: 6px;
 
     &-title {
         font-family: 'Glacial Indifference Bold';
@@ -23,7 +22,7 @@
         }
 
         &-select {
-            margin-top: 5px;
+            margin-top: 15px;
             margin-left: 10px;
             width: 100%;
 

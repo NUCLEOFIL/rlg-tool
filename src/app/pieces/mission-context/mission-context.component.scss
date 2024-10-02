@@ -101,7 +101,6 @@
             border-radius: 10px;
             border: none;
             padding: 5px 10px 5px 10px;
-            font-size: 15px;
         }
 
         textarea {
@@ -110,7 +109,6 @@
             border: none;
             resize: none;
             flex-grow: 1;
-            font-size: 15px;
         }
 
         &-title {
@@ -158,14 +156,4 @@
             height: 20%;
         }
     }
-}
-
-.piece::after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    border: 1px solid black;
 }

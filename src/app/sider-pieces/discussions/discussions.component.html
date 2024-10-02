@@ -1,0 +1,54 @@
+<div class="piece"
+[matTooltip]="translate.instant('discussions_tooltip')"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+    <div class="piece-form">
+        <div class="piece-form-title">{{'discussions_title' | translate}}</div>
+
+        <div class="piece-form-element">
+            <div class="piece-form-title">{{'discussions_selectCharacter_title' | translate}}</div>
+            <div class="piece-form-name"
+            [matTooltip]="translate.instant('discussions_selectCharacter_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <label for="name">{{'discussions_selectCharacter_label' | translate}}</label>
+                <select name="name" [(ngModel)]="selectedCharacter">
+                    <option [ngValue]="" disabled selected>{{'discussions_selectCharacter_placeholder' | translate}}</option>
+                    <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="piece-form-element">
+            <div class="piece-form-title">{{'discussions_addDiscussion_title' | translate}}</div>
+            <div class="piece-form-newDiscussion"
+            [matTooltip]="translate.instant('discussions_addDiscussion_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <label for="intitule">{{'discussions_addDiscussion_label' | translate}}</label>
+                <input name="intitule" type="text" [(ngModel)]="intitule" (change)="editTrace($event, 'Name_d', 'newDiscussion')"/> 
+            </div>
+            <button mat-button class="piece-form-button-create" (click)="addDiscussion()">{{'discussions_addDiscussion_button' | translate}}</button>
+        </div>
+
+        <div class="piece-form-element">
+            <div class="piece-form-title">{{'discussions_editDiscussion_title' | translate}}</div>
+            <div class="piece-form-discussions">
+                <ng-container *ngFor="let discussion of role.discussions, let discussionIndex = index">
+                    <div class="piece-form-discussions-element" *ngIf="discussion.character == selectedCharacter">
+                        <button mat-button class="piece-form-discussions-element-discussion" (click)="openDiscussion(discussion)"
+                        [matTooltip]="translate.instant('discussions_editDiscussion_discussion_tooltip')"
+                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                            <mat-icon fontIcon="looks_one" *ngIf="discussion.isFirstDiscussion"
+                            [matTooltip]="translate.instant('discussion_firstDiscussion_label')"
+                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon> {{discussion.name}}
+                        </button>   
+                        <button mat-button class="piece-form-discussions-element-remove"
+                        [matTooltip]="translate.instant('discussions_editDiscussion_remove_tooltip')"
+                        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                            <mat-icon fontIcon="remove" (click)="deleteDiscussion(discussionIndex)"></mat-icon>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+    </div>
+</div>

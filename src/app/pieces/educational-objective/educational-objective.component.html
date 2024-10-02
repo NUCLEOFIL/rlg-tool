@@ -1,19 +1,31 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
+[class]="pieceDetailsService.piece == scenario.missions[i] ? 'isActive' : 'border'"
+[matTooltip]="translate.instant('mission_tooltip')"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
     
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"
+        [matTooltip]="translate.instant('mission_add_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"
+        [matTooltip]="translate.instant('mission_delete_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
    
     <div class="piece-form">
-        <div class="piece-form-title">Objectif pédagogique</div>
+        <div class="piece-form-title">{{'missionEducationnalObjective_title' | translate}}</div>
+        <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="scenario.missions[i].comments.length > 0"></mat-icon>
         <div class="piece-form-objective">
-            <label for="objective">Commun pour la mission 1</label>
-            <textarea name="objective" placeholder="Comprendre les rôles impliqués dans la conception d'un site web"></textarea>
+            <label for="objective">{{'missionEducationnalObjective_objective_label' | translate}} {{i+1}}</label>
+            <textarea name="objective" [(ngModel)]="educationnalObjective.objective" (change)="editTrace($event, 'Obj_m')" [placeholder]="translate.instant('missionEducationnalObjective_objective_placeholder')"
+            [matTooltip]="translate.instant('missionEducationnalObjective_objective_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
             
     </div>

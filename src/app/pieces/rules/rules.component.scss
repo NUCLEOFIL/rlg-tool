@@ -1,0 +1,184 @@
+.piece {
+    --piece-background-color: #c6c2bd;
+
+    width: 400px;
+    position: relative;
+    background-color: var(--piece-background-color);
+
+    &-menu {
+        position: absolute;
+        width: 150px;
+        height: 50px;
+        background-color: #f7f7f7;
+        z-index: -1;
+        top: -51px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: transform 0.5s ease;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border: solid black 1px;
+        display: flex;
+        padding: 15px 20px 15px 20px;
+        justify-content: space-around;
+        mat-icon {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+        mat-icon:hover {
+            opacity: 0.75;
+        }
+    }
+    &-menu.show {
+        transform: translateX(-50%) translateY(0);
+    }
+    &-menu.hide {
+        transform: translateX(-50%) translateY(100%);
+    }
+
+    &-form {
+        margin: 0px 10px 0px 10px;
+        display: flex;
+        flex-direction: column;
+        z-index: 2;
+        position: relative;
+
+        button {
+            border-radius: 10px;
+            background-color: white;
+        }    
+
+        &-title {
+            margin-top: 10px;
+            font-family: "Glacial Indifference Bold";
+            margin-bottom: 10px;
+            font-size: 25px;
+        }
+
+        &-rules {
+            margin-top: 10px;
+
+            textarea {
+                background-image: url("../../../assets/background-images/rules.png");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30%;
+
+                border-radius: 20px;
+                border: none;
+                height: 150px;
+                padding: 5px 5px 5px 5px;
+                resize: none;
+            }
+        }
+
+        &-ressources {
+
+            button {
+                position: relative;
+                left: 100%;
+                transform: translateX(-100%);
+                margin-top: 5px;
+            }
+
+            input, select {
+                height: 30px;
+                border: none;
+                border-radius: 10px;
+                background-color: white;
+                width: 150px;
+            }
+
+            select {
+                width: 154px;
+            }
+
+            &-object {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                &-infos {
+
+                    margin-bottom: 10px;
+
+                    &-name {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                    }
+                    
+                    &-quantity, &-rarity {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        margin-top: 5px;
+                    }
+
+                    &-rarity {
+                        option {
+                            background-color: white;
+                        }
+
+                        &-legendary {
+                            color: #f6a001;
+                        }
+                        
+                        &-rare {
+                            color: #1bc700;
+                        }
+
+                        &-common {
+                            color: #000000;
+                        }
+                    }
+                }
+            }
+        }
+
+        &-gameMechanics {
+            &-button {
+                &-add {
+                    width: 100%;
+                    margin-bottom: 10px;                 
+                }
+            }
+
+            &-mechanics {
+                transition: max-height 0.5s linear;
+                overflow: hidden;
+            }
+
+            &-mechanics.show {
+                max-height: 1000px;
+            }
+
+            &-mechanics.hide {
+                max-height: 0;
+            }
+        }
+
+        &-gameMovements, &-gameMechanics {
+            label {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+            textarea {
+                border-radius: 20px;
+                border: none;
+                height: 100px;
+                padding: 5px 5px 5px 5px;
+                resize: none;
+            }
+        }
+
+        &-rules, &-ressources, &-gameMovements, &-gameMechanics, 
+        &-gameMechanics-mechanics-tutorial, &-gameMechanics-mechanics-easterEggs, 
+        &-gameMechanics-mechanics-ranking, &-gameMechanics-mechanics-badges {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

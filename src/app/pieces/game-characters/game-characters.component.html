@@ -1,0 +1,87 @@
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
+[class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'">
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+    </div>
+
+    <div class="piece-form">
+        <div class="piece-form-character-create"
+        [matTooltip]="translate.instant('char_create_tooltip')"
+        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            <div class="piece-form-title">{{'char_create_title' | translate}}</div>
+            <div class="piece-form-character-create-top">
+                <mat-icon fontIcon="person_add"></mat-icon>
+                <div class="piece-form-character-create-top-name">
+                    <label for="name">{{'char_name_label' | translate}}</label>
+                    <input name="name" type="text" [(ngModel)]="newCharacter.name" (change)="editTrace($event,'newCharacter_name')"/>
+                </div>
+            </div>
+            <div class="piece-form-create-infos">
+                <div class="piece-form-character-create-infos-description">
+                    <label for="description">{{'char_description_label' | translate}}</label>
+                    <textarea class="background" name="description" [(ngModel)]="newCharacter.description" (change)="editTrace($event,'newCharacter_description')"></textarea>
+                </div>
+                <div class="piece-form-character-create-infos-phone">
+                    <label for="tel">{{'char_phone_label' | translate}}</label>
+                    <input name="tel" type="tel" [(ngModel)]="newCharacter.tel" (change)="editTrace($event, 'newCharacter_tel')" (change)="newCharacter.tel == '' ? newCharacter.reachableByPhone = false : ''"/>
+                </div>
+                <div class="piece-form-character-create-infos-contact">
+                    <div class="piece-form-character-create-infos-contact-checkbox">
+                        <input type="checkbox" [(ngModel)]="newCharacter.physicalPresence" (change)="checkboxTrace($event, 'newCharacter_physicalPresence')"/>
+                        <label>{{'char_contact_physically_label' | translate}}</label>
+                    </div>
+                    <div class="piece-form-character-create-infos-contact-checkbox">
+                        <input type="checkbox" [disabled]="newCharacter.tel == ''" [(ngModel)]="newCharacter.reachableByPhone" (change)="checkboxTrace($event, 'newCharacter_reachableByPhone')"/>
+                        <label>{{'char_contact_reachableByPhone_label' | translate}}</label>
+                    </div>
+                </div>
+                <div class="piece-form-character-create-infos-color">
+                    <label for="color">{{'char_color_label' | translate}}</label>
+                    <input name="color" type="color" [(ngModel)]="newCharacter.color" (change)="editTrace($event,'newCharacter_color')"/>
+                </div>
+            </div>
+            <button mat-button (click)="createCharacter()">{{'char_button_create' | translate}}</button>
+        </div>   
+        <div class="piece-form-character-characters"  *ngIf="scenario.characters.length > 0" >
+            <div class="piece-form-title">{{'chars_title' | translate}}</div>
+            <div class="piece-form-character-characters-character" *ngFor="let character of scenario.characters; let index = index" [style]="index == 0? '' : 'border-top: solid black 1px;'"
+            [matTooltip]="translate.instant('char_tooltip')"
+            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <div class="piece-form-character-create-top">
+                    <mat-icon fontIcon="person"></mat-icon>
+                    <div class="piece-form-character-create-top-name">
+                        <label for="name">{{'char_name_label' | translate}}</label>
+                        <input name="name" type="text" [(ngModel)]="character.name" (change)="editTrace($event,'Character_['+index+']_name')"/>
+                    </div>
+                </div>
+                <div class="piece-form-create-infos">
+                    <div class="piece-form-character-create-infos-description">
+                        <label for="description">{{'char_description_label' | translate}}</label>
+                        <textarea name="description" [(ngModel)]="character.description" (change)="editTrace($event,'Character_['+index+']_description')"></textarea>
+                    </div>
+                    <div class="piece-form-character-create-infos-phone">
+                        <label for="tel">{{'char_phone_label' | translate}}</label>
+                        <input name="tel" type="tel" [(ngModel)]="character.tel" (change)="editTrace($event, 'Character_['+index+']_tel')" (change)="character.tel == '' ? changeReachableByPhoneTo(character, false) : ''"/>
+                    </div>
+                    <div class="piece-form-character-create-infos-contact">
+                        <div class="piece-form-character-create-infos-contact-checkbox">
+                            <input type="checkbox" [(ngModel)]="character.physicalPresence" (change)="checkboxTrace($event, 'Character_['+index+']_physicalPresence')"/>
+                            <label>{{'char_contact_physically_label' | translate}}</label>
+                        </div>
+                        <div class="piece-form-character-create-infos-contact-checkbox">
+                            <input type="checkbox" [disabled]="character.tel == ''" [checked]="character.reachableByPhone" (change)="checkboxTrace($event, 'Character_['+index+']_reachableByPhone'); changeReachableByPhoneTo(character, !character.reachableByPhone)"/>
+                            <label>{{'char_contact_reachableByPhone_label' | translate}}</label>
+                        </div>
+                    <div class="piece-form-character-create-infos-color">
+                        <label for="color">{{'char_color_label' | translate}}</label>
+                        <input name="color" type="color" [(ngModel)]="character.color" (change)="editTrace($event,'Character_['+index+']_color')"/>
+                    </div>
+                </div>
+                <button mat-button (click)="deleteCharacter(index)">{{'char_button_delete' | translate}}</button>
+            </div>
+        </div>     
+    </div>
+</div>

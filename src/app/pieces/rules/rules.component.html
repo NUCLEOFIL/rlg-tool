@@ -1,0 +1,89 @@
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
+[class]="pieceDetailsService.piece == scenario ? 'isActive' : 'border'">
+
+    <div class="piece-menu" [class]="displayMenu">
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+    </div>
+
+    <div class="piece-form">
+        <div class="piece-form-rules">
+            <div class="piece-form-title">{{'rules_title' | translate}}</div>  
+            <textarea [(ngModel)]="scenario.gameRules" (change)="editTrace($event,'rules')"
+            [matTooltip]="translate.instant('rules_rule_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
+        </div>
+        <div class="piece-form-ressources">
+            <div class="piece-form-title">{{'rules_ressource_title' | translate}}</div>
+            <div class="piece-form-ressources-object">
+                <div class="piece-form-ressources-object-infos" *ngFor="let ressource of scenario.ressources; let i = index"
+                [matTooltip]="translate.instant('rules_ressource_tooltip')"
+                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                    <div class="piece-form-ressources-object-infos-name">
+                        <label for="name">{{'rules_ressource_name_label' | translate}}</label>
+                        <input name="name" type="text" [(ngModel)]="ressource.name" (change)="editTrace($event,'Ressource_['+i+']_name')"/>
+                    </div>
+                    <div class="piece-form-ressources-object-infos-quantity">
+                        <label for="quantity">{{'rules_ressource_quantity_label' | translate}}</label>
+                        <input name="quantity" type="number" min="1"[(ngModel)]="ressource.number" (change)="editTrace($event,'Ressource_['+i+']_quantity')"/>
+                    </div>
+                    <div class="piece-form-ressources-object-infos-rarity" *ngIf="!unityService.unity_isActive">
+                        <label for="rarity">{{'ressource_rarity' | translate}}</label>
+                        <select [class]="'piece-form-ressources-object-infos-rarity-'+ressource.rarity" [(ngModel)]="ressource.rarity" (change)="editTrace($event,'Ressource_['+i+']_rarity')">
+                            <option value="legendary" class="piece-form-ressources-object-infos-rarity-legendary">{{'ressource_rarity_legendary' | translate}}</option>
+                            <option value="rare" class="piece-form-ressources-object-infos-rarity-rare">{{'ressource_rarity_rare' | translate}}</option>
+                            <option value="common" class="piece-form-ressources-object-infos-rarity-common">{{'ressource_rarity_common' | translate}}</option>
+                        </select>
+                    </div>
+                    <button mat-button (click)="removeRessource(i)"><mat-icon fontIcon="remove"></mat-icon></button>                           
+                </div>
+                <button mat-button (click)="addRessource()"><mat-icon fontIcon="add"></mat-icon></button>
+            </div>
+        </div>
+        <div class="piece-form-gameMovements">
+            <div class="piece-form-title">{{'rules_gameMovements_title' | translate}}</div>
+            <textarea [(ngModel)]="scenario.gameMovements" (change)="editTrace($event,'gameMovements')"
+            [placeholder]="translate.instant('rules_gameMovements_placeholder')"></textarea>
+        </div>
+        <div class="piece-form-gameMechanics">
+            <div class="piece-form-title">{{'rules_gameMechanics_title' | translate}}</div>
+            <div class="piece-form-gameMechanics-mechanics" 
+            [class]="scenario.gameTutorial!='' || scenario.gameEasterEggs!='' || scenario.gameRanking!='' || scenario.gameBadges!='' ? forceShowDisplayMechanics() : mechanicsExpanded">
+                <div class="piece-form-gameMechanics-mechanics-tutorial"
+                [matTooltip]="translate.instant('rules_gameMechanics_tutorial_tooltip')"
+                matTooltipPosition="after" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                    <label for="gameTutorial">{{'rules_gameMechanics_tutorial_label' | translate}}</label>
+                    <textarea name="gameTutorial" [(ngModel)]="scenario.gameTutorial" (change)="editTrace($event,'tutorial')"
+                    [placeholder]="translate.instant('rules_gameMechanics_tutorial_placeholder')"></textarea>
+                </div>
+                <div class="piece-form-gameMechanics-mechanics-easterEggs"
+                [matTooltip]="translate.instant('rules_gameMechanics_easterEggs_tooltip')"
+                matTooltipPosition="after" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                    <label for="gameEasterEggs">{{'rules_gameMechanics_easterEggs_label' | translate}}</label>
+                    <textarea name="gameEasterEggs" [(ngModel)]="scenario.gameEasterEggs" (change)="editTrace($event,'easterEggs')"
+                    [placeholder]="translate.instant('rules_gameMechanics_easterEggs_placeholder')"></textarea>
+                </div>
+                <div class="piece-form-gameMechanics-mechanics-ranking"
+                [matTooltip]="translate.instant('rules_gameMechanics_ranking_tooltip')"
+                matTooltipPosition="after" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                    <label for="gameRanking">{{'rules_gameMechanics_ranking_label' | translate}}</label>
+                    <textarea name="gameRanking" [(ngModel)]="scenario.gameRanking" (change)="editTrace($event,'ranking')"
+                    [placeholder]="translate.instant('rules_gameMechanics_ranking_placeholder')"></textarea>
+                </div>
+                <div class="piece-form-gameMechanics-mechanics-badges"
+                [matTooltip]="translate.instant('rules_gameMechanics_badges_tooltip')"
+                matTooltipPosition="after" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                    <label for="gameBadges">{{'rules_gameMechanics_badges_label' | translate}}</label>
+                    <textarea name="gameBadges" [(ngModel)]="scenario.gameBadges" (change)="editTrace($event,'badges')"
+                    [placeholder]="translate.instant('rules_gameMechanics_badges_placeholder')"></textarea>
+                </div>
+            </div>
+            <button mat-button class="piece-form-gameMechanics-button-add" (click)="changeDisplayMechanics()"
+            [disabled]="scenario.gameTutorial!='' || scenario.gameEasterEggs!='' || scenario.gameRanking!='' || scenario.gameBadges!=''">
+                <mat-icon fontIcon="expand_more" *ngIf="mechanicsExpanded == 'hide'"></mat-icon>
+                <mat-icon fontIcon="expand_less" *ngIf="mechanicsExpanded == 'show'"></mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

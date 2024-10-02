@@ -1,0 +1,174 @@
+.piece {
+    --piece-background-color: #ce7b66;
+
+    width: 400px;
+    position: relative;
+    background-color: var(--piece-background-color);
+
+    &-menu {
+        position: absolute;
+        width: 150px;
+        height: 50px;
+        background-color: #f7f7f7;
+        z-index: -1;
+        top: -51px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: transform 0.5s ease;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border: solid black 1px;
+        display: flex;
+        padding: 15px 20px 15px 20px;
+        justify-content: space-around;
+        mat-icon {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+        mat-icon:hover {
+            opacity: 0.75;
+        }
+    }
+    &-menu.show {
+        transform: translateX(-50%) translateY(0);
+    }
+    &-menu.hide {
+        transform: translateX(-50%) translateY(100%);
+    }
+
+    &-form {
+        margin: 0px 10px 0px 10px;
+        display: flex;
+        flex-direction: column;
+        z-index: 2;
+        position: relative;
+
+        button {
+            margin-top: 5px;
+            background-color: white;
+            border-radius: 10px;
+            position: relative;
+            left: 100%;
+            transform: translateX(-100%);
+        }
+
+        label {
+            font-size: 20px;
+            font-weight: lighter;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        input[type='text'], input[type='tel'], input[type='color'] {
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            padding: 5px 10px 5px 10px;
+            background-color: white;
+            margin-left: 15px;
+        }
+        textarea {
+            border-radius: 20px;
+            padding: 10px;
+            border: none;
+            resize: none;
+            flex-grow: 1;
+            height: 100px;
+        }
+
+        mat-icon {
+            transform: scale(2);
+            color: white;
+            margin-left: 10px;
+            margin-right: 20px;
+        }
+
+        &-title {
+            margin-top: 20px;
+            font-family: "Glacial Indifference Bold";
+            margin-bottom: 10px;
+            font-size: 25px;
+        }
+
+        &-character {
+
+            margin-bottom: 25px;
+
+            &-create {
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+
+                &-top {
+                    display: flex;
+                    flex-direction: row;
+                    width: 100%;
+                    margin-top: 20px;
+
+                    &-name {
+                        display: flex;
+                        justify-content: flex-end;
+
+                        input {
+                            width: 75%;
+                        }
+                    }
+                }
+
+                &-infos {
+                    margin-top: 10px;
+
+                    &-description {
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    &-phone {
+                        display: flex;
+                        margin-top: 5px;
+                        justify-content: space-between;
+                    }
+
+                    &-title {
+                        display: flex;
+                        margin-top: 5px;
+                        justify-content: space-between;
+                    }
+
+                    &-color {
+                        margin-top: 5px;
+                    }
+
+                    &-contact {
+                        margin-top: 5px;
+
+                        &-checkbox {
+                            
+                            label {
+                                margin-left: 5px;
+                            }
+
+                            input {
+                                transform: scale(1.2);
+                            }
+                        }
+                    }
+                }
+            }
+            &-characters {
+
+                &-character {
+                    margin-top: 5px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+
+      
+    }
+}
+
+.background {
+    background-image: url("../../../assets/background-images/perso.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 30%;
+}

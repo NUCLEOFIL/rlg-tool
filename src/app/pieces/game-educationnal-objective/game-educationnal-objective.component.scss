@@ -76,6 +76,17 @@
             font-size: 25px;
             font-family: 'Glacial Indifference Bold';
         }
+
+        &-comment {
+            transform: scale(1.2);
+            position: absolute;
+            top: 25px;
+            right: 5%;
+            background-color: white;
+            padding: 4px;
+            border-radius: 50%;
+        }
+
         &-objective{
             height: 100%;
             margin-top: 10px;
@@ -97,7 +108,6 @@
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 30%;
-                font-size: 15px;
             }
         }
         &-footer {
@@ -106,13 +116,4 @@
             margin-bottom: 5px;
         }
     }
-}
-.piece::after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    border: 1px solid black;
 }

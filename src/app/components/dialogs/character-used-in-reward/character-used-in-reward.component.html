@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>{{'dialog_characterUsedInReward_title_part1' | translate}} "{{data.character.name}}" {{'dialog_characterUsedInReward_title_part2' | translate}}</h2>
+<mat-dialog-content>
+    <p>{{'dialog_characterUsedInReward_content' | translate}}</p>
+</mat-dialog-content>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{'dialog_button_no' | translate}}</button>
+  <button mat-button [mat-dialog-close]="data" (click)="data.result = true">{{'dialog_button_yes' | translate}}</button>
+</div>

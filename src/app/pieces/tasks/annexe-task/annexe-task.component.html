@@ -1,86 +1,163 @@
-<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'; displaySymbolChoice='hide'" (click)="!unityService.unity_isActive ? onClickPiece() : ''"
+    [style.background]="task.supplementaryRole ?
+    'linear-gradient(140deg, var(--piece-background-color) 0%, var(--piece-background-color) 55%,'+task.supplementaryRole.color+' 55%,'+task.supplementaryRole.color+' 100%)'
+    : 'var(--piece-background-color)'"
+    [matTooltip]="translate.instant('annexeTask_tooltip')"
+    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || unityService.unity_isActive"
+    [class]="pieceDetailsService.piece == task ? 'isActive' : 'border'">
     <div class="piece-attach piece-attach-left"></div>
-    <div class="piece-attach piece-attach-right"></div>
+    <div class="piece-attach piece-attach-right" [style.background]="task.supplementaryRole ? task.supplementaryRole.color : 'var(--piece-background-color)'"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="change_circle" (click)="onClickChange()"></mat-icon>
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="delete" (click)="onClickDelete()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+        <mat-icon fontIcon="content_copy" (click)="onClickCopy()"
+        [matTooltip]="translate.instant('role_copy_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="content_paste" (click)="onClickPaste()" *ngIf="copyTaskService.task && role != copyTaskService.role && (copyTaskService.task?.type == 'final' || copyTaskService.task?.type == 'repeat' ? canChangeInFinalTask() : true)"
+        [matTooltip]="translate.instant('role_paste_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <div>
+            <mat-icon fontIcon="change_circle" [matMenuTriggerFor]="menuChange"
+            [matTooltip]="translate.instant('task_transform_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+            <mat-menu #menuChange="matMenu">
+                <button class="piece-menu-changeMenuButton" [style.background-color]="'#b9dfe3'" mat-menu-item (click)="onClickChange('normal')">{{'task_transform_normalTask' | translate}}</button>
+                <button class="piece-menu-changeMenuButton" [style.background-color]="'#e8e3b3'" mat-menu-item (click)="onClickChange('optionnal')" *ngIf="!unityService.unity_isActive">{{'task_transform_optionnalTask' | translate}}</button>
+                <button class="piece-menu-changeMenuButton" [style.background-color]="'#b28386'" mat-menu-item (click)="onClickChange('final')" *ngIf="canChangeInFinalTask() && !unityService.unity_isActive">{{'task_transform_finalTask' | translate}}</button>
+            </mat-menu>
+        </div>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()"
+        [matTooltip]="translate.instant('deletePiece_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <div class="piece-menu-directioncross">
+            <div class="piece-menu-directioncross-left">
+                <mat-icon style="transform: rotate(0turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('left')"
+                [matTooltip]="translate.instant('moveLeft_tooltip')"
+                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
+            </div>
+            <div class="piece-menu-directioncross-updownarrows">
+                <div class="piece-menu-updownarrows-up">
+                    <mat-icon style="transform: rotate(0.25turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('top')"
+                    [matTooltip]="translate.instant('moveTop_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>                
+                </div>
+                <div class="piece-menu-directioncross-updownarrows-down">
+                    <mat-icon style="transform: rotate(0.75turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('bottom')"
+                    [matTooltip]="translate.instant('moveBottom_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+                </div>
+            </div>
+            <div class="piece-menu-directioncross-right">
+                <mat-icon style="transform: rotate(0.5turn) scale(0.6);" fontIcon="arrow_back_ios" (click)="moveTask('right')"
+                [matTooltip]="translate.instant('moveRight_tooltip')"
+                matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+            </div>
+        </div>
     </div>
 
-    <div class="piece-prerequires" [class]="displayPrequires">
+    <div class="piece-prerequires" [class]="pieceDetailsService.piece == task ? displayPrequires : 'hide'">
         <div class="piece-prerequires-prerequires">
-            <label class="piece-prerequires-title">Antécédents</label>
+            <label class="piece-prerequires-title">{{'task_prerequire_antecedents_title' | translate}}</label>
             <div class="piece-prerequires-form">
-                <div class="piece-prerequires-prerequires-element">
-                    <input name="antecedent" type="checkbox" value="true"/>
-                    <label for="antecedent">EX1</label> 
-                </div>
-                <div class="piece-prerequires-prerequires-element">
-                    <input name="antecedent" type="checkbox"/>
-                    <label for="antecedent">EX2</label>
-                </div>
+                <ng-container *ngIf="hasPossibleAntecedents()">
+                    <ng-container *ngFor="let inlineTask of role.tasks">
+                        <ng-container *ngFor="let element of inlineTask; let index = index">
+                            <div class="piece-prerequires-prerequires-element" *ngIf="element?.identifier && (task.identifier != element?.identifier)">
+                                <input name="antecedent" type="checkbox" [checked]="isCheckedTask(element)" (change)="checkboxChangedTask($event, element)"/>
+                                <label for="antecedent">{{element?.identifier}}</label>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+                <div style="text-align: center;" *ngIf="!hasPossibleAntecedents()">{{'task_prerequire_antecedents_err2' | translate}}</div>
             </div>
         </div>
         <div class="piece-prerequires-ressources">
-            <label class="piece-prerequires-title">Ressources & attributs</label>
+            <label class="piece-prerequires-title">{{'task_prerequire_ressource_title' | translate}}</label>
             <div class="piece-prerequires-form">
-                <div class="piece-prerequires-ressources-element">
-                    <div class="piece-prerequires-ressources-element-checkbox">
-                        <input name="ressource" type="checkbox"/>
-                        <label for="ressource">Pain</label>   
+                <ng-container *ngFor="let ressource of scenario.ressources">
+                    <div class="piece-prerequires-ressources-element" *ngIf="ressource.name">
+                        <div class="piece-prerequires-ressources-element-checkbox">
+                            <input name="ressource" type="checkbox" (change)="checkboxChangedRessource($event, ressource)" [checked]="isCheckedRessource(ressource)"/>
+                            <label for="ressource">{{ressource.name}}</label>   
+                        </div>
+                        <div class="piece-prerequires-ressources-element-quantity" *ngIf="isCheckedRessource(ressource)">
+                            <select name="ressource" [(ngModel)]="getAssociatePrerequireRessource(ressource).operator">
+                                <option><</option>
+                                <option><=</option>
+                                <option>=</option>
+                                <option>>=</option>
+                                <option>></option>
+                            </select>
+                            <input type="text" value="1" [(ngModel)]="getAssociatePrerequireRessource(ressource).quantity"/> 
+                        </div>
                     </div>
-                    <div class="piece-prerequires-ressources-element-quantity">
-                        <select name="ressource">
-                            <option><</option>
-                            <option><=</option>
-                            <option>=</option>
-                            <option>>=</option>
-                            <option>></option>
-                        </select>
-                        <input type="text" value="1"/> 
+                </ng-container>
+                <ng-container *ngFor="let ressource of role.ressources">
+                    <div class="piece-prerequires-ressources-element" *ngIf="ressource.name">
+                        <div class="piece-prerequires-ressources-element-checkbox">
+                            <input name="ressource" type="checkbox" (change)="checkboxChangedRessource($event, ressource)" [checked]="isCheckedRessource(ressource)"/>
+                            <label for="ressource">{{ressource.name}}</label>   
+                        </div>
+                        <div class="piece-prerequires-ressources-element-quantity" *ngIf="isCheckedRessource(ressource)">
+                            <select name="ressource" [(ngModel)]="getAssociatePrerequireRessource(ressource).operator">
+                                <option><</option>
+                                <option><=</option>
+                                <option>=</option>
+                                <option>>=</option>
+                                <option>></option>
+                            </select>
+                            <input type="text" value="1" [(ngModel)]="getAssociatePrerequireRessource(ressource).quantity"/> 
+                        </div>
                     </div>
-                </div>
-                <div class="piece-prerequires-ressources-element">
-                    <div class="piece-prerequires-ressources-element-checkbox">
-                        <input name="ressource" type="checkbox"/>
-                        <label for="ressource">Citron</label>   
-                    </div>
-                    <div class="piece-prerequires-ressources-element-quantity">
-                        <select name="ressource">
-                            <option><</option>
-                            <option><=</option>
-                            <option>=</option>
-                            <option>>=</option>
-                            <option>></option>
-                        </select>
-                        <input type="text" value="1"/> 
-                    </div>
-                </div>
+                </ng-container>
             </div>
         </div>
     </div>
 
     <div class="piece-form">
         <div class="piece-form-top">
-            <input class="piece-form-top-identifier" name="identifier" type="text" placeholder="A" min="1" maxlength="5"/>
-            <div class="piece-form-top-title">Tâche annexe</div> 
+            <input class="piece-form-top-identifier" name="identifier" type="text" [(ngModel)]="task.identifier" (change)="changeIdentifier($event)" placeholder="A" min="1" maxlength="5"
+            [matTooltip]="translate.instant('task_identifier_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            [disabled]="unityService.unity_isActive"/>
+            <div class="piece-form-top-title">{{'annexeTask_title' | translate}}</div> 
+            <mat-icon class="piece-form-top-comment" fontIcon="comment" *ngIf="task.comments.length > 0"></mat-icon>
+            <mat-icon class="piece-form-top-repeat" fontIcon="refresh" *ngIf="(task.repeat.iteration > 0 || task.repeat.while != '' || task.repeat.limitMissionRepeat) && !unityService.unity_isActive"></mat-icon>
+            <span class="piece-form-top-repeat-off" *ngIf="(task.repeat.iteration == 0 && task.repeat.while == '') && task.repeat.limitMissionRepeat && !unityService.unity_isActive"></span>
         </div>
-        <textarea class="piece-form-content" placeholder="Vérifier ses connaissances sur les formulaires PHP"></textarea>
+        <textarea class="piece-form-content" [(ngModel)]="task.objective" (change)="editTrace($event,'Task_action')" [style.background-image]="(i == findFirstIndexOfTaskType('annexe')[0] && j == findFirstIndexOfTaskType('annexe')[1]) ? urlIcon : ''"
+            [placeholder]="translate.instant('annexeTask_action_placeholder')"
+            [matTooltip]="translate.instant('task_action_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            [disabled]="unityService.unity_isActive"></textarea>
+
         <div class="piece-form-bottom">
-            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()">
-                Prérequis
-            </button>
-            <div class="piece-form-bottom-duration">
-                <input name="value" type="text" [(ngModel)]="duration" (input)="durationChange()"/>
-                <select name="unite" [(ngModel)]="durationUnit" (change)="durationChange()">
-                    <option selected value="UT">UT</option>
-                    <option value="min">min</option>
-                    <option value="tours">tours</option> 
+            <div class="piece-form-bottom-duration"
+            [matTooltip]="translate.instant('task_duration_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                <input name="value" type="number" [(ngModel)]="task.duration" (input)="durationChange()" min="0" (change)="task.duration < 0 ? task.duration = 0 : ''; editTrace($event,'Task_duration')" [disabled]="unityService.unity_isActive"/>
+                <select name="unite" [(ngModel)]="task.durationUnit" (change)="durationChange(); editTrace($event,'Task_duration_unit')" [disabled]="unityService.unity_isActive">
+                    <option value="UT">{{'task_duration_ut' | translate}}</option>
+                    <option value="min">{{'task_duration_min' | translate}}</option>
+                    <option value="tours">{{'task_duration_turn' | translate}}</option> 
                 </select>
             </div>
+            <mat-icon class="piece-form-bottom-character" fontIcon="person" *ngIf="task.characters.length > 0 && !unityService.unity_isActive"
+            [style.color]="task.characters.length == 1 ? task.characters[0].color : 'black'"
+            [style.background]="task.characters.length > 1 ? 'linear-gradient('+ task.characters[0].color +','+ task.characters[task.characters.length-1].color +')' : 'white'"></mat-icon>
+            <mat-icon class="piece-form-bottom-interrupt" fontIcon="front_hand" *ngIf="task.interrupt != '' && !unityService.unity_isActive"></mat-icon>
+            <button mat-button class="piece-form-bottom-prerequires" (click)="changeDisplayPrerequires()"
+            [matTooltip]="translate.instant('task_prerequire_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+            [disabled]="unityService.unity_isActive">
+                {{'task_prerequire_label' | translate}}
+            </button>
         </div>
-
     </div>
+
+    <div [ngClass]="unityService.unity_isActive ? 'disabledTask' : ''" [ngStyle]="{'width': pieceWidth+'px'}" [matTooltip]="translate.instant('task_unity_disabledTask_tooltip')" matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></div>
+    <div [ngClass]="unityService.unity_isActive ? 'disabledTask-attach-right' : ''"></div>
 </div>

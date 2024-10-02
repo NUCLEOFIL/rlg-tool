@@ -4,12 +4,10 @@
     width: 400px;
     height: 400px;
     position: relative;
-    background-color: var(--piece-background-color);
-    transition: all 0.5s ease;
 
     &-menu {
         position: absolute;
-        width: 150px;
+        width: 260px;
         height: 50px;
         background-color: #f7f7f7;
         z-index: -1;
@@ -22,7 +20,7 @@
         border: solid black 1px;
         display: flex;
         padding: 15px 20px 15px 20px;
-        justify-content: space-around;
+        justify-content: space-between;
 
         mat-icon {
             cursor: pointer;
@@ -31,6 +29,32 @@
 
         mat-icon:hover {
             opacity: 0.75;
+        }
+
+        &-changeMenuButton {
+            border-radius: 10px;
+            margin-bottom: 5px;
+        }
+
+        &-changeMenuButton:hover {
+            opacity: 0.75;
+        }
+
+        &-directioncross {
+            display: flex;
+            flex-direction: row;
+
+            &-updownarrows {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                top: -10px;
+
+                &-down {
+                    position: relative;
+                    top: -8px;
+                }
+            }            
         }
     }
 
@@ -70,6 +94,11 @@
             opacity: 0.75;
         }
 
+        mat-icon.disable {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
         &-header {
             display: flex;
             flex-direction: row;
@@ -94,27 +123,29 @@
         height: 150px;
         background-color: #f7f7f7;
         z-index: -1;
-        bottom: 0;
-        left: 25px;
+        bottom: 10px;
+        right: 0;
         border: solid black 1px;
-        border-bottom-left-radius: 10px;
+        border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
         transition: transform 0.5s ease;
-        border-top: none;
+        border-left: none;
         display: flex;
         flex-direction: row;
+        padding-left: 2px;
 
         &-title {
             margin-left: auto;
             margin-right: auto;
             font-family: 'Glacial Indifference Bold';
-            font-size: 14px;
+            font-size: 13px;
         }
 
         &-form {
             display: flex;
             flex-direction: column;
-            overflow: scroll;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         &-prerequires {
@@ -183,7 +214,7 @@
     }
 
     &-prerequires.show {
-        transform: translateY(100%);
+        transform: translateX(100%);
     }
 
     &-attach {
@@ -194,7 +225,6 @@
             border-right: solid black 1px;
             width: 40px;
             height: 40px;
-            background-color: var(--piece-background-color);
             transform: translateY(-50%) rotate(45deg);
             position: absolute;
             right: -20px;
@@ -211,6 +241,7 @@
             position: absolute;
             left: -20px;
             top: 200px;
+            z-index: 101;
         }
     }
 
@@ -228,7 +259,6 @@
             border-radius: 10px;
             border: none;
             padding: 5px 10px 5px 10px;
-            font-size: 15px;
         }
 
         textarea {
@@ -237,7 +267,9 @@
             border: none;
             resize: none;
             flex-grow: 1;
-            font-size: 15px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100px;
         }
 
         select {
@@ -265,6 +297,36 @@
                 margin-left: 10px;
             }
 
+            &-comment {
+                transform: scale(1.2);
+                position: absolute;
+                top: 8px;
+                right: 100px;
+                border-radius: 50%;
+                background-color: white;
+                padding: 4px;
+            }
+
+            &-repeat {
+                transform: scale(1.2);
+                position: absolute;
+                top: 42px;
+                right: 100px;
+                border-radius: 50%;
+                background-color: white;
+                padding: 4px;
+
+                &-off {
+                    height: 3px;
+                    width: 35px;
+                    background-color: black;
+                    top: 57px;
+                    right: 99px;
+                    position: absolute;
+                    transform: rotateZ(45deg);
+                }
+            }
+
             &-symbol {
                 width: 50px;
                 height: 50px;
@@ -282,9 +344,134 @@
         }
 
         &-content {
-            margin-top: 10px;
             height: 100%;
             margin-bottom: 10px;
+
+            &-unity {
+                display: flex;
+                flex-direction: column;
+                max-width: 355px;
+
+                select {
+                    width: 80%;
+                    height: 35px;
+                }
+
+                input {
+                    width: 74%;
+                    height: 25px;
+                }
+
+                textarea {
+                    flex-grow: 0;
+                    width: 74%;
+                    border-radius: 10px;
+                    height: 40px;
+                }
+
+                &-type, &-typeContent {
+                    display: flex;
+                    justify-content: space-between;
+
+                }
+
+                &-typeContent {
+                    height: 109px;
+                    margin-top: 2px;
+                    margin-bottom: 5px;
+                    overflow-y: auto;
+                    justify-content: right;
+
+                    &-button {
+                        background-color: white;
+                        width: 64px;
+                        height: 35px;
+                        margin-right: 5px;
+                        border-radius: 10px;
+
+                        &-add {
+                            position: relative;
+                            left: 100%;
+                            transform: translateX(-100%);
+                        }
+                    }
+
+                    &-getObject, &-depositObject, &-combineObjects-element-object, &-exchangeObjects-element-object {
+                        width: 80%;
+                        display: flex;
+                        justify-content: space-between;
+
+                        input {
+                            width: 10%;
+                        }
+                    }
+
+                    &-character, &-talkWithRole, &-askToSeeRole, &-other {
+                        display:  flex;
+                        justify-content: right;
+                        width: 100%;
+                    }
+
+                    &-combineObjects, &-exchangeObjects {
+                        display: flex;
+                        flex-direction: column;
+
+
+                        &-element {
+                            display: flex;
+                            justify-content: right;
+
+                        }
+                    }
+
+                    &-exchangeObjects {
+
+                        &-give {
+                            padding-bottom: 2px;
+                            border-bottom: solid 1px black;
+                        }
+
+                        &-receive {
+                            padding-top: 2px;
+                            display: flex;
+                            flex-direction: column;
+                        }
+                    }
+
+                    &-interactObject {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: right;
+                        width: 100%;
+
+                        &-select {
+                            display: flex;
+                            justify-content: right;
+                            margin-bottom: 2px;
+                        }
+
+                        &-name {
+                            display: flex;
+                            justify-content: right;
+                        }
+                    }
+                }
+
+                &-infos {
+                    display: flex;
+                    flex-direction: column;
+
+                    &-name, &-desc {
+                        display: flex;
+                        justify-content: space-between;
+                        width: 100%;
+                    }
+
+                    &-name {
+                        margin-bottom: 2px;
+                    }
+                }
+            }
         }
 
         &-bottom {
@@ -299,13 +486,13 @@
                 input {
                     border-top-right-radius: 0px;
                     border-bottom-right-radius: 0px;
-                    width: 20px;
+                    width: 50px;
                     text-align: center;
                     z-index: 2;
                 }
 
                 select {
-                    width: 60px;
+                    width: 86px;
                     border-top-left-radius: 0px;
                     border-bottom-left-radius: 0px;
                     z-index: 1;
@@ -322,16 +509,26 @@
                 align-items: center;
                 justify-content: center;
             }
+
+        }
+
+        &-interrupt {
+            transform: scale(1.2);
+            position: absolute;
+            right: 120px;
+            bottom: 25px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 4px;
+        }
+
+        &-character {
+            transform: scale(1.2);
+            position: absolute;
+            right: 165px;
+            bottom: 25px;
+            border-radius: 50%;
+            padding: 4px;
         }
     }
-}
-
-.piece::after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    border: 1px solid black;
 }

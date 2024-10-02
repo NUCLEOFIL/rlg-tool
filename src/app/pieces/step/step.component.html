@@ -1,23 +1,38 @@
-<div class="piece" [ngStyle]="{'width': pieceWidth}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" [ngStyle]="{'width': pieceWidth+'px'}" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
+[class]="pieceDetailsService.piece == step ? 'isActive' : 'border'"
+[matTooltip]="translate.instant('step_tooltip')"
+matTooltipPosition="below" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="delete" (click)="onClickDelete()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+        <mat-icon fontIcon="arrow_back_ios" (click)="moveStep('left')" *ngIf="index > 0"
+        [matTooltip]="translate.instant('moveLeft_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()"
+        [matTooltip]="translate.instant('deletePiece_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="arrow_forward_ios" (click)="moveStep('right')"
+        [matTooltip]="translate.instant('moveRight_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
     <div class="piece-form">
-        <div class="piece-form-title">Étape 1</div>
-        <textarea></textarea>
-        <div class="piece-form-duration">
-            <label for="duration">Durée</label>
-            <input name="duration" type="text" [(ngModel)]="duration" (input)="durationChange()"/>
-            <select name="duration" [(ngModel)]="durationUnit" (change)="durationChange()">
-                <option value="UT">UT</option>
-                <option value="min">min</option>
-                <option value="tours">tours</option>
+        <div class="piece-form-title">{{'step_title' | translate}} {{getStepNumber()}}</div>
+        <mat-icon class="piece-form-comment" fontIcon="comment" *ngIf="step.comments.length > 0"></mat-icon>
+        <textarea [(ngModel)]="step.description" [style.background-image]="index == FirstStepIndex() ? urlIcon : ''" (change)="editTrace($event,'Step_content')"></textarea>
+        <div class="piece-form-duration"
+        [matTooltip]="translate.instant('step_duration_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+            <label for="duration">{{'step_duration_label' | translate}}</label>
+            <input name="duration" type="number" [(ngModel)]="step.duration" (input)="durationChange()" min="1" (change)="step.duration < 1 ? step.duration = 1 : ''; editTrace($event, 'Step_duration')"/>
+            <select name="duration" [(ngModel)]="step.durationUnit" (change)="durationChange(); editTrace($event, 'Step_duration_unit')">
+                <option value="UT">{{'step_duration_ut' | translate}}</option>
+                <option value="min">{{'step_duration_min' | translate}}</option>
+                <option value="tours">{{'step_duration_turn' | translate}}</option>
             </select>
         </div>
     </div>

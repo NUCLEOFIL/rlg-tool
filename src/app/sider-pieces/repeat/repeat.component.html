@@ -1,16 +1,22 @@
-<div class="piece">
+<div class="piece"
+[matTooltip]="translate.instant('repeat_tooltip')"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
         <div class="piece-form-header">
             <mat-icon fontIcon="refresh"></mat-icon>
             <div class="piece-form-header-for">
-                <label>Répéter</label>
-                <input type="text"/>
-                <label>fois</label>
+                <label>{{'repeat_title1' | translate}}</label>
+                <input type="text" min="1" [max]="task.repeat.limitMissionRepeat" [(ngModel)]="task.repeat.iteration" (change)="editTrace($event,'repeat_nbTimes')"/>
+                <label>{{'repeat_title2' | translate}}</label>
             </div>
         </div>
         <div class="piece-form-while">
-            <label>ou jusqu'à ce que :</label>
-            <textarea></textarea>
-        </div>    
+            <label>{{'repeat_title3' | translate}}</label>
+            <textarea [(ngModel)]="task.repeat.while" (change)="editTrace($event,'repeat_stopCondition')"></textarea>
+        </div>
+        <div class="piece-form-missionRepeatLimit">
+            <input type="checkbox" [(ngModel)]="task.repeat.limitMissionRepeat" (change)="checkboxTrace($event, 'repeat_repeatLimit')"/>
+            <label>{{'repeat_missionRepeatLimit' | translate}}</label>
+        </div>
     </div>
 </div>

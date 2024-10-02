@@ -1,28 +1,19 @@
-<div class="piece">
+<div class="piece"
+[matTooltip]="translate.instant('occurence_tooltip')"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-form">
-        <div class="piece-title">Occurrence du rôle</div>
-        <div class="piece-form-occurrence">
+        <div class="piece-title">{{'occurence_title' | translate}}</div>
+        <div class="piece-form-occurrence" *ngFor="let occurence of role.occurences, let i = index">
             <div class="piece-form-occurrence-text">
-                <input type="text"/>
-                <label> entre </label>
-                <input type="text"/>
-                <label> et </label>
-                <input type="text"/>
-                <label> joueurs</label>  
+                <input type="number" [(ngModel)]="occurence.iteration" (change)="editTrace($event,'Occurrence_['+i+']_nbRole')"/>
+                <label> {{'occurence_between' | translate}} </label>
+                <input type="number" [(ngModel)]="occurence.min" (change)="editTrace($event,'Occurrence_['+i+']_playersMin')"/>
+                <label> {{'occurence_and' | translate}} </label>
+                <input type="number" [(ngModel)]="occurence.max" (change)="editTrace($event,'Occurrence_['+i+']_playersMax')"/>
+                <label> {{'occurence_player' | translate}}</label>  
             </div>
-            <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
+            <button mat-button (click)="removeOccurrence(i)" *ngIf="role.occurences.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
         </div>
-        <div class="piece-form-occurrence">
-            <div class="piece-form-occurrence-text">
-                <input type="text"/>
-                <label> entre </label>
-                <input type="text"/>
-                <label> et </label>
-                <input type="text"/>
-                <label> joueurs</label>  
-            </div>
-            <button mat-button><mat-icon fontIcon="remove"></mat-icon></button>
-        </div>
-        <button mat-button class="piece-form-add"><mat-icon fontIcon="add"></mat-icon></button>
+        <button mat-button class="piece-form-add" (click)="addOccurrence()"><mat-icon fontIcon="add"></mat-icon></button>
     </div>
 </div>

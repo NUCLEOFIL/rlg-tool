@@ -1,0 +1,646 @@
+<h1 mat-dialog-title>{{'discussion_title' | translate}}</h1>
+<mat-dialog-content>
+    <div class="form-intitule">
+        <label for="intitule">{{'discussion_name_label' | translate}}</label>
+        <input name="intitule" type="text" [(ngModel)]="discussion.name" (change)="editTrace($event, 'Name_d', 'discussion_[ID:'+this.discussion.ID+']')"/>
+    </div>
+    <div class="form-firstDiscussion"
+    [matTooltip]="translate.instant('discussion_firstDiscussion_tooltip')"
+    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || isSelectableAsFirstDiscussion()">
+        <input name="firstDiscussion" type="checkbox" [(ngModel)]="discussion.isFirstDiscussion"
+            [disabled]="!isSelectableAsFirstDiscussion()" (change)="checkboxTrace($event, 'firstDiscussion', 'discussion_[ID:'+this.discussion.ID+']')"/>
+        <label for="firstDiscussion">{{'discussion_firstDiscussion_label' | translate}}</label>
+    </div>
+    <div class="form-result">
+        <label for="result">{{'discussion_result_label' | translate}}</label>
+        <!--
+        <select name="result">
+            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
+        </select>
+        -->
+        <div class="form-result-results">
+
+            <div class="form-result-results-result" *ngFor="let reward of discussion.rewards, let rewardIndex = index">
+                <div class="form-result-results-result-type">
+                    <label>{{'role_reward_type_label' | translate}}</label>
+                    <select [(ngModel)]="reward.type" (change)="changeRewardType(discussion, rewardIndex, reward.type)"
+                    [matTooltip]="translate.instant('discussion_reward_type_discussion_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                        <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
+                        <option value="skill">{{'role_reward_type_skill' | translate}}</option>
+                        <option value="character">{{'role_reward_type_character' | translate}}</option>
+                        <option value="object">{{'role_reward_type_object' | translate}}</option>
+                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>
+                        <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
+                    </select> 
+                </div>
+
+                <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
+                    <select (change)="changeQuestReward(discussion, role.intitule, rewardIndex, $event)"
+                    [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
+                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                <option [ngValue]="quest.questName" [selected]="getQuestReward(discussion, rewardIndex).intitule == quest.intitule && getQuestReward(discussion, rewardIndex).questName == quest.questName"
+                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                    {{quest.questName}}
+                                </option>
+                            </ng-container>
+                        </ng-container>
+                    </select>
+                </div>
+                
+                <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
+                    <input type="number" [(ngModel)]="getSkillReward(discussion, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'discussion_[ID:'+discussion.ID+']')"/>
+                    <select [(ngModel)]="getSkillReward(discussion, rewardIndex).skill"
+                    [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill', 'discussion_[ID:'+discussion.ID+']')">
+                        <ng-container *ngFor="let skill of role.ressources">
+                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+
+                <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
+                    <select [(ngModel)]="getCharacterReward(discussion, rewardIndex).character"
+                    [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'discussion_[ID:'+discussion.ID+']')">
+                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
+                    </select>
+                </div>
+
+                <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
+                    <select [(ngModel)]="getDiscussionReward(discussion, rewardIndex).discussionId"
+                    [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_discussion', 'discussion_[ID:'+discussion.ID+']')">
+                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                        <ng-container *ngFor="let character of scenario.characters">
+                            <optgroup [label]="character.name" *ngIf="role.characterHasDiscussion(character)">
+                                <ng-container *ngFor="let discuss of role.discussions">
+                                    <option [ngValue]="discuss.ID" *ngIf="discuss.character == character && discussion.ID != discuss.ID">{{discuss.name}}</option>
+                                </ng-container>
+                            </optgroup>                        
+                        </ng-container>
+                    </select>
+                </div>
+
+                <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
+                    <input type="number" [(ngModel)]="getObjectReward(discussion, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'discussion_[ID:'+discussion.ID+']')"/>
+                    <select [(ngModel)]="getObjectReward(discussion, rewardIndex).object"
+                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object', 'discussion_[ID:'+discussion.ID+']')">
+                        <ng-container *ngFor="let ressource of scenario.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                        <ng-container *ngFor="let ressource of role.ressources">
+                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+
+                <div class="form-result-results-result-randomObjects" *ngIf="reward.type == 'randomObjects' && !unityService.unity_isActive">
+                    <div class="form-result-results-result-randomObjects-repeat">
+                        <label>{{'rewards_randomObjects_repeat' | translate}} </label>
+                        <input type="number" min="1" [(ngModel)]="getRandomObjectsReward(discussion ,rewardIndex).repeatNumber" (change)="editTrace($event, 'Reward_['+rewardIndex+']_repeat', 'discussion_[ID:'+discussion.ID+']')"/>
+                    </div>
+                    <div *ngFor="let object of getRandomObjectsReward(discussion, rewardIndex).objects, let objectIndex = index">
+                        <div class="form-result-results-result-randomObjects-object">
+                            <div [matTooltip]="translate.instant('rewards_randomObjects_percentages_tootlip')"
+                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                <input type="number" min="0" max="100" [(ngModel)]="getRandomObjectsReward(discussion, rewardIndex).dropPercentages[objectIndex]"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_percentage', 'discussion_[ID:'+discussion.ID+']')"/>
+                                <label>%</label>
+                            </div>
+                            <select name="object_name" [(ngModel)]="getRandomObjectsReward(discussion, rewardIndex).objects[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_object', 'discussion_[ID:'+discussion.ID+']')">
+                                <option value="undefined" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                                <ng-container *ngFor="let ressource of scenario.ressources">
+                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                </ng-container>
+                                <ng-container *ngFor="let ressource of role.ressources">
+                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                </ng-container>
+                            </select>
+                            <button mat-button (click)="removeObjectToRandomObjectsReward(discussion, getRandomObjectsReward(discussion, rewardIndex), rewardIndex, objectIndex)" *ngIf="getRandomObjectsReward(discussion, rewardIndex).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                        </div>
+                        <div>
+                            <label>{{'rewards_randomObjects_dropBetween_part1' | translate}} </label>
+                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(discussion, rewardIndex).minDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_minQuantity', 'discussion_[ID:'+discussion.ID+']')"/>
+                            <label> {{'rewards_randomObjects_dropBetween_part2' | translate}} </label>
+                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(discussion, rewardIndex).maxDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_maxQuantity', 'discussion_[ID:'+discussion.ID+']')"/>
+                        </div>
+                    </div>
+                    <button mat-button class="form-result-results-result-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(discussion, rewardIndex), rewardIndex)"><mat-icon fontIcon="add"></mat-icon></button>
+                </div>
+
+                <button mat-button class="form-result-button-remove" (click)="removeReward(discussion, rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
+            </div>
+
+            <button mat-button class="form-result-button-add" (click)="addReward(discussion)"><mat-icon fontIcon="add"></mat-icon></button>
+        </div>
+        
+    </div>
+    <div class="form-addSentence">
+        <button mat-button (click)="addDeclarativeSentence()">{{'discussion_buttons_newDeclarativeSentence' | translate}}</button>
+        <button mat-button (click)="addInterrogativeSentence()">{{'discussion_buttons_newInterrogativeSentence' | translate}}</button>
+    </div>
+
+    <mat-accordion>
+        <ng-container *ngFor="let sentence of role.sentences">
+            <mat-expansion-panel *ngIf="sentence.idDiscussion == discussion.ID && isDeclarativeSentence(sentence)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>{{'discussion_declarativeSentence' | translate}} (ID: {{sentence.ID}})</mat-panel-title>
+                    <mat-panel-description>
+                        <p>{{sentence.value}}</p>
+                        <mat-icon fontIcon="looks_one" *ngIf="sentence.ID == discussion.firstSentenceID"
+                        [matTooltip]="translate.instant('discussion_firstSentence_label')"
+                        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="form-sentence">
+                    <div class="form-sentence-sentence">
+                        <label for="sentence">{{'discussion_declarativeSentence' | translate}}</label>
+                        <textarea name="sentence" [(ngModel)]="sentence.value" (change)="editTrace($event, 'sentence', 'declarativeSentence_[ID:'+sentence.ID+']')"></textarea>
+                    </div>
+                    <div class="form-sentence-firstSentence"
+                    [matTooltip]="translate.instant('discussion_firstSentence_tooltip')"
+                    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || discussion.firstSentenceID == -1 || discussion.firstSentenceID == sentence.ID">
+                        <input name="firstSentence" type="checkbox" (click)="onCheckFirstSentence($event, sentence.ID)"
+                            [checked]="discussion.firstSentenceID == sentence.ID ? true : false"
+                            [disabled]="discussion.firstSentenceID != -1 && discussion.firstSentenceID != sentence.ID" (change)="checkboxTrace($event, 'firstSentence', 'declarativeSentence_[ID:'+sentence.ID+']')"/>
+                        <label for="firstSentence">{{'discussion_firstSentence_label' | translate}}</label>
+                    </div>
+                    <div class="form-nextSentence">
+                        <label for="nextSentence">{{'discussion_nextSentence_label' | translate}}</label>
+                        <select name="nextSentence" [(ngModel)]="getSentenceAsDeclarativeSentence(sentence).nextSentence" (change)="editTrace($event, 'nextSentence', 'declarativeSentence_[ID:'+sentence.ID+']')">
+                            <option [ngValue]="-1" selected>{{'discussion_nextSentence_none' | translate}}</option>
+                            <ng-container *ngFor="let nextSentence of role.sentences">
+                                <option [ngValue]="nextSentence.ID" *ngIf="sentence.ID != nextSentence.ID && sentence.idDiscussion == nextSentence.idDiscussion">ID: {{nextSentence.ID}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                    <div class="form-result">
+                        <label for="result">{{'discussion_result_label' | translate}}</label>
+                        <!--
+                        <select name="result">
+                            <option [ngValue]="" disabled selected>{{'discussion_result_placeholder' | translate}}</option>
+                        </select>
+                        -->
+                        <div class="form-result-results">
+                
+                            <div class="form-result-results-result" *ngFor="let reward of sentence.rewards, let rewardIndex = index">
+                                <div class="form-result-results-result-type">
+                                    <label>{{'role_reward_type_label' | translate}}</label>
+                                    <select [(ngModel)]="reward.type" (change)="changeRewardType(sentence, rewardIndex, reward.type)"
+                                    [matTooltip]="translate.instant('discussion_reward_type_declarativeSentence_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
+                                        <option value="skill">{{'role_reward_type_skill' | translate}}</option>
+                                        <option value="character">{{'role_reward_type_character' | translate}}</option>
+                                        <option value="object">{{'role_reward_type_object' | translate}}</option>
+                                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>
+                                        <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
+                                    </select> 
+                                </div>
+                
+                                <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
+                                    <select (change)="changeQuestReward(sentence, role.intitule, rewardIndex, $event)"
+                                    [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
+                                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                                <option [ngValue]="quest.questName" [selected]="getQuestReward(sentence, rewardIndex).intitule == quest.intitule && getQuestReward(sentence, rewardIndex).questName == quest.questName"
+                                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                                    {{quest.questName}}
+                                                </option>
+                                            </ng-container>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
+                                    <input type="number" [(ngModel)]="getSkillReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    <select [(ngModel)]="getSkillReward(sentence, rewardIndex).skill"
+                                    [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill', 'sentence_[ID:'+sentence.ID+']')">
+                                        <ng-container *ngFor="let skill of role.ressources">
+                                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                
+                                <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
+                                    <select [(ngModel)]="getCharacterReward(sentence, rewardIndex).character"
+                                    [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'sentence_[ID:'+sentence.ID+']')">
+                                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
+                                    <select [(ngModel)]="getDiscussionReward(sentence, rewardIndex).discussionId"
+                                    [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_discussion', 'sentence_[ID:'+sentence.ID+']')">
+                                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                                        <ng-container *ngFor="let character of scenario.characters">
+                                            <optgroup [label]="character.name" *ngIf="role.characterHasDiscussion(character)">
+                                                <ng-container *ngFor="let discuss of role.discussions">
+                                                    <option [ngValue]="discuss.ID" *ngIf="discuss.character == character && discussion.ID != discuss.ID">{{discuss.name}}</option>
+                                                </ng-container>
+                                            </optgroup>                        
+                                        </ng-container>
+                                    </select>
+                                </div>
+                
+                                <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
+                                    <input type="number" [(ngModel)]="getObjectReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    <select [(ngModel)]="getObjectReward(sentence, rewardIndex).object"
+                                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object', 'sentence_[ID:'+sentence.ID+']')">
+                                        <ng-container *ngFor="let ressource of scenario.ressources">
+                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let ressource of role.ressources">
+                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+
+                                <div class="form-result-results-result-randomObjects" *ngIf="reward.type == 'randomObjects' && !unityService.unity_isActive">
+                                    <div class="form-result-results-result-randomObjects-repeat">
+                                        <label>{{'rewards_randomObjects_repeat' | translate}} </label>
+                                        <input type="number" min="1" [(ngModel)]="getRandomObjectsReward(sentence ,rewardIndex).repeatNumber" (change)="editTrace($event, 'Reward_['+rewardIndex+']_repeat', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    </div>
+                                    <div *ngFor="let object of getRandomObjectsReward(sentence, rewardIndex).objects, let objectIndex = index">
+                                        <div class="form-result-results-result-randomObjects-object">
+                                            <div [matTooltip]="translate.instant('rewards_randomObjects_percentages_tootlip')"
+                                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                <input type="number" min="0" max="100" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).dropPercentages[objectIndex]"
+                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_percentage', 'sentence_[ID:'+sentence.ID+']')"/>
+                                                <label>%</label>
+                                            </div>
+                                            <select name="object_name" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).objects[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_object', 'sentence_[ID:'+sentence.ID+']')">
+                                                <option value="undefined" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                                                <ng-container *ngFor="let ressource of scenario.ressources">
+                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                </ng-container>
+                                                <ng-container *ngFor="let ressource of role.ressources">
+                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                </ng-container>
+                                            </select>
+                                            <button mat-button (click)="removeObjectToRandomObjectsReward(sentence, getRandomObjectsReward(sentence, rewardIndex), rewardIndex, objectIndex)" *ngIf="getRandomObjectsReward(sentence, rewardIndex).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                                        </div>
+                                        <div>
+                                            <label>{{'rewards_randomObjects_dropBetween_part1' | translate}} </label>
+                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).minDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_minQuantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                            <label> {{'rewards_randomObjects_dropBetween_part2' | translate}} </label>
+                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).maxDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_maxQuantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                        </div>
+                                    </div>
+                                    <button mat-button class="form-result-results-result-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(sentence, rewardIndex), rewardIndex)"><mat-icon fontIcon="add"></mat-icon></button>
+                                </div>
+                
+                                <button mat-button class="form-result-button-remove" (click)="removeReward(sentence, rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
+                            </div>
+                
+                            <button mat-button class="form-result-button-add" (click)="addReward(sentence)"><mat-icon fontIcon="add"></mat-icon></button>
+                        </div>
+                        
+                    </div>
+                    <button mat-button class="form-sentence-delete" (click)="deleteDeclarativeSentence(sentence.ID)">{{'discussion_buttons_deleteDeclarativeSentence' | translate}}</button>
+                </div>
+            </mat-expansion-panel>
+
+
+            <mat-expansion-panel *ngIf="sentence.idDiscussion == discussion.ID && isInterrogativeSentence(sentence)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>{{'discussion_interrogativeSentence' | translate}} (ID: {{sentence.ID}})</mat-panel-title>
+                    <mat-panel-description>
+                        <p>{{sentence.value}}</p>
+                        <mat-icon fontIcon="looks_one" *ngIf="sentence.ID == discussion.firstSentenceID"
+                        [matTooltip]="translate.instant('discussion_firstSentence_label')"
+                        matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="form-sentence">
+                    <div class="form-sentence-sentence">
+                        <label for="sentence">{{'discussion_interrogativeSentence' | translate}}</label>
+                        <textarea name="sentence" [(ngModel)]="sentence.value" (change)="editTrace($event, 'sentence', 'interrogativeSentence_[ID:'+sentence.ID+']')"></textarea>
+                    </div>
+                    <div class="form-sentence-firstSentence"
+                    [matTooltip]="translate.instant('discussion_firstSentence_tooltip')"
+                    matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || discussion.firstSentenceID == -1 || discussion.firstSentenceID == sentence.ID">
+                        <input name="firstSentence" type="checkbox" (click)="onCheckFirstSentence($event, sentence.ID)"
+                            [checked]="discussion.firstSentenceID == sentence.ID ? true : false"
+                            [disabled]="discussion.firstSentenceID != -1 && discussion.firstSentenceID != sentence.ID" (change)="checkboxTrace($event, 'firstSentence', 'declarativeSentence_[ID:'+sentence.ID+']')"/>
+                        <label for="firstSentence">{{'discussion_firstSentence_label' | translate}}</label>
+                    </div>
+                    <div class="form-result">
+                        <label for="result">{{'discussion_result_label' | translate}}</label>
+                        <div class="form-result-results">
+                            <div class="form-result-results-result" *ngFor="let reward of sentence.rewards, let rewardIndex = index">
+                                <div class="form-result-results-result-type">
+                                    <label>{{'role_reward_type_label' | translate}}</label>
+                                    <select [(ngModel)]="reward.type" (change)="changeRewardType(sentence, rewardIndex, reward.type)"
+                                    [matTooltip]="translate.instant('discussion_reward_type_interrogativeSentence_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                        <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
+                                        <option value="skill">{{'role_reward_type_skill' | translate}}</option>
+                                        <option value="character">{{'role_reward_type_character' | translate}}</option>
+                                        <option value="object">{{'role_reward_type_object' | translate}}</option>
+                                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>
+                                        <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
+                                    </select> 
+                                </div>
+                
+                                <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
+                                    <select (change)="changeQuestReward(sentence, role.intitule, rewardIndex, $event)"
+                                    [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
+                                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                                <option [ngValue]="quest.questName" [selected]="getQuestReward(sentence, rewardIndex).intitule == quest.intitule && getQuestReward(sentence, rewardIndex).questName == quest.questName"
+                                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                                    {{quest.questName}}
+                                                </option>
+                                            </ng-container>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
+                                    <input type="number" [(ngModel)]="getSkillReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    <select [(ngModel)]="getSkillReward(sentence, rewardIndex).skill"
+                                    [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill', 'sentence_[ID:'+sentence.ID+']')">
+                                        <ng-container *ngFor="let skill of role.ressources">
+                                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+                
+                                <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
+                                    <select [(ngModel)]="getCharacterReward(sentence, rewardIndex).character"
+                                    [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'sentence_[ID:'+sentence.ID+']')">
+                                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
+                                    <select [(ngModel)]="getDiscussionReward(sentence, rewardIndex).discussionId"
+                                    [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_discussion', 'sentence_[ID:'+sentence.ID+']')">
+                                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                                        <ng-container *ngFor="let character of scenario.characters">
+                                            <optgroup [label]="character.name" *ngIf="role.characterHasDiscussion(character)">
+                                                <ng-container *ngFor="let discuss of role.discussions">
+                                                    <option [ngValue]="discuss.ID" *ngIf="discuss.character == character && discussion.ID != discuss.ID">{{discuss.name}}</option>
+                                                </ng-container>
+                                            </optgroup>                        
+                                        </ng-container>
+                                    </select>
+                                </div>
+                
+                                <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
+                                    <input type="number" [(ngModel)]="getObjectReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    <select [(ngModel)]="getObjectReward(sentence, rewardIndex).object"
+                                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object', 'sentence_[ID:'+sentence.ID+']')">
+                                        <ng-container *ngFor="let ressource of scenario.ressources">
+                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                        </ng-container>
+                                        <ng-container *ngFor="let ressource of role.ressources">
+                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                        </ng-container>
+                                    </select>
+                                </div>
+
+                                <div class="form-result-results-result-randomObjects" *ngIf="reward.type == 'randomObjects' && !unityService.unity_isActive">
+                                    <div class="form-result-results-result-randomObjects-repeat">
+                                        <label>{{'rewards_randomObjects_repeat' | translate}} </label>
+                                        <input type="number" min="1" [(ngModel)]="getRandomObjectsReward(sentence ,rewardIndex).repeatNumber" (change)="editTrace($event, 'Reward_['+rewardIndex+']_repeat', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    </div>
+                                    <div *ngFor="let object of getRandomObjectsReward(sentence, rewardIndex).objects, let objectIndex = index">
+                                        <div class="form-result-results-result-randomObjects-object">
+                                            <div [matTooltip]="translate.instant('rewards_randomObjects_percentages_tootlip')"
+                                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                <input type="number" min="0" max="100" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).dropPercentages[objectIndex]"
+                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_percentage', 'sentence_[ID:'+sentence.ID+']')"/>
+                                                <label>%</label>
+                                            </div>
+                                            <select name="object_name" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).objects[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_object', 'sentence_[ID:'+sentence.ID+']')">
+                                                <option value="undefined" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                                                <ng-container *ngFor="let ressource of scenario.ressources">
+                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                </ng-container>
+                                                <ng-container *ngFor="let ressource of role.ressources">
+                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                </ng-container>
+                                            </select>
+                                            <button mat-button (click)="removeObjectToRandomObjectsReward(sentence, getRandomObjectsReward(sentence, rewardIndex), rewardIndex, objectIndex)" *ngIf="getRandomObjectsReward(sentence, rewardIndex).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                                        </div>
+                                        <div>
+                                            <label>{{'rewards_randomObjects_dropBetween_part1' | translate}} </label>
+                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).minDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_minQuantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                            <label> {{'rewards_randomObjects_dropBetween_part2' | translate}} </label>
+                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(sentence, rewardIndex).maxDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_maxQuantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                        </div>
+                                    </div>
+                                    <button mat-button class="form-result-results-result-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(sentence, rewardIndex), rewardIndex)"><mat-icon fontIcon="add"></mat-icon></button>
+                                </div>
+                
+                                <button mat-button class="form-result-button-remove" (click)="removeReward(sentence, rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
+                            </div>
+                
+                            <button mat-button class="form-result-button-add" (click)="addReward(sentence)"><mat-icon fontIcon="add"></mat-icon></button>
+                        </div>
+                    </div>
+                    <button mat-button class="form-sentence-addResponse" (click)="addResponse(getSentenceAsInterrogativeSentence(sentence))">{{'discussion_buttons_newResponse' | translate}}</button>
+
+
+                    <mat-accordion>
+                        <ng-container *ngFor="let response of role.responses">
+                            <mat-expansion-panel *ngIf="response.idInterrogativeSentence == sentence.ID">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>{{'discussion_response' | translate}} (ID: {{response.ID}})</mat-panel-title>
+                                    <mat-panel-description>
+                                        <p>{{response.value}}</p>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="form-sentence">
+                                    <div class="form-sentence-sentence">
+                                        <label for="sentence">{{'discussion_response' | translate}}</label>
+                                        <textarea name="sentence" [(ngModel)]="response.value" (change)="editTrace($event, 'sentence', 'response_[ID:'+response.ID+']')"></textarea>
+                                    </div>
+                                    <div class="form-nextSentence">
+                                        <label for="nextSentence">{{'discussion_nextSentence_label' | translate}}</label>
+                                        <select name="nextSentence" [(ngModel)]="response.nextSentence" (change)="editTrace($event, 'nextSentence', 'response_[ID:'+response.ID+']')">
+                                            <option [ngValue]="-1" selected>{{'discussion_nextSentence_none' | translate}}</option>
+                                            <ng-container *ngFor="let nextSentence of role.sentences">
+                                                <option [ngValue]="nextSentence.ID" *ngIf="sentence.ID != nextSentence.ID && sentence.idDiscussion == nextSentence.idDiscussion">ID: {{nextSentence.ID}}</option>
+                                            </ng-container>
+                                        </select>
+                                    </div>
+                                    <div class="form-result">
+                                        <label for="result">{{'discussion_result_label' | translate}}</label>
+                                        <div class="form-result-results">
+                    
+                                            <div class="form-result-results-result" *ngFor="let reward of response.rewards, let rewardIndex = index">
+                                                <div class="form-result-results-result-type">
+                                                    <label>{{'role_reward_type_label' | translate}}</label>
+                                                    <select [(ngModel)]="reward.type" (change)="changeRewardType(response, rewardIndex, reward.type)"
+                                                    [matTooltip]="translate.instant('discussion_reward_type_response_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                        <option value="quest">{{'role_reward_type_newQuest' | translate}}</option>
+                                                        <option value="skill">{{'role_reward_type_skill' | translate}}</option>
+                                                        <option value="character">{{'role_reward_type_character' | translate}}</option>
+                                                        <option value="object">{{'role_reward_type_object' | translate}}</option>
+                                                        <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'role_reward_type_randomObjects' | translate}}</option>
+                                                        <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
+                                                    </select> 
+                                                </div>
+                                
+                                                <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
+                                                    <select (change)="changeQuestReward(response, role.intitule, rewardIndex, $event)"
+                                                    [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
+                                                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                                                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                                                <option [ngValue]="quest.questName" [selected]="getQuestReward(response, rewardIndex).intitule == quest.intitule && getQuestReward(response, rewardIndex).questName == quest.questName"
+                                                                    *ngIf="role.intitule && quest.questName && role.intitule == quest.intitule && role.questName != quest.questName">
+                                                                    {{quest.questName}}
+                                                                </option>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
+                                                    <input type="number" [(ngModel)]="getSkillReward(response, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'response_[ID:'+response.ID+']')"/>
+                                                    <select [(ngModel)]="getSkillReward(response, rewardIndex).skill"
+                                                    [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill', 'response_[ID:'+response.ID+']')">
+                                                        <ng-container *ngFor="let skill of role.ressources">
+                                                            <option [ngValue]="skill" *ngIf="skill.type == 'attribut'">{{skill.name}}</option>
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+                                
+                                                <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
+                                                    <select [(ngModel)]="getCharacterReward(response, rewardIndex).character"
+                                                    [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'response_[ID:'+response.ID+']')">
+                                                        <option [ngValue]="character" *ngFor="let character of scenario.characters" [disabled]="!character.reachableByPhone">{{character.name}}</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
+                                                    <select [(ngModel)]="getDiscussionReward(response, rewardIndex).discussionId"
+                                                    [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_discussion', 'response_[ID:'+response.ID+']')">
+                                                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                                                        <ng-container *ngFor="let character of scenario.characters">
+                                                            <optgroup [label]="character.name" *ngIf="role.characterHasDiscussion(character)">
+                                                                <ng-container *ngFor="let discuss of role.discussions">
+                                                                    <option [ngValue]="discuss.ID" *ngIf="discuss.character == character && discussion.ID != discuss.ID">{{discuss.name}}</option>
+                                                                </ng-container>
+                                                            </optgroup>                        
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+                                
+                                                <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
+                                                    <input type="number" [(ngModel)]="getObjectReward(response, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'response_[ID:'+response.ID+']')"/>
+                                                    <select [(ngModel)]="getObjectReward(response, rewardIndex).object"
+                                                    [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
+                                                    matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object', 'response_[ID:'+response.ID+']')">
+                                                        <ng-container *ngFor="let ressource of scenario.ressources">
+                                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                                        </ng-container>
+                                                        <ng-container *ngFor="let ressource of role.ressources">
+                                                            <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                                        </ng-container>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-result-results-result-randomObjects" *ngIf="reward.type == 'randomObjects' && !unityService.unity_isActive">
+                                                    <div class="form-result-results-result-randomObjects-repeat">
+                                                        <label>{{'rewards_randomObjects_repeat' | translate}} </label>
+                                                        <input type="number" min="1" [(ngModel)]="getRandomObjectsReward(response ,rewardIndex).repeatNumber" (change)="editTrace($event, 'Reward_['+rewardIndex+']_repeat', 'response_[ID:'+response.ID+']')"/>
+                                                    </div>
+                                                    <div *ngFor="let object of getRandomObjectsReward(response, rewardIndex).objects, let objectIndex = index">
+                                                        <div class="form-result-results-result-randomObjects-object">
+                                                            <div [matTooltip]="translate.instant('rewards_randomObjects_percentages_tootlip')"
+                                                            matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
+                                                                <input type="number" min="0" max="100" [(ngModel)]="getRandomObjectsReward(response, rewardIndex).dropPercentages[objectIndex]"
+                                                                    (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_percentage', 'response_[ID:'+response.ID+']')"/>
+                                                                <label>%</label>
+                                                            </div>
+                                                            <select name="object_name" [(ngModel)]="getRandomObjectsReward(response, rewardIndex).objects[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_object', 'response_[ID:'+response.ID+']')">
+                                                                <option value="undefined" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
+                                                                <ng-container *ngFor="let ressource of scenario.ressources">
+                                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                                </ng-container>
+                                                                <ng-container *ngFor="let ressource of role.ressources">
+                                                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                                                </ng-container>
+                                                            </select>
+                                                            <button mat-button (click)="removeObjectToRandomObjectsReward(response, getRandomObjectsReward(response, rewardIndex), rewardIndex, objectIndex)" *ngIf="getRandomObjectsReward(response, rewardIndex).objects.length > 1"><mat-icon fontIcon="remove"></mat-icon></button>
+                                                        </div>
+                                                        <div>
+                                                            <label>{{'rewards_randomObjects_dropBetween_part1' | translate}} </label>
+                                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(response, rewardIndex).minDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_minQuantity', 'response_[ID:'+response.ID+']')"/>
+                                                            <label> {{'rewards_randomObjects_dropBetween_part2' | translate}} </label>
+                                                            <input type="number" min="0" [(ngModel)]="getRandomObjectsReward(response, rewardIndex).maxDroppedQuantities[objectIndex]" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object_['+objectIndex+']_maxQuantity', 'response_[ID:'+response.ID+']')"/>
+                                                        </div>
+                                                    </div>
+                                                    <button mat-button class="form-result-results-result-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(response, rewardIndex), rewardIndex)"><mat-icon fontIcon="add"></mat-icon></button>
+                                                </div>
+                                
+                                                <button mat-button class="form-result-button-remove" (click)="removeReward(response, rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
+                                            </div>
+                                
+                                            <button mat-button class="form-result-button-add" (click)="addReward(response)"><mat-icon fontIcon="add"></mat-icon></button>
+                                        </div>
+                                    </div>
+                                    <button mat-button class="form-sentence-delete" (click)="deleteResponse(getSentenceAsInterrogativeSentence(sentence), response.ID)" *ngIf="countResponses(sentence.ID) > 1">{{'discussion_buttons_deleteResponse' | translate}}</button>
+                                </div>
+                            </mat-expansion-panel>
+                        </ng-container>
+
+
+                    </mat-accordion>
+
+
+                    <button mat-button class="form-sentence-delete" (click)="deleteInterrogativeSentence(sentence.ID)">{{'discussion_buttons_deleteInterrogativeSentence' | translate}}</button>
+                </div>
+            </mat-expansion-panel>
+    </ng-container>
+
+    </mat-accordion>
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>{{'discussion_buttons_close' | translate}}</button>
+</mat-dialog-actions>

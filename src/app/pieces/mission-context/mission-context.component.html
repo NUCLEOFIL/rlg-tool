@@ -1,31 +1,48 @@
-<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'">
+<div class="piece" (mouseover)="displayMenu='show'" (mouseleave)="displayMenu='hide'" (click)="onClickPiece()"
+[class]="pieceDetailsService.piece == scenario.missions[i] ? 'isActive' : 'border'"
+[matTooltip]="translate.instant('mission_tooltip')"
+matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips">
     <div class="piece-attach piece-attach-left-top"></div>
     <div class="piece-attach piece-attach-right"></div>
     <div class="piece-attach piece-attach-left-bottom"></div>
 
     <div class="piece-menu" [class]="displayMenu">
-        <mat-icon fontIcon="add" (click)="onClickAdd()"></mat-icon>
-        <mat-icon fontIcon="backspace" (click)="onClickErase()"></mat-icon>
-        <mat-icon fontIcon="more_vert" (click)="onClickDots()"></mat-icon>
+        <mat-icon fontIcon="add" (click)="onClickAdd()"
+        [matTooltip]="translate.instant('mission_add_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="backspace" (click)="onClickErase()"
+        [matTooltip]="translate.instant('clearPiece_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
+        <mat-icon fontIcon="delete" (click)="onClickDelete()" *ngIf="canDelete()"
+        [matTooltip]="translate.instant('mission_delete_tooltip')"
+        matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></mat-icon>
     </div>
 
     <div class="piece-form">
-        <div class="piece-form-title">Contexte de la mission 1</div>
+        <div class="piece-form-title">{{'missionContext_title_part1' | translate}} {{i+1}}{{'missionContext_title_part2' | translate}}</div>
         <div class="piece-form-duration">
-            <label for="duration">Durée</label>
-            <input name="duration" type="text" placeholder="1h"/>   
+            <label for="duration">{{'missionContext_duration_label' | translate}}</label>
+            <input name="duration" type="text" [(ngModel)]="missionContext.duration" (change)="editTrace($event, 'Duration_m')" [placeholder]="translate.instant('missionContext_duration_placeholder')"
+            [matTooltip]="translate.instant('missionContext_duration_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"/>   
         </div>
         <div class="piece-form-intrigue">
-            <label for="intrigue">Intrigue</label>
-            <textarea name="intrigue" placeholder="Concevez un site web ergonomique pour votre premier client"></textarea>  
+            <label for="intrigue">{{'missionContext_intrigue_label' | translate}}</label>
+            <textarea name="intrigue" [(ngModel)]="missionContext.intrigue" (change)="editTrace($event, 'Plot_m')" [placeholder]="translate.instant('missionContext_intrigue_placeholder')"
+            [matTooltip]="translate.instant('missionContext_intrigue_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-communication">
-            <label for="communication">Moyen(s) de communication</label>
-            <textarea name="communication"></textarea>
+            <label for="communication">{{'missionContext_communication_label' | translate}}</label>
+            <textarea name="communication" [(ngModel)]="missionContext.communication" (change)="editTrace($event, 'Communication')" [placeholder]="translate.instant('missionContext_communication_placeholder')"
+            [matTooltip]="translate.instant('missionContext_communication_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
         <div class="piece-form-divers">
-            <label for="divers">Divers</label>
-            <textarea name="divers"></textarea>
+            <label for="divers">{{'missionContext_other_label' | translate}}</label>
+            <textarea name="divers" [(ngModel)]="missionContext.various" (change)="editTrace($event, 'Other_m')" [placeholder]="translate.instant('missionContext_other_placeholder')"
+            [matTooltip]="translate.instant('missionContext_other_tooltip')"
+            matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"></textarea>
         </div>
     </div>
 </div>
