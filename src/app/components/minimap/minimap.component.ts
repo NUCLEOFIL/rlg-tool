@@ -55,15 +55,33 @@ export class MinimapComponent implements AfterViewInit, OnDestroy {
     this.updateHighlight();
 
     this.initScrollSync();
+
+    this.restoreMinimapScrollPosition();
   }
 
   refreshMinimap(): void {
+    this.saveMinimapScrollPosition();
     this.createMinimap();
+  }
+
+  saveMinimapScrollPosition(): void {
+    const minimapContainer = this.minimapContent.nativeElement.parentElement as HTMLElement;
+    this.minimapService.scrollTop = minimapContainer.scrollTop;
+    this.minimapService.scrollLeft = minimapContainer.scrollLeft;
+  }
+
+  restoreMinimapScrollPosition(): void {
+    const minimapContainer = this.minimapContent.nativeElement.parentElement as HTMLElement;
+    minimapContainer.scrollTop = this.minimapService.scrollTop;
+    minimapContainer.scrollLeft = this.minimapService.scrollLeft;
   }
 
   initScrollSync(): void {
     this.targetDiv.removeEventListener('scroll', this.scrollListener);
-    this.scrollListener = () => this.updateHighlight();
+    this.scrollListener = () => {
+      this.updateHighlight();
+      this.saveMinimapScrollPosition();
+    };
     this.targetDiv.addEventListener('scroll', this.scrollListener);
   }
 

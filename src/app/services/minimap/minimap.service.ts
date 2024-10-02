@@ -12,6 +12,8 @@ export class MinimapService {
   private timer: any;
   private refreshSubject = new BehaviorSubject<void>(undefined);
   refresh$ = this.refreshSubject.asObservable();
+  scrollTop: number = 0;
+  scrollLeft: number = 0;
 
   public reset() {
     clearTimeout(this.timer);
