@@ -271,7 +271,7 @@
         </mat-menu>
     </div>
 
-    <app-minimap class="container-minimap" [targetDiv]="contentDiv"></app-minimap>
+    <app-minimap class="container-minimap" [ngClass]="siderFolded ? 'siderFolded' : ''" [targetDiv]="contentDiv"></app-minimap>
 
     <div class="container-zoom" [ngClass]="siderFolded ? 'siderFolded' : ''">
         <button mat-mini-fab color="white" (click)="zoomIn()"
