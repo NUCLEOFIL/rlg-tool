@@ -295,7 +295,7 @@ export class AppComponent {
     const filesFolder = zip.folder('files');
     const filePromises: Promise<void>[] = [];
 
-    this.scenario.files.forEach((linkedFile, linkedFileIndex) => {
+    this.scenario.gameFiles.forEach((linkedFile, linkedFileIndex) => {
       const filePromise = new Promise<void>((resolve, reject) => {
         let fileFolder = filesFolder?.folder(linkedFile.folder);
         let reader = new FileReader();
@@ -360,7 +360,7 @@ export class AppComponent {
                     scenario.ressources = jsonData.ressources.map((ressourceData: any) => Object.assign(new Ressource(), ressourceData));
                     scenario.comments = jsonData.comments.map((commentData: any) => Object.assign(new Comment(), commentData));
 
-                    scenario.files.forEach(async linkedFile => {
+                    scenario.gameFiles.forEach(async linkedFile => {
                       let fileFolder = zip.folder('files')?.folder(linkedFile.folder);
                       if (fileFolder) {
                         const fileName = linkedFile.id+'.'+linkedFile.extension;

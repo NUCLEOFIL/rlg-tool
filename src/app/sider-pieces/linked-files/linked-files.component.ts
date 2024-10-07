@@ -22,7 +22,7 @@ import { TracesService } from 'src/app/services/traces/traces.service';
 export class LinkedFilesComponent implements OnInit {
 
   @Input() scenario: Scenario = new Scenario();
-  @Input() piece!: Task;
+  @Input() piece!: Task | Role;
   @ViewChild('fileInput') fileInput: any;
   selectedFile: number = -1;
 
@@ -37,7 +37,7 @@ export class LinkedFilesComponent implements OnInit {
       let fileURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(selectedFile));
       let fileId: number = this.scenario.actualFileID++;
       let newFile: LinkedFile = new LinkedFile(fileId, selectedFile, fileURL)
-      this.scenario.files.push(newFile);
+      this.scenario.gameFiles.push(newFile);
       this.piece.files.push(fileId);
       this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'import',undefined,undefined,'file_[ID:'+fileId+']','Scenario','#C4B185',undefined,newFile.name+'.'+newFile.extension));
       this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'attach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
@@ -45,7 +45,7 @@ export class LinkedFilesComponent implements OnInit {
   }
 
   getFileFromId(id: number): LinkedFile {
-    return this.scenario.files.find(file => file.id == id) as LinkedFile;
+    return this.scenario.gameFiles.find(file => file.id == id) as LinkedFile;
   } 
 
   selectFile() {
@@ -64,7 +64,7 @@ export class LinkedFilesComponent implements OnInit {
 
   scenarioContainAtLeastOneTypeSelectableFile(type: string): boolean {
     let contain: boolean = false;
-    this.scenario.files.forEach(file => {
+    this.scenario.gameFiles.forEach(file => {
       if (file.folder == type && !this.isFileAffected(file.id)) {
         contain = true;
       }
@@ -102,12 +102,12 @@ export class LinkedFilesComponent implements OnInit {
     let file: LinkedFile = this.getFileFromId(fileId);
     let fileName: string = file.name+'.'+file.extension; 
     if (!this.isUsedFile(fileId)) {
-      let index: number = this.scenario.files.findIndex(linkedFile => linkedFile.id == fileId) as number;
+      let index: number = this.scenario.gameFiles.findIndex(linkedFile => linkedFile.id == fileId) as number;
       const dialogRef = this.dialog.open(SupressLinkedFileDialogComponent, { data: {name: fileName, isUsed: false} });
       dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
           this.piece.files.splice(fileIndex,1);
-          this.scenario.files.splice(index,1);
+          this.scenario.gameFiles.splice(index,1);
           this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'detach',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'file_[ID:'+fileId+']', this.formatTraceTarget(),'#C4B185'));
           this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'delete',undefined,undefined,'file_['+fileId+']','Scenario','#C4B185'));
         } else {
@@ -131,6 +131,9 @@ export class LinkedFilesComponent implements OnInit {
     let used = false;
     this.scenario.missions.forEach(mission => {
       mission.roles.forEach(role => {
+        if (role.files.includes(fileId) && role != this.piece) {
+          used = true;
+        }
         role.tasks.forEach(inlineTask => {
           inlineTask.forEach(task => {
             if (task instanceof Task) {

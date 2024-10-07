@@ -31,6 +31,7 @@ export class Role {
     actualSentenceID: number = 0;
     responses: Response[] = [];
     actualResponseID: number = 0;
+    files: number[]  = [];
 
     public addChronologieStep(index: number) {
         this.chronologie[index] = new Step();

@@ -28,6 +28,6 @@ export class Scenario {
     tutorial_phase: number = 1;
     tutorial_optionnalPhase: string = '';
     tutorial_phaseDone: boolean[] = []; 
-    files: LinkedFile[] = [];
+    gameFiles: LinkedFile[] = [];
     actualFileID: number = 0;
 }

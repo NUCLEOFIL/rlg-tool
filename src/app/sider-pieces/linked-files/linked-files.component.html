@@ -19,22 +19,22 @@
                 <select [(ngModel)]="selectedFile">
                     <option [ngValue]="-1" selected hidden>{{'linkedFile_attach_select_placeholder' | translate}}</option>
                     <optgroup [label]="translate.instant('linkedFile_type_image')" *ngIf="scenarioContainAtLeastOneTypeSelectableFile('images')">
-                        <ng-container *ngFor="let linkedFile of scenario.files">
+                        <ng-container *ngFor="let linkedFile of scenario.gameFiles">
                             <option [ngValue]="linkedFile.id" *ngIf="linkedFile.folder == 'images' && !isFileAffected(linkedFile.id)">{{linkedFile.name}}.{{linkedFile.extension}}</option>
                         </ng-container>        
                     </optgroup>
                     <optgroup [label]="translate.instant('linkedFile_type_video')" *ngIf="scenarioContainAtLeastOneTypeSelectableFile('videos')">
-                        <ng-container *ngFor="let linkedFile of scenario.files">
+                        <ng-container *ngFor="let linkedFile of scenario.gameFiles">
                             <option [ngValue]="linkedFile.id" *ngIf="linkedFile.folder == 'videos' && !isFileAffected(linkedFile.id)">{{linkedFile.name}}.{{linkedFile.extension}}</option>
                         </ng-container>
                     </optgroup>
                     <optgroup [label]="translate.instant('linkedFile_type_audio')" *ngIf="scenarioContainAtLeastOneTypeSelectableFile('audios')">
-                        <ng-container *ngFor="let linkedFile of scenario.files">
+                        <ng-container *ngFor="let linkedFile of scenario.gameFiles">
                             <option [ngValue]="linkedFile.id" *ngIf="linkedFile.folder == 'audios' && !isFileAffected(linkedFile.id)">{{linkedFile.name}}.{{linkedFile.extension}}</option>
                         </ng-container>
                     </optgroup>
                     <optgroup [label]="translate.instant('linkedFile_type_other')" *ngIf="scenarioContainAtLeastOneTypeSelectableFile('others')">
-                        <ng-container *ngFor="let linkedFile of scenario.files">
+                        <ng-container *ngFor="let linkedFile of scenario.gameFiles">
                             <option [ngValue]="linkedFile.id" *ngIf="linkedFile.folder == 'others' && !isFileAffected(linkedFile.id)">{{linkedFile.name}}.{{linkedFile.extension}}</option>
                         </ng-container>
                     </optgroup>

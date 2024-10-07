@@ -61,4 +61,12 @@ export class PieceDetailsService {
   parentAsRole(): Role {
     return this.parent as Role;
   }
+
+  getPieceForLinkedFiles(): Task | Role {
+    if (this.pieceIsTask()) {
+      return this.pieceAsTask();
+    } else {
+      return this.pieceAsRole();
+    }
+  }
 }
