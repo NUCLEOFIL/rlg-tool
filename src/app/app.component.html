@@ -173,8 +173,7 @@
             </app-discussions>
             <app-linked-files class="container-sider-elements-element"
                 [scenario]="scenario"
-                [piece]="pieceDetailsService.getPieceForLinkedFiles()"
-                *ngIf="pieceDetailsService.pieceIsTask() || pieceDetailsService.pieceIsRole()">
+                [piece]="pieceDetailsService.piece">
             </app-linked-files>
         </div>
         

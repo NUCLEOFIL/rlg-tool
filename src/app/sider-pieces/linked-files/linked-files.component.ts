@@ -22,7 +22,7 @@ import { TracesService } from 'src/app/services/traces/traces.service';
 export class LinkedFilesComponent implements OnInit {
 
   @Input() scenario: Scenario = new Scenario();
-  @Input() piece!: Task | Role;
+  @Input() piece!: Task | Role | Step | Mission | Scenario;
   @ViewChild('fileInput') fileInput: any;
   selectedFile: number = -1;
 
@@ -129,11 +129,31 @@ export class LinkedFilesComponent implements OnInit {
 
   isUsedFile(fileId: number): boolean {
     let used = false;
+    if (this.scenario.files.includes(fileId) && this.scenario != this.piece) {
+      used = true;
+    }
     this.scenario.missions.forEach(mission => {
+      if (mission.files.includes(fileId) && mission != this.piece) {
+        used = true;
+      }
+      mission.chronologie.forEach(step => {
+        if (step instanceof Step) {
+          if (step.files.includes(fileId) && step != this.piece) {
+            used = true;
+          }
+        }
+      });
       mission.roles.forEach(role => {
         if (role.files.includes(fileId) && role != this.piece) {
           used = true;
         }
+        role.chronologie.forEach(step => {
+          if (step instanceof Step) {
+            if (step.files.includes(fileId) && step != this.piece) {
+              used = true;
+            }
+          }
+        });
         role.tasks.forEach(inlineTask => {
           inlineTask.forEach(task => {
             if (task instanceof Task) {

@@ -14,6 +14,7 @@ export class Mission {
     chronologie: (Step | null)[] = [new Step()];
     comments: Comment[] = [];
     rewards: Reward[] = [];
+    files: number[] = [];
 
     public addChronologieStep(index: number) {
         this.chronologie[index] = new Step();

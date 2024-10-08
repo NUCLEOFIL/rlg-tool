@@ -6,4 +6,5 @@ export class Step {
     duration: number = 1;
     durationUnit: string = 'UT';
     comments: Comment[] = [];
+    files: number[] = [];
 }
