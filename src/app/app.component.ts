@@ -240,12 +240,12 @@ export class AppComponent {
   }
 
   downloadManual(): void {
-    const manualUrl = './assets/GuideMaker_v2.3.pdf';
+    const manualUrl = './assets/GuideMaker_v2.4.pdf';
     this.http.get(manualUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'GuideMaker_v2.3.pdf';
+      a.download = 'GuideMaker_v2.4.pdf';
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
