@@ -1,0 +1,12 @@
+
+<h2 mat-dialog-title>{{'discussion_dialog_transformSentence_title' | translate}}</h2>
+<mat-dialog-content>
+    <p *ngIf="data.type == 'declarative'">{{'discussion_dialog_transformSentence_content_part1' | translate}} {{'discussion_declarativeSentence' | translate}} {{'discussion_dialog_transformSentence_content_part2' | translate}} {{'discussion_interrogativeSentence' | translate}} ?</p>
+    
+    <p *ngIf="data.type == 'interrogative'">{{'discussion_dialog_transformSentence_content_part1' | translate}} {{'discussion_interrogativeSentence' | translate}} {{'discussion_dialog_transformSentence_content_part2' | translate}} {{'discussion_declarativeSentence' | translate}} ?</p> 
+    <p *ngIf="data.type == 'interrogative'">{{'discussion_dialog_transformSentence_content_answerWarning' | translate}}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>{{'dialog_button_no' | translate}}</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'dialog_button_yes' | translate}}</button>
+</mat-dialog-actions>

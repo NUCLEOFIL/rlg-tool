@@ -20,6 +20,7 @@ import { SkillReward } from 'src/app/class/rewards/skill-reward/skill-reward';
 import { RandomObjectsReward } from 'src/app/class/rewards/random-objects-reward/random-objects-reward';
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { TracesService } from 'src/app/services/traces/traces.service';
+import { TransformSentenceDialogComponent } from '../transform-sentence-dialog/transform-sentence-dialog.component';
 
 @Component({
   selector: 'app-discussion-dialog',
@@ -121,6 +122,69 @@ export class DiscussionDialogComponent implements OnInit {
       }
 
 
+    });
+  }
+
+  transformInterrogativeSentenceIntoDeclarativeSentence(sentenceId: number) {
+
+    const dialogRef = this.dialog.open(TransformSentenceDialogComponent, { data: {type: 'interrogative'} });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result == true) {
+          this.role.sentences.forEach((sentence, index) => {
+            if (sentence.ID == sentenceId) {
+      
+              let sentenceAsDeclarativeSentence: DeclarativeSentence = new DeclarativeSentence(sentenceId);
+              sentenceAsDeclarativeSentence.idDiscussion = sentence.idDiscussion;
+              sentenceAsDeclarativeSentence.rewards = sentence.rewards;
+              sentenceAsDeclarativeSentence.value = sentence.value;
+      
+              for(let responseIndex = 0; responseIndex < this.role.responses.length; responseIndex++) {
+                if (this.role.responses[responseIndex].idInterrogativeSentence == sentenceId) {
+                  this.role.responses.splice(responseIndex,1);
+                  responseIndex--;
+                }
+              }
+      
+              this.role.sentences[index] = sentenceAsDeclarativeSentence;
+
+              this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'interrogativeSentence_[ID:'+sentenceId+']', '#D5D5FF'));
+            }
+          });
+        } else {
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'interrogativeSentence_[ID:'+sentenceId+']', '#D5D5FF'));
+        }
+      });
+
+
+  
+  }
+
+  transformDeclarativeSentenceIntoInterrogativeSentence(sentenceId: number) {
+
+    const dialogRef = this.dialog.open(TransformSentenceDialogComponent, { data: {type: 'declarative'} });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.role.sentences.forEach((sentence, index) => {
+          if (sentence.ID == sentenceId) {
+    
+            let sentenceAsInterrogativeSentence: InterrogativeSentence = new InterrogativeSentence(sentenceId);
+            sentenceAsInterrogativeSentence.idDiscussion = sentence.idDiscussion;
+            sentenceAsInterrogativeSentence.rewards = sentence.rewards;
+            sentenceAsInterrogativeSentence.value = sentence.value;
+        
+            let newResponse: Response = new Response(this.role.actualResponseID++);
+            newResponse.idInterrogativeSentence = sentenceAsInterrogativeSentence.ID;
+            sentenceAsInterrogativeSentence.responses.push(newResponse.ID);
+            this.role.responses.push(newResponse);
+  
+            this.role.sentences[index] = sentenceAsInterrogativeSentence;
+
+            this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'declarativeSentence_[ID:'+sentenceId+']', '#D5D5FF'));
+          }
+        });
+      } else {
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'cancel_transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex, 'all', 'declarativeSentence_[ID:'+sentenceId+']', '#D5D5FF'));
+      }
     });
   }
 

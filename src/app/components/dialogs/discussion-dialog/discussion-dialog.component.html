@@ -316,7 +316,10 @@
                         </div>
                         
                     </div>
-                    <button mat-button class="form-sentence-delete" (click)="deleteDeclarativeSentence(sentence.ID)">{{'discussion_buttons_deleteDeclarativeSentence' | translate}}</button>
+                    <div class="form-sentence-buttons">
+                        <button mat-button (click)="deleteDeclarativeSentence(sentence.ID)">{{'discussion_buttons_deleteDeclarativeSentence' | translate}}</button>
+                        <button mat-button (click)="transformDeclarativeSentenceIntoInterrogativeSentence(sentence.ID)">{{'discussion_buttons_transform' | translate}} {{'discussion_interrogativeSentence' | translate}}</button>                        
+                    </div>
                 </div>
             </mat-expansion-panel>
 
@@ -623,16 +626,17 @@
                                             <button mat-button class="form-result-button-add" (click)="addReward(response)"><mat-icon fontIcon="add"></mat-icon></button>
                                         </div>
                                     </div>
-                                    <button mat-button class="form-sentence-delete" (click)="deleteResponse(getSentenceAsInterrogativeSentence(sentence), response.ID)" *ngIf="countResponses(sentence.ID) > 1">{{'discussion_buttons_deleteResponse' | translate}}</button>
+                                    <button mat-button class="form-sentence-buttons" (click)="deleteResponse(getSentenceAsInterrogativeSentence(sentence), response.ID)" *ngIf="countResponses(sentence.ID) > 1">{{'discussion_buttons_deleteResponse' | translate}}</button>
                                 </div>
                             </mat-expansion-panel>
                         </ng-container>
 
 
                     </mat-accordion>
-
-
-                    <button mat-button class="form-sentence-delete" (click)="deleteInterrogativeSentence(sentence.ID)">{{'discussion_buttons_deleteInterrogativeSentence' | translate}}</button>
+                    <div class="form-sentence-buttons">
+                        <button mat-button (click)="deleteInterrogativeSentence(sentence.ID)">{{'discussion_buttons_deleteInterrogativeSentence' | translate}}</button>
+                        <button mat-button (click)="transformInterrogativeSentenceIntoDeclarativeSentence(sentence.ID)">{{'discussion_buttons_transform' | translate}} {{'discussion_declarativeSentence' | translate}}</button>
+                    </div>
                 </div>
             </mat-expansion-panel>
     </ng-container>
