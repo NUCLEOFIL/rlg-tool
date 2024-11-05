@@ -456,6 +456,7 @@
     "rewards_type_character": "Character contact",
     "rewards_type_skill": "Skill",
     "rewards_type_randomObjects": "Random objects",
+    "rewards_type_quest": "Start a new quest",
     "rewards_name_label": "Name",
     "rewards_object_placeholder": "Name of the object",
     "rewards_character_placeholder": "Character",

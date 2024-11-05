@@ -12,6 +12,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                     <option value="randomObjects" *ngIf="!unityService.unity_isActive">{{'rewards_type_randomObjects' | translate}}</option>
                     <option value="character">{{'rewards_type_character' | translate}}</option>
                     <option value="skill" *ngIf="pieceDetailsService.roleIndex != undefined">{{'rewards_type_skill' | translate}}</option>
+                    <option value="quest" *ngIf="role">{{'rewards_type_quest' | translate}}</option>
                 </select>
             </div>
             <div *ngIf="reward.type != 'none'">
@@ -82,6 +83,17 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                         <option value="null" selected disabled>{{'rewards_skill_placeholder' | translate}}</option>
                         <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
                             <option *ngIf="ressource.type == 'attribut'" [ngValue]="ressource">{{ressource.name}}</option>
+                        </ng-container>
+                    </select>
+                </div>
+                <div class="piece-form-content-quest" *ngIf="reward.type == 'quest'">
+                    <select name="quest" [(ngModel)]="getCharacterReward(rewardIndex).character" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quest')">
+                        <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
+                            <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
+                                <option [ngValue]="quest.questName" *ngIf="role?.intitule && quest.questName && role?.intitule == quest.intitule && role?.questName != quest.questName">
+                                    {{quest.questName}}
+                                </option>
+                            </ng-container>
                         </ng-container>
                     </select>
                 </div>

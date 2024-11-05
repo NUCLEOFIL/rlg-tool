@@ -5,6 +5,7 @@ import { Mission } from 'src/app/class/mission/mission';
 import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { ObjectsReward } from 'src/app/class/rewards/objects-reward/objects-reward';
+import { QuestReward } from 'src/app/class/rewards/quest-reward/quest-reward';
 import { RandomObjectsReward } from 'src/app/class/rewards/random-objects-reward/random-objects-reward';
 import { SkillReward } from 'src/app/class/rewards/skill-reward/skill-reward';
 import { Role } from 'src/app/class/role/role';
@@ -118,6 +119,14 @@ export class RewardsComponent implements OnInit {
       case 'randomObjects': this.piece.rewards[index] = new RandomObjectsReward();
         this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]',  this.formatTraceTarget(), '#CFE3B9', '*')); 
         break;
+      case 'quest': this.piece.rewards[index] = new QuestReward();
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[QuestReward]',  this.formatTraceTarget(), '#CFE3B9', '*')); 
+        break;
     }
+  }
+
+  getRelatedRoleOfPiece(mission: Mission): Role {
+    console.log(this.pieceDetailsService.roleIndex);
+    return mission.roles[this.pieceDetailsService.roleIndex != undefined ? this.pieceDetailsService.roleIndex : -1];
   }
 }

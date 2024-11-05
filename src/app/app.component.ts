@@ -738,6 +738,9 @@ export class AppComponent {
                                   if (rewardData.type == 'randomObjects') {
                                     return Object.assign(new RandomObjectsReward(), rewardData);
                                   }
+                                  if (rewardData.type == 'quest') {
+                                    return Object.assign(new QuestReward(), rewardData);
+                                  }
                                 });
                                 task.rewards.forEach((reward: Reward, index: number) => {
                                   if (reward instanceof SkillReward) {
