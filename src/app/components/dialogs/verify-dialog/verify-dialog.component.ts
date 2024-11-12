@@ -116,7 +116,6 @@ export class VerifyDialogComponent implements OnInit {
     return time;
   }
 
-
   verifyRolesMin(role: Role): number {
     let time: number = 0;
     let optionnalUT: number[][] = []; //[[column,ut,ut,ut],[column,ut,ut]];
@@ -217,7 +216,7 @@ export class VerifyDialogComponent implements OnInit {
     let number: number = 0;
     mission.roles.forEach((role, roleIndex) => {
       this.getRoleSymbolsAndIndex(mission).forEach(symbol2 => {
-        if (this.getAsSymbol(symbol2[0]).symbol == symbol.symbol && this.getAsSymbol(symbol2[0]).color == symbol.color && this.verifyRoleSymbolsMax(role,roleIndex,symbol2)) {
+        if (this.getAsSymbol(symbol2[0]).symbol == symbol.symbol && this.getAsSymbol(symbol2[0]).color == symbol.color && symbol2[1] == roleIndex) {
           number = number + 1;
         }
       });

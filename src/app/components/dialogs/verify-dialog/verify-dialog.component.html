@@ -9,7 +9,7 @@
         <div class="mission-symbol" *ngFor="let symbol of getMissionSymbols(mission), let symbolIndex = index">
             <div *ngFor="let role of mission.roles, let roleIndex = index">
                 <div *ngFor="let symbol2 of getRoleSymbolsAndIndex(mission)">
-                    <p *ngIf="getAsSymbol(symbol2[0]).symbol == symbol.symbol && getAsSymbol(symbol2[0]).color == symbol.color && verifyRoleSymbolsMax(role,roleIndex,symbol2)">
+                    <p *ngIf="getAsSymbol(symbol2[0]).symbol == symbol.symbol && getAsSymbol(symbol2[0]).color == symbol.color && symbol2[1] == roleIndex">
                         {{getRoleName(missionIndex,roleIndex)}} {{'verify_role_symbol_part1' | translate}} {{verifyRoleSymbolsMin(role,roleIndex,symbol2)}} {{getDurationUnit()}} {{'verify_role_symbol_part2' | translate}} {{verifyRoleSymbolsMax(role,roleIndex,symbol2)}} {{getDurationUnit()}}
                         {{'verify_role_symbol_part3' | translate}} <mat-icon [fontIcon]="getAsSymbol(symbol2[0]).symbol" [style.color]="getAsSymbol(symbol2[0]).color"></mat-icon>
                     </p>
