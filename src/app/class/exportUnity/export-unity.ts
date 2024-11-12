@@ -395,7 +395,7 @@ export class ExportUnity {
             mission.roles.forEach(role => {
                 if (role.intitule == this.role.intitule && role.questName != this.role.questName) {
                     let quest: UnityQuest = {
-                        ID: this.questID,
+                        ID: this.questID++,
                         name: role.questName,
                         description: role.description,
                         taskID: [],
@@ -1061,7 +1061,7 @@ export class ExportUnity {
         this.role.discussions.forEach(discussion => {
             discussion.rewards.forEach(reward => {
                 if (reward instanceof SkillReward) {
-                    let skill: UnitySkill = this.exportedRole.Item.find(skl => skl.name == reward.skill.name) as UnitySkill;
+                    let skill: UnitySkill = this.exportedRole.Skill.find(skl => skl.name == reward.skill.name) as UnitySkill;
                     if (!results.some(element => element.skillID == skill.ID)) {
                         let resultID: number = this.resultID++;
                         let result: UnityEarnSkillResult = {

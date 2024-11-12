@@ -891,8 +891,8 @@ export class AppComponent {
       link.click();
       URL.revokeObjectURL(url);        
     } catch (e: any) {
-      this._snackBar.open(this.translate.instant('snackbar_unity_exportFailed'), '', { duration: 10000, panelClass: 'snackbar-fail' });
-      console.error(e.name);
+      this._snackBar.open(this.translate.instant('snackbar_unity_exportFailed')+' ('+e.message+')', '', { duration: 10000, panelClass: 'snackbar-fail' });
+      console.error(e);
     }
      
   }
