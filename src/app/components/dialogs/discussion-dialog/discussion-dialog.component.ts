@@ -92,7 +92,7 @@ export class DiscussionDialogComponent implements OnInit {
       if (result == true) {
         this.role.discussions.forEach(discussion => {
           let sentenceIndex: number = discussion.sentences.findIndex(sentence => sentence == removedSentenceId);
-          if (sentenceIndex != undefined) {
+          if (sentenceIndex != -1) {
             discussion.sentences.splice(sentenceIndex,1);
           }
         });
@@ -208,7 +208,7 @@ export class DiscussionDialogComponent implements OnInit {
       if (result == true) {
         this.role.discussions.forEach(discussion => {
           let sentenceIndex: number = discussion.sentences.findIndex(sentence => sentence == removedSentenceId);
-          if (sentenceIndex != undefined) {
+          if (sentenceIndex != -1) {
             discussion.sentences.splice(sentenceIndex,1);
           }
         });
