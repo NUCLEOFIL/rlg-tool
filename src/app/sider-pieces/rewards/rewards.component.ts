@@ -78,6 +78,19 @@ export class RewardsComponent implements OnInit {
     return this.piece.rewards[index] as RandomObjectsReward;
   }
 
+  getQuestReward(index: number): QuestReward {
+    return this.piece.rewards[index] as QuestReward;
+  }
+
+  changeQuestReward(index: number, event: any) {
+    let value: string = event.target.value;
+    let reward = new QuestReward();
+    reward.intitule = this.pieceDetailsService.parentAsRole().intitule;
+    reward.questName = value;
+    this.piece.rewards[index] = reward;
+    this.editTrace(event, 'Reward_['+index+']_quest');
+  }
+
   addObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number) {
     reward.addObject();
     this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'new',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+rewardIndex+']_object_['+(reward.objects.length-1)+']', this.formatTraceTarget(), '#CFE3B9', '*'));
@@ -107,7 +120,7 @@ export class RewardsComponent implements OnInit {
 
   changeRewardType(index: number, type: string): void {
     switch(type) {
-      case 'object': this.piece.rewards[index] = new ObjectsReward();
+      case 'object': this.piece.rewards[index] = new ObjectReward();
         this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[ObjectReward]',  this.formatTraceTarget(), '#CFE3B9', '*'));
         break;
       case 'skill': this.piece.rewards[index] = new SkillReward();
