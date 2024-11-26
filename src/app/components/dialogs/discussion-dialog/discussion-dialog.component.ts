@@ -35,7 +35,7 @@ export class DiscussionDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DiscussionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogDiscussionData, protected translate: TranslateService, protected tooltipService: TooltipService, public dialog: MatDialog,
-      private pieceDetailsService: PieceDetailsService, protected unityService: UnityService, private tracesService: TracesService) {
+      protected pieceDetailsService: PieceDetailsService, protected unityService: UnityService, private tracesService: TracesService) {
       this.role = this.data.role;
       this.discussion = this.data.discussion;
       this.scenario = this.data.scenario;

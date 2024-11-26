@@ -54,7 +54,8 @@
                     <mat-icon fontIcon="person"></mat-icon>
                     <div class="piece-form-character-create-top-name">
                         <label for="name">{{'char_name_label' | translate}}</label>
-                        <input name="name" type="text" [(ngModel)]="character.name" (change)="editTrace($event,'Character_['+index+']_name')"/>
+                        <input name="name" type="text" [(ngModel)]="character.name" (change)="editTrace($event,'Character_['+index+']_name')"
+                        [ngClass]="unityService.unity_isActive && character.name == '' ? 'unityRequired' : ''"/>
                     </div>
                 </div>
                 <div class="piece-form-create-infos">

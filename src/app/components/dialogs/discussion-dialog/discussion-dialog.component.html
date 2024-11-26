@@ -5,10 +5,11 @@
         <input name="intitule" type="text" [(ngModel)]="discussion.name" (change)="editTrace($event, 'Name_d', 'discussion_[ID:'+this.discussion.ID+']')"/>
     </div>
     <div class="form-firstDiscussion"
+    [ngClass]="unityService.unity_isActive && isSelectableAsFirstDiscussion() && !discussion.isFirstDiscussion ? 'unityRequired' : ''"
     [matTooltip]="translate.instant('discussion_firstDiscussion_tooltip')"
     matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || isSelectableAsFirstDiscussion()">
         <input name="firstDiscussion" type="checkbox" [(ngModel)]="discussion.isFirstDiscussion"
-            [disabled]="!isSelectableAsFirstDiscussion()" (change)="checkboxTrace($event, 'firstDiscussion', 'discussion_[ID:'+this.discussion.ID+']')"/>
+        [disabled]="!isSelectableAsFirstDiscussion()" (change)="checkboxTrace($event, 'firstDiscussion', 'discussion_[ID:'+this.discussion.ID+']')"/>
         <label for="firstDiscussion">{{'discussion_firstDiscussion_label' | translate}}</label>
     </div>
     
@@ -35,6 +36,7 @@
                         <textarea name="sentence" [(ngModel)]="sentence.value" (change)="editTrace($event, 'sentence', 'declarativeSentence_[ID:'+sentence.ID+']')"></textarea>
                     </div>
                     <div class="form-sentence-firstSentence"
+                    [ngClass]="unityService.unity_isActive && discussion.firstSentenceID == -1 ? 'unityRequired' : ''"
                     [matTooltip]="translate.instant('discussion_firstSentence_tooltip')"
                     matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || discussion.firstSentenceID == -1 || discussion.firstSentenceID == sentence.ID">
                         <input name="firstSentence" type="checkbox" (click)="onCheckFirstSentence($event, sentence.ID)"
@@ -77,6 +79,7 @@
                 
                                 <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
                                     <select (change)="changeQuestReward(sentence, role.intitule, rewardIndex, $event)"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getQuestReward(sentence, rewardIndex).questName == undefined && getQuestReward(sentence, rewardIndex).intitule == undefined ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                                     <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
@@ -92,8 +95,10 @@
                                 </div>
                                 
                                 <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
-                                    <input type="number" [(ngModel)]="getSkillReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    <input type="number" [(ngModel)]="getSkillReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(sentence, rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
                                     <select [(ngModel)]="getSkillReward(sentence, rewardIndex).skill"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(sentence, rewardIndex).skill == undefined ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill', 'sentence_[ID:'+sentence.ID+']')">
@@ -105,6 +110,7 @@
                 
                                 <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
                                     <select [(ngModel)]="getCharacterReward(sentence, rewardIndex).character"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getCharacterReward(sentence, rewardIndex).character.name == '' ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'sentence_[ID:'+sentence.ID+']')">
@@ -114,6 +120,7 @@
 
                                 <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
                                     <select [(ngModel)]="getDiscussionReward(sentence, rewardIndex).discussionId"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getDiscussionReward(sentence, rewardIndex).discussionId == -1 ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_discussion', 'sentence_[ID:'+sentence.ID+']')">
@@ -129,8 +136,10 @@
                                 </div>
                 
                                 <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
-                                    <input type="number" [(ngModel)]="getObjectReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    <input type="number" [(ngModel)]="getObjectReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(sentence, rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
                                     <select [(ngModel)]="getObjectReward(sentence, rewardIndex).object"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(sentence, rewardIndex).object.name == '' ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_object', 'sentence_[ID:'+sentence.ID+']')">
@@ -209,6 +218,7 @@
                     </div>
                     <div class="form-sentence-firstSentence"
                     [matTooltip]="translate.instant('discussion_firstSentence_tooltip')"
+                    [ngClass]="unityService.unity_isActive && discussion.firstSentenceID == -1 ? 'unityRequired' : ''"
                     matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedTooltips || discussion.firstSentenceID == -1 || discussion.firstSentenceID == sentence.ID">
                         <input name="firstSentence" type="checkbox" (click)="onCheckFirstSentence($event, sentence.ID)"
                             [checked]="discussion.firstSentenceID == sentence.ID ? true : false"
@@ -235,6 +245,7 @@
                 
                                 <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
                                     <select (change)="changeQuestReward(sentence, role.intitule, rewardIndex, $event)"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getQuestReward(sentence, rewardIndex).questName == undefined && getQuestReward(sentence, rewardIndex).intitule == undefined ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                                     <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
@@ -250,8 +261,10 @@
                                 </div>
                                 
                                 <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
-                                    <input type="number" [(ngModel)]="getSkillReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    <input type="number" [(ngModel)]="getSkillReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(sentence, rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
                                     <select [(ngModel)]="getSkillReward(sentence, rewardIndex).skill"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(sentence, rewardIndex).skill == undefined ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill', 'sentence_[ID:'+sentence.ID+']')">
@@ -263,6 +276,7 @@
                 
                                 <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
                                     <select [(ngModel)]="getCharacterReward(sentence, rewardIndex).character"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getCharacterReward(sentence, rewardIndex).character.name == '' ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'sentence_[ID:'+sentence.ID+']')">
@@ -272,6 +286,7 @@
 
                                 <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
                                     <select [(ngModel)]="getDiscussionReward(sentence, rewardIndex).discussionId"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getDiscussionReward(sentence, rewardIndex).discussionId == -1 ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_discussion', 'sentence_[ID:'+sentence.ID+']')">
@@ -287,8 +302,10 @@
                                 </div>
                 
                                 <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
-                                    <input type="number" [(ngModel)]="getObjectReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"/>
+                                    <input type="number" [(ngModel)]="getObjectReward(sentence, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'sentence_[ID:'+sentence.ID+']')"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(sentence, rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
                                     <select [(ngModel)]="getObjectReward(sentence, rewardIndex).object"
+                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(sentence, rewardIndex).object.name == '' ? 'unityRequired' : ''"
                                     [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_object', 'sentence_[ID:'+sentence.ID+']')">
@@ -388,6 +405,7 @@
                                 
                                                 <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
                                                     <select (change)="changeQuestReward(response, role.intitule, rewardIndex, $event)"
+                                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getQuestReward(response, rewardIndex).questName == undefined && getQuestReward(response, rewardIndex).intitule == undefined ? 'unityRequired' : ''"
                                                     [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
                                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                                                     <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
@@ -403,8 +421,10 @@
                                                 </div>
                                                 
                                                 <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
-                                                    <input type="number" [(ngModel)]="getSkillReward(response, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'response_[ID:'+response.ID+']')"/>
+                                                    <input type="number" [(ngModel)]="getSkillReward(response, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'response_[ID:'+response.ID+']')"
+                                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(response, rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
                                                     <select [(ngModel)]="getSkillReward(response, rewardIndex).skill"
+                                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(response, rewardIndex).skill == undefined ? 'unityRequired' : ''"
                                                     [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
                                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill', 'response_[ID:'+response.ID+']')">
@@ -416,6 +436,7 @@
                                 
                                                 <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
                                                     <select [(ngModel)]="getCharacterReward(response, rewardIndex).character"
+                                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getCharacterReward(response, rewardIndex).character.name == '' ? 'unityRequired' : ''"
                                                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'response_[ID:'+response.ID+']')">
@@ -425,6 +446,7 @@
 
                                                 <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
                                                     <select [(ngModel)]="getDiscussionReward(response, rewardIndex).discussionId"
+                                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getDiscussionReward(response, rewardIndex).discussionId == -1 ? 'unityRequired' : ''"
                                                     [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
                                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_discussion', 'response_[ID:'+response.ID+']')">
@@ -440,8 +462,10 @@
                                                 </div>
                                 
                                                 <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
-                                                    <input type="number" [(ngModel)]="getObjectReward(response, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'response_[ID:'+response.ID+']')"/>
+                                                    <input type="number" [(ngModel)]="getObjectReward(response, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'response_[ID:'+response.ID+']')"
+                                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(response, rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
                                                     <select [(ngModel)]="getObjectReward(response, rewardIndex).object"
+                                                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(response, rewardIndex).object.name == '' ? 'unityRequired' : ''"
                                                     [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
                                                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                                                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_object', 'response_[ID:'+response.ID+']')">
@@ -537,6 +561,7 @@
 
                 <div class="form-result-results-result-quest" *ngIf="reward.type == 'quest'">
                     <select (change)="changeQuestReward(discussion, role.intitule, rewardIndex, $event)"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getQuestReward(discussion, rewardIndex).questName == undefined && getQuestReward(discussion, rewardIndex).intitule == undefined ? 'unityRequired' : ''"
                     [matTooltip]="translate.instant('role_reward_type_newQuest_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                     <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
@@ -552,8 +577,10 @@
                 </div>
                 
                 <div class="form-result-results-result-skill" *ngIf="reward.type == 'skill'">
-                    <input type="number" [(ngModel)]="getSkillReward(discussion, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'discussion_[ID:'+discussion.ID+']')"/>
+                    <input type="number" [(ngModel)]="getSkillReward(discussion, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'discussion_[ID:'+discussion.ID+']')"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(discussion, rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
                     <select [(ngModel)]="getSkillReward(discussion, rewardIndex).skill"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(discussion, rewardIndex).skill == undefined ? 'unityRequired' : ''"
                     [matTooltip]="translate.instant('role_reward_type_skill_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill', 'discussion_[ID:'+discussion.ID+']')">
@@ -565,6 +592,7 @@
 
                 <div class="form-result-results-result-character" *ngIf="reward.type == 'character'">
                     <select [(ngModel)]="getCharacterReward(discussion, rewardIndex).character"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getCharacterReward(discussion, rewardIndex).character.name == '' ? 'unityRequired' : ''"
                     [matTooltip]="translate.instant('role_reward_type_character_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_character', 'discussion_[ID:'+discussion.ID+']')">
@@ -574,6 +602,7 @@
 
                 <div class="form-result-results-result-discussion" *ngIf="reward.type == 'discussion'">
                     <select [(ngModel)]="getDiscussionReward(discussion, rewardIndex).discussionId"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getDiscussionReward(discussion, rewardIndex).discussionId == -1 ? 'unityRequired' : ''"
                     [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_discussion', 'discussion_[ID:'+discussion.ID+']')">
@@ -589,8 +618,10 @@
                 </div>
 
                 <div class="form-result-results-result-object" *ngIf="reward.type == 'object'">
-                    <input type="number" [(ngModel)]="getObjectReward(discussion, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'discussion_[ID:'+discussion.ID+']')"/>
+                    <input type="number" [(ngModel)]="getObjectReward(discussion, rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity', 'discussion_[ID:'+discussion.ID+']')"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(discussion, rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
                     <select [(ngModel)]="getObjectReward(discussion, rewardIndex).object"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(discussion, rewardIndex).object.name == '' ? 'unityRequired' : ''"
                     [matTooltip]="translate.instant('role_reward_type_object_tooltip')"
                     matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips"
                     (change)="editTrace($event, 'Reward_['+rewardIndex+']_object', 'discussion_[ID:'+discussion.ID+']')">

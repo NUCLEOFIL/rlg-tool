@@ -176,3 +176,13 @@ select:disabled, button:disabled {
     }
 }
 
+.unityRequired {
+    background-color: #ffcbcb !important;
+    //border-inline: solid red 7px !important;
+
+    option {
+        background-color: white;
+        border: none;
+    }
+}
+

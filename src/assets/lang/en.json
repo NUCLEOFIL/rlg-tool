@@ -47,7 +47,7 @@
     "snackbar_moveFinalTask_taskPlacedAtEnd": "It is not possible to place an end-of-line task before other tasks, the task has been placed at the end of the line",
     "snackbar_moveTask_movedBeforeEndlineTask": "It is not possible to place a task after an end-of-line task, the task has been placed before the end-of-line task",
     "snackbar_deleteOptionnalTask": "Attention, alternative tasks go in pairs at minimum, ensure that the user always has a choice between several of these tasks",
-    "snackbar_unity_exportFailed": "Export failed, please ensure all exported fields are properly filled",
+    "snackbar_unity_exportFailed": "Export failed, please ensure all exported fields are properly filled\nYou can spot them by the fields highlighted in red\n",
 
     "siderTitle_game": "Game",
     "siderTitle_mission": "Mission",

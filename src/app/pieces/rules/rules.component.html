@@ -22,7 +22,8 @@
                 matTooltipPosition="above" [matTooltipDisabled]="!tooltipService.activatedTooltips">
                     <div class="piece-form-ressources-object-infos-name">
                         <label for="name">{{'rules_ressource_name_label' | translate}}</label>
-                        <input name="name" type="text" [(ngModel)]="ressource.name" (change)="editTrace($event,'Ressource_['+i+']_name')"/>
+                        <input name="name" type="text" [(ngModel)]="ressource.name" (change)="editTrace($event,'Ressource_['+i+']_name')"
+                        [ngClass]="unityService.unity_isActive && ressource.name == '' ? 'unityRequired' : ''"/>
                     </div>
                     <div class="piece-form-ressources-object-infos-quantity">
                         <label for="quantity">{{'rules_ressource_quantity_label' | translate}}</label>

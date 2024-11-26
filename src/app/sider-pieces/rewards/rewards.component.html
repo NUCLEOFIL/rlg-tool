@@ -23,8 +23,10 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                 </div>
                 -->     
                 <div class="piece-form-content-object" *ngIf="reward.type == 'object'">
-                    <input type="number" name="quantity" [(ngModel)]="getObjectReward(rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity')"/>
-                    <select name="object_name" [(ngModel)]="getObjectReward(rewardIndex).object" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object')">
+                    <input type="number" name="quantity" [(ngModel)]="getObjectReward(rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity')"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
+                    <select name="object_name" [(ngModel)]="getObjectReward(rewardIndex).object" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object')"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getObjectReward(rewardIndex).object.name == '' ? 'unityRequired' : ''">
                         <option value="null" selected disabled>{{'rewards_object_placeholder' | translate}}</option>
                         <ng-container *ngFor="let ressource of scenario.ressources">
                             <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
@@ -72,14 +74,17 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                     <button mat-button class="piece-form-content-randomObjects-button-add" (click)="addObjectToRandomObjectsReward(getRandomObjectsReward(rewardIndex), rewardIndex)"><mat-icon fontIcon="add"></mat-icon></button>
                 </div>
                 <div class="piece-form-content-character" *ngIf="reward.type == 'character'">
-                    <select name="character" [(ngModel)]="getCharacterReward(rewardIndex).character" (change)="editTrace($event, 'Reward_['+rewardIndex+']_character')">
+                    <select name="character" [(ngModel)]="getCharacterReward(rewardIndex).character" (change)="editTrace($event, 'Reward_['+rewardIndex+']_character')"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getCharacterReward(rewardIndex).character.name == '' ? 'unityRequired' : ''">
                         <option value="null" selected disabled>{{'rewards_character_placeholder' | translate}}</option>
                         <option *ngFor="let character of scenario.characters" [ngValue]="character" [disabled]="!character.reachableByPhone">{{character.name}}</option>
                     </select>
                 </div>
                 <div class="piece-form-content-skill" *ngIf="reward.type == 'skill'">
-                    <input type="number" name="quantity" [(ngModel)]="getSkillReward(rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity')"/>
-                    <select name="skill" [(ngModel)]="getSkillReward(rewardIndex).skill" (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill')">
+                    <input type="number" name="quantity" [(ngModel)]="getSkillReward(rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity')"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
+                    <select name="skill" [(ngModel)]="getSkillReward(rewardIndex).skill" (change)="editTrace($event, 'Reward_['+rewardIndex+']_skill')"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getSkillReward(rewardIndex).skill == undefined ? 'unityRequired' : ''">
                         <option value="null" selected disabled>{{'rewards_skill_placeholder' | translate}}</option>
                         <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
                             <option *ngIf="ressource.type == 'attribut'" [ngValue]="ressource">{{ressource.name}}</option>
@@ -87,10 +92,13 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                     </select>
                 </div>
                 <div class="piece-form-content-quest" *ngIf="reward.type == 'quest'">
-                    <select name="quest" [(ngModel)]="getCharacterReward(rewardIndex).character" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quest')">
+                    <select name="quest" (change)="changeQuestReward(rewardIndex, $event)"
+                    [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getQuestReward(rewardIndex).questName && getQuestReward(rewardIndex).intitule == '' ? 'unityRequired' : ''">
+                    <option [ngValue]="null" selected disabled>{{'role_reward_quest_placeholder' | translate}}</option>
                         <ng-container *ngFor="let mission of scenario.missions; let indexMission = index">
                             <ng-container *ngFor="let quest of mission.roles; let indexRole = index">
-                                <option [ngValue]="quest.questName" *ngIf="role?.intitule && quest.questName && role?.intitule == quest.intitule && role?.questName != quest.questName">
+                                <option [ngValue]="quest.questName" *ngIf="role?.intitule && quest.questName && role?.intitule == quest.intitule && role?.questName != quest.questName"
+                                [selected]="getQuestReward(rewardIndex).intitule == quest.intitule && getQuestReward(rewardIndex).questName == quest.questName">
                                     {{quest.questName}}
                                 </option>
                             </ng-container>
