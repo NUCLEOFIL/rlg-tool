@@ -77,7 +77,7 @@ mat-dialog-actions {
                     }
                 }
 
-                &-skill, &-object {
+                &-skill, &-object, &-giveObject-object {
                     margin-top: 3px;
                     width: 250px;
                     display: flex;
@@ -93,7 +93,7 @@ mat-dialog-actions {
                     }
                 }
 
-                &-character, &-quest, &-discussion {
+                &-character, &-quest, &-discussion, &-giveObject-target {
                     margin-top: 3px;
                     width: 250px;
 

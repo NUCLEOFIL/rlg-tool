@@ -56,11 +56,11 @@
             padding-bottom: 5px;
             border-bottom: solid black 1px;
 
-            &-type, &-name, &-object, &-character, &-skill, &-quest {
+            &-type, &-name, &-object, &-character, &-skill, &-quest, &-giveObject {
                 margin-bottom: 5px;
             }
             
-            &-type, &-name, &-object {
+            &-type, &-name, &-object, &-giveObject-object {
                 display: flex;
                 justify-content: space-between;
             }
@@ -71,13 +71,13 @@
                 }
             }
 
-            &-object, &-skill {
+            &-object, &-skill, &-giveObject-object {
                 input {
                     width: 40px;
                 }
             }
 
-            &-character, &-skill, &-quest {
+            &-character, &-skill, &-quest, &-giveObject-target {
                 display: flex;
                 justify-content: right;
             }
@@ -113,6 +113,12 @@
                     position: relative;
                     left: 100%;
                     transform: translateX(-100%);
+                }
+            }
+
+            &-giveObject {
+                &-target {
+                    margin-top: 5px;
                 }
             }
         }

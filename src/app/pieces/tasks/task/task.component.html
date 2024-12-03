@@ -178,6 +178,7 @@
                     <!--<option value="depositObject">{{'task_unity_type_depositObject' | translate}}</option>-->
                     <!--<option value="askToSeeRole">{{'task_unity_type_askToSeeRole' | translate}}</option>-->
                     <option value="interactObject">{{'task_unity_type_interactObject' | translate}}</option>
+                    <option value="giveObject">{{'task_unity_type_giveObject' | translate}}</option>
                 </select>
             </div>
             <div class="piece-form-content-unity-typeContent">
@@ -199,6 +200,35 @@
                             </ng-container>
                         </ng-container>
                     </select>                    
+                </div>
+
+                <div class="piece-form-content-unity-typeContent-giveObject" *ngIf="task.typeUnity == 'giveObject'">
+                    <div class="piece-form-content-unity-typeContent-giveObject-object">
+                        <input type="number" [(ngModel)]="task.objectQuantity" (change)="editTrace($event, 'typeUnity_giveObject_object_quantity')"
+                        [ngClass]="unityService.unity_isActive && task.objectQuantity == undefined ? 'unityRequired' : ''"/>
+                        <select [(ngModel)]="task.object" (change)="editTrace($event, 'typeUnity_giveObject_object')"
+                        [ngClass]="unityService.unity_isActive && task.object == null ? 'unityRequired' : ''">
+                            <option [ngValue]="null" selected disabled>{{'task_unity_giveObject_object_placeholder' | translate}}</option>
+                            <ng-container *ngFor="let ressource of scenario.ressources">
+                                <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                            </ng-container>
+                            <ng-container *ngFor="let role2 of mission.roles">
+                                <ng-container *ngIf="role2 == role">
+                                    <ng-container *ngFor="let ressource of role2.ressources">
+                                        <option [ngValue]="ressource" *ngIf="ressource.type == 'ressource'">{{ressource.name}}</option>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </select>
+                    </div>
+                    <!-- Pour rajouter le type "donner à un autre joueur": dupliquer la div giveObject et le code TS lié puis changer la div giveObject-target (ne pas oublier d'adapter les duplicatas) -->
+                    <div class="piece-form-content-unity-typeContent-giveObject-target">
+                        <select [(ngModel)]="task.character" (change)="editTrace($event, 'typeUnity_giveObject_target')"
+                        [ngClass]="unityService.unity_isActive && task.character == null ? 'unityRequired' : ''">
+                            <option [ngValue]="null" selected disabled>{{'task_unity_giveObject_target_placeholder' | translate}}</option>
+                            <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="piece-form-content-unity-typeContent-character" *ngIf="task.typeUnity == 'character'">

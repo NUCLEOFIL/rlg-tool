@@ -21,6 +21,7 @@ import { RandomObjectsReward } from 'src/app/class/rewards/random-objects-reward
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { TracesService } from 'src/app/services/traces/traces.service';
 import { TransformSentenceDialogComponent } from '../transform-sentence-dialog/transform-sentence-dialog.component';
+import { GiveObjectReward } from 'src/app/class/rewards/give-object-reward/give-object-reward';
 
 @Component({
   selector: 'app-discussion-dialog',
@@ -327,13 +328,13 @@ export class DiscussionDialogComponent implements OnInit {
         break;
       case 'object': parent.rewards[index] = new ObjectReward();
         if (parent instanceof Discussion) {
-          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[ObjectReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Sentence) {
-          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[ObjectReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         if (parent instanceof Response) {
-          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[ObjectReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         break;
       case 'discussion': parent.rewards[index] = new DiscussionReward();
@@ -356,6 +357,17 @@ export class DiscussionDialogComponent implements OnInit {
         }
         if (parent instanceof Response) {
           this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        break;
+      case 'giveObject': parent.rewards[index] = new GiveObjectReward();
+        if (parent instanceof Discussion) {
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[GiveObjectReward]', 'discussion_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Sentence) {
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[GiveObjectReward]', 'sentence_[ID:'+parent.ID+']', '#D5D5FF'));
+        }
+        if (parent instanceof Response) {
+          this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[GiveObjectReward]', 'response_[ID:'+parent.ID+']', '#D5D5FF'));
         }
         break;
     }
@@ -411,6 +423,10 @@ export class DiscussionDialogComponent implements OnInit {
   
   getRandomObjectsReward(parent: Discussion | Sentence | Response, index: number): RandomObjectsReward {
     return parent.rewards[index] as RandomObjectsReward;
+  }
+
+  getGiveObjectReward(parent: Discussion | Sentence | Response, index: number): GiveObjectReward {
+    return parent.rewards[index] as GiveObjectReward;
   }
 
   addObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number) {

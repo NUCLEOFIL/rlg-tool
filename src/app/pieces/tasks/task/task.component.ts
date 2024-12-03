@@ -472,6 +472,7 @@ export class TaskComponent implements OnInit {
       case 'getObject': this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'transform', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'typeUnity_transform_into_[getObject]', 'Task_['+this.i+';'+this.j+']', '#B9DFE3')); break;
       case 'character': this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'transform', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'typeUnity_transform_into_[talkWith]', 'Task_['+this.i+';'+this.j+']', '#B9DFE3')); break;
       case 'interactObject': this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'transform', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'typeUnity_transform_into_[interactWith]', 'Task_['+this.i+';'+this.j+']', '#B9DFE3')); break;
+      case 'giveObject': this.tracesService.traces.push(new Trace(this.tracesService.traces.length, 'transform', this.pieceDetailsService.missionIndex, this.pieceDetailsService.roleIndex, 'typeUnity_transform_into_[giveObject]', 'Task_['+this.i+';'+this.j+']', '#B9DFE3')); break;
     }
   }
 }

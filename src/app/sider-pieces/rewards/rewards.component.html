@@ -13,6 +13,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                     <option value="character">{{'rewards_type_character' | translate}}</option>
                     <option value="skill" *ngIf="pieceDetailsService.roleIndex != undefined">{{'rewards_type_skill' | translate}}</option>
                     <option value="quest" *ngIf="role">{{'rewards_type_quest' | translate}}</option>
+                    <option value="giveObject">{{'rewards_type_giveObject' | translate}}</option>
                 </select>
             </div>
             <div *ngIf="reward.type != 'none'">
@@ -104,6 +105,32 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                             </ng-container>
                         </ng-container>
                     </select>
+                </div>
+                <div class="piece-form-content-giveObject" *ngIf="reward.type == 'giveObject'">
+                    <div class="piece-form-content-giveObject-object">
+                        <input type="number" name="quantity" [(ngModel)]="getGiveObjectReward(rewardIndex).quantity" (change)="editTrace($event, 'Reward_['+rewardIndex+']_quantity')"
+                        [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getGiveObjectReward(rewardIndex).quantity == undefined ? 'unityRequired' : ''"/>
+                        <select name="object_name" [(ngModel)]="getGiveObjectReward(rewardIndex).object" (change)="editTrace($event, 'Reward_['+rewardIndex+']_object')"
+                        [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getGiveObjectReward(rewardIndex).object.name == '' ? 'unityRequired' : ''">
+                            <option value="null" selected disabled>{{'rewards_giveObject_object_placeholder' | translate}}</option>
+                            <ng-container *ngFor="let ressource of scenario.ressources">
+                                <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                            </ng-container>
+                            <ng-container *ngIf="pieceDetailsService.roleIndex != undefined">
+                                <ng-container *ngFor="let ressource of pieceDetailsService.parentAsRole().ressources">
+                                    <option *ngIf="ressource.type == 'ressource'" [ngValue]="ressource">{{ressource.name}}</option>
+                                </ng-container>
+                            </ng-container>
+                        </select>
+                    </div>
+                    <!-- Pour rajouter le type "donner à un autre joueur": dupliquer la div giveObject et le code TS lié puis changer la div giveObject-target (ne pas oublier de créer une nouvelle class et adapter les duplicatas) -->
+                    <div class="piece-form-content-giveObject-target">
+                        <select name="character" [(ngModel)]="getGiveObjectReward(rewardIndex).target" (change)="editTrace($event, 'Reward_['+rewardIndex+']_target')"
+                        [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getGiveObjectReward(rewardIndex).target.name == '' ? 'unityRequired' : ''">
+                            <option value="null" selected disabled>{{'rewards_giveObject_target_placeholder' | translate}}</option>
+                            <option *ngFor="let character of scenario.characters" [ngValue]="character">{{character.name}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <button mat-button class="piece-form-buttons-remove" (click)="removeReward(rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>

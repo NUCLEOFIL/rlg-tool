@@ -53,6 +53,7 @@ import * as JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { LinkedFile } from './class/linked-file/linked-file';
 import { TracesService } from './services/traces/traces.service';
+import { GiveObjectReward } from './class/rewards/give-object-reward/give-object-reward';
 
 
 @Component({
@@ -408,6 +409,9 @@ export class AppComponent {
                           if (rewardData.type == 'randomObjects') {
                             return Object.assign(new RandomObjectsReward(), rewardData);
                           }
+                          if (rewardData.type == 'giveObject') {
+                            return Object.assign(new GiveObjectReward(), rewardData);
+                          }
                         });
                         mission.rewards.forEach((reward: Reward, index: number) => {
                           if (reward instanceof CharacterReward) {
@@ -428,6 +432,16 @@ export class AppComponent {
                               }
                             });
                           }
+                          if (reward instanceof GiveObjectReward) {
+                            if (scenario.ressources.some(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number)) {
+                              let i: number = scenario.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                              reward.object = scenario.ressources[i];
+                            }
+                            if (scenario.characters.some(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name)) {
+                              let j: number = scenario.characters.findIndex(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name);
+                              reward.target = scenario.characters[j];
+                            }
+                          } 
                         });
                         mission.roles = jsonData.missions[index].roles.map((roleData: any) => Object.assign(new Role(), roleData));
                         mission.roles.forEach((role, index) => {
@@ -476,6 +490,9 @@ export class AppComponent {
                             if (rewardData.type == 'randomObjects') {
                               return Object.assign(new RandomObjectsReward(), rewardData);
                             }
+                            if (rewardData.type == 'giveObject') {
+                              return Object.assign(new GiveObjectReward(), rewardData);
+                            }
                           });
                           role.rewards.forEach((reward: Reward, index: number) => {
                             if (reward instanceof SkillReward) {
@@ -510,6 +527,19 @@ export class AppComponent {
                                 }
                               });
                             }
+                            if (reward instanceof GiveObjectReward) {
+                              if (scenario.ressources.some(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number)) {
+                                let i: number = scenario.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                reward.object = scenario.ressources[i];
+                              } else {
+                                let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                reward.object = role.ressources[i];
+                              }
+                              if (scenario.characters.some(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name)) {
+                                let j: number = scenario.characters.findIndex(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name);
+                                reward.target = scenario.characters[j];                                
+                              }
+                            }
                           });
                           role.discussions = role.discussions.map((discussionData: any) => {
                             let character: Character | undefined = scenario.characters.find(char => char.color == discussionData.character.color 
@@ -542,6 +572,9 @@ export class AppComponent {
                               if (rewardData.type == 'randomObjects') {
                                 return Object.assign(new RandomObjectsReward(), rewardData);
                               }
+                              if (rewardData.type == 'giveObject') {
+                                return Object.assign(new GiveObjectReward(), rewardData);
+                              }
                             });
                             discussion.rewards.forEach((reward: Reward, index: number) => {
                               if (reward instanceof SkillReward) {
@@ -571,6 +604,19 @@ export class AppComponent {
                                     reward.objects[objectIndex] = role.ressources[i];
                                   }
                                 });
+                              }
+                              if (reward instanceof GiveObjectReward) {
+                                if (scenario.ressources.some(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number)) {
+                                  let i: number = scenario.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                  reward.object = scenario.ressources[i];
+                                } else {
+                                  let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                  reward.object = role.ressources[i];
+                                }
+                                if (scenario.characters.some(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name)) {
+                                  let j: number = scenario.characters.findIndex(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name);
+                                  reward.target = scenario.characters[j];
+                                }
                               }
                             });
                             return discussion;
@@ -602,6 +648,9 @@ export class AppComponent {
                               if (rewardData.type == 'randomObjects') {
                                 return Object.assign(new RandomObjectsReward(), rewardData);
                               }
+                              if (rewardData.type == 'giveObject') {
+                                return Object.assign(new GiveObjectReward(), rewardData);
+                              }
                             });
                             sentence.rewards.forEach((reward: Reward, index: number) => {
                               if (reward instanceof SkillReward) {
@@ -632,6 +681,19 @@ export class AppComponent {
                                   }
                                 });
                               }
+                              if (reward instanceof GiveObjectReward) {
+                                if (scenario.ressources.some(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number)) {
+                                  let i: number = scenario.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                  reward.object = scenario.ressources[i];
+                                } else {
+                                  let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                  reward.object = role.ressources[i];
+                                }
+                                if (scenario.characters.some(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name)) {
+                                  let j: number = scenario.characters.findIndex(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name);
+                                  reward.target = scenario.characters[j];
+                                }
+                              }
                             });
                           });
                           role.responses = role.responses.map((responseData: any) => Object.assign(new Response(responseData.ID), responseData));
@@ -654,6 +716,9 @@ export class AppComponent {
                               }
                               if (rewardData.type == 'randomObjects') {
                                 return Object.assign(new RandomObjectsReward(), rewardData);
+                              }
+                              if (rewardData.type == 'giveObject') {
+                                return Object.assign(new GiveObjectReward(), rewardData);
                               }
                             });
                             response.rewards.forEach((reward: Reward, index: number) => {
@@ -684,6 +749,19 @@ export class AppComponent {
                                     reward.objects[objectIndex] = role.ressources[i];
                                   }
                                 });
+                              }
+                              if (reward instanceof GiveObjectReward) {
+                                if (scenario.ressources.some(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number)) {
+                                  let i: number = scenario.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                  reward.object = scenario.ressources[i];
+                                } else {
+                                  let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                  reward.object = role.ressources[i];
+                                }
+                                if (scenario.characters.some(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name)) {
+                                  let j: number = scenario.characters.findIndex(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name);
+                                  reward.target = scenario.characters[j];
+                                }
                               }
                             });
                           });
@@ -741,6 +819,9 @@ export class AppComponent {
                                   if (rewardData.type == 'quest') {
                                     return Object.assign(new QuestReward(), rewardData);
                                   }
+                                  if (rewardData.type == 'giveObject') {
+                                    return Object.assign(new GiveObjectReward(), rewardData);
+                                  }
                                 });
                                 task.rewards.forEach((reward: Reward, index: number) => {
                                   if (reward instanceof SkillReward) {
@@ -771,9 +852,22 @@ export class AppComponent {
                                       }
                                     });
                                   }
+                                  if (reward instanceof GiveObjectReward) {
+                                    if (scenario.ressources.some(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number)) {
+                                      let i: number = scenario.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                      reward.object = scenario.ressources[i];
+                                    } else {
+                                      let i: number = role.ressources.findIndex(element => element.name == reward.object.name && element.type == 'ressource' && element.number == reward.object.number);
+                                      reward.object = role.ressources[i];
+                                    }
+                                    if (scenario.characters.some(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name)) {
+                                      let j: number = scenario.characters.findIndex(element => element.color == reward.target.color && element.description == reward.target.description && element.name == reward.target.name);
+                                      reward.target = scenario.characters[j];
+                                    }
+                                  }
                                 });
             
-                                if ((task.typeUnity == 'getObject' || task.typeUnity == 'depositObject' || task.typeUnity == 'interactObject') && task.object) {
+                                if ((task.typeUnity == 'getObject' || task.typeUnity == 'depositObject' || task.typeUnity == 'interactObject' || task.typeUnity == 'giveObject') && task.object) {
                                   if (scenario.ressources.some(element => element.name == (task.object as Ressource).name && element.number == (task.object as Ressource).number && element.type == (task.object as Ressource).type)) {
                                     let i: number = scenario.ressources.findIndex(element => element.name == (task.object as Ressource).name && element.number == (task.object as Ressource).number && element.type == (task.object as Ressource).type);
                                     task.object = scenario.ressources[i];
@@ -789,7 +883,7 @@ export class AppComponent {
                                     } 
                                   });
                                 }
-                                if ((task.typeUnity == 'character' || task.typeUnity == 'exchangeObjects') && task.character) {
+                                if ((task.typeUnity == 'character' || task.typeUnity == 'exchangeObjects' || task.typeUnity == 'giveObject') && task.character) {
                                   scenario.characters.forEach(character => {
                                     if (character.color == task.character?.color && character.description == task.character.description && character.name == task.character.name && character.tel == task.character.tel) {
                                       task.character = character;

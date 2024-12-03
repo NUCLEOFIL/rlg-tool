@@ -236,7 +236,7 @@
                 }
 
                 input[type="number"] {
-                    width: 15%;
+                    width: 13%;
                 }
 
                 input[type="text"] {
@@ -382,6 +382,34 @@
                             height: 50px;
                         }
                     }
+                }
+
+                &-giveObject {
+
+                    select {
+                        width: 80%
+                    }
+
+                    button {
+                        position: relative;
+                        left: 100%;
+                        transform: translateX(-100%);
+                        margin-top: 5px;
+                    }
+                    
+                    &-object {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                    }
+
+                    &-target {
+                        margin-top: 5px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: right;
+                    }
+
                 }
             }
         }

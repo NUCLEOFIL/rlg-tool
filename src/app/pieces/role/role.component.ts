@@ -31,6 +31,7 @@ import { DiscussionReward } from 'src/app/class/rewards/discussion-reward/discus
 import { UnityService } from 'src/app/services/unity/unity.service';
 import { RandomObjectsReward } from 'src/app/class/rewards/random-objects-reward/random-objects-reward';
 import { TracesService } from 'src/app/services/traces/traces.service';
+import { GiveObjectReward } from 'src/app/class/rewards/give-object-reward/give-object-reward';
 
 @Component({
   selector: 'app-role',
@@ -622,6 +623,9 @@ export class RoleComponent implements OnInit {
       case 'randomObjects': this.role.rewards[index] = new RandomObjectsReward();
         this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[RandomObjectsReward]', 'Role_['+this.i+']', '#9AD5EC', '*')); 
         break;
+      case 'giveObject': this.role.rewards[index] = new GiveObjectReward();
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.missionIndex,this.i,'Reward_['+index+']_transform_into_[GiveobjectReward]', 'Role_['+this.i+']', '#9AD5EC', '*')); 
+        break;
     }
   }
 
@@ -672,6 +676,10 @@ export class RoleComponent implements OnInit {
 
   getRandomObjectsReward(index: number): RandomObjectsReward {
     return this.role.rewards[index] as RandomObjectsReward;
+  }
+
+  getGiveObjectReward(index: number): GiveObjectReward {
+    return this.role.rewards[index] as GiveObjectReward;
   }
 
   addObjectToRandomObjectsReward(reward: RandomObjectsReward, rewardIndex: number) {
