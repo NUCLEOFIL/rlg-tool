@@ -1,6 +1,7 @@
 import { Discussion } from "../discussion/discussion";
 import { CharacterReward } from "../rewards/character-reward/character-reward";
 import { DiscussionReward } from "../rewards/discussion-reward/discussion-reward";
+import { GiveObjectReward } from "../rewards/give-object-reward/give-object-reward";
 import { ObjectReward } from "../rewards/object-reward/object-reward";
 import { QuestReward } from "../rewards/quest-reward/quest-reward";
 import { SkillReward } from "../rewards/skill-reward/skill-reward";
@@ -104,6 +105,18 @@ export class ExportUnity {
                     }                    
                 }
             }
+            if (reward instanceof GiveObjectReward) {
+                if (!characters.some(char => reward.target.name == char.name && reward.target.tel == char.phone)) {
+                    let char: UnityCharacter = {
+                        name: reward.target.name,
+                        ID: this.characterID++,
+                        discussionID: [],
+                        currentDiscussionID: undefined,
+                        phone: reward.target.tel
+                    };
+                    characters.push(char);
+                }                                
+            }
         });
 
         this.role.tasks.forEach(inlineTask => {
@@ -136,6 +149,18 @@ export class ExportUnity {
                                 }                                
                             }
                         }
+                        if (reward instanceof GiveObjectReward) {
+                            if (!characters.some(char => reward.target.name == char.name && reward.target.tel == char.phone)) {
+                                let char: UnityCharacter = {
+                                    name: reward.target.name,
+                                    ID: this.characterID++,
+                                    discussionID: [],
+                                    currentDiscussionID: undefined,
+                                    phone: reward.target.tel
+                                };
+                                characters.push(char);
+                            }                                
+                        }
                     });
                 }
             });
@@ -157,6 +182,18 @@ export class ExportUnity {
                         }                        
                     }
                 }
+                if (reward instanceof GiveObjectReward) {
+                    if (!characters.some(char => reward.target.name == char.name && reward.target.tel == char.phone)) {
+                        let char: UnityCharacter = {
+                            name: reward.target.name,
+                            ID: this.characterID++,
+                            discussionID: [],
+                            currentDiscussionID: undefined,
+                            phone: reward.target.tel
+                        };
+                        characters.push(char);
+                    }                                
+                }
             });
         });
 
@@ -176,6 +213,18 @@ export class ExportUnity {
                         }                        
                     }
                 }
+                if (reward instanceof GiveObjectReward) {
+                    if (!characters.some(char => reward.target.name == char.name && reward.target.tel == char.phone)) {
+                        let char: UnityCharacter = {
+                            name: reward.target.name,
+                            ID: this.characterID++,
+                            discussionID: [],
+                            currentDiscussionID: undefined,
+                            phone: reward.target.tel
+                        };
+                        characters.push(char);
+                    }                                
+                }
             });
         });
 
@@ -194,6 +243,18 @@ export class ExportUnity {
                             characters.push(char);
                         }                        
                     }
+                }
+                if (reward instanceof GiveObjectReward) {
+                    if (!characters.some(char => reward.target.name == char.name && reward.target.tel == char.phone)) {
+                        let char: UnityCharacter = {
+                            name: reward.target.name,
+                            ID: this.characterID++,
+                            discussionID: [],
+                            currentDiscussionID: undefined,
+                            phone: reward.target.tel
+                        };
+                        characters.push(char);
+                    }                                
                 }
             });
         });
@@ -223,6 +284,10 @@ export class ExportUnity {
                 }
                 if (reward instanceof ObjectReward) {
                     let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
+                    results.push(resultID);
+                }
+                if (reward instanceof GiveObjectReward) {
+                    let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet donné à '+reward.target.name+' : '+reward.object.name == result.name && (reward.quantity < 0 ? reward.quantity  == result.quantity : result.quantity == -reward.quantity)) as UnityGetObjectResult).ID;
                     results.push(resultID);
                 }
                 if (reward instanceof DiscussionReward) {
@@ -273,6 +338,10 @@ export class ExportUnity {
                         let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
                         results.push(resultID);
                     }
+                    if (reward instanceof GiveObjectReward) {
+                        let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet donné à '+reward.target.name+' : '+reward.object.name == result.name && (reward.quantity < 0 ? reward.quantity  == result.quantity : result.quantity == -reward.quantity)) as UnityGetObjectResult).ID;
+                        results.push(resultID);
+                    }
                     if (reward instanceof DiscussionReward) {
                         let resultID: number = (this.exportedRole.ChangeDiscussionResult.find(result => result.discussionID == reward.discussionId) as UnityChangeDiscussionResult).ID;
                         results.push(resultID);
@@ -317,6 +386,10 @@ export class ExportUnity {
                         let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
                         results.push(resultID);
                     }
+                    if (reward instanceof GiveObjectReward) {
+                        let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet donné à '+reward.target.name+' : '+reward.object.name == result.name && (reward.quantity < 0 ? reward.quantity  == result.quantity : result.quantity == -reward.quantity)) as UnityGetObjectResult).ID;
+                        results.push(resultID);
+                    }
                     if (reward instanceof DiscussionReward) {
                         let resultID: number = (this.exportedRole.ChangeDiscussionResult.find(result => result.discussionID == reward.discussionId) as UnityChangeDiscussionResult).ID;
                         results.push(resultID);
@@ -358,6 +431,10 @@ export class ExportUnity {
                 }
                 if (reward instanceof ObjectReward) {
                     let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
+                    results.push(resultID);
+                }
+                if (reward instanceof GiveObjectReward) {
+                    let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet donné à '+reward.target.name+' : '+reward.object.name == result.name && (reward.quantity < 0 ? reward.quantity  == result.quantity : result.quantity == -reward.quantity)) as UnityGetObjectResult).ID;
                     results.push(resultID);
                 }
                 if (reward instanceof DiscussionReward) {
@@ -441,6 +518,10 @@ export class ExportUnity {
                             let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
                             results.push(resultID);
                         }
+                        if (reward instanceof GiveObjectReward) {
+                            let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet donné à '+reward.target.name+' : '+reward.object.name == result.name && (reward.quantity < 0 ? reward.quantity  == result.quantity : result.quantity == -reward.quantity)) as UnityGetObjectResult).ID;
+                            results.push(resultID);
+                        }
                         if (reward instanceof DiscussionReward) {
                             let resultID: number = (this.exportedRole.ChangeDiscussionResult.find(result => result.discussionID == reward.discussionId) as UnityChangeDiscussionResult).ID;
                             results.push(resultID);
@@ -495,6 +576,10 @@ export class ExportUnity {
                             let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
                             results.push(resultID);
                         }
+                        if (reward instanceof GiveObjectReward) {
+                            let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet donné à '+reward.target.name+' : '+reward.object.name == result.name && (reward.quantity < 0 ? reward.quantity  == result.quantity : result.quantity == -reward.quantity)) as UnityGetObjectResult).ID;
+                            results.push(resultID);
+                        }
                         if (reward instanceof DiscussionReward) {
                             let resultID: number = (this.exportedRole.ChangeDiscussionResult.find(result => result.discussionID == reward.discussionId) as UnityChangeDiscussionResult).ID;
                             results.push(resultID);
@@ -510,6 +595,54 @@ export class ExportUnity {
                         resultID: results,
                         objectID: object.ID,
                         quantity: task.objectQuantity
+                    }
+                    tasks.push(taskUnity);
+                }
+                if (task instanceof Task && task.type == 'normal' && task.typeUnity == 'giveObject') {
+                    let taskID: number = this.taskID++;
+                    this.exportedRole.Quests[0].taskID.push(taskID);
+
+                    let object: UnityItem = this.exportedRole.Item.find(item => item.name == task.object?.name) as UnityItem;
+                    
+                    let results: number[] = [];
+                    task.rewards.forEach(reward => {
+                        if (reward instanceof QuestReward) {
+                            let resultID: number = (this.exportedRole.BeginQuestResult.find(result => result.name == 'Débloquer la quête : '+reward.questName+' - Chargez son fichier pour y accéder') as UnityBeginQuestResult).ID;
+                            results.push(resultID);
+                        }
+                        if (reward instanceof SkillReward) {
+                            let resultID: number = (this.exportedRole.EarnSkillResult.find(result => 'Compétence acquise : '+reward.skill.name == result.name) as UnityEarnSkillResult).ID;
+                            results.push(resultID);
+                        }
+                        if (reward instanceof CharacterReward) {
+                            if (reward.character.reachableByPhone) {
+                                let resultID: number = (this.exportedRole.GetPhoneNumberResult.find(result => 'Récupérer le numéro de '+reward.character.name == result.name) as UnityGetPhoneNumberResult).ID;
+                                results.push(resultID);                                
+                            }
+                        }
+                        if (reward instanceof ObjectReward) {
+                            let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
+                            results.push(resultID);
+                        }
+                        if (reward instanceof GiveObjectReward) {
+                            let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet donné à '+reward.target.name+' : '+reward.object.name == result.name && (reward.quantity < 0 ? reward.quantity  == result.quantity : result.quantity == -reward.quantity)) as UnityGetObjectResult).ID;
+                            results.push(resultID);
+                        }
+                        if (reward instanceof DiscussionReward) {
+                            let resultID: number = (this.exportedRole.ChangeDiscussionResult.find(result => result.discussionID == reward.discussionId) as UnityChangeDiscussionResult).ID;
+                            results.push(resultID);
+                        }
+                    });
+
+                    let taskUnity: UnityGetObjectTask = {
+                        ID: taskID,
+                        name: task.name,
+                        questID: 0,
+                        description: task.objective,
+                        requiredTaskID: [],
+                        resultID: results,
+                        objectID: object.ID,
+                        quantity: task.objectQuantity > 0 ? -task.objectQuantity : task.objectQuantity
                     }
                     tasks.push(taskUnity);
                 }
@@ -548,6 +681,10 @@ export class ExportUnity {
                         }
                         if (reward instanceof ObjectReward) {
                             let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet reçu : '+reward.object.name == result.name && reward.quantity == result.quantity) as UnityGetObjectResult).ID;
+                            results.push(resultID);
+                        }
+                        if (reward instanceof GiveObjectReward) {
+                            let resultID: number = (this.exportedRole.GetObjectResult.find(result => 'Objet donné à '+reward.target.name+' : '+reward.object.name == result.name && (reward.quantity < 0 ? reward.quantity  == result.quantity : result.quantity == -reward.quantity)) as UnityGetObjectResult).ID;
                             results.push(resultID);
                         }
                         if (reward instanceof DiscussionReward) {
@@ -596,7 +733,7 @@ export class ExportUnity {
                 return foundTask as UnitySpeakToTask;
             }
         } 
-        if (task.typeUnity === 'getObject') {
+        if (task.typeUnity === 'getObject' || task.typeUnity === 'giveObject') {
             let foundTask = this.exportedRole.GetObjectTasks.find(tsk => tsk.name === task.name && tsk.description === task.objective);
             if (foundTask) {
                 return foundTask as UnityGetObjectTask;
@@ -814,12 +951,25 @@ export class ExportUnity {
         this.role.rewards.forEach(reward => {
             if (reward instanceof ObjectReward) {
                 let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
-                if (!results.some(element => element.objectID == item.ID && element.quantity == reward.quantity)) {
+                if (!results.some(element => element.objectID == item.ID && element.name == 'Objet reçu : '+item.name && element.quantity == reward.quantity)) {
                     let resultID: number = this.resultID++;
                     let result: UnityGetObjectResult = {
                         ID: resultID,
                         name: 'Objet reçu : '+item.name,
                         quantity: reward.quantity,
+                        objectID: item.ID
+                    };
+                    results.push(result);                    
+                }
+            }
+            if (reward instanceof GiveObjectReward) {
+                let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
+                if (!results.some(element => element.objectID == item.ID && element.name == 'Objet donné à '+reward.target.name+' : '+item.name && (reward.quantity < 0 ? reward.quantity == element.quantity : element.quantity == -reward.quantity))) {
+                    let resultID: number = this.resultID++;
+                    let result: UnityGetObjectResult = {
+                        ID: resultID,
+                        name: 'Objet donné à '+reward.target.name+' : '+item.name,
+                        quantity: reward.quantity > 0 ? -reward.quantity : reward.quantity,
                         objectID: item.ID
                     };
                     results.push(result);                    
@@ -833,12 +983,25 @@ export class ExportUnity {
                     task.rewards.forEach(reward => {
                         if (reward instanceof ObjectReward) {
                             let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
-                            if (!results.some(element => element.objectID == item.ID && element.quantity == reward.quantity)) {
+                            if (!results.some(element => element.objectID == item.ID && element.name == 'Objet reçu : '+item.name && element.quantity == reward.quantity)) {
                                 let resultID: number = this.resultID++;
                                 let result: UnityGetObjectResult = {
                                     ID: resultID,
                                     name: 'Objet reçu : '+item.name,
                                     quantity: reward.quantity,
+                                    objectID: item.ID
+                                };
+                                results.push(result);                    
+                            }
+                        }
+                        if (reward instanceof GiveObjectReward) {
+                            let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
+                            if (!results.some(element => element.objectID == item.ID && element.name == 'Objet donné à '+reward.target.name+' : '+item.name && (reward.quantity < 0 ? reward.quantity == element.quantity : element.quantity == -reward.quantity))) {
+                                let resultID: number = this.resultID++;
+                                let result: UnityGetObjectResult = {
+                                    ID: resultID,
+                                    name: 'Objet donné à '+reward.target.name+' : '+item.name,
+                                    quantity: reward.quantity > 0 ? -reward.quantity : reward.quantity,
                                     objectID: item.ID
                                 };
                                 results.push(result);                    
@@ -853,12 +1016,25 @@ export class ExportUnity {
             discussion.rewards.forEach(reward => {
                 if (reward instanceof ObjectReward) {
                     let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
-                    if (!results.some(element => element.objectID == item.ID && element.quantity == reward.quantity)) {
+                    if (!results.some(element => element.objectID == item.ID && element.name == 'Objet reçu : '+item.name && element.quantity == reward.quantity)) {
                         let resultID: number = this.resultID++;
                         let result: UnityGetObjectResult = {
                             ID: resultID,
                             name: 'Objet reçu : '+item.name,
                             quantity: reward.quantity,
+                            objectID: item.ID
+                        };
+                        results.push(result);                    
+                    }
+                }
+                if (reward instanceof GiveObjectReward) {
+                    let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
+                    if (!results.some(element => element.objectID == item.ID && element.name == 'Objet donné à '+reward.target.name+' : '+item.name && (reward.quantity < 0 ? reward.quantity == element.quantity : element.quantity == -reward.quantity))) {
+                        let resultID: number = this.resultID++;
+                        let result: UnityGetObjectResult = {
+                            ID: resultID,
+                            name: 'Objet donné à '+reward.target.name+' : '+item.name,
+                            quantity: reward.quantity > 0 ? -reward.quantity : reward.quantity,
                             objectID: item.ID
                         };
                         results.push(result);                    
@@ -871,12 +1047,25 @@ export class ExportUnity {
             sentence.rewards.forEach(reward => {
                 if (reward instanceof ObjectReward) {
                     let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
-                    if (!results.some(element => element.objectID == item.ID && element.quantity == reward.quantity)) {
+                    if (!results.some(element => element.objectID == item.ID && element.name == 'Objet reçu : '+item.name && element.quantity == reward.quantity)) {
                         let resultID: number = this.resultID++;
                         let result: UnityGetObjectResult = {
                             ID: resultID,
                             name: 'Objet reçu : '+item.name,
                             quantity: reward.quantity,
+                            objectID: item.ID
+                        };
+                        results.push(result);                    
+                    }
+                }
+                if (reward instanceof GiveObjectReward) {
+                    let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
+                    if (!results.some(element => element.objectID == item.ID && element.name == 'Objet donné à '+reward.target.name+' : '+item.name && (reward.quantity < 0 ? reward.quantity == element.quantity : element.quantity == -reward.quantity))) {
+                        let resultID: number = this.resultID++;
+                        let result: UnityGetObjectResult = {
+                            ID: resultID,
+                            name: 'Objet donné à '+reward.target.name+' : '+item.name,
+                            quantity: reward.quantity > 0 ? -reward.quantity : reward.quantity,
                             objectID: item.ID
                         };
                         results.push(result);                    
@@ -889,7 +1078,7 @@ export class ExportUnity {
             response.rewards.forEach(reward => {
                 if (reward instanceof ObjectReward) {
                     let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
-                    if (!results.some(element => element.objectID == item.ID && element.quantity == reward.quantity)) {
+                    if (!results.some(element => element.objectID == item.ID && element.name == 'Objet reçu : '+item.name && element.quantity == reward.quantity)) {
                         let resultID: number = this.resultID++;
                         let result: UnityGetObjectResult = {
                             ID: resultID,
@@ -900,11 +1089,23 @@ export class ExportUnity {
                         results.push(result);                    
                     }
                 }
+                if (reward instanceof GiveObjectReward) {
+                    let item: UnityItem = this.exportedRole.Item.find(obj => obj.name == reward.object.name) as UnityItem;
+                    if (!results.some(element => element.objectID == item.ID && element.name == 'Objet donné à '+reward.target.name+' : '+item.name && (reward.quantity < 0 ? reward.quantity == element.quantity : element.quantity == -reward.quantity))) {
+                        let resultID: number = this.resultID++;
+                        let result: UnityGetObjectResult = {
+                            ID: resultID,
+                            name: 'Objet donné à '+reward.target.name+' : '+item.name,
+                            quantity: reward.quantity > 0 ? -reward.quantity : reward.quantity,
+                            objectID: item.ID
+                        };
+                        results.push(result);                    
+                    }
+                }
             });
         });
 
         
-
         return results;
     }
 
@@ -1276,12 +1477,22 @@ export class ExportUnity {
                     items.push(item);               
                 }
             }
+            if (reward instanceof GiveObjectReward) {
+                if (!items.some(item => reward.object.name == item.name)) {
+                    let item: UnityItem = {
+                        ID: this.itemID++,
+                        name: reward.object.name,
+                        description: ''
+                    };
+                    items.push(item);               
+                }
+            }
         });
 
         this.role.tasks.forEach(inlineTasks => {
             inlineTasks.forEach(task => {
                 if (task instanceof Task) {
-                    if ((task.typeUnity == 'getObject' || task.typeUnity == 'interactObject') && task.object) {
+                    if ((task.typeUnity == 'getObject' || task.typeUnity == 'interactObject' || task.typeUnity == 'giveObject') && task.object) {
                         if (!items.some(item => task.object?.name == item.name)) {
                             let item: UnityItem = {
                                 ID: this.itemID++,
@@ -1302,6 +1513,16 @@ export class ExportUnity {
                                 items.push(item);              
                             }
                         }
+                        if (reward instanceof GiveObjectReward) {
+                            if (!items.some(item => reward.object.name == item.name)) {
+                                let item: UnityItem = {
+                                    ID: this.itemID++,
+                                    name: reward.object.name,
+                                    description: ''
+                                };
+                                items.push(item);               
+                            }
+                        }
                     });
                 }
             });
@@ -1319,19 +1540,14 @@ export class ExportUnity {
                         items.push(item);              
                     }
                 }
-            });
-        });
-
-        this.role.sentences.forEach(sentence => {
-            sentence.rewards.forEach(reward => {
-                if (reward instanceof ObjectReward) {
+                if (reward instanceof GiveObjectReward) {
                     if (!items.some(item => reward.object.name == item.name)) {
                         let item: UnityItem = {
                             ID: this.itemID++,
                             name: reward.object.name,
                             description: ''
-                        }
-                        items.push(item);              
+                        };
+                        items.push(item);               
                     }
                 }
             });
@@ -1347,6 +1563,41 @@ export class ExportUnity {
                             description: ''
                         }
                         items.push(item);              
+                    }
+                }
+                if (reward instanceof GiveObjectReward) {
+                    if (!items.some(item => reward.object.name == item.name)) {
+                        let item: UnityItem = {
+                            ID: this.itemID++,
+                            name: reward.object.name,
+                            description: ''
+                        };
+                        items.push(item);               
+                    }
+                }
+            });
+        });
+
+        this.role.sentences.forEach(sentence => {
+            sentence.rewards.forEach(reward => {
+                if (reward instanceof ObjectReward) {
+                    if (!items.some(item => reward.object.name == item.name)) {
+                        let item: UnityItem = {
+                            ID: this.itemID++,
+                            name: reward.object.name,
+                            description: ''
+                        }
+                        items.push(item);              
+                    }
+                }
+                if (reward instanceof GiveObjectReward) {
+                    if (!items.some(item => reward.object.name == item.name)) {
+                        let item: UnityItem = {
+                            ID: this.itemID++,
+                            name: reward.object.name,
+                            description: ''
+                        };
+                        items.push(item);               
                     }
                 }
             });
@@ -1362,6 +1613,16 @@ export class ExportUnity {
                             description: ''
                         }
                         items.push(item);              
+                    }
+                }
+                if (reward instanceof GiveObjectReward) {
+                    if (!items.some(item => reward.object.name == item.name)) {
+                        let item: UnityItem = {
+                            ID: this.itemID++,
+                            name: reward.object.name,
+                            description: ''
+                        };
+                        items.push(item);               
                     }
                 }
             });
