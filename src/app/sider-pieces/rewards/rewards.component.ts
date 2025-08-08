@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Mission } from 'src/app/class/mission/mission';
 import { CharacterReward } from 'src/app/class/rewards/character-reward/character-reward';
+import { DiscussionReward } from 'src/app/class/rewards/discussion-reward/discussion-reward';
 import { GiveObjectReward } from 'src/app/class/rewards/give-object-reward/give-object-reward';
 import { ObjectReward } from 'src/app/class/rewards/object-reward/object-reward';
 import { ObjectsReward } from 'src/app/class/rewards/objects-reward/objects-reward';
@@ -87,6 +88,10 @@ export class RewardsComponent implements OnInit {
     return this.piece.rewards[index] as GiveObjectReward;
   }
 
+  getDiscussionReward(index: number): DiscussionReward {
+    return this.piece.rewards[index] as DiscussionReward;
+  } 
+
   changeQuestReward(index: number, event: any) {
     let value: string = event.target.value;
     let reward = new QuestReward();
@@ -142,6 +147,9 @@ export class RewardsComponent implements OnInit {
         break;
       case 'giveObject': this.piece.rewards[index] = new GiveObjectReward();
         this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[GiveObjectReward]',  this.formatTraceTarget(), '#CFE3B9', '*'));
+        break;
+      case 'discussion': this.piece.rewards[index] = new DiscussionReward();
+        this.tracesService.traces.push(new Trace(this.tracesService.traces.length,'transform',this.pieceDetailsService.missionIndex,this.pieceDetailsService.roleIndex,'Reward_['+index+']_transform_into_[DiscussionReward]',  this.formatTraceTarget(), '#CFE3B9', '*'));
         break;
     }
   }

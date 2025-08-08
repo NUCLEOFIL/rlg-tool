@@ -822,6 +822,9 @@ export class AppComponent {
                                   if (rewardData.type == 'giveObject') {
                                     return Object.assign(new GiveObjectReward(), rewardData);
                                   }
+                                  if (rewardData.type == 'discussion') {
+                                    return Object.assign(new DiscussionReward(), rewardData);
+                                  }
                                 });
                                 task.rewards.forEach((reward: Reward, index: number) => {
                                   if (reward instanceof SkillReward) {

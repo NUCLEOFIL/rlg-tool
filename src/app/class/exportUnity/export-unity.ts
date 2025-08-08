@@ -942,6 +942,28 @@ export class ExportUnity {
             });
         });
 
+        this.role.tasks.forEach(inlineTasks => {
+            inlineTasks.forEach(task => {
+                if (task instanceof Task) {
+                    task.rewards.forEach(reward => {
+                        if (reward instanceof DiscussionReward) {
+                            let discussion: Discussion = this.role.discussions.find(discuss => discuss.ID == reward.discussionId) as Discussion;
+                            let character: UnityCharacter = this.exportedRole.Character.find(char => char.name == discussion.character.name && char.phone == discussion.character.tel) as UnityCharacter;
+                            if (!results.some(element => element.characterID == character.ID && element.discussionID == discussion.ID)) {
+                                let result: UnityChangeDiscussionResult = {
+                                    ID: this.resultID++,
+                                    name: 'Changer la conversation de '+character.name+' en '+discussion.name,
+                                    characterID: character.ID,
+                                    discussionID: discussion.ID
+                                };
+                                results.push(result);                    
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
         return results;
     }
 

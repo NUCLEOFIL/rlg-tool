@@ -14,6 +14,7 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                     <option value="skill" *ngIf="pieceDetailsService.roleIndex != undefined">{{'rewards_type_skill' | translate}}</option>
                     <option value="quest" *ngIf="role">{{'rewards_type_quest' | translate}}</option>
                     <option value="giveObject">{{'rewards_type_giveObject' | translate}}</option>
+                    <option value="discussion">{{'role_reward_type_discussion' | translate}}</option>
                 </select>
             </div>
             <div *ngIf="reward.type != 'none'">
@@ -132,7 +133,28 @@ matTooltipPosition="before" [matTooltipDisabled]="!tooltipService.activatedToolt
                         </select>
                     </div>
                 </div>
-            </div>
+                
+                
+                <div class="piece-form-content-discussion" *ngIf="reward.type == 'discussion'">
+                    <select [(ngModel)]="getDiscussionReward(rewardIndex).discussionId"
+                        [ngClass]="unityService.unity_isActive && pieceDetailsService.roleIndex != undefined && getDiscussionReward(rewardIndex).discussionId == -1 ? 'unityRequired' : ''"
+                        [matTooltip]="translate.instant('role_reward_type_discussion_tooltip')" matTooltipPosition="above"
+                        [matTooltipDisabled]="!tooltipService.activatedTooltips"
+                        (change)="editTrace($event, 'Reward_['+rewardIndex+']_discussion')">
+                        <option [ngValue]="-1" selected disabled>{{'role_reward_type_discussion_placeholder' | translate}}</option>
+                        <ng-container *ngFor="let character of scenario.characters">
+                            <optgroup [label]="character.name" *ngIf="role?.characterHasDiscussion(character)">
+                                <ng-container *ngFor="let discuss of role?.discussions">
+                                    <option [ngValue]="discuss.ID"
+                                        *ngIf="discuss.character == character">{{discuss.name}}</option>
+                                </ng-container>
+                            </optgroup>
+                        </ng-container>
+                    </select>
+                </div>
+                
+                
+                </div>
             <button mat-button class="piece-form-buttons-remove" (click)="removeReward(rewardIndex)"><mat-icon fontIcon="remove"></mat-icon></button>
         </div>
         <button mat-button class="piece-form-buttons-add" (click)="addReward()"><mat-icon fontIcon="add"></mat-icon></button>
